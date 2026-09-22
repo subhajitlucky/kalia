@@ -109,9 +109,12 @@ python sample.py --ckpt out/ckpt.pt --prompt "Once upon a time"
    model repo, e.g. `yourname/kalia-m`.
 3. Kaggle: verify your phone (Settings → Phone Verification) to unlock GPU quota.
 4. Kaggle: add your `HF_TOKEN` under Add-ons → Secrets.
-5. Push this repository to GitHub. Make it public (it contains no secrets — data, weights
-   and checkpoints are gitignored) or keep it private and clone with a token.
-6. Edit the two notebooks: replace `CHANGE_ME` with your GitHub URL and HF repo id.
+5. Push this repository to GitHub (private is fine — the notebooks clone it with a
+   `GH_TOKEN` Kaggle secret).
+6. Kaggle secrets: add `HF_TOKEN` (HuggingFace write token) and `GH_TOKEN` (GitHub token
+   with read-only access to this repo). Toggle both **on** for each notebook.
+7. Edit `HUB_REPO` in `notebooks/kalia-train.ipynb` to your HuggingFace repo id
+   (e.g. `kalia/kalia-m`).
 
 **Every training session**
 
