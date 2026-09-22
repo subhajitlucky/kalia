@@ -6,8 +6,8 @@ model:
   context_len: 1024
   dropout: 0.0
 train:
-  micro_batch_size: 32
-  grad_accum_steps: 8
+  micro_batch_size: 8
+  grad_accum_steps: 32
   max_steps: 4770
   learning_rate: 6.0e-4
   min_lr_ratio: 0.1
