@@ -38,3 +38,27 @@ def test_smoke_train_and_resume(tmp_path):
     ckpt = torch.load(out_dir / "ckpt.pt", map_location="cpu", weights_only=False)
     assert ckpt["step"] == 20
     assert ckpt["tokens"] == 20 * 4 * 2 * 64  # steps * micro_batch * grad_accum * context_len
+
+
+def test_smoke_train_muon(tmp_path):
+    data_dir = tmp_path / "data"
+    out_dir = tmp_path / "out"
+    _make_data(data_dir)
+
+    r = subprocess.run(
+        [
+            sys.executable, "train.py",
+            "--config", "configs/smoke-muon.yaml",
+            "--data-dir", str(data_dir),
+            "--out-dir", str(out_dir),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=600,
+    )
+    assert r.returncode == 0, r.stderr
+    import torch
+
+    ckpt = torch.load(out_dir / "ckpt.pt", map_location="cpu", weights_only=False)
+    assert ckpt["step"] == 6
+    assert set(ckpt["optimizer"]) == {"muon", "adam"}

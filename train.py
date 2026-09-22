@@ -13,6 +13,7 @@ from torch.optim import AdamW
 
 from data import TokenDataset
 from model import GPT, GPTConfig
+from optim import MuonWithAuxAdam, split_muon_params
 
 
 def parse_args(argv=None):
@@ -44,17 +45,48 @@ def setup_distributed():
     return 0, 1
 
 
-def get_lr(step: int, train_cfg: dict) -> float:
-    peak = train_cfg["learning_rate"]
+def lr_scale(step: int, train_cfg: dict) -> float:
+    """Schedule multiplier in [min_lr_ratio, 1] applied to every param group."""
     if step < train_cfg["warmup_steps"]:
-        return peak * (step + 1) / train_cfg["warmup_steps"]
+        return (step + 1) / train_cfg["warmup_steps"]
     if step >= train_cfg["max_steps"]:
-        return peak * train_cfg["min_lr_ratio"]
+        return train_cfg["min_lr_ratio"]
     progress = (step - train_cfg["warmup_steps"]) / max(
         1, train_cfg["max_steps"] - train_cfg["warmup_steps"]
     )
     coeff = 0.5 * (1.0 + math.cos(math.pi * progress))
-    return peak * (train_cfg["min_lr_ratio"] + coeff * (1 - train_cfg["min_lr_ratio"]))
+    return train_cfg["min_lr_ratio"] + coeff * (1 - train_cfg["min_lr_ratio"])
+
+
+def build_optimizer(model, train_cfg: dict):
+    """AdamW for everything, or Muon on hidden 2D weights + AdamW for the rest.
+
+    Every param group carries a ``base_lr`` so the training loop can apply one
+    shared schedule multiplier.
+    """
+    if train_cfg.get("optimizer", "adamw") == "adamw":
+        optimizer = AdamW(
+            model.parameters(),
+            lr=train_cfg["learning_rate"],
+            betas=(train_cfg["beta1"], train_cfg["beta2"]),
+            weight_decay=train_cfg["weight_decay"],
+        )
+        for group in optimizer.param_groups:
+            group["base_lr"] = train_cfg["learning_rate"]
+        return optimizer
+
+    hidden, other = split_muon_params(model)
+    return MuonWithAuxAdam(
+        hidden,
+        other,
+        muon_lr=train_cfg["muon_learning_rate"],
+        muon_momentum=train_cfg.get("muon_momentum", 0.95),
+        muon_weight_decay=train_cfg.get("muon_weight_decay", 0.0),
+        ns_steps=train_cfg.get("ns_steps", 5),
+        adam_lr=train_cfg["learning_rate"],
+        adam_betas=(train_cfg["beta1"], train_cfg["beta2"]),
+        adam_weight_decay=train_cfg["weight_decay"],
+    )
 
 
 def save_checkpoint(path: Path, model, optimizer, step: int, tokens: int, config: dict) -> None:
@@ -144,12 +176,7 @@ def main(argv=None) -> None:
     if is_master:
         print(f"KALIA params: {model.num_params():,} | device: {device} | world: {world}")
 
-    optimizer = AdamW(
-        model.parameters(),
-        lr=train_cfg["learning_rate"],
-        betas=(train_cfg["beta1"], train_cfg["beta2"]),
-        weight_decay=train_cfg["weight_decay"],
-    )
+    optimizer = build_optimizer(model, train_cfg)
     scaler = torch.amp.GradScaler("cuda", enabled=is_cuda)
 
     start_step, tokens_seen = 0, 0
@@ -210,9 +237,10 @@ def main(argv=None) -> None:
 
             scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(model.parameters(), train_cfg["grad_clip"])
-            lr = get_lr(step, train_cfg)
+            scale = lr_scale(step, train_cfg)
+            lr = train_cfg["learning_rate"] * scale
             for group in optimizer.param_groups:
-                group["lr"] = lr
+                group["lr"] = group["base_lr"] * scale
             scaler.step(optimizer)
             scaler.update()
 

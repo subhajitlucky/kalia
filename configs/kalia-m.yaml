@@ -6,6 +6,11 @@ model:
   context_len: 1024
   dropout: 0.0
 train:
+  optimizer: adamw          # adamw | muon
+  muon_learning_rate: 0.02
+  muon_momentum: 0.95
+  muon_weight_decay: 0.0
+  ns_steps: 5
   micro_batch_size: 8
   grad_accum_steps: 32
   max_steps: 4770
