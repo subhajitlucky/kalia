@@ -114,7 +114,7 @@ python sample.py --ckpt out/ckpt.pt --prompt "Once upon a time"
 6. Kaggle secrets: add `HF_TOKEN` (HuggingFace write token) and `GH_TOKEN` (GitHub token
    with read-only access to this repo). Toggle both **on** for each notebook.
 7. Edit `HUB_REPO` in `notebooks/kalia-train.ipynb` to your HuggingFace repo id
-   (e.g. `kalia/kalia-m`).
+   (e.g. `kalia-lm/kalia-m`).
 
 **Every training session**
 
