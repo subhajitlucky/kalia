@@ -7,8 +7,8 @@
   "is_private": true,
   "enable_gpu": false,
   "enable_internet": true,
-  "dataset_sources": [],
+  "dataset_sources": ["subhajitlucky/kalia-code"],
   "competition_sources": [],
-  "kernel_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-prep"],
   "model_sources": []
 }
