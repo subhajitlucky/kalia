@@ -7,3 +7,5 @@ out/
 *.pt
 .pytest_cache/
 .kaggle/
+.secrets/
+.env
