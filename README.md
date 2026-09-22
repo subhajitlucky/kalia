@@ -131,6 +131,15 @@ needs roughly 1–2 weeks of weekly quota to finish.
 **Monitoring:** watch `logs/train_log.csv` in your HF repo. Loss starts near 10.8 (random
 guessing) and should fall toward ~3.2–3.6. Sample generations print every 500 steps.
 
+## Version history
+
+- **v0.1.0** — baseline: AdamW, RoPE, SwiGLU, RMSNorm, fp16, T4×2.
+- **v0.1.1** — Muon optimizer for hidden weight matrices (AdamW keeps
+  embeddings/head/norms). Micro-ablation at equal tokens (30M params, 50M
+  tokens): **3.5937 vs 3.8041** val loss, a **−0.21** win.
+- **v0.1.2** — QK-Norm + logit soft-capping (τ = 30) on top of Muon.
+  Same ablation: **3.5103** val loss, **−0.29** vs baseline. Current best recipe.
+
 ## Roadmap
 
 - **v0 — pretrain** (this repository): a from-scratch text generator.

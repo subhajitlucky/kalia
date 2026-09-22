@@ -5,8 +5,10 @@ model:
   n_embd: 512
   context_len: 1024
   dropout: 0.0
+  qk_norm: true
+  logit_softcap: 30.0
 train:
-  optimizer: adamw          # adamw | muon
+  optimizer: muon          # adamw | muon
   muon_learning_rate: 0.02
   muon_momentum: 0.95
   muon_weight_decay: 0.0
