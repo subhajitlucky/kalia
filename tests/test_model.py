@@ -1,5 +1,5 @@
 import torch
-from model import RMSNorm, rope_tables, apply_rope
+from model import RMSNorm, rope_tables, apply_rope, SwiGLU, GPTConfig
 
 
 def test_rmsnorm_shape_and_scale():
@@ -43,3 +43,12 @@ def test_rope_uses_only_past_positions_shape():
     x = torch.randn(1, 1, 4, 8)  # short sequence
     out = apply_rope(x, cos, sin)
     assert out.shape == x.shape
+
+
+def test_swiglu_shape():
+    cfg = GPTConfig(n_embd=64)
+    mlp = SwiGLU(cfg)
+    x = torch.randn(2, 5, 64)
+    assert mlp(x).shape == x.shape
+    hidden = mlp.gate.out_features
+    assert hidden % 64 == 0  # hidden dim rounded to multiple of 64

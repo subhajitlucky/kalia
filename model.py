@@ -50,3 +50,18 @@ def apply_rope(x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor) -> torch.T
     out_even = x_even * cos - x_odd * sin
     out_odd = x_even * sin + x_odd * cos
     return torch.stack((out_even, out_odd), dim=-1).flatten(-2)
+
+
+class SwiGLU(nn.Module):
+    """Gated feed-forward network: down(silu(gate(x)) * up(x))."""
+
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        hidden = int(8 * config.n_embd / 3)
+        hidden = 64 * ((hidden + 63) // 64)
+        self.gate = nn.Linear(config.n_embd, hidden, bias=False)
+        self.up = nn.Linear(config.n_embd, hidden, bias=False)
+        self.down = nn.Linear(hidden, config.n_embd, bias=False)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.down(F.silu(self.gate(x)) * self.up(x))
