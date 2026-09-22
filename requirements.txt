@@ -1,0 +1,7 @@
+torch>=2.4
+tiktoken>=0.7
+numpy>=1.26
+pyyaml>=6.0
+datasets>=3.0
+huggingface_hub>=0.23
+pytest>=8.0

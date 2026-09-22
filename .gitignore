@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+data/
+out/
+*.bin
+*.pt
+.pytest_cache/
+.kaggle/
