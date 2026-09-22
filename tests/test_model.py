@@ -1,5 +1,5 @@
 import torch
-from model import RMSNorm, rope_tables, apply_rope, SwiGLU, GPTConfig
+from model import RMSNorm, rope_tables, apply_rope, SwiGLU, GPTConfig, CausalSelfAttention
 
 
 def test_rmsnorm_shape_and_scale():
@@ -52,3 +52,25 @@ def test_swiglu_shape():
     assert mlp(x).shape == x.shape
     hidden = mlp.gate.out_features
     assert hidden % 64 == 0  # hidden dim rounded to multiple of 64
+
+
+def test_attention_shape():
+    cfg = GPTConfig(n_embd=64, n_head=4, context_len=32)
+    attn = CausalSelfAttention(cfg)
+    x = torch.randn(2, 16, 64)
+    assert attn(x).shape == x.shape
+
+
+def test_attention_is_causal():
+    torch.manual_seed(0)
+    cfg = GPTConfig(n_embd=64, n_head=4, context_len=32)
+    attn = CausalSelfAttention(cfg)
+    attn.eval()
+    x = torch.randn(1, 8, 64)
+    x_future_changed = x.clone()
+    x_future_changed[:, -1] += 10.0  # change last token only
+    with torch.no_grad():
+        out_a = attn(x)
+        out_b = attn(x_future_changed)
+    # Outputs for all positions before the changed token must be identical
+    assert torch.allclose(out_a[:, :-1], out_b[:, :-1], atol=1e-6)

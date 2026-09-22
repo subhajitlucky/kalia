@@ -65,3 +65,31 @@ class SwiGLU(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.down(F.silu(self.gate(x)) * self.up(x))
+
+
+class CausalSelfAttention(nn.Module):
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        assert config.n_embd % config.n_head == 0
+        self.n_head = config.n_head
+        self.head_dim = config.n_embd // config.n_head
+        self.dropout = config.dropout
+        self.qkv = nn.Linear(config.n_embd, 3 * config.n_embd, bias=False)
+        self.proj = nn.Linear(config.n_embd, config.n_embd, bias=False)
+        cos, sin = rope_tables(self.head_dim, config.context_len)
+        self.register_buffer("rope_cos", cos, persistent=False)
+        self.register_buffer("rope_sin", sin, persistent=False)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        b, t, c = x.shape
+        q, k, v = self.qkv(x).split(c, dim=2)
+        q = q.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
+        k = k.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
+        v = v.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
+        q = apply_rope(q, self.rope_cos, self.rope_sin)
+        k = apply_rope(k, self.rope_cos, self.rope_sin)
+        y = F.scaled_dot_product_attention(
+            q, k, v, dropout_p=self.dropout if self.training else 0.0, is_causal=True
+        )
+        y = y.transpose(1, 2).contiguous().view(b, t, c)
+        return self.proj(y)
