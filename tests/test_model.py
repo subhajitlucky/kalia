@@ -116,3 +116,34 @@ def test_gpt_generate_shape():
     prompt = torch.randint(0, 256, (1, 4))
     out = model.generate(prompt, max_new_tokens=8, temperature=1.0, top_k=None)
     assert out.shape == (1, 12)
+
+
+def test_qk_norm_adds_only_norm_params():
+    base = GPT(GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16))
+    normed = GPT(
+        GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16, qk_norm=True)
+    )
+    head_dim = 64 // 2
+    assert normed.num_params() - base.num_params() == 2 * head_dim * 2
+
+
+def test_qk_norm_forward_backward():
+    torch.manual_seed(0)
+    cfg = GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16, qk_norm=True)
+    model = GPT(cfg)
+    x = torch.randint(0, 256, (2, 8))
+    y = torch.randint(0, 256, (2, 8))
+    _, loss = model(x, y)
+    loss.backward()
+    assert torch.isfinite(loss)
+
+
+def test_logit_softcap_bounds_logits():
+    torch.manual_seed(0)
+    cfg = GPTConfig(
+        vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16, logit_softcap=5.0
+    )
+    model = GPT(cfg)
+    x = torch.randint(0, 256, (2, 8))
+    logits, _ = model(x)
+    assert logits.abs().max().item() <= 5.0 + 1e-4

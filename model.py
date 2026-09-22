@@ -16,6 +16,8 @@ class GPTConfig:
     n_embd: int = 512
     context_len: int = 1024
     dropout: float = 0.0
+    qk_norm: bool = False
+    logit_softcap: float = 0.0
 
 
 class RMSNorm(nn.Module):
@@ -74,6 +76,8 @@ class CausalSelfAttention(nn.Module):
         self.n_head = config.n_head
         self.head_dim = config.n_embd // config.n_head
         self.dropout = config.dropout
+        self.q_norm = RMSNorm(self.head_dim) if config.qk_norm else None
+        self.k_norm = RMSNorm(self.head_dim) if config.qk_norm else None
         self.qkv = nn.Linear(config.n_embd, 3 * config.n_embd, bias=False)
         self.proj = nn.Linear(config.n_embd, config.n_embd, bias=False)
         cos, sin = rope_tables(self.head_dim, config.context_len)
@@ -86,6 +90,9 @@ class CausalSelfAttention(nn.Module):
         q = q.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
         k = k.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
         v = v.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
+        if self.q_norm is not None:
+            q = self.q_norm(q)
+            k = self.k_norm(k)
         q = apply_rope(q, self.rope_cos, self.rope_sin)
         k = apply_rope(k, self.rope_cos, self.rope_sin)
         y = F.scaled_dot_product_attention(
@@ -142,6 +149,9 @@ class GPT(nn.Module):
             x = block(x)
         x = self.norm_f(x)
         logits = self.lm_head(x)
+        if self.cfg.logit_softcap > 0:
+            cap = self.cfg.logit_softcap
+            logits = cap * torch.tanh(logits / cap)
         loss = None
         if targets is not None:
             loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1))

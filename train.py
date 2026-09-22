@@ -203,11 +203,15 @@ def main(argv=None) -> None:
     generator = torch.Generator().manual_seed(train_cfg["seed"] + rank)
 
     log_path = args.out_dir / "train_log.csv"
+    val_log_path = args.out_dir / "val_log.csv"
     if is_master:
         args.out_dir.mkdir(parents=True, exist_ok=True)
         if not log_path.exists() or start_step == 0:
             with open(log_path, "w", newline="") as fh:
                 csv.writer(fh).writerow(["step", "loss", "lr", "tokens", "elapsed_s"])
+        if not val_log_path.exists() or start_step == 0:
+            with open(val_log_path, "w", newline="") as fh:
+                csv.writer(fh).writerow(["step", "val_loss"])
 
     tokens_per_step = (
         train_cfg["micro_batch_size"] * train_cfg["grad_accum_steps"] * model_cfg.context_len * world
@@ -267,6 +271,8 @@ def main(argv=None) -> None:
                 if is_master:
                     val_loss = evaluate(model, val_ds, train_cfg["eval_steps"])
                     print(f"step {step} | val loss {val_loss:.4f}")
+                    with open(val_log_path, "a", newline="") as fh:
+                        csv.writer(fh).writerow([step, f"{val_loss:.4f}"])
 
             if train_cfg["sample_interval"] > 0 and step % train_cfg["sample_interval"] == 0 and is_master:
                 print_sample(model, train_cfg["sample_tokens"])
@@ -280,6 +286,7 @@ def main(argv=None) -> None:
                 if args.hub_repo:
                     push_to_hub(ckpt_path, args.hub_repo, "checkpoints/ckpt.pt")
                     push_to_hub(log_path, args.hub_repo, "logs/train_log.csv")
+                    push_to_hub(val_log_path, args.hub_repo, "logs/val_log.csv")
                 last_ckpt_time = time.time()
 
         if is_master:
@@ -288,6 +295,7 @@ def main(argv=None) -> None:
             if args.hub_repo:
                 push_to_hub(ckpt_path, args.hub_repo, "checkpoints/ckpt.pt")
                 push_to_hub(log_path, args.hub_repo, "logs/train_log.csv")
+                push_to_hub(val_log_path, args.hub_repo, "logs/val_log.csv")
     finally:
         if world > 1:
             torch.distributed.destroy_process_group()
