@@ -93,3 +93,79 @@ class CausalSelfAttention(nn.Module):
         )
         y = y.transpose(1, 2).contiguous().view(b, t, c)
         return self.proj(y)
+
+
+class Block(nn.Module):
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        self.norm1 = RMSNorm(config.n_embd)
+        self.attn = CausalSelfAttention(config)
+        self.norm2 = RMSNorm(config.n_embd)
+        self.mlp = SwiGLU(config)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = x + self.attn(self.norm1(x))
+        x = x + self.mlp(self.norm2(x))
+        return x
+
+
+class GPT(nn.Module):
+    """Decoder-only transformer language model."""
+
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        self.cfg = config
+        self.tok_emb = nn.Embedding(config.vocab_size, config.n_embd)
+        self.blocks = nn.ModuleList([Block(config) for _ in range(config.n_layer)])
+        self.norm_f = RMSNorm(config.n_embd)
+        self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
+        self.tok_emb.weight = self.lm_head.weight  # weight tying
+        self.apply(self._init_weights)
+        # Scaled init for residual output projections (GPT-2 style)
+        for name, p in self.named_parameters():
+            if name.endswith(("proj.weight", "down.weight")):
+                nn.init.normal_(p, mean=0.0, std=0.02 / math.sqrt(2 * config.n_layer))
+
+    @staticmethod
+    def _init_weights(module: nn.Module) -> None:
+        if isinstance(module, nn.Linear):
+            nn.init.normal_(module.weight, mean=0.0, std=0.02)
+        elif isinstance(module, nn.Embedding):
+            nn.init.normal_(module.weight, mean=0.0, std=0.02)
+
+    def num_params(self) -> int:
+        return sum(p.numel() for p in self.parameters())
+
+    def forward(self, idx: torch.Tensor, targets: torch.Tensor | None = None):
+        x = self.tok_emb(idx)
+        for block in self.blocks:
+            x = block(x)
+        x = self.norm_f(x)
+        logits = self.lm_head(x)
+        loss = None
+        if targets is not None:
+            loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1))
+        return logits, loss
+
+    @torch.no_grad()
+    def generate(
+        self,
+        idx: torch.Tensor,
+        max_new_tokens: int,
+        temperature: float = 0.8,
+        top_k: int | None = 200,
+    ) -> torch.Tensor:
+        was_training = self.training
+        self.eval()
+        for _ in range(max_new_tokens):
+            idx_cond = idx[:, -self.cfg.context_len :]
+            logits, _ = self(idx_cond)
+            logits = logits[:, -1, :] / max(temperature, 1e-6)
+            if top_k is not None:
+                top = torch.topk(logits, min(top_k, logits.size(-1))).values[:, [-1]]
+                logits = logits.masked_fill(logits < top, float("-inf"))
+            probs = F.softmax(logits, dim=-1)
+            idx = torch.cat((idx, torch.multinomial(probs, num_samples=1)), dim=1)
+        if was_training:
+            self.train()
+        return idx

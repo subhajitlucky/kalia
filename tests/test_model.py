@@ -1,5 +1,13 @@
 import torch
-from model import RMSNorm, rope_tables, apply_rope, SwiGLU, GPTConfig, CausalSelfAttention
+from model import (
+    RMSNorm,
+    rope_tables,
+    apply_rope,
+    SwiGLU,
+    GPTConfig,
+    CausalSelfAttention,
+    GPT,
+)
 
 
 def test_rmsnorm_shape_and_scale():
@@ -74,3 +82,37 @@ def test_attention_is_causal():
         out_b = attn(x_future_changed)
     # Outputs for all positions before the changed token must be identical
     assert torch.allclose(out_a[:, :-1], out_b[:, :-1], atol=1e-6)
+
+
+def test_gpt_kalia_m_param_count():
+    model = GPT(GPTConfig())  # KALIA-M default config
+    n = model.num_params()
+    assert 50_000_000 < n < 65_000_000, n
+
+
+def test_gpt_forward_and_backward():
+    torch.manual_seed(0)
+    cfg = GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=32)
+    model = GPT(cfg)
+    x = torch.randint(0, 256, (2, 16))
+    y = torch.randint(0, 256, (2, 16))
+    logits, loss = model(x, y)
+    assert logits.shape == (2, 16, 256)
+    assert loss.ndim == 0 and torch.isfinite(loss)
+    loss.backward()
+    grads = [p.grad for p in model.parameters() if p.requires_grad]
+    assert any(g is not None and g.abs().sum() > 0 for g in grads)
+
+
+def test_gpt_weight_tying():
+    model = GPT(GPTConfig(vocab_size=256, n_layer=1, n_head=2, n_embd=64, context_len=16))
+    assert model.lm_head.weight is model.tok_emb.weight
+
+
+def test_gpt_generate_shape():
+    torch.manual_seed(0)
+    cfg = GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16)
+    model = GPT(cfg)
+    prompt = torch.randint(0, 256, (1, 4))
+    out = model.generate(prompt, max_new_tokens=8, temperature=1.0, top_k=None)
+    assert out.shape == (1, 12)
