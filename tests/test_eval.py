@@ -34,7 +34,7 @@ def _tiny_ckpt(tmp_path, name="ckpt.pt", seed=0):
 def test_probe_files_load():
     prompts = load_prompts("eval/probe_prompts.json")
     sentences = load_sentences("eval/probe_sentences.json")
-    assert len(prompts) == 24
+    assert len(prompts) == 27
     assert len(sentences) == 20
     assert all(isinstance(p, str) and p for p in prompts)
 
