@@ -19,6 +19,8 @@ STOPWORDS = {
     "Later", "Suddenly", "Meanwhile", "Its", "Their", "Not", "Yes", "No",
     "Outside", "Inside", "Today", "Tomorrow", "Yesterday", "Night", "Morning",
     "Evening", "Here", "While", "Because", "During", "Although", "Two", "Three",
+    "Hello", "Hi", "Oh", "Ah", "Well", "Okay", "Ok", "Thanks", "Thank", "Please",
+    "Let", "Come", "Look", "Wait", "Stop", "Go", "Run", "Help", "Good",
 }
 
 _NAME_RE = re.compile(r"\b([A-Z][a-z]{2,})\b")

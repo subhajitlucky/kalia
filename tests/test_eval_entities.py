@@ -29,7 +29,7 @@ def test_retention_half():
 
 
 def test_retention_full_when_no_entities():
-    assert retention("Hello there.", "Nothing here.") == 1.0
+    assert retention("hello there.", "nothing here.") == 1.0
 
 
 def test_max_span_ratio_persistence():
