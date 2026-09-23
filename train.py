@@ -83,6 +83,7 @@ def build_optimizer(model, train_cfg: dict):
         muon_momentum=train_cfg.get("muon_momentum", 0.95),
         muon_weight_decay=train_cfg.get("muon_weight_decay", 0.0),
         ns_steps=train_cfg.get("ns_steps", 5),
+        muon_plus=train_cfg.get("muon_plus", "none"),
         adam_lr=train_cfg["learning_rate"],
         adam_betas=(train_cfg["beta1"], train_cfg["beta2"]),
         adam_weight_decay=train_cfg["weight_decay"],

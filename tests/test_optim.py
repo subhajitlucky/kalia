@@ -3,6 +3,7 @@ from model import GPT, GPTConfig
 from optim import (
     Muon,
     MuonWithAuxAdam,
+    normalize_update,
     split_muon_params,
     zeroth_power_via_newtonschulz5,
 )
@@ -92,3 +93,43 @@ def test_lr_scale_schedule_shape():
     assert lr_scale(9, cfg) == 1.0
     assert 0.1 < lr_scale(50, cfg) < 1.0
     assert lr_scale(110, cfg) == 0.1
+
+
+def test_normalize_update_directions():
+    torch.manual_seed(0)
+    scale = torch.arange(1, 17, dtype=torch.float32).reshape(-1, 1)
+    x = torch.randn(16, 8) * scale
+
+    rows = normalize_update(x, "row")
+    assert torch.allclose(rows.norm(dim=1), torch.ones(16), atol=1e-5)
+
+    cols = normalize_update(x, "col")
+    assert torch.allclose(cols.norm(dim=0), torch.ones(8), atol=1e-5)
+
+    both = normalize_update(x, "col_row")
+    assert torch.allclose(both.norm(dim=1), torch.ones(16), atol=1e-5)
+    assert not torch.allclose(x, both)
+
+    assert torch.equal(normalize_update(x, "none"), x)
+    try:
+        normalize_update(x, "diagonal")
+        raise AssertionError("expected ValueError")
+    except ValueError:
+        pass
+
+
+def test_muon_plus_steps_end_to_end():
+    torch.manual_seed(0)
+    model = _tiny_model()
+    hidden, other = split_muon_params(model)
+    optimizer = MuonWithAuxAdam(
+        hidden, other, muon_lr=0.02, adam_lr=6e-4, muon_plus="col_row"
+    )
+    x = torch.randint(0, 256, (2, 8))
+    y = torch.randint(0, 256, (2, 8))
+    _, loss = model(x, y)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    assert torch.isfinite(loss)
+    optimizer.load_state_dict(optimizer.state_dict())

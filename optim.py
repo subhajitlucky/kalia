@@ -28,6 +28,26 @@ def zeroth_power_via_newtonschulz5(
     return x.to(g.dtype)
 
 
+def normalize_update(x: torch.Tensor, direction: str, eps: float = 1e-8) -> torch.Tensor:
+    """Muon+ post-polar normalization: unit-norm columns and/or rows.
+
+    Directions: "none", "col", "row", "col_row", "row_col" (arXiv 2602.21545).
+    """
+    if direction in ("none", ""):
+        return x
+    if direction == "col":
+        return x / (x.norm(dim=0, keepdim=True) + eps)
+    if direction == "row":
+        return x / (x.norm(dim=1, keepdim=True) + eps)
+    if direction == "col_row":
+        x = x / (x.norm(dim=0, keepdim=True) + eps)
+        return x / (x.norm(dim=1, keepdim=True) + eps)
+    if direction == "row_col":
+        x = x / (x.norm(dim=1, keepdim=True) + eps)
+        return x / (x.norm(dim=0, keepdim=True) + eps)
+    raise ValueError(f"unknown normalization direction: {direction}")
+
+
 class Muon(Optimizer):
     """Momentum SGD whose update is orthogonalized by Newton-Schulz."""
 
@@ -39,6 +59,7 @@ class Muon(Optimizer):
         nesterov: bool = True,
         ns_steps: int = 5,
         weight_decay: float = 0.0,
+        muon_plus: str = "none",
     ):
         defaults = dict(
             lr=lr,
@@ -46,6 +67,7 @@ class Muon(Optimizer):
             nesterov=nesterov,
             ns_steps=ns_steps,
             weight_decay=weight_decay,
+            muon_plus=muon_plus,
         )
         super().__init__(params, defaults)
 
@@ -70,6 +92,7 @@ class Muon(Optimizer):
                 else:
                     update = buf
                 update = zeroth_power_via_newtonschulz5(update, steps=group["ns_steps"])
+                update = normalize_update(update, group["muon_plus"])
                 update = update * (max(1.0, p.size(0) / p.size(1)) ** 0.5)
                 if group["weight_decay"] > 0:
                     p.mul_(1 - group["lr"] * group["weight_decay"])
@@ -113,6 +136,7 @@ class MuonWithAuxAdam:
         muon_momentum: float = 0.95,
         muon_weight_decay: float = 0.0,
         ns_steps: int = 5,
+        muon_plus: str = "none",
         adam_lr: float = 6e-4,
         adam_betas: tuple[float, float] = (0.9, 0.95),
         adam_weight_decay: float = 0.1,
@@ -123,6 +147,7 @@ class MuonWithAuxAdam:
             momentum=muon_momentum,
             ns_steps=ns_steps,
             weight_decay=muon_weight_decay,
+            muon_plus=muon_plus,
         )
         self.adam = AdamW(
             other_params, lr=adam_lr, betas=adam_betas, weight_decay=adam_weight_decay

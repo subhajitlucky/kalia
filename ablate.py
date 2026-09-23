@@ -5,6 +5,7 @@ script (flat Kaggle dataset). Each arm trains the same 30M-parameter model on
 ~100M tokens; the final validation loss decides the winner.
 """
 
+import argparse
 import glob
 import subprocess
 import sys
@@ -27,10 +28,16 @@ def find_data_dir() -> str:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Run micro-ablation arms")
+    parser.add_argument("--arms", type=str, default=",".join(ARMS))
+    parser.add_argument("--steps", type=int, default=None, help="override max_steps")
+    args = parser.parse_args()
+    arms = [arm.strip() for arm in args.arms.split(",") if arm.strip()]
+
     data_dir = find_data_dir()
     print("data:", data_dir)
     results = []
-    for arm in ARMS:
+    for arm in arms:
         out_dir = f"/kaggle/working/out/{arm}"
         print("=" * 64)
         print("ARM:", arm)
@@ -44,6 +51,8 @@ def main() -> None:
             "--out-dir",
             out_dir,
         ]
+        if args.steps is not None:
+            cmd += ["--max-steps", str(args.steps)]
         proc = subprocess.run(cmd)
         if proc.returncode != 0:
             results.append((arm, "FAILED"))
