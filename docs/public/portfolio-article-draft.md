@@ -92,6 +92,6 @@ stay cache-hot between passes.
 
 ## Links
 
-- Code + full engineering journal: [GitHub]
-- Weights + model card: [HuggingFace]
-- Training notebooks + ablation results: [Kaggle]
+- Code + full engineering journal: https://github.com/subhajitlucky/kalia
+- Weights + model card: https://huggingface.co/kalia-lm/kalia-v012
+- Training notebooks + ablation results: https://www.kaggle.com/subhajitlucky (kernels `kalia-ablate`, `kalia-train-v012`)
