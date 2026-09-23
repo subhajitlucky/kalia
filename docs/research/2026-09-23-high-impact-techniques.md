@@ -1,4 +1,4 @@
-# Forbidden Multipliers — What Is Real, What We Refuse, and Our Invention Target
+# High-Impact Techniques, Ethical Boundaries, and the KALIA-EM+TTT Target
 
 Status: active research track
 Date: 2026-09-23
@@ -7,11 +7,11 @@ Sources: SOAP (ICLR 2025), KL-Shampoo (2025), NVIDIA "SOAP, Muon, and Beyond"
 Data-Constrained LMs (NeurIPS 2023), Titans (NeurIPS 2025), TTT-E2E (NVIDIA,
 2026), TTCD (2026).
 
-## 0. The honesty rule
+## 0. Evidence rule
 
-No known method multiplies learning by 100×. Publishing such a claim would
-require either fraud or a misunderstanding. The largest *measured* efficiency
-multipliers are 1.5×–8×, and they are mostly data-side:
+No known method multiplies learning efficiency by 100×. Such a claim would
+require either measurement error or misrepresentation. The largest *measured*
+efficiency multipliers are 1.5×–8×, and they are mostly data-side:
 
 | Lever | Measured effect | Source |
 |---|---|---|
@@ -23,7 +23,7 @@ multipliers are 1.5×–8×, and they are mostly data-side:
 Any future claim in this repository must carry a measurement and a source, or be
 labelled as a hypothesis.
 
-## 1. The forbidden three (real, powerful, rarely used)
+## 1. Three high-impact techniques (real, powerful, rarely adopted)
 
 ### F1. Test-time training — the model learns while it reads
 Titans (NeurIPS 2025) and TTT-E2E (NVIDIA 2026) update a subset of weights at
@@ -34,7 +34,7 @@ In-place variants (In-Place TTT, 2026; IP-TTCD, 2026) reuse the MLP
 down-projection matrix as "fast weights" — a ~20-line architectural change on a
 standard transformer.
 
-Why it is "forbidden": it breaks the assumption that weights freeze after
+Why it is rarely adopted: it breaks the assumption that weights freeze after
 training. Why it fits KALIA: a 58M storyteller that remembers the characters and
 facts of the story it is reading, *while* reading.
 
@@ -56,8 +56,8 @@ scale — which makes it a legitimate originality candidate (R3/O5).
 - Reporting numbers without the config, seed, and commit that produced them.
 - Presenting borrowed capability as our own (this is why D21 rejected
   distillation).
-A "forbidden technique" that cheats the measurement is not a technique — it is
-fraud, and it invalidates the entire project.
+A technique that compromises the measurement is not a technique — it
+invalidates the result and the entire project along with it.
 
 ## 3. Our invention target — KALIA-EM+TTT
 

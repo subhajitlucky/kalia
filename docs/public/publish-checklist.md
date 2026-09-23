@@ -1,8 +1,8 @@
 # Publish Checklist — Privacy, Licenses, Claims
 
 Rule: publish the minimum, publish only what we can measure, never publish
-anything that could embarrass or expose anyone. Nothing goes public until this
-checklist is fully green.
+anything that could expose private information or misrepresent results. Nothing
+goes public until this checklist is fully green.
 
 ## 1. Privacy scrub (run before every visibility change)
 

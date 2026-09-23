@@ -2,7 +2,7 @@
 
 Status: active (supersedes the ordering in the v0.1.x ladder where they conflict)
 Date: 2026-09-23
-Author note: written as the solo-decision-taker assessment, adopted as the plan.
+Basis: independent strategic assessment, adopted as the execution plan.
 
 ## Frank assessment
 

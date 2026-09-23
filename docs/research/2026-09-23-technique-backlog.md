@@ -51,7 +51,7 @@ then a full run only for winners.
 | ID | Technique | Source | Evidence | Expected at 58M | Status |
 |---|---|---|---|---|---|
 | R1 | **Self-training loop**: model generates stories → filter (dedup, repetition, grammar heuristics, loss-under-EMA-teacher) → continue training on filtered self-data | STaR/self-distillation lineage | Works at scale when filters are strong; untested at 58M stories | Uncertain — could help fluency, risks mode collapse | probe after v0.1.2 finishes |
-| R2 | **Tiny RLVR probe** (verifiable format/arithmetic tasks) | L20-Edu-135M | **Negative**: GRPO reduced GSM8K accuracy at 135M (1.82% → 1.59%) | Likely negative; run once for the record | queued as science |
+| R2 | **Tiny RLVR probe** (verifiable format/arithmetic tasks) | L20-Edu-135M | **Negative**: GRPO reduced GSM8K accuracy at 135M (1.82% → 1.59%) | Likely negative; run once for the record | queued as a documented negative-result probe |
 | R3 | **EMA-teacher self-distillation during pretraining** (student = model, teacher = EMA of itself) | Mean Teacher (Tarvainen & Valpola 2017) applied to LM pretraining — rarely validated at our scale | Not established | Could add a free consistency signal | originality candidate |
 | R4 | Automated experiment agent loop (agent proposes config → Kaggle run → parse → next) | practitioner automation | Already partially manual; formalize | High value for iteration speed | planned |
 

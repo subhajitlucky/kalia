@@ -18,7 +18,7 @@ name/brand, and a serving layer (API + chat UI) built on top of the trained mode
 - Budget: $0. All compute comes from free tiers.
 - Compute: Kaggle free tier — 2×T4 (32GB VRAM total), ~30 GPU-hours/week (weekly reset),
   9–12h maximum GPU session length, 20GB persistent storage, unlimited CPU-notebook quota.
-- Name "KALIA" verified available on HuggingFace (no user, org, or model collision with an
+- Name "KALIA" verified available on HuggingFace (no account, organization, or model collision with an
   exact match as of 2026-09-22). Planned org: `kalia`.
 - Ownership stance: training from scratch produces weights that exist nowhere else. The
   nanoGPT-style skeleton and the 2017 transformer paper are treated as public reference
