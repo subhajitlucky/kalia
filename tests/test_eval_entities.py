@@ -18,6 +18,10 @@ def test_extract_entities_sentence_initial_filtered():
     assert extract_entities(text) == []
 
 
+def test_extract_entities_includes_sentence_initial_names():
+    assert extract_entities("Lily went home. Tom waved.") == ["Lily", "Tom"]
+
+
 def test_retention_half():
     prompt = "Lily and Tom went outside."
     continuation = "Lily ran to the trees and laughed."

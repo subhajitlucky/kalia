@@ -17,24 +17,21 @@ STOPWORDS = {
     "One", "Every", "There", "This", "That", "His", "Her", "After", "Before",
     "Soon", "Finally", "So", "At", "In", "On", "With", "As", "If", "Now",
     "Later", "Suddenly", "Meanwhile", "Its", "Their", "Not", "Yes", "No",
+    "Outside", "Inside", "Today", "Tomorrow", "Yesterday", "Night", "Morning",
+    "Evening", "Here", "While", "Because", "During", "Although", "Two", "Three",
 }
 
 _NAME_RE = re.compile(r"\b([A-Z][a-z]{2,})\b")
 
 
 def extract_entities(text: str) -> list[str]:
-    """Capitalized-name heuristic: count>=2, or at least one mid-sentence use."""
+    """Non-stopword capitalized words (length >= 3), counted anywhere in the text."""
     counts: Counter[str] = Counter()
-    mid_sentence: set[str] = set()
     for match in _NAME_RE.finditer(text):
         name = match.group(1)
-        if name in STOPWORDS:
-            continue
-        counts[name] += 1
-        before = text[: match.start()].rstrip()
-        if before and before[-1] not in ".!?":
-            mid_sentence.add(name)
-    return sorted(name for name, count in counts.items() if count >= 2 or name in mid_sentence)
+        if name not in STOPWORDS:
+            counts[name] += 1
+    return sorted(counts)
 
 
 def retention(prompt_text: str, continuation_text: str) -> float:
