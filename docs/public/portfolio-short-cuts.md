@@ -5,6 +5,24 @@ Canonical piece: the dedicated paper page
 
 ## 1. LinkedIn (short, hiring-visible)
 
+> I trained a 58M-parameter language model from scratch in two days, on free
+> GPUs, for $0.
+>
+> No pretrained weights, no distillation — my own data pipeline, training code,
+> and evaluation. It writes coherent stories and scores 61.4% on PIQA. Every
+> experiment was pre-registered with a hash before it ran; one optimizer variant
+> won 7 of 7 checkpoints and still wasn't promoted, because it missed the
+> threshold set in advance.
+>
+> Full record (model spec, evaluation, replayable training console, all 41
+> decisions, all 12 incidents):
+> https://subhajitpradhan.vercel.app/kalia
+>
+> Code: github.com/subhajitlucky/kalia
+> Weights: huggingface.co/kalia-lm/kalia-v012
+
+### Longer version
+
 > I trained a 58M-parameter language model from scratch — random weights, my own
 > data pipeline, my own training code — in two days, on free Kaggle GPUs, for $0.
 >
