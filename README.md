@@ -8,6 +8,8 @@
 A from-scratch ~58M-parameter language model — trained on free Kaggle GPUs with zero
 fine-tuning, zero pretrained weights, and zero budget.
 
+Model weights: [kalia-lm/kalia-v012](https://huggingface.co/kalia-lm/kalia-v012).
+
 KALIA is a decoder-only transformer trained from **random initialization** on ~2.5B tokens
 of English text. Every weight in KALIA is learned by this project's own training run;
 nothing is borrowed from another model. The whole engineering record — decisions,
