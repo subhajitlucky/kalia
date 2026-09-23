@@ -249,7 +249,19 @@ def main(argv=None) -> None:
             model, device_ids=[torch.cuda.current_device()]
         )
 
-    train_ds = TokenDataset(args.data_dir / "train.bin", model_cfg.context_len)
+    rev_cfg = config.get("reversal") or {}
+    train_ds = TokenDataset(
+        args.data_dir / "train.bin",
+        model_cfg.context_len,
+        reversal_prob=float(rev_cfg.get("prob", 0.0)),
+        reversal_min_chunk=int(rev_cfg.get("min_chunk", 4)),
+        reversal_max_chunk=int(rev_cfg.get("max_chunk", 16)),
+    )
+    if is_master and train_ds.reversal_prob > 0:
+        print(
+            f"reversal: prob {train_ds.reversal_prob} | chunks "
+            f"{train_ds.reversal_min_chunk}-{train_ds.reversal_max_chunk}"
+        )
     val_path = args.data_dir / "val.bin"
     val_ds = TokenDataset(val_path, model_cfg.context_len) if val_path.exists() else None
     generator = torch.Generator().manual_seed(train_cfg["seed"] + rank)
