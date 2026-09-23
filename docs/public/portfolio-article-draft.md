@@ -48,9 +48,12 @@ was enforced even against a promising result. A learning-rate sweep
 
 Full-scale, equal-token comparison: the Muon-based model overtook the AdamW
 baseline's *final* loss with ~23% fewer tokens, and at equal steps kept a
-persistent ~0.15 nat advantage. At step 2769 it sits at 0.9255 bits-per-byte on
-held-out text, and the validation curve plateaued for 1,000 steps (2.53–2.63)
-before breaking to 2.4438 as the cosine decay took hold.
+persistent ~0.15 nat advantage. Final numbers: 2.4366 held-out loss / 0.8184
+bits-per-byte (deterministic, 819k tokens), and zero-shot benchmarks put it near
+125M-class models on PIQA (61.4%) and ARC-Easy (45.8%) with 2× fewer parameters
+and ~160× fewer training tokens. The validation curve plateaued for 1,000 steps,
+then training was stopped at 73% of the schedule when the weekly quota ran out —
+the plateau is documented, not hidden.
 
 The entry–exit asymmetry ("Abhimanyu gap"): asked to model reversed text, the
 same model needs **6.28 extra nats** (forward 3.18 vs reverse 9.46; random

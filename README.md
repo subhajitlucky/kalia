@@ -46,9 +46,12 @@ Micro-ablations (30M params, equal tokens, equal seed, step-700 validation loss)
 - LR sweep picked 0.02 as optimal (0.015: 3.4943 · 0.02: 3.4941 · 0.03: 3.5027 · 0.06: 3.5380).
 - Full-scale: the Muon model overtook the AdamW baseline's *final* loss with **~23%
   fewer tokens** (3.2214 @ step 1730 vs 3.2702 @ step 2250).
-- At step 2769: held-out loss 3.1754, **0.9255 bits-per-byte**.
-- Entry–exit asymmetry ("Abhimanyu gap"): **6.28 nats** (forward 3.18 vs reversed-text
-  9.46; random ≈ 10.8) — the model can enter text but not exit it. A pre-registered
+- At step 3,478: held-out loss 2.4366 (deterministic, 819k tokens), **0.8184 bits-per-byte**.
+- Zero-shot benchmarks (lm-eval, 0-shot, 500 samples): **PIQA 61.4%** · ARC-Easy 45.8% ·
+  HellaSwag 36.8% (acc_norm) · WinoGrande 50.2% · LAMBADA 23.0% acc / ppl 194 — a
+  storyteller's profile (near-125M-class on PIQA/ARC-Easy despite 2× fewer params).
+- Entry–exit asymmetry ("Abhimanyu gap"): **6.06 nats** (forward 3.23 vs reversed-text
+  9.29; random ≈ 10.8) — the model can enter text but not exit it. A pre-registered
   experiment (chunk-preserving reversal training, X16) tests whether that closes.
 
 v0.1.2 is still training; final numbers are filled in at release. Full evaluation

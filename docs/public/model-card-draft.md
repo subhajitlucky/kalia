@@ -51,10 +51,25 @@ threshold, so v0.1.2 ships plain Muon. Muon+ remains an optional flag.
 | Metric | v0.1.0 baseline (AdamW) | v0.1.2 (Muon) |
 |---|---|---|
 | Final validation loss | 3.2702 @ 2,250 steps | **3.2214 @ 1,730 steps** (overtook the baseline's final loss with ~23% fewer tokens) |
-| Last validation eval | — | 2.3986 @ 3,000 steps (50×8×1024-token batches; ±0.1 noise) |
-| Probe held-out loss (20 fixed sentences) | — | **3.2303** @ step 3,478 |
+| Validation loss — deterministic 100-batch eval (819,200 tokens, seed 1234) | — | **2.4366** |
+| bits-per-byte (validation) | — | **0.8184** |
+| Probe held-out loss (20 fixed sentences) | — | **3.2303** |
 | bits-per-byte (probe) | — | **0.9415** |
 | Abhimanyu gap (reverse − forward NLL) | — | **6.057 nats** (forward 3.2303 vs reversed-text 9.2875; random ≈ 10.8) |
+
+### Zero-shot benchmarks (lm-evaluation-harness, 0-shot, 500 samples)
+
+| Task | Score | Chance |
+|---|---|---|
+| PIQA (acc) | 61.4% | 50% |
+| ARC-Easy (acc) | 45.8% | 25% |
+| HellaSwag (acc_norm) | 36.8% | 25% |
+| WinoGrande (acc) | 50.2% | 50% |
+| LAMBADA (acc / perplexity) | 23.0% / 193.6 | — |
+
+Context: third-party leaderboard tables list OPT-125M (125M params, 300B tokens)
+at PIQA 63.0 / ARC-Easy 43.5 / HellaSwag 29.2; harness versions differ, so treat
+this as context, not a head-to-head. Standard errors ±2.2pp at 500 samples.
 
 Ablations (30M-param micro-runs, equal tokens, same seed): AdamW 3.8041 →
 Muon 3.5937 → Muon + QK-Norm + soft-cap 3.5103. LR sweep: 0.02 optimal. Full

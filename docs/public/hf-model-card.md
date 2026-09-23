@@ -62,10 +62,27 @@ Runs on CPU (~230MB in fp16 weights).
 
 | Metric | Value |
 |---|---|
-| Validation loss, last training eval (step 3,000) | 2.3986 |
+| Validation loss — deterministic 100-batch eval (819,200 tokens, seed 1234) | **2.4366** |
+| bits-per-byte (validation) | **0.8184** |
 | Probe held-out loss (20 fixed sentences) | 3.2303 |
 | bits-per-byte (probe) | 0.9415 |
 | Abhimanyu gap (reversed-text NLL − forward NLL) | 6.06 nats (forward 3.23 vs reverse 9.29; random ≈ 10.8) |
+
+### Zero-shot benchmarks (lm-evaluation-harness, 0-shot, 500 samples)
+
+| Task | Score | Chance |
+|---|---|---|
+| PIQA (acc) | **61.4%** | 50% |
+| ARC-Easy (acc) | **45.8%** | 25% |
+| HellaSwag (acc_norm) | 36.8% | 25% |
+| WinoGrande (acc) | 50.2% | 50% |
+| LAMBADA (acc / perplexity) | 23.0% / 193.6 | — |
+
+For scale context: third-party leaderboard tables list OPT-125M (125M params, 300B
+tokens) at PIQA 63.0 / ARC-Easy 43.5 / HellaSwag 29.2; harness versions differ, so
+treat this as context, not a head-to-head. KALIA is a storyteller, not a knowledge
+model — its LAMBADA weakness reflects a corpus without long-form narrative cloze.
+Standard errors are ±2.2pp at this sample size.
 
 Micro-ablations at 30M params / equal tokens / same seed: AdamW 3.8041 →
 Muon 3.5937 → Muon + QK-Norm + soft-cap **3.5103**. The full-scale Muon model
