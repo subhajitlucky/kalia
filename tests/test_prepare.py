@@ -29,4 +29,10 @@ def test_tokenize_respects_max_tokens(tmp_path):
 
 
 def test_sources_registry():
-    assert set(SOURCES) == {"tinystories", "fineweb"}
+    assert set(SOURCES) == {
+        "tinystories",
+        "fineweb",
+        "smollm_fineweb_edu",
+        "cosmopedia",
+        "stack_smol",
+    }

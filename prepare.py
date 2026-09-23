@@ -27,9 +27,40 @@ def iter_fineweb() -> Iterator[dict]:
     )
 
 
+def iter_smollm_fineweb_edu() -> Iterator[dict]:
+    """Deduplicated FineWeb-Edu from the SmolLM corpus (curated for small models)."""
+    from datasets import load_dataset
+
+    for row in load_dataset(
+        "HuggingFaceTB/smollm-corpus", name="fineweb-edu-dedup", split="train", streaming=True
+    ):
+        yield {"text": row["text"]}
+
+
+def iter_cosmopedia() -> Iterator[dict]:
+    """Synthetic educational textbooks/blog posts/stories from Cosmopedia v2."""
+    from datasets import load_dataset
+
+    for row in load_dataset(
+        "HuggingFaceTB/smollm-corpus", name="cosmopedia-v2", split="train", streaming=True
+    ):
+        yield {"text": row["text"]}
+
+
+def iter_stack_smol() -> Iterator[dict]:
+    """Curated Python code (codeparrot-clean) for code exposure."""
+    from datasets import load_dataset
+
+    for row in load_dataset("codeparrot/codeparrot-clean", split="train", streaming=True):
+        yield {"text": row["content"]}
+
+
 SOURCES: dict[str, Callable[[], Iterable[dict]]] = {
     "tinystories": iter_tinystories,
     "fineweb": iter_fineweb,
+    "smollm_fineweb_edu": iter_smollm_fineweb_edu,
+    "cosmopedia": iter_cosmopedia,
+    "stack_smol": iter_stack_smol,
 }
 
 
