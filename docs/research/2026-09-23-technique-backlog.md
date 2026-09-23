@@ -9,6 +9,7 @@ then a full run only for winners.
 
 | ID | Technique | Source | Evidence | Expected | Risk | Status |
 |---|---|---|---|---|---|---|
+| E0 | **Learning-rate sweep for Muon+** (0.015 / 0.02 / 0.03 / 0.06) | D17 protocol | LR dominates algorithmic tricks | High | None | 0.02 done (3.4941), 0.03 running (E1b), 0.015/0.06 queued |
 | E1 | **Muon+**: one normalization step after polar orthogonalization | arXiv 2602.21545 | Beats Muon, NorMuon, AdaMuon, Turbo-Muon across GPT/LLaMA 60M–7B; up to 37% pretraining speedup; zero extra state | High | Very low (one line) | **validated** (−0.015 nats, 7/7 checkpoints, matches paper's 60M effect) |
 | E1b | Muon+ at higher Muon LR (paper's main lever is LR tolerance) | arXiv 2602.21545 | Muon+ stays stable where Muon degrades; our ablation used a fixed lr=0.02 | Unknown, likely + | Low | queued |
 | E2 | **Polar Express** coefficients for Muon iterations | Amsel et al. 2025 (arXiv 2505.16932) | Better polar approximation; complementary to E1 | Medium | Low | queued |
