@@ -146,7 +146,7 @@ def pull_from_hub(repo_id: str, path_in_repo: str, local_path: Path) -> bool:
 
 
 @torch.no_grad()
-def evaluate(model, dataset, eval_steps: int) -> float:
+def evaluate(model, dataset, eval_steps: int, bytes_per_token: float | None = None):
     was_training = model.training
     model.eval()
     total = 0.0
@@ -156,7 +156,27 @@ def evaluate(model, dataset, eval_steps: int) -> float:
         total += loss.item()
     if was_training:
         model.train()
-    return total / eval_steps
+    mean_loss = total / eval_steps
+    bpb = mean_loss / math.log(2) / bytes_per_token if bytes_per_token else None
+    return mean_loss, bpb
+
+
+def compute_bytes_per_token(dataset, encoder, n_batches: int = 20) -> float:
+    """Average UTF-8 bytes per token on this dataset (for bits-per-byte)."""
+    total_bytes = 0
+    total_tokens = 0
+    for _ in range(n_batches):
+        x, _ = dataset.get_batch(8, torch.device("cpu"))
+        for row in x:
+            total_bytes += len(encoder.decode(row.tolist()).encode("utf-8"))
+            total_tokens += int(row.numel())
+    return total_bytes / total_tokens
+
+
+def update_ema(ema_state: dict, model_state: dict, beta: float) -> None:
+    """EMA of model weights (for a smoother final checkpoint)."""
+    for key, value in model_state.items():
+        ema_state[key].mul_(beta).add_(value.detach().float(), alpha=1 - beta)
 
 
 @torch.no_grad()
@@ -234,6 +254,21 @@ def main(argv=None) -> None:
     val_ds = TokenDataset(val_path, model_cfg.context_len) if val_path.exists() else None
     generator = torch.Generator().manual_seed(train_cfg["seed"] + rank)
 
+    bytes_per_token = None
+    if train_cfg.get("eval_bpb") and val_ds is not None and is_master:
+        import tiktoken
+
+        encoder = tiktoken.get_encoding("gpt2")
+        bytes_per_token = compute_bytes_per_token(val_ds, encoder)
+        print(f"eval: {bytes_per_token:.3f} bytes/token (bpB enabled)")
+
+    ema_state = None
+    if train_cfg.get("ema_decay", 0.0) > 0:
+        raw = model.module if hasattr(model, "module") else model
+        ema_state = {k: v.detach().clone().float() for k, v in raw.state_dict().items()}
+        if is_master:
+            print(f"EMA enabled (decay {train_cfg['ema_decay']})")
+
     log_path = args.out_dir / "train_log.csv"
     val_log_path = args.out_dir / "val_log.csv"
     if is_master:
@@ -243,7 +278,7 @@ def main(argv=None) -> None:
                 csv.writer(fh).writerow(["step", "loss", "lr", "tokens", "elapsed_s"])
         if not val_log_path.exists() or start_step == 0:
             with open(val_log_path, "w", newline="") as fh:
-                csv.writer(fh).writerow(["step", "val_loss"])
+                csv.writer(fh).writerow(["step", "val_loss", "bpb"])
 
     tokens_per_step = (
         train_cfg["micro_batch_size"] * train_cfg["grad_accum_steps"] * model_cfg.context_len * world
@@ -283,6 +318,10 @@ def main(argv=None) -> None:
             scaler.step(optimizer)
             scaler.update()
 
+            if ema_state is not None:
+                raw = model.module if hasattr(model, "module") else model
+                update_ema(ema_state, raw.state_dict(), train_cfg["ema_decay"])
+
             tokens_seen += tokens_per_step
             step += 1
 
@@ -305,10 +344,18 @@ def main(argv=None) -> None:
             ):
                 target = train_cfg.get("target_val_loss")
                 if is_master:
-                    val_loss = evaluate(model, val_ds, train_cfg["eval_steps"])
-                    print(f"step {step} | val loss {val_loss:.4f}")
+                    val_loss, val_bpb = evaluate(
+                        model, val_ds, train_cfg["eval_steps"], bytes_per_token
+                    )
+                    msg = f"step {step} | val loss {val_loss:.4f}"
+                    if val_bpb is not None:
+                        msg += f" | bpB {val_bpb:.4f}"
+                    print(msg)
+                    row = [step, f"{val_loss:.4f}"]
+                    if val_bpb is not None:
+                        row.append(f"{val_bpb:.4f}")
                     with open(val_log_path, "a", newline="") as fh:
-                        csv.writer(fh).writerow([step, f"{val_loss:.4f}"])
+                        csv.writer(fh).writerow(row)
                     if target is not None and decay_start is None and val_loss <= target:
                         decay_start = step
                         print(f"target val loss {target} reached at step {step}")
@@ -350,6 +397,26 @@ def main(argv=None) -> None:
                 push_to_hub(ckpt_path, args.hub_repo, "checkpoints/ckpt.pt")
                 push_to_hub(log_path, args.hub_repo, "logs/train_log.csv")
                 push_to_hub(val_log_path, args.hub_repo, "logs/val_log.csv")
+
+            if ema_state is not None and val_ds is not None:
+                raw = model.module if hasattr(model, "module") else model
+                dtype = next(raw.parameters()).dtype
+                backup = {k: v.detach().clone() for k, v in raw.state_dict().items()}
+                raw.load_state_dict({k: v.to(dtype) for k, v in ema_state.items()})
+                ema_loss, ema_bpb = evaluate(model, val_ds, train_cfg["eval_steps"], bytes_per_token)
+                msg = f"EMA val loss {ema_loss:.4f}"
+                if ema_bpb is not None:
+                    msg += f" | bpB {ema_bpb:.4f}"
+                print(msg)
+                ema_path = args.out_dir / "ckpt_ema.pt"
+                torch.save(
+                    {"model": raw.state_dict(), "step": step, "tokens": tokens_seen, "config": config},
+                    ema_path,
+                )
+                raw.load_state_dict(backup)
+                print(f"EMA checkpoint saved to {ema_path}")
+                if args.hub_repo:
+                    push_to_hub(ema_path, args.hub_repo, "checkpoints/ckpt_ema.pt")
     finally:
         if world > 1:
             torch.distributed.destroy_process_group()

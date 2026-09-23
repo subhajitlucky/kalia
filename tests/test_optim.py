@@ -7,7 +7,7 @@ from optim import (
     split_muon_params,
     zeroth_power_via_newtonschulz5,
 )
-from train import lr_scale
+from train import compute_bytes_per_token, lr_scale, update_ema
 
 
 def test_ns5_produces_near_orthogonal_matrix():
@@ -109,6 +109,32 @@ def test_lr_scale_with_target_decay():
     assert cfg["min_lr_ratio"] < mid < start
     assert lr_scale(400, cfg, decay_start=300) == cfg["min_lr_ratio"]
     assert lr_scale(500, cfg, decay_start=300) == cfg["min_lr_ratio"]
+
+
+def test_update_ema_math():
+    ema = {"w": torch.zeros(3)}
+    model_state = {"w": torch.tensor([1.0, 2.0, 4.0])}
+    update_ema(ema, model_state, beta=0.5)
+    assert torch.allclose(ema["w"], torch.tensor([0.5, 1.0, 2.0]))
+    update_ema(ema, model_state, beta=0.5)
+    assert torch.allclose(ema["w"], torch.tensor([0.75, 1.5, 3.0]))
+
+
+class FakeDecoder:
+    def decode(self, ids):
+        return "".join(chr(i) for i in ids)
+
+
+def test_compute_bytes_per_token(tmp_path):
+    import numpy as np
+
+    from data import TokenDataset
+
+    path = tmp_path / "val.bin"
+    np.array([65, 66, 67, 68] * 64, dtype=np.uint16).tofile(path)
+    ds = TokenDataset(path, context_len=16)
+    bpt = compute_bytes_per_token(ds, FakeDecoder(), n_batches=2)
+    assert abs(bpt - 1.0) < 1e-9
 
 
 def test_normalize_update_directions():
