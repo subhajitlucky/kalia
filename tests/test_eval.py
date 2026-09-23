@@ -1,6 +1,13 @@
 import torch
 from compare_models import compare
-from eval_probes import build_report, generate, load_prompts, load_sentences, loss_and_bpb
+from eval_probes import (
+    apply_loop_override,
+    build_report,
+    generate,
+    load_prompts,
+    load_sentences,
+    loss_and_bpb,
+)
 from model import GPT, GPTConfig
 
 
@@ -53,6 +60,15 @@ def test_loss_and_bpb_are_finite(tmp_path):
     loss, bpb = loss_and_bpb(model, FakeEncoder(), ["hello world", "the fox ran"])
     assert 0 < loss < 20
     assert bpb > 0
+
+
+def test_apply_loop_override(tmp_path):
+    _, model = _tiny_ckpt(tmp_path)
+    assert model.cfg.n_loops == 1
+    apply_loop_override(model, 3)
+    assert model.cfg.n_loops == 3
+    apply_loop_override(model, None)
+    assert model.cfg.n_loops == 3
 
 
 def test_build_report_contains_fields():

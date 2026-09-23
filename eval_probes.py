@@ -81,6 +81,13 @@ def loss_and_bpb(
     return mean_loss, bpb
 
 
+def apply_loop_override(model: GPT, n_loops: int | None) -> GPT:
+    """Override recurrent depth at evaluation time (Samyama depth scaling)."""
+    if n_loops is not None:
+        model.cfg.n_loops = int(n_loops)
+    return model
+
+
 def build_report(
     ckpt: dict,
     samples: dict[str, str],
@@ -114,6 +121,7 @@ def main() -> None:
     parser.add_argument("--temperature", type=float, default=0.8)
     parser.add_argument("--top-k", type=int, default=200)
     parser.add_argument("--seed", type=int, default=1337)
+    parser.add_argument("--n-loops", type=int, default=None, help="override recurrent depth")
     parser.add_argument("--device", type=str, default="cpu")
     args = parser.parse_args()
 
@@ -122,6 +130,7 @@ def main() -> None:
     device = torch.device(args.device)
     encoder = tiktoken.get_encoding("gpt2")
     model, ckpt = load_model(args.ckpt, device)
+    apply_loop_override(model, args.n_loops)
     prompts = load_prompts(args.prompts)
     sentences = load_sentences(args.sentences)
 
