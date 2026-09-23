@@ -147,3 +147,54 @@ def test_logit_softcap_bounds_logits():
     x = torch.randint(0, 256, (2, 8))
     logits, _ = model(x)
     assert logits.abs().max().item() <= 5.0 + 1e-4
+
+
+def test_gqa_reduces_params_and_runs():
+    base = GPT(GPTConfig(vocab_size=256, n_layer=2, n_head=4, n_embd=64, context_len=16))
+    gqa = GPT(
+        GPTConfig(vocab_size=256, n_layer=2, n_head=4, n_embd=64, context_len=16, n_kv_head=2)
+    )
+    assert gqa.num_params() < base.num_params()
+    torch.manual_seed(0)
+    x = torch.randint(0, 256, (2, 8))
+    y = torch.randint(0, 256, (2, 8))
+    _, loss = gqa(x, y)
+    loss.backward()
+    assert torch.isfinite(loss)
+
+
+def test_gqa_equal_heads_matches_mha_params():
+    base = GPT(GPTConfig(vocab_size=256, n_layer=2, n_head=4, n_embd=64, context_len=16))
+    same = GPT(
+        GPTConfig(vocab_size=256, n_layer=2, n_head=4, n_embd=64, context_len=16, n_kv_head=4)
+    )
+    assert same.num_params() == base.num_params()
+
+
+def test_looping_shares_params_and_runs():
+    once = GPT(GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16))
+    twice = GPT(
+        GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16, n_loops=2)
+    )
+    assert once.num_params() == twice.num_params()
+    torch.manual_seed(0)
+    x = torch.randint(0, 256, (2, 8))
+    y = torch.randint(0, 256, (2, 8))
+    _, loss = twice(x, y)
+    loss.backward()
+    assert torch.isfinite(loss)
+
+
+def test_looping_changes_output_not_params():
+    import copy
+
+    torch.manual_seed(0)
+    base_cfg = GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16)
+    model = GPT(base_cfg)
+    looped = copy.deepcopy(model)
+    looped.cfg = GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16, n_loops=2)
+    x = torch.randint(0, 256, (1, 8))
+    with torch.no_grad():
+        logits_base, _ = model(x)
+        logits_looped, _ = looped(x)
+    assert not torch.allclose(logits_base, logits_looped)

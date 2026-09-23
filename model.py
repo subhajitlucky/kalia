@@ -18,6 +18,8 @@ class GPTConfig:
     dropout: float = 0.0
     qk_norm: bool = False
     logit_softcap: float = 0.0
+    n_kv_head: int | None = None
+    n_loops: int = 1
 
 
 class RMSNorm(nn.Module):
@@ -74,11 +76,14 @@ class CausalSelfAttention(nn.Module):
         super().__init__()
         assert config.n_embd % config.n_head == 0
         self.n_head = config.n_head
+        self.n_kv_head = config.n_kv_head or config.n_head
+        assert config.n_head % self.n_kv_head == 0
         self.head_dim = config.n_embd // config.n_head
         self.dropout = config.dropout
         self.q_norm = RMSNorm(self.head_dim) if config.qk_norm else None
         self.k_norm = RMSNorm(self.head_dim) if config.qk_norm else None
-        self.qkv = nn.Linear(config.n_embd, 3 * config.n_embd, bias=False)
+        qkv_dim = (config.n_head + 2 * self.n_kv_head) * self.head_dim
+        self.qkv = nn.Linear(config.n_embd, qkv_dim, bias=False)
         self.proj = nn.Linear(config.n_embd, config.n_embd, bias=False)
         cos, sin = rope_tables(self.head_dim, config.context_len)
         self.register_buffer("rope_cos", cos, persistent=False)
@@ -86,15 +91,26 @@ class CausalSelfAttention(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         b, t, c = x.shape
-        q, k, v = self.qkv(x).split(c, dim=2)
+        q, k, v = self.qkv(x).split(
+            [
+                self.n_head * self.head_dim,
+                self.n_kv_head * self.head_dim,
+                self.n_kv_head * self.head_dim,
+            ],
+            dim=2,
+        )
         q = q.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
-        k = k.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
-        v = v.view(b, t, self.n_head, self.head_dim).transpose(1, 2)
+        k = k.view(b, t, self.n_kv_head, self.head_dim).transpose(1, 2)
+        v = v.view(b, t, self.n_kv_head, self.head_dim).transpose(1, 2)
         if self.q_norm is not None:
             q = self.q_norm(q)
             k = self.k_norm(k)
         q = apply_rope(q, self.rope_cos, self.rope_sin)
         k = apply_rope(k, self.rope_cos, self.rope_sin)
+        if self.n_kv_head != self.n_head:
+            repeat = self.n_head // self.n_kv_head
+            k = k.repeat_interleave(repeat, dim=1)
+            v = v.repeat_interleave(repeat, dim=1)
         y = F.scaled_dot_product_attention(
             q, k, v, dropout_p=self.dropout if self.training else 0.0, is_causal=True
         )
@@ -145,8 +161,9 @@ class GPT(nn.Module):
 
     def forward(self, idx: torch.Tensor, targets: torch.Tensor | None = None):
         x = self.tok_emb(idx)
-        for block in self.blocks:
-            x = block(x)
+        for _ in range(self.cfg.n_loops):
+            for block in self.blocks:
+                x = block(x)
         x = self.norm_f(x)
         logits = self.lm_head(x)
         if self.cfg.logit_softcap > 0:
