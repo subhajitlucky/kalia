@@ -5,6 +5,17 @@ scale, risk, status. Protocol: micro-ablation (30M params, 50M tokens, step-700
 val loss) against the current best recipe (Muon + QK-Norm + soft-cap = 3.5103),
 then a full run only for winners.
 
+## Punch-above-weight queue (see docs/research/2026-09-23-punching-above-weight.md)
+
+| ID | Experiment | Cost | Status |
+|---|---|---|---|
+| X1 | Deep-thin vs wide (12L×384d vs 6L×512d) | 1.5h GPU | queued |
+| X2 | GQA (2 KV heads) vs MHA | 1.5h GPU | queued |
+| X3 | Block sharing (repeat each block) | 1.5h GPU | queued |
+| X4 | Code share 5% → 10% in mixture | 1h GPU | queued |
+| X5 | WSD LR retune | 1h GPU | queued |
+| X6 | Distillation probe from SmolLM2-1.7B | 3–4h GPU | decision pending |
+
 ## Optimizer tier (strongest evidence at our exact scale)
 
 | ID | Technique | Source | Evidence | Expected | Risk | Status |
