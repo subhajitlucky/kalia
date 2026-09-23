@@ -57,6 +57,11 @@ free-tier compute, evaluated with a frozen entity-consistency harness.
 
 ## What we deliberately do not take
 
-- Chakravyuha formation, the dice game, Karna's armour, the
-  Vyasa–Ganesha pace-control story: no compilable mechanism was found; recorded
-  as discarded metaphors rather than dressed up as algorithms.
+- The dice game, Karna's armour, the Vyasa–Ganesha pace-control story: no
+  compilable mechanism was found; recorded as discarded metaphors rather than
+  dressed up as algorithms.
+- **Chakravyuha: dismissal corrected.** The spiral geometry is still not a
+  mechanism, but the entry-exit asymmetry is (see
+  `docs/research/2026-09-23-chakravyuha-mechanism.md`): it produced the
+  Abhimanyu-gap metric and redesigned X16 as chunk-preserving reversal
+  training.
