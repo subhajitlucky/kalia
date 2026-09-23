@@ -25,6 +25,8 @@ def parse_args(argv=None):
     p.add_argument("--hub-repo", type=str, default=None, help="HF repo id for checkpoint sync")
     p.add_argument("--max-steps", type=int, default=None, help="override config max_steps")
     p.add_argument("--max-minutes", type=float, default=None, help="stop after this many minutes")
+    p.add_argument("--target-val-loss", type=float, default=None, help="decay and stop once reached")
+    p.add_argument("--decay-steps-after-target", type=int, default=None)
     p.add_argument("--seed", type=int, default=None)
     return p.parse_args(argv)
 
@@ -45,8 +47,8 @@ def setup_distributed():
     return 0, 1
 
 
-def lr_scale(step: int, train_cfg: dict) -> float:
-    """Schedule multiplier in [min_lr_ratio, 1] applied to every param group."""
+def base_lr_scale(step: int, train_cfg: dict) -> float:
+    """Cosine schedule multiplier in [min_lr_ratio, 1] (warmup + cosine)."""
     if step < train_cfg["warmup_steps"]:
         return (step + 1) / train_cfg["warmup_steps"]
     if step >= train_cfg["max_steps"]:
@@ -56,6 +58,17 @@ def lr_scale(step: int, train_cfg: dict) -> float:
     )
     coeff = 0.5 * (1.0 + math.cos(math.pi * progress))
     return train_cfg["min_lr_ratio"] + coeff * (1 - train_cfg["min_lr_ratio"])
+
+
+def lr_scale(step: int, train_cfg: dict, decay_start: int | None = None) -> float:
+    """Schedule multiplier; after a target loss is reached, decay linearly and stop."""
+    if decay_start is None or step < decay_start:
+        return base_lr_scale(step, train_cfg)
+    decay_steps = max(1, int(train_cfg.get("decay_steps_after_target", 1)))
+    progress = min(1.0, (step - decay_start) / decay_steps)
+    start = base_lr_scale(decay_start, train_cfg)
+    floor = train_cfg["min_lr_ratio"]
+    return start * (1 - progress) + floor * progress
 
 
 def build_optimizer(model, train_cfg: dict):
@@ -120,8 +133,8 @@ def pull_from_hub(repo_id: str, path_in_repo: str, local_path: Path) -> bool:
         downloaded = hf_hub_download(
             repo_id=repo_id, filename=path_in_repo, token=os.environ.get("HF_TOKEN")
         )
-    except Exception as exc:  # noqa: BLE001 - any failure means "start fresh"
-        print(f"resume: no checkpoint pulled ({exc})")
+    except Exception as exc:  # noqa: BLE001 - any failure means "not available"
+        print(f"resume: could not pull {path_in_repo} ({exc})")
         return False
     local_path.parent.mkdir(parents=True, exist_ok=True)
     # Write to a temp file and atomically swap it in, so concurrent readers
@@ -163,6 +176,10 @@ def main(argv=None) -> None:
         train_cfg["max_steps"] = args.max_steps
     if args.seed is not None:
         train_cfg["seed"] = args.seed
+    if args.target_val_loss is not None:
+        train_cfg["target_val_loss"] = args.target_val_loss
+    if args.decay_steps_after_target is not None:
+        train_cfg["decay_steps_after_target"] = args.decay_steps_after_target
 
     rank, world = setup_distributed()
     is_master = rank == 0
@@ -190,6 +207,9 @@ def main(argv=None) -> None:
         if args.hub_repo:
             if is_master:
                 pull_from_hub(args.hub_repo, "checkpoints/ckpt.pt", ckpt_path)
+                # Restore logs so a resumed session appends instead of replacing them.
+                pull_from_hub(args.hub_repo, "logs/train_log.csv", args.out_dir / "train_log.csv")
+                pull_from_hub(args.hub_repo, "logs/val_log.csv", args.out_dir / "val_log.csv")
             if world > 1:
                 # Wait for rank0 to finish writing before any rank reads.
                 if torch.cuda.is_available():
@@ -233,8 +253,11 @@ def main(argv=None) -> None:
     model.train()
 
     step = start_step
+    decay_start = None
+    decay_stop_scheduled = False
+    hard_max_steps = train_cfg["max_steps"]
     try:
-        while step < train_cfg["max_steps"]:
+        while step < hard_max_steps:
             if args.max_minutes is not None and (time.time() - start_time) / 60 >= args.max_minutes:
                 if is_master:
                     print("time budget reached; stopping cleanly")
@@ -253,7 +276,7 @@ def main(argv=None) -> None:
 
             scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(model.parameters(), train_cfg["grad_clip"])
-            scale = lr_scale(step, train_cfg)
+            scale = lr_scale(step, train_cfg, decay_start)
             lr = train_cfg["learning_rate"] * scale
             for group in optimizer.param_groups:
                 group["lr"] = group["base_lr"] * scale
@@ -280,11 +303,30 @@ def main(argv=None) -> None:
                 and train_cfg["eval_interval"] > 0
                 and step % train_cfg["eval_interval"] == 0
             ):
+                target = train_cfg.get("target_val_loss")
                 if is_master:
                     val_loss = evaluate(model, val_ds, train_cfg["eval_steps"])
                     print(f"step {step} | val loss {val_loss:.4f}")
                     with open(val_log_path, "a", newline="") as fh:
                         csv.writer(fh).writerow([step, f"{val_loss:.4f}"])
+                    if target is not None and decay_start is None and val_loss <= target:
+                        decay_start = step
+                        print(f"target val loss {target} reached at step {step}")
+                if target is not None and world > 1:
+                    flag = torch.tensor(
+                        [decay_start if decay_start is not None else -1],
+                        device=device,
+                        dtype=torch.long,
+                    )
+                    torch.distributed.broadcast(flag, src=0)
+                    if decay_start is None and int(flag.item()) >= 0:
+                        decay_start = int(flag.item())
+                if target is not None and decay_start is not None and not decay_stop_scheduled:
+                    decay_stop_scheduled = True
+                    extra = int(train_cfg.get("decay_steps_after_target", 0))
+                    hard_max_steps = min(train_cfg["max_steps"], decay_start + extra)
+                    if is_master:
+                        print(f"target reached: decaying {extra} steps, then stopping")
 
             if train_cfg["sample_interval"] > 0 and step % train_cfg["sample_interval"] == 0 and is_master:
                 print_sample(model, train_cfg["sample_tokens"])

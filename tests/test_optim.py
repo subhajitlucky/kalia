@@ -95,6 +95,22 @@ def test_lr_scale_schedule_shape():
     assert lr_scale(110, cfg) == 0.1
 
 
+def test_lr_scale_with_target_decay():
+    cfg = {
+        "learning_rate": 1e-3,
+        "warmup_steps": 10,
+        "max_steps": 1000,
+        "min_lr_ratio": 0.1,
+        "decay_steps_after_target": 100,
+    }
+    start = lr_scale(300, cfg)
+    assert lr_scale(300, cfg, decay_start=300) == start
+    mid = lr_scale(350, cfg, decay_start=300)
+    assert cfg["min_lr_ratio"] < mid < start
+    assert lr_scale(400, cfg, decay_start=300) == cfg["min_lr_ratio"]
+    assert lr_scale(500, cfg, decay_start=300) == cfg["min_lr_ratio"]
+
+
 def test_normalize_update_directions():
     torch.manual_seed(0)
     scale = torch.arange(1, 17, dtype=torch.float32).reshape(-1, 1)
