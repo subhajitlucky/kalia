@@ -21,7 +21,7 @@ everything else links back to it).
 > five hours.
 >
 > Full build log — every decision (41), every result, every incident:
-> [portfolio link]
+> https://subhajitpradhan.vercel.app/writing/kalia-build-log
 >
 > Code: https://github.com/subhajitlucky/kalia
 > Weights: https://huggingface.co/kalia-lm/kalia-v012
@@ -69,7 +69,7 @@ misreporting of a run's duration), 2 hash-anchored pre-registrations, all eval
 logs.
 Code: github.com/subhajitlucky/kalia
 Weights: huggingface.co/kalia-lm/kalia-v012
-Build log: [portfolio link]
+Build log: https://subhajitpradhan.vercel.app/writing/kalia-build-log
 
 ## 3. dev.to / Hashnode mirror
 
