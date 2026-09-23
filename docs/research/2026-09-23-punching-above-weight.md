@@ -49,13 +49,12 @@ and per parameter, and be excellent inside our domain.
    **lr 3e-3** with WSD — much higher than our 0.06 Muon-equivalent; worth a
    sweep after the current one.
 
-5. **Distillation (the direct 58M→1B-like lever; ownership trade-off).**
-   Distilling an open 1.7B teacher (SmolLM2) into a 58M student with reverse-KL
-   / on-policy objectives (MiniLLM, GKD, OKD) is the single biggest capability
-   jump available to us. It is *borrowed* capability: the student learns the
-   teacher's distribution, not just our own data. Proposal: keep **KALIA**
-   (from scratch, ours) and, if wanted, train **KALIA-D** (distilled) as a
-   clearly-labelled second lineage. Decision required.
+5. **Distillation — REJECTED (decision D21, 2026-09-23).**
+   Technically the biggest lever, but it transfers a teacher's distribution into
+   the student: borrowed capability. KALIA's identity is "every weight is ours,
+   the recipe is auditable." The capability ceiling this implies is accepted
+   knowingly. No KALIA-D will be built unless that decision is explicitly
+   revisited and labelled.
 
 6. **Quantization-aware training + deployment.** Gemma 3 270M ships QAT INT4
    checkpoints for laptop/phone inference. Applicable to KALIA's final stage
@@ -76,7 +75,7 @@ and per parameter, and be excellent inside our domain.
 | X3 | Block sharing: repeat each block twice | MobileLLM-LS +1.1% | 1.5h GPU | queued |
 | X4 | Code ratio 5% → 10% in the mixture | 2× effective tokens (Muennighoff) | 1h GPU | queued |
 | X5 | LR retune at WSD (post current sweep) | SmolLM2 small models lr 3e-3 | 1h GPU | queued |
-| X6 | Distillation probe: 58M student from SmolLM2-1.7B teacher | MiniLLM/OKD | 3–4h GPU | **needs decision** |
+| X6 | Distillation probe: 58M student from SmolLM2-1.7B teacher | MiniLLM/OKD | 3–4h GPU | **rejected (D21)** |
 
 ## Implications for v0.2.0
 
