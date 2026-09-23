@@ -36,3 +36,15 @@ def test_sources_registry():
         "cosmopedia",
         "stack_smol",
     }
+
+
+def test_is_permissive_license():
+    from prepare import is_permissive_license
+
+    assert is_permissive_license("MIT")
+    assert is_permissive_license(" apache-2.0 ")
+    assert is_permissive_license("BSD-3-Clause")
+    assert not is_permissive_license("GPL-3.0")
+    assert not is_permissive_license("AGPL-3.0")
+    assert not is_permissive_license(None)
+    assert not is_permissive_license("")

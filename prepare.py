@@ -47,12 +47,29 @@ def iter_cosmopedia() -> Iterator[dict]:
         yield {"text": row["text"]}
 
 
+PERMISSIVE_CODE_LICENSES = {
+    "mit",
+    "apache-2.0",
+    "bsd-3-clause",
+    "bsd-2-clause",
+    "isc",
+    "unlicense",
+    "cc0-1.0",
+}
+
+
+def is_permissive_license(license_id: str | None) -> bool:
+    """True when a code file's license allows redistribution without copyleft."""
+    return (license_id or "").strip().lower() in PERMISSIVE_CODE_LICENSES
+
+
 def iter_stack_smol() -> Iterator[dict]:
-    """Curated Python code (codeparrot-clean) for code exposure."""
+    """Python code filtered to permissive licenses (clean for public release)."""
     from datasets import load_dataset
 
     for row in load_dataset("codeparrot/codeparrot-clean", split="train", streaming=True):
-        yield {"text": row["content"]}
+        if is_permissive_license(row.get("license")):
+            yield {"text": row["content"]}
 
 
 SOURCES: dict[str, Callable[[], Iterable[dict]]] = {
