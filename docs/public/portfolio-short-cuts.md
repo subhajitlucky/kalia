@@ -1,7 +1,7 @@
 # KALIA — platform cuts (posting plan)
 
-Canonical piece: `portfolio-full-build-log.md` (publish on the portfolio first;
-everything else links back to it).
+Canonical piece: the dedicated paper page
+`https://subhajitpradhan.vercel.app/kalia` (everything else links back to it).
 
 ## 1. LinkedIn (short, hiring-visible)
 
@@ -9,22 +9,33 @@ everything else links back to it).
 > data pipeline, my own training code — in two days, on free Kaggle GPUs, for $0.
 >
 > It writes coherent stories, scores 61.4% on PIQA and 45.8% on ARC-Easy
-> (near 125M-class models trained on ~160× more tokens), and it beats the AdamW
-> baseline to its final loss with ~23% fewer tokens after switching to the Muon
-> optimizer with QK-Norm.
+> (competitive with 125M-class models trained on ~160× more tokens), and it beats
+> the AdamW baseline's final loss with ~23% fewer tokens after switching to the
+> Muon optimizer with QK-Norm.
 >
-> But the part I'm most proud of isn't the model. Every experiment was
-> pre-registered with a SHA-256 hash before it ran. A promising optimizer
-> variant lost 7 of 7 checkpoints to the baseline — and still didn't ship,
-> because it missed the promotion threshold we set in advance. Every mistake is
-> published: 12 incidents, including one where I misreported a 44-minute run as
-> five hours.
+> The part I'm most proud of isn't the model. Every experiment was pre-registered
+> with a SHA-256 hash before it ran. A promising optimizer variant won 7 of 7
+> checkpoints and still wasn't promoted, because it missed the threshold I set in
+> advance. Every mistake is published — 12 incidents, including one where I
+> misreported a 44-minute run as five hours.
 >
-> Full build log — every decision (41), every result, every incident:
-> https://subhajitpradhan.vercel.app/writing/kalia-build-log
+> Full record (model spec, evaluation, replayable training console, all 41
+> decisions, all 12 incidents):
+> https://subhajitpradhan.vercel.app/kalia
 >
 > Code: https://github.com/subhajitlucky/kalia
 > Weights: https://huggingface.co/kalia-lm/kalia-v012
+
+Posting notes:
+
+- Put the paper-page link in the body, not in a first comment: click-throughs
+  matter more than impressions here.
+- Attach the console screenshot (dark theme, from
+  `/tmp/opencode/kalia-console4.png`) — the replayable-log visual is the
+  scroll-stopper.
+- Keep the first three lines as the hook; LinkedIn truncates after that.
+- Hashtags, sparingly: `#MachineLearning #LLM #Python #FromScratch`.
+- Follow-up post when X16 and v0.2.0 land — that is real news, not a repost.
 
 ## 2. X / Twitter thread
 
