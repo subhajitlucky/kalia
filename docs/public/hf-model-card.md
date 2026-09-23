@@ -2,6 +2,7 @@
 license: apache-2.0
 language:
 - en
+library_name: pytorch
 tags:
 - text-generation
 - small-language-model
@@ -13,6 +14,54 @@ datasets:
 - roneneldan/TinyStories
 - HuggingFaceTB/smollm-corpus
 pipeline_tag: text-generation
+model-index:
+- name: KALIA v0.1.2
+  results:
+  - task:
+      type: text-generation
+    dataset:
+      name: PIQA
+      type: piqa
+    metrics:
+    - name: Accuracy
+      type: acc
+      value: 61.4
+  - task:
+      type: text-generation
+    dataset:
+      name: ARC Easy
+      type: arc_easy
+    metrics:
+    - name: Accuracy
+      type: acc
+      value: 45.8
+  - task:
+      type: text-generation
+    dataset:
+      name: HellaSwag
+      type: hellaswag
+    metrics:
+    - name: Accuracy (normalized)
+      type: acc_norm
+      value: 36.8
+  - task:
+      type: text-generation
+    dataset:
+      name: WinoGrande
+      type: winogrande
+    metrics:
+    - name: Accuracy
+      type: acc
+      value: 50.2
+  - task:
+      type: text-generation
+    dataset:
+      name: LAMBADA OpenAI
+      type: lambada_openai
+    metrics:
+    - name: Accuracy
+      type: acc
+      value: 23.0
 ---
 
 # KALIA v0.1.2
@@ -118,8 +167,25 @@ rather than resumed. The plateau is documented in the repository journal.
 
 Datasets are **not** redistributed. Code: MIT. Weights: Apache-2.0.
 
+## Citation
+
+```bibtex
+@misc{kalia2026,
+  title        = {KALIA: a 58M-parameter language model trained
+                  from scratch on free GPUs},
+  author       = {Pradhan, Subhajit},
+  year         = {2026},
+  howpublished = {\url{https://huggingface.co/kalia-lm/kalia-v012}},
+  note         = {v0.1.2; stopped at step 3,478 of 4,770 of the
+                  cosine schedule; all logs, decisions, and
+                  pre-registrations are public}
+}
+```
+
 ## Links
 
+- Paper page (full record, replayable training console):
+  [subhajitpradhan.vercel.app/kalia](https://subhajitpradhan.vercel.app/kalia)
 - Code, journal, decisions, and hash-anchored pre-registrations:
   [github.com/subhajitlucky/kalia](https://github.com/subhajitlucky/kalia)
 
