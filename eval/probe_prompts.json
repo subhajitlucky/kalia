@@ -1,0 +1,43 @@
+{
+  "categories": {
+    "story_openings": [
+      "Once upon a time",
+      "One sunny morning",
+      "Deep in the forest",
+      "Long ago in a small village",
+      "Under the old oak tree",
+      "Far away across the sea"
+    ],
+    "characters": [
+      "The little fox",
+      "The brave rabbit",
+      "A curious cat named",
+      "The friendly dragon",
+      "The wise old owl",
+      "A tiny mouse"
+    ],
+    "objects_and_events": [
+      "The magic key",
+      "When the rain stopped",
+      "The lost puppy",
+      "The red balloon",
+      "A box of crayons",
+      "The broken toy"
+    ],
+    "dialogue": [
+      "\"Hello,\" said the",
+      "She opened the door and saw",
+      "He whispered to his friend,"
+    ],
+    "simple_knowledge": [
+      "The sun rises in the",
+      "Water freezes when it is",
+      "A baby bird learns to"
+    ],
+    "emotions": [
+      "Everyone felt happy when",
+      "It was a very sad day because",
+      "The children laughed and"
+    ]
+  }
+}

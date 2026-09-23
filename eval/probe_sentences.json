@@ -1,0 +1,25 @@
+{
+  "description": "Small held-out set of simple English sentences authored for this project. Used only to compute a deterministic loss/bpB check; not training data.",
+  "sentences": [
+    "The little girl put on her red boots and went outside to play.",
+    "The fox ran quickly through the tall grass to find its family.",
+    "A bird sat on the fence and sang a song in the morning sun.",
+    "The boy shared his apple with the hungry puppy by the gate.",
+    "She found a smooth stone by the river and put it in her pocket.",
+    "The old cat slept on the warm chair beside the window.",
+    "They built a small boat out of paper and sailed it in the rain.",
+    "The rabbit hid behind a bush when it heard a loud noise.",
+    "He painted a picture of the sea and hung it on the wall.",
+    "The girl helped her mother carry the basket of fresh bread.",
+    "A friendly dog waited by the door for its owner to come home.",
+    "The moon was bright and the stars were quiet in the sky.",
+    "The children planted seeds in the garden and watered them daily.",
+    "The bear walked slowly through the forest looking for honey.",
+    "She read a story about a brave mouse and a kind giant.",
+    "The wind blew the leaves across the empty school yard.",
+    "He counted the apples in the basket and shared them with friends.",
+    "The little duck followed its mother across the quiet pond.",
+    "They sang songs around the fire while the night grew cold.",
+    "The teacher smiled and told the class a funny story about a frog."
+  ]
+}
