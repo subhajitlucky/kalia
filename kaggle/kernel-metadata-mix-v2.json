@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-mix-v2",
+  "title": "KALIA mix v2",
+  "code_file": "kalia-mix-v2.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-prep-v2"],
+  "model_sources": []
+}
