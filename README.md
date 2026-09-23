@@ -139,6 +139,8 @@ guessing) and should fall toward ~3.2–3.6. Sample generations print every 500 
   tokens): **3.5937 vs 3.8041** val loss, a **−0.21** win.
 - **v0.1.2** — QK-Norm + logit soft-capping (τ = 30) on top of Muon.
   Same ablation: **3.5103** val loss, **−0.29** vs baseline. Current best recipe.
+  First coherent generations at step 1738 (loss 3.22): see
+  `docs/samples/2026-09-23-first-words.md`.
 
 ## Roadmap
 
