@@ -26,8 +26,9 @@ a 58M model, not an assistant — and buys an auditable artifact.
   sharing for extra effective depth) and GQA are under ablation.
 - **Training loop**: fp16 + DDP across two T4s, resumable sessions with
   checkpoints on the HuggingFace Hub, validation loss and bits-per-byte logged.
-- **Optimizer**: Muon with post-polar col-row normalization (Muon+) on hidden
-  matrices, AdamW for embeddings/head/norms.
+- **Optimizer**: Muon (Newton–Schulz orthogonalization) on hidden matrices,
+  AdamW for embeddings/head/norms. Muon+ (col-row normalization) won the
+  micro-ablation but below the promotion threshold, so it stays an option.
 
 ## Evidence (numbers, not vibes)
 
@@ -40,8 +41,10 @@ Micro-ablations first (30M params, identical tokens, identical seed):
 | Muon + QK-Norm + soft-cap | **3.5103** |
 
 Muon+ vs plain Muon at matched tokens: 3.4941 vs 3.5091 (better on 7 of 7
-checkpoints). A learning-rate sweep (0.015/0.02/0.03/0.06) picked 0.02 as
-optimal; no further tuning has headroom.
+checkpoints) — below the pre-set 0.02-nat promotion threshold, so the shipped
+model uses plain Muon; the threshold exists to stop wishful promotions, and it
+was enforced even against a promising result. A learning-rate sweep
+(0.015/0.02/0.03/0.06) picked 0.02 as optimal; no further tuning has headroom.
 
 Full-scale, equal-token comparison: the Muon-based model overtook the AdamW
 baseline's *final* loss with ~23% fewer tokens, and at equal steps kept a

@@ -27,7 +27,7 @@ incidents, pre-registered experiments — ships with the code.
 | Training data | v0.1.x: TinyStories (~500M tokens) + FineWeb-Edu (~2B tokens) |
 | Training hardware | Kaggle free tier: 2× NVIDIA T4, ~30 GPU-hours/week |
 | Precision | fp16 with gradient scaling, DDP across 2×T4 |
-| Optimizer | Muon+ (col-row normalized) on hidden matrices, AdamW for embeddings/head/norms |
+| Optimizer | Muon (Newton–Schulz) on hidden matrices, AdamW for embeddings/head/norms (Muon+ validated at micro scale, below promotion threshold) |
 | Schedule | Cosine with warmup; 4,770 steps (~0.5M tokens per step) |
 
 ## Measured results
@@ -40,9 +40,9 @@ Micro-ablations (30M params, equal tokens, equal seed, step-700 validation loss)
 | Muon | 3.5937 |
 | Muon + QK-Norm + soft-cap | **3.5103** |
 
-- Muon+ vs plain Muon at matched tokens: **3.4941 vs 3.5091** (better on 7/7 checkpoints).
+- Muon+ vs plain Muon at matched tokens: **3.4941 vs 3.5091** (better on 7/7 checkpoints) — below the pre-set 0.02-nat promotion threshold, so v0.1.2 ships **plain Muon**.
 - LR sweep picked 0.02 as optimal (0.015: 3.4943 · 0.02: 3.4941 · 0.03: 3.5027 · 0.06: 3.5380).
-- Full-scale: the Muon+ model overtook the AdamW baseline's *final* loss with **~23%
+- Full-scale: the Muon model overtook the AdamW baseline's *final* loss with **~23%
   fewer tokens** (3.2214 @ step 1730 vs 3.2702 @ step 2250).
 - At step 2769: held-out loss 3.1754, **0.9255 bits-per-byte**.
 - Entry–exit asymmetry ("Abhimanyu gap"): **6.28 nats** (forward 3.18 vs reversed-text
@@ -188,9 +188,10 @@ guessing) and should fall toward ~3.1. Sample generations print every 500 steps.
 - **v0.1.1** — Muon optimizer for hidden weight matrices (AdamW keeps
   embeddings/head/norms). Micro-ablation at equal tokens (30M params, 50M
   tokens): **3.5937 vs 3.8041** val loss, a **−0.21** win.
-- **v0.1.2** — QK-Norm + logit soft-capping (τ = 30) + Muon+ col-row normalization.
+- **v0.1.2** — QK-Norm + logit soft-capping (τ = 30) on top of plain Muon at LR 0.02.
   Same ablation: **3.5103** val loss, **−0.29** vs baseline; LR 0.02 frozen.
-  In full-scale training: 0.9255 bpB at step 2769, Abhimanyu gap 6.28 nats.
+  In full-scale training: 0.9415 bpB at step 3,478, Abhimanyu gap 6.06 nats.
+  Stopped at 73% of the cosine schedule (quota) with the plateau documented.
   First coherent generations at step 1738: see `docs/samples/`.
 - **v0.1.3+** — nothing: patch numbers stay inside a recipe family. The next
   release is **v0.2.0** (see roadmap).
