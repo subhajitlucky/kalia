@@ -124,7 +124,11 @@ def pull_from_hub(repo_id: str, path_in_repo: str, local_path: Path) -> bool:
         print(f"resume: no checkpoint pulled ({exc})")
         return False
     local_path.parent.mkdir(parents=True, exist_ok=True)
-    local_path.write_bytes(Path(downloaded).read_bytes())
+    # Write to a temp file and atomically swap it in, so concurrent readers
+    # can never observe a partially written checkpoint.
+    tmp_path = local_path.with_suffix(local_path.suffix + ".tmp")
+    tmp_path.write_bytes(Path(downloaded).read_bytes())
+    os.replace(tmp_path, local_path)
     return True
 
 
@@ -184,7 +188,14 @@ def main(argv=None) -> None:
     ckpt_path = args.out_dir / "ckpt.pt"
     if args.resume:
         if args.hub_repo:
-            pull_from_hub(args.hub_repo, "checkpoints/ckpt.pt", ckpt_path)
+            if is_master:
+                pull_from_hub(args.hub_repo, "checkpoints/ckpt.pt", ckpt_path)
+            if world > 1:
+                # Wait for rank0 to finish writing before any rank reads.
+                if torch.cuda.is_available():
+                    torch.distributed.barrier(device_ids=[torch.cuda.current_device()])
+                else:
+                    torch.distributed.barrier()
         if ckpt_path.exists():
             ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
             model.load_state_dict(ckpt["model"])

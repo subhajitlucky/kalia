@@ -92,7 +92,7 @@ class Muon(Optimizer):
                 else:
                     update = buf
                 update = zeroth_power_via_newtonschulz5(update, steps=group["ns_steps"])
-                update = normalize_update(update, group["muon_plus"])
+                update = normalize_update(update, group.get("muon_plus", "none"))
                 update = update * (max(1.0, p.size(0) / p.size(1)) ** 0.5)
                 if group["weight_decay"] > 0:
                     p.mul_(1 - group["lr"] * group["weight_decay"])
@@ -172,3 +172,10 @@ class MuonWithAuxAdam:
     def load_state_dict(self, state_dict: dict) -> None:
         self.muon.load_state_dict(state_dict["muon"])
         self.adam.load_state_dict(state_dict["adam"])
+        # Checkpoints saved by older versions may lack keys added later.
+        # Torch's load replaces group dicts, so restore safe defaults here.
+        for group in self.muon.param_groups:
+            group.setdefault("muon_plus", "none")
+            group.setdefault("base_lr", group["lr"])
+        for group in self.adam.param_groups:
+            group.setdefault("base_lr", group["lr"])

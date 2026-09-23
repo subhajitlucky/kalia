@@ -133,3 +133,29 @@ def test_muon_plus_steps_end_to_end():
     optimizer.step()
     assert torch.isfinite(loss)
     optimizer.load_state_dict(optimizer.state_dict())
+
+
+def test_load_state_from_older_checkpoint_format():
+    """Checkpoints saved before muon_plus / base_lr existed must still resume."""
+    torch.manual_seed(0)
+    model = _tiny_model()
+    hidden, other = split_muon_params(model)
+    optimizer = MuonWithAuxAdam(hidden, other, muon_lr=0.02, adam_lr=6e-4, muon_plus="col_row")
+    state = optimizer.state_dict()
+    for group in state["muon"]["param_groups"]:
+        group.pop("muon_plus", None)
+        group.pop("base_lr", None)
+    for group in state["adam"]["param_groups"]:
+        group.pop("base_lr", None)
+
+    optimizer.load_state_dict(state)
+    assert all("muon_plus" in g for g in optimizer.muon.param_groups)
+    assert all("base_lr" in g for g in optimizer.param_groups)
+
+    x = torch.randint(0, 256, (2, 8))
+    y = torch.randint(0, 256, (2, 8))
+    _, loss = model(x, y)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    assert torch.isfinite(loss)
