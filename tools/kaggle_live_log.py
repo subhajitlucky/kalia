@@ -30,6 +30,10 @@ NOISE = (
     "it/s]",
 )
 
+# Progress bars arrive wrapped in ANSI escapes; the escapes also defeat --dedup
+# because they land between a line and its duplicate.
+ANSI = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -48,10 +52,17 @@ def main() -> int:
     started = time.time()
     printed = 0
     last = None
+    timed_out = False
     try:
         for event in api.kernels_logs_stream(f"{args.owner}/{args.kernel}"):
             for raw in event.get("data", "").splitlines():
-                line = raw.replace("\r", " ").strip()
+                # Checked per line, not per event: the feed can stall for minutes
+                # inside a single event, and a deadline only tested between events
+                # would never fire.
+                if time.time() - started > args.seconds:
+                    timed_out = True
+                    break
+                line = ANSI.sub("", raw.replace("\r", " ")).strip()
                 if not line or any(token in line for token in NOISE):
                     continue
                 if re.fullmatch(r"[=\-|\s]*", line):
@@ -64,14 +75,15 @@ def main() -> int:
                 print(line, flush=True)
                 printed += 1
                 last = line
-            if time.time() - started > args.seconds:
+            if timed_out:
                 break
     except KeyboardInterrupt:
         pass
     except Exception as exc:  # noqa: BLE001 - the SSE feed drops mid-run; report, don't crash
         print(f"[stream ended: {type(exc).__name__}: {exc}]", file=sys.stderr)
-
-    print(f"[{printed} lines in {time.time() - started:.0f}s]", file=sys.stderr)
+    finally:
+        state = "deadline" if timed_out else "feed closed"
+        print(f"[{printed} lines in {time.time() - started:.0f}s ({state})]", file=sys.stderr)
     return 0
 
 
