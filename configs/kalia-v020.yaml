@@ -1,0 +1,32 @@
+model:
+  vocab_size: 50257
+  n_layer: 10
+  n_head: 8
+  n_embd: 512
+  context_len: 1024
+  dropout: 0.0
+  qk_norm: true
+  logit_softcap: 30.0
+train:
+  optimizer: muon          # adamw | muon
+  muon_learning_rate: 0.02
+  muon_momentum: 0.95
+  muon_weight_decay: 0.0
+  ns_steps: 5
+  micro_batch_size: 8
+  grad_accum_steps: 32
+  max_steps: 4770
+  learning_rate: 6.0e-4
+  min_lr_ratio: 0.1
+  warmup_steps: 500
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  eval_interval: 250
+  eval_steps: 50
+  sample_interval: 500
+  sample_tokens: 80
+  checkpoint_interval_minutes: 30
+  log_interval: 10
+  seed: 1337

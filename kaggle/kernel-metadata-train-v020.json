@@ -1,0 +1,18 @@
+{
+  "id": "subhajitlucky/kalia-train-v020",
+  "title": "KALIA train v020",
+  "code_file": "kalia-train-v020.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-prep-v2b"
+  ],
+  "model_sources": []
+}
