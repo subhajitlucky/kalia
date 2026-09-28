@@ -57,8 +57,14 @@ def val_loss_chart(points, deterministic, out: Path):
     left, right, top, bottom = 64, 28, 56, 56
     plot_w = width - left - right
     plot_h = height - top - bottom
-    x_min, x_max = 1600, 3600
-    y_min, y_max = 2.35, 2.70
+
+    # Axis bounds are derived from the data. They used to be hardcoded to
+    # 1600-3600, which silently cropped everything before step 1750 -- and
+    # meant the chart quietly omitted the descent once the log was recovered.
+    xs = [step for step, _ in points] + [deterministic[0]]
+    ys = [loss for _, loss in points] + [deterministic[1]]
+    x_min, x_max = min(xs) - 100, max(xs) + 100
+    y_min, y_max = min(ys) - 0.10, max(ys) + 0.15
 
     def sx(step):
         return left + (step - x_min) / (x_max - x_min) * plot_w
@@ -68,15 +74,42 @@ def val_loss_chart(points, deterministic, out: Path):
 
     parts = [svg_open(width, height)]
     parts.append(text(left, 24, "Validation loss by step", 15, TEXT, weight="600"))
-    parts.append(text(left, 42, "training evals, 50 batches each", 12, MUTED))
+    parts.append(text(left, 42, "training evals, 50 batches each, v0.1.2", 12, MUTED))
 
-    parts.append(rect(sx(1750), sy(2.6334), sx(2500) - sx(1750), sy(2.5270) - sy(2.6334), MUTED, 0.10))
-    parts.append(text(sx(2125), sy(2.645) + 14, "plateau band 2.53 - 2.63", 11, MUTED, "middle"))
+    # The plateau is the tail of the run: everything from the first eval that
+    # lands inside the final band to the last one.
+    tail = [(s, v) for s, v in points if v <= 2.7]
+    if tail:
+        tail_lo = min(v for _, v in tail)
+        tail_hi = max(v for _, v in tail)
+        parts.append(
+            rect(
+                sx(tail[0][0]),
+                sy(tail_hi),
+                sx(tail[-1][0]) - sx(tail[0][0]),
+                sy(tail_lo) - sy(tail_hi),
+                MUTED,
+                0.10,
+            )
+        )
+        parts.append(
+            text(
+                sx((tail[0][0] + tail[-1][0]) / 2),
+                sy(tail_hi) - 8,
+                f"plateau band {tail_lo:.2f} - {tail_hi:.2f}",
+                11,
+                MUTED,
+                "middle",
+            )
+        )
 
-    for value in (2.4, 2.5, 2.6, 2.7):
+    tick = 0.5
+    value = y_min + (tick - y_min % tick) % tick
+    while value <= y_max:
         parts.append(line(left, sy(value), width - right, sy(value)))
         parts.append(text(left - 8, sy(value) + 4, f"{value:.1f}", 11, MUTED, "end"))
-    for step in (2000, 2500, 3000, 3500):
+        value += tick
+    for step in range(500, int(x_max), 1000):
         parts.append(line(sx(step), top, sx(step), height - bottom))
         parts.append(text(sx(step), height - bottom + 18, str(step), 11, MUTED, "middle"))
     parts.append(text(left + plot_w / 2, height - 16, "step", 12, MUTED, "middle"))

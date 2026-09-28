@@ -111,11 +111,19 @@ Runs on CPU (~230MB in fp16 weights).
 
 | Metric | Value |
 |---|---|
-| Validation loss — deterministic 100-batch eval (819,200 tokens, seed 1234) | **2.4366** |
-| bits-per-byte (validation) | **0.8184** |
+| Validation loss — deterministic 100-batch eval (819,200 tokens, seed 1234), measured on the **original** `kalia-prep` val set | **2.4366** |
+| bits-per-byte (validation, original val set) | **0.8184** |
+| Validation loss — same weights, same protocol, on the compliance-rebuilt `kalia-prep-v2b` val set (canonical from v0.2.0 onward) | **3.0533** |
+| bits-per-byte (v2b val set) | **0.9992** |
 | Probe held-out loss (20 fixed sentences) | 3.2303 |
 | bits-per-byte (probe) | 0.9415 |
 | Abhimanyu gap (reversed-text NLL − forward NLL) | 6.06 nats (forward 3.23 vs reverse 9.29; random ≈ 10.8) |
+
+> The two validation rows use the same weights and the same 819,200-token protocol on two
+> different held-out sets. The corpus was rebuilt for licence compliance, which replaced a
+> source slice and made the held-out set measurably harder (+0.62 nats for identical
+> weights). Numbers from the two sets are not comparable; the v2b row is the reference for
+> every later version. See decision D43.
 
 ### Zero-shot benchmarks (lm-evaluation-harness, 0-shot, 500 samples)
 
