@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-replay",
+  "title": "KALIA replay shard",
+  "code_file": "kalia-replay.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-prep-v2b"],
+  "model_sources": []
+}
