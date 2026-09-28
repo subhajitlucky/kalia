@@ -82,3 +82,97 @@ rather than delaying the main run. Total remaining quota after both: ~2.3h spare
 
 Any change to arms, steps, seed, thresholds, or metrics after this commit
 requires a hash-registered amendment. Results are reported regardless of outcome.
+
+## Results — read on 2026-09-28 after the run completed
+
+`kalia-x18-ablate`, 3 arms, 500 steps, seed 1337, all from the same run.
+
+| Arm | 100 | 200 | 300 | 400 | **500 (final)** | Δ vs control |
+|---|---|---|---|---|---|---|
+| `micro-base` (control) | 6.1428 | 5.2673 | 5.0237 | 4.8660 | **4.7662** | — |
+| `micro-nope` | 6.1664 | 5.2825 | 5.0384 | 4.8797 | **4.7772** | **+0.0110** |
+| `micro-gated` | 5.8664 | 5.2978 | 5.0448 | 4.7805 | **4.7226** | **−0.0436** |
+
+### Against the registered predictions
+
+| ID | Threshold | Measured | Verdict |
+|---|---|---|---|
+| **F-1** | NoPE val loss ≤ control | 4.7772 vs 4.7662 | **FAIL** — worse than control |
+| **F-2** | forward val within +0.01, LAMBADA ≥ control | +0.0110; LAMBADA not measured | **FAIL** on the forward half (+0.0010 outside tolerance), LAMBADA half unmeasured |
+| **F-3** | val loss ≤ control **and** ≥0.5 pp on a downstream task | 4.7226 ≤ 4.7662 ✓; accuracy not measured | **INCONCLUSIVE** — the accuracy half was never run |
+| **F-4** | mean gate value > 0.05 | **0.0192** | **FAIL** — the gate never opened |
+
+**F-4 is the finding that matters, and it invalidates the arm's own premise.**
+Measured with `gate_probe.py` on real text: every one of the six gated blocks
+sits at mean gate **0.0192**, against a designed start of 0.0180 and a
+threshold of 0.05. The gate is inert. The checkpoint weights show why — `w2.bias`
+moved from −4.0000 to −3.9342 in 500 steps, a change of 0.066 on a scale where
+opening the gate usefully would require moving it by ~1 nat or more.
+
+So **the −0.0436 nats is not attributable to the mechanism this arm was
+registered to test.** Gated Residual's claim is that a *data-dependent* read is
+where the gain comes from (Qwen: +1.98 accuracy on top of widening). Here the
+gate is a near-constant 0.019 and carries almost no information. What the arm
+actually varies is the **branch structure**: four slices of the stream, each
+RMSNorm'd independently, concatenated back to full width before the sublayers.
+That normalisation change is plausibly worth the loss improvement on its own,
+and the +0.5% of parameters from the gate may be buying nothing at all.
+
+**A design note in the code is wrong, and it is why.** Two separate problems,
+both confirmed by reading the code and the trained weights:
+
+1. *Near-closed is not the identity.* `GatedResidual.__init__` says the module
+   starts "almost closed so the block begins as a faithful copy of the pre-norm
+   residual path." A near-closed gate does **not** approximate the identity:
+   `pre = b * g` with `g ≈ 0.019` is a near-zero tensor, not a copy of `x`. What
+   rescues it is that `norm1` (RMSNorm) is scale-invariant and renormalises the
+   stream back to unit scale — so the block runs on a branch-normalised
+   re-expression of `x` whose direction the gate barely modulates. The near-closed
+   init is not a safe no-op; it is a constant.
+2. *The deliberate init never survived anyway.* `GatedResidual.__init__` sets
+   `nn.init.zeros_(self.w2.weight)`, but `GPT.__init__` then calls
+   `self.apply(self._init_weights)`, which re-runs `nn.init.normal_` over every
+   `nn.Linear` and overwrites it — the trained `w2.weight` has mean magnitude
+   0.0167, not 0. The mechanism's documented starting point is dead code.
+   `test_gate_weight_init_is_overwritten_by_global_reinit` pins this down so it
+   cannot be quietly repaired later without someone noticing that X18's
+   measurement basis changed.
+
+The near-closed behaviour survives only by accident: because `sigmoid` is
+flattening near its floor, the random `w2` barely moves the mean (0.01798
+measured at init against a 0.01799 design intent). The mechanism happens to start
+closed. It was never actually designed to.
+
+### Consequences
+
+- **NoPE is rejected** (F-1). Its one favourable property survives — it is
+  parameter-neutral and free — but at 30M / 500 steps it costs 0.011 nats. Note
+  the honest prior recorded above: SmolLM3 validated NoPE at 3B, and 3B → 30M
+  is a 100× scale drop, so this null says little about 3B.
+- **Nothing is promoted to v0.3.0.** The decision rule promotes on F-1 or F-3;
+  F-1 failed, and F-3 cannot be adjudicated without the accuracy half.
+- **F-3 is completed by measurement, not by argument.** A CPU benchmark on the
+  `micro-base` and `micro-gated` checkpoints is required to close the
+  pre-registration properly. That is completing a registered criterion, not
+  amending it, so no amendment is needed.
+- **A better next experiment is now obvious and is not X18's question.** Isolate
+  the two halves: an arm with the branch normalisation and the gate pinned to 1
+  (no gate at all, no extra parameters). If that arm reproduces −0.0436, the
+  gate is dead weight and the finding is a cheap normalisation win worth keeping
+  in the residual path; if it does not, the gate is doing something the F-4
+  measurement did not detect. Registered separately as X19.
+
+### Caveats recorded against the result
+
+- **Single seed.** X16 used two seeds and the preregistration ledger treats
+  seed-paired results as the standard. 0.0436 is 4.4× the 0.010 bar, so a
+  single-seed result at that margin is probably real, but it is not the
+  two-seed evidence X16 was held to.
+- **500 steps on 30M parameters** is a screening window, not a training run.
+  Every conclusion here is "at 30M over 500 steps", which is what was
+  registered.
+- The `--reversibility` flag was not passed to `ablate.py`, so the Abhimanyu
+  gap was not measured. It was not a registered criterion for F-1..F-4 and no
+  conclusion here depends on it, but the notebook's own summary header
+  advertised it, so the header overpromised.
+

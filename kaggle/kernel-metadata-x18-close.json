@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x18-close",
+  "title": "KALIA X18 close",
+  "code_file": "kalia-x18-close.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-x18-ablate", "subhajitlucky/kalia-prep-v2b"],
+  "model_sources": []
+}
