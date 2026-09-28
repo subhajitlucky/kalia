@@ -67,9 +67,34 @@ then a full run only for winners.
 
 ## Negative results so far (kept for the record)
 
-- None yet from our own runs. Literature: RLVR at 135M (L20-Edu) degraded
-  GSM8K accuracy; logit soft-cap alone was insufficient for Muon instability at
-  53B (Kimi needed QK-Clip; we use QK-Norm + soft-cap at 58M).
+- **X16 (ours).** Chunk-preserving reversal training at 30M did not close the
+  Abhimanyu gap: 5.2465 vs 5.1107 control, forward val +0.083. Both
+  pre-registered bars missed on both seeds. See D42. The gap is architectural
+  (5.1 nats at 30M, 6.06 at 58M), so the next attempt must target attention, not
+  data — see `2026-09-28-why-27b-beats-397b.md`.
+- **I14 (ours, process).** The published v0.1.2 training log silently began at
+  step 1740 for two days: log-restore-on-resume landed one session after the
+  lossy session had already started. Recovered from hub commit history.
+- Literature: RLVR at 135M (L20-Edu) degraded GSM8K accuracy; logit soft-cap
+  alone was insufficient for Muon instability at 53B (Kimi needed QK-Clip; we
+  use QK-Norm + soft-cap at 58M); MoE upcycling loses to its own dense base at
+  small scale (`moe-upcycle`: 13.46 vs 9.27 ppl), and the upcycling scaling law
+  says from-scratch wins when no pretrained model exists.
+
+## Added 2026-09-28 (from the 27B-vs-397B study)
+
+| ID | Technique | Source | Evidence | Expected at 58M | Status |
+|---|---|---|---|---|---|
+| D1 | **Three-stage corpus** (general → reasoning-dense → long-form fiction) | Qwen3 tech report | S1 30T general, S2 5T STEM/code/reasoning with accelerated LR decay, S3 32K long-context | High | **v0.2.1 candidate** |
+| D2 | **Instance-level data mixture** via small-proxy ablations | Qwen3 tech report | Replaces domain-level mixing; annotated 30T+ tokens on educational value / field / safety | High | adopt as screening method |
+| D3 | **Best-of-N with self-consistency** (own log-prob as verifier) | Snell et al. 2024; Hassid et al. 2024 | 1B + inference scaling beats 405B without it; 13B×5 samples beats one 70B by up to 15% | High (inference-time) | **v0.3.0 candidate** |
+| D4 | **Complete the LR schedule** (`min_lr_ratio` 0.1 → ~0.01) | Qwen "accelerated LR decay"; our own D41 | Our plateau was measured inside an unfinished cosine — weak evidence of convergence | Medium | **v0.2.2 candidate** |
+| D5 | **Benchmark alongside loss in every screen** | Qwen3.8 tech report | "Loss and downstream accuracy do not always move together"; +1.58 accuracy at 0.002 loss gap; loss optimum ≠ accuracy optimum | Medium (method) | **adopt now** |
+| D6 | **Gated Residual / 4-branch residual stream** | Qwen3.8; IMU-1 | +1.58 avg accuracy over pre-norm; data-dependent read/write adds +1.98 more | Low–Medium | 45-min micro-ablation |
+| D7 | **Reverse-pass-aware attention** (bidirectionally-gated or reverse-bias) | our own gap analysis | Gap is architectural; X16 ruled out the data route | Unknown — honest bet | 45-min micro-ablation, pre-registered |
+| D8 | **n-gram embedding tables** | Qwen3.8; DeepMind | Scales params at near-zero per-token FLOPs | Low | **parked** — changes output distribution, breaks the canonical val set |
+| — | MoE upcycling | Komatsuzaki 2023; Liew et al. | Loses to dense base at small scale; from-scratch preferred when no base exists | Negative | **rejected, evidence recorded** |
+| — | Long CoT + GRPO | Qwen3 | Needs ≥1.5B; 0.5B students show catastrophic forgetting | Negative at 58M | **rejected — scale floor, and no teacher** |
 
 ## Harness improvements needed
 
