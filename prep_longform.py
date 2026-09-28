@@ -37,12 +37,14 @@ import json
 from collections.abc import Iterable, Iterator
 
 DOC_SEPARATOR = 50256
-SOURCES = {
-    "smollm/cosmopedia-v2": {"config": "cosmopedia-v2", "field": "text"},
-    "smollm/fineweb-edu-dedup": {"config": "fineweb-edu-dedup", "field": "text"},
-    "roneneldan/TinyStories": {"config": None, "field": "text"},
-    "deepmind/pg19": {"config": None, "field": "text"},
-}
+# (label, repo_id, config, field). Repo ids and configs are distinct: the two
+# smollm-corpus sources share one repo and differ only by config name.
+SOURCES = [
+    ("cosmopedia-v2", "HuggingFaceTB/smollm-corpus", "cosmopedia-v2", "text"),
+    ("fineweb-edu-dedup", "HuggingFaceTB/smollm-corpus", "fineweb-edu-dedup", "text"),
+    ("TinyStories", "roneneldan/TinyStories", None, "text"),
+    ("pg19 (long-form)", "deepmind/pg19", None, "text"),
+]
 
 
 def iter_texts(repo: str, config: str | None, field: str, limit: int | None = None) -> Iterator[str]:
@@ -51,7 +53,13 @@ def iter_texts(repo: str, config: str | None, field: str, limit: int | None = No
     if config:
         ds = load_dataset(repo, name=config, split="train", streaming=True)
     else:
-        ds = load_dataset(repo, split="train", streaming=True)
+        # pg19 is one row per book and huge; a non-streaming read with a bounded
+        # split is far cheaper than streaming it. The streaming path was what
+        # killed the first run with SIGABRT.
+        try:
+            ds = load_dataset(repo, split="train")
+        except Exception:
+            ds = load_dataset(repo, split="train", streaming=True)
     for i, row in enumerate(ds):
         if limit is not None and i >= limit:
             break
@@ -94,17 +102,14 @@ def main() -> None:
     args = parser.parse_args()
 
     report: dict[str, dict] = {}
-    for name, spec in SOURCES.items():
-        repo = name if "/" in name else name
-        print(f"\n=== {name} ===", flush=True)
+    for label, repo, config, field in SOURCES:
+        print(f"\n=== {label}  ({repo}) ===", flush=True)
         try:
-            stats = length_stats(
-                iter_texts(repo, spec["config"], spec["field"], limit=args.limit), limit=args.limit
-            )
-            report[name] = stats
+            stats = length_stats(iter_texts(repo, config, field, limit=args.limit), limit=args.limit)
+            report[label] = stats
             print(json.dumps(stats, indent=2), flush=True)
         except Exception as exc:  # noqa: BLE001 - a source may be unavailable
-            report[name] = {"error": f"{type(exc).__name__}: {str(exc)[:160]}"}
+            report[label] = {"error": f"{type(exc).__name__}: {str(exc)[:160]}"}
             print(f"  unavailable: {type(exc).__name__}: {str(exc)[:160]}", flush=True)
 
     with open(args.out, "w") as fh:
