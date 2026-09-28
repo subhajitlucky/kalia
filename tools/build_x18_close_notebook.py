@@ -61,6 +61,7 @@ CELLS = [
     (
         "code",
         "root = sorted(glob.glob(\"/kaggle/input/datasets/subhajitlucky/kalia-code-dev\"))[0]\n"
+        "import os\n"
         "for f in [\"eval_bench.py\", \"kalia_lm.py\", \"model.py\", \"data.py\",\n"
         "          \"eval_reversibility.py\", \"gate_probe.py\"]:\n"
         '    shutil.copy(f"{root}/{f}", "/kaggle/working/")\n'
@@ -75,7 +76,6 @@ CELLS = [
         "    print(\"copied eval/\" + os.path.basename(f))\n"
         "assert os.path.exists(\"/kaggle/working/eval/probe_sentences.json\"), (\n"
         '    "probe_sentences.json missing -- is the kalia-code-dev dataset current?")\n'
-        "import os\n"
         'os.chdir("/kaggle/working")\n'
         "ckpts = sorted(glob.glob(\n"
         '    "/kaggle/input/notebooks/subhajitlucky/kalia-x18-ablate/out/*/ckpt.pt"))\n'
