@@ -11,7 +11,7 @@ import torch
 import yaml
 from torch.optim import AdamW
 
-from data import TokenDataset
+from data import MixtureDataset, TokenDataset
 from model import GPT, GPTConfig
 from optim import MuonWithAuxAdam, split_muon_params
 
@@ -32,6 +32,12 @@ def parse_args(argv=None):
         "--doc-mask",
         action="store_true",
         help="block attention and loss across document boundaries (EOS-delimited)",
+    )
+    p.add_argument(
+        "--replay-bin",
+        type=Path,
+        default=None,
+        help="frozen replay shard for continual learning (CL-1); requires replay_prob > 0",
     )
     return p.parse_args(argv)
 
@@ -258,15 +264,29 @@ def main(argv=None) -> None:
             model, device_ids=[torch.cuda.current_device()]
         )
 
+    # CL-1: replay keeps a fraction of each batch on the *original* corpus, which is
+    # what prevents a continual run from eroding what it learned before. The shard
+    # must be frozen data, not a slice of whatever is new today.
+    replay_prob = float(train_cfg.get("replay_prob", 0.0))
+    if replay_prob > 0 and args.replay_bin is None:
+        raise SystemExit("replay_prob > 0 requires --replay-bin pointing at a frozen shard")
+
     rev_cfg = config.get("reversal") or {}
-    train_ds = TokenDataset(
+    base_train_ds = TokenDataset(
         args.data_dir / "train.bin",
         model_cfg.context_len,
         reversal_prob=float(rev_cfg.get("prob", 0.0)),
         reversal_min_chunk=int(rev_cfg.get("min_chunk", 4)),
         reversal_max_chunk=int(rev_cfg.get("max_chunk", 16)),
     )
-    if is_master and train_ds.reversal_prob > 0:
+    if replay_prob > 0:
+        replay_ds = TokenDataset(args.replay_bin, model_cfg.context_len)
+        train_ds = MixtureDataset(base_train_ds, replay_ds, replay_prob=replay_prob)
+        if is_master:
+            print(f"replay: {replay_prob:.0%} of each batch from {args.replay_bin}")
+    else:
+        train_ds = base_train_ds
+    if is_master and base_train_ds.reversal_prob > 0:
         print(
             f"reversal: prob {train_ds.reversal_prob} | chunks "
             f"{train_ds.reversal_min_chunk}-{train_ds.reversal_max_chunk}"

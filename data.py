@@ -135,3 +135,67 @@ class TokenDataset:
             attn_mask.to(device, non_blocking=True),
             loss_mask.to(device, non_blocking=True),
         )
+
+
+class MixtureDataset:
+    """Draws a fraction of each batch from a frozen replay shard (CL-1).
+
+    Continual learning's cheapest defence against catastrophic forgetting is to
+    keep showing the model a little of what it learned before. Bethune et al.
+    (ICML 2025) measured that injecting **as little as 1%** of the pretraining
+    data into the finetuning mixture is enough to prevent forgetting of the
+    pretraining set; we default to 10% because our daily runs are short and the
+    measured effect was at a larger scale.
+
+    The replay shard must be a frozen slice of the *original* corpus, not of the
+    new data -- replaying the current distribution protects nothing.
+
+    Delegates document masking to the same `document_mask` used by `TokenDataset`,
+    so a mixture batch is masked exactly like a pure one.
+    """
+
+    def __init__(
+        self,
+        new_data: TokenDataset,
+        replay_data: TokenDataset,
+        replay_prob: float = 0.10,
+    ):
+        if not 0.0 <= replay_prob < 1.0:
+            raise ValueError(f"replay_prob must be in [0, 1), got {replay_prob}")
+        self.new_data = new_data
+        self.replay_data = replay_data
+        self.replay_prob = float(replay_prob)
+
+    def __len__(self) -> int:
+        return len(self.new_data)
+
+    @property
+    def context_len(self) -> int:
+        return self.new_data.context_len
+
+    def get_batch(
+        self,
+        batch_size: int,
+        device: torch.device,
+        generator: torch.Generator | None = None,
+        return_masks: bool = False,
+    ) -> tuple[torch.Tensor, ...]:
+        # Draw how many rows come from replay; the remainder from the new data.
+        n_replay = int(
+            torch.binomial(
+                torch.tensor([float(batch_size)]),
+                torch.tensor([self.replay_prob]),
+                generator=generator,
+            ).item()
+        )
+        parts = []
+        if n_replay > 0:
+            parts.append(self.replay_data.get_batch(n_replay, device, generator))
+        if batch_size - n_replay > 0:
+            parts.append(self.new_data.get_batch(batch_size - n_replay, device, generator))
+        x = torch.cat([p[0] for p in parts], dim=0)
+        y = torch.cat([p[1] for p in parts], dim=0)
+        if not return_masks:
+            return x, y
+        attn_mask, loss_mask = document_mask(x)
+        return x, y, attn_mask, loss_mask
