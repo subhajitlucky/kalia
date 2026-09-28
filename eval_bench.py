@@ -17,9 +17,16 @@ from kalia_lm import KaliaLM
 
 def find_ckpt() -> str:
     hits = sorted(glob.glob("/kaggle/input/**/ckpt.pt", recursive=True))
-    preferred = [h for h in hits if "kalia-train-v012" in h]
-    assert preferred or hits, "no ckpt.pt found - attach the training kernel output"
-    return (preferred or hits)[0]
+    assert hits, "no ckpt.pt found - attach the training kernel output"
+    # Prefer the checkpoint belonging to whichever training kernel is attached, so
+    # a stale sibling output can never be scored in place of the intended model.
+    for slug in ("kalia-train-v020", "kalia-train-v012", "kalia-train"):
+        preferred = [h for h in hits if slug in h]
+        if preferred:
+            print(f"checkpoint source: {slug}")
+            return preferred[0]
+    print("checkpoint source: ambiguous, using first hit")
+    return hits[0]
 
 
 def main() -> None:
