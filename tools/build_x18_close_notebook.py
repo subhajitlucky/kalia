@@ -65,6 +65,16 @@ CELLS = [
         "          \"eval_reversibility.py\", \"gate_probe.py\"]:\n"
         '    shutil.copy(f"{root}/{f}", "/kaggle/working/")\n'
         "    print(\"copied\", f)\n"
+        "# eval/ too: gate_probe.py resolves its probe sentences from\n"
+        "# eval/probe_sentences.json, and the dataset used to be flat with no JSON at\n"
+        "# all. Omitting this is what killed version 1 of this kernel, and the same\n"
+        "# omission is why X18's Abhimanyu gap was never measurable.\n"
+        "os.makedirs(\"/kaggle/working/eval\", exist_ok=True)\n"
+        "for f in glob.glob(f\"{root}/eval/*.json\"):\n"
+        "    shutil.copy(f, \"/kaggle/working/eval/\")\n"
+        "    print(\"copied eval/\" + os.path.basename(f))\n"
+        "assert os.path.exists(\"/kaggle/working/eval/probe_sentences.json\"), (\n"
+        '    "probe_sentences.json missing -- is the kalia-code-dev dataset current?")\n'
         "import os\n"
         'os.chdir("/kaggle/working")\n'
         "ckpts = sorted(glob.glob(\n"
@@ -83,15 +93,20 @@ CELLS = [
     ),
     (
         "code",
+        "# Secondary, informational: the 20 fixed probe sentences, for comparison with\n"
+        "# the locally measured 0.0192. Deliberately non-fatal -- the primary F-4\n"
+        "# measurement (canonical val batches) follows, and an optional view must not\n"
+        "# be able to take the kernel down with it.\n"
+        "import subprocess\n"
         "gated = [c for c in ckpts if 'micro-gated' in c][0]\n"
         "print('gated checkpoint:', gated)\n"
-        "import subprocess\n"
-        "subprocess.run(\n"
+        "rc = subprocess.run(\n"
         "    [sys.executable, 'gate_probe.py',\n"
         "     '--ckpt', gated,\n"
+        "     '--sentences', 'eval/probe_sentences.json',\n"
         "     '--json-out', '/kaggle/working/gate_f4_sentences.json'],\n"
-        "    check=True,\n"
-        ")",
+        ").returncode\n"
+        "print('probe-sentence F-4 exit code:', rc, '(0 = ok)')",
     ),
     (
         "code",
