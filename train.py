@@ -28,6 +28,11 @@ def parse_args(argv=None):
     p.add_argument("--target-val-loss", type=float, default=None, help="decay and stop once reached")
     p.add_argument("--decay-steps-after-target", type=int, default=None)
     p.add_argument("--seed", type=int, default=None)
+    p.add_argument(
+        "--doc-mask",
+        action="store_true",
+        help="block attention and loss across document boundaries (EOS-delimited)",
+    )
     return p.parse_args(argv)
 
 
@@ -198,6 +203,9 @@ def main(argv=None) -> None:
         train_cfg["seed"] = args.seed
     if args.target_val_loss is not None:
         train_cfg["target_val_loss"] = args.target_val_loss
+    # Config-driven so a micro-ablation arm can enable it without ablate.py
+    # needing to know about the flag; --doc-mask forces it on for one-off runs.
+    doc_mask = bool(args.doc_mask or train_cfg.get("doc_mask", False))
     if args.decay_steps_after_target is not None:
         train_cfg["decay_steps_after_target"] = args.decay_steps_after_target
 
@@ -217,6 +225,7 @@ def main(argv=None) -> None:
     model = GPT(model_cfg).to(device)
     if is_master:
         print(f"KALIA params: {model.num_params():,} | device: {device} | world: {world}")
+        print(f"doc_mask: {'on' if doc_mask else 'off'}")
 
     optimizer = build_optimizer(model, train_cfg)
     scaler = torch.amp.GradScaler("cuda", enabled=is_cuda)
@@ -314,9 +323,19 @@ def main(argv=None) -> None:
             loss_total = 0.0
             t0 = time.time()
             for _ in range(train_cfg["grad_accum_steps"]):
-                x, y = train_ds.get_batch(train_cfg["micro_batch_size"], device, generator)
+                batch = train_ds.get_batch(
+                    train_cfg["micro_batch_size"],
+                    device,
+                    generator,
+                    return_masks=doc_mask,
+                )
+                if doc_mask:
+                    x, y, attn_mask, loss_mask = batch
+                else:
+                    x, y = batch
+                    attn_mask = loss_mask = None
                 with torch.autocast(device_type=device_type, dtype=torch.float16, enabled=is_cuda):
-                    _, loss = model(x, y)
+                    _, loss = model(x, y, attn_mask=attn_mask, loss_mask=loss_mask)
                     loss = loss / train_cfg["grad_accum_steps"]
                 scaler.scale(loss).backward()
                 loss_total += loss.item()

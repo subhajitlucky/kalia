@@ -5,6 +5,42 @@ from pathlib import Path
 import numpy as np
 import torch
 
+# GPT-2's end-of-text token. Measured on our own corpus: all four sources
+# (FineWeb-Edu, TinyStories, Cosmopedia, code) are delimited by this same token,
+# at a comparable rate (2.1-5.0 per 1k tokens, median document ~200 tokens).
+# A single global delimiter is therefore sufficient for document masking.
+DOC_SEPARATOR = 50256
+
+
+def document_mask(
+    ids: torch.Tensor, separator: int = DOC_SEPARATOR
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Block-diagonal document mask for a batch of token windows.
+
+    Returns ``(attn_mask, loss_mask)`` for a window ``ids`` of shape (B, T).
+
+    ``doc_id[i]`` counts separators strictly before position ``i``, so all
+    positions sharing a doc id belong to the same document. Attention is
+    allowed only within a document *and* causally (position i sees j <= i).
+    The loss is taken only where the target stays inside the same document,
+    i.e. where the predicted next token is not the first token of a new one.
+
+    Documents are short (median ~200 tokens) relative to our 1024-token
+    context, so most windows previously spanned several documents and the
+    model attended across every boundary. See docs/journal for the measurement.
+    """
+    b, t = ids.shape
+    is_sep = ids == separator
+    # doc_id[i] = number of separators in ids[:, :i]
+    doc_id = torch.cumsum(is_sep.long(), dim=1) - is_sep.long()
+    same_doc = doc_id.unsqueeze(2) == doc_id.unsqueeze(1)  # (B, T, T): i attends j
+    causal = torch.ones(t, t, dtype=torch.bool, device=ids.device).tril()
+    attn = (same_doc & causal).unsqueeze(1)  # (B, 1, T, T)
+    # Target y[i] is x[i+1]; it opens a new document exactly when x[i] is a
+    # separator. Full (B, T) shape, matching the whole target window.
+    loss_mask = ~is_sep
+    return attn, loss_mask
+
 
 class TokenDataset:
     """Random contiguous windows from a flat uint16 token file.
@@ -75,7 +111,8 @@ class TokenDataset:
         batch_size: int,
         device: torch.device,
         generator: torch.Generator | None = None,
-    ) -> tuple[torch.Tensor, torch.Tensor]:
+        return_masks: bool = False,
+    ) -> tuple[torch.Tensor, ...]:
         max_start = len(self.tokens) - self.context_len - 1
         starts = torch.randint(max_start, (batch_size,), generator=generator)
         x = torch.stack(
@@ -89,4 +126,12 @@ class TokenDataset:
         )
         if self.reversal_prob > 0:
             x, y = self._apply_reversal(x, y, generator)
-        return x.to(device, non_blocking=True), y.to(device, non_blocking=True)
+        if not return_masks:
+            return x.to(device, non_blocking=True), y.to(device, non_blocking=True)
+        attn_mask, loss_mask = document_mask(x)
+        return (
+            x.to(device, non_blocking=True),
+            y.to(device, non_blocking=True),
+            attn_mask.to(device, non_blocking=True),
+            loss_mask.to(device, non_blocking=True),
+        )
