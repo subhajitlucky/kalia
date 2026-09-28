@@ -20,6 +20,11 @@ class GPTConfig:
     logit_softcap: float = 0.0
     n_kv_head: int | None = None
     n_loops: int = 1
+    nope_interval: int = 0
+    """Drop RoPE on every Nth layer (0 = keep RoPE everywhere). NoPE, per SmolLM3."""
+
+    gated_residual: bool = False
+    """Use the 4-branch Gated Residual stream (Qwen3.8)."""
 
 
 class RMSNorm(nn.Module):
@@ -72,7 +77,17 @@ class SwiGLU(nn.Module):
 
 
 class CausalSelfAttention(nn.Module):
-    def __init__(self, config: GPTConfig):
+    """Causal multi-head self-attention.
+
+    ``use_rope=False`` implements NoPE: rotary position embeddings are skipped
+    entirely for that layer, relying on causal masking alone for order. SmolLM3
+    validated a hybrid where every 4th layer drops RoPE -- long-context quality
+    improved with no short-context cost (Yang et al. 2025, "RoPE to NoRoPE and
+    Back Again"), and unlike most frontier changes it removes parameters' worth of
+    machinery rather than adding any.
+    """
+
+    def __init__(self, config: GPTConfig, use_rope: bool = True):
         super().__init__()
         assert config.n_embd % config.n_head == 0
         self.n_head = config.n_head
@@ -80,6 +95,7 @@ class CausalSelfAttention(nn.Module):
         assert config.n_head % self.n_kv_head == 0
         self.head_dim = config.n_embd // config.n_head
         self.dropout = config.dropout
+        self.use_rope = use_rope
         self.q_norm = RMSNorm(self.head_dim) if config.qk_norm else None
         self.k_norm = RMSNorm(self.head_dim) if config.qk_norm else None
         qkv_dim = (config.n_head + 2 * self.n_kv_head) * self.head_dim
@@ -105,8 +121,8 @@ class CausalSelfAttention(nn.Module):
         if self.q_norm is not None:
             q = self.q_norm(q)
             k = self.k_norm(k)
-        q = apply_rope(q, self.rope_cos, self.rope_sin)
-        k = apply_rope(k, self.rope_cos, self.rope_sin)
+        q = apply_rope(q, self.rope_cos, self.rope_sin) if self.use_rope else q
+        k = apply_rope(k, self.rope_cos, self.rope_sin) if self.use_rope else k
         if self.n_kv_head != self.n_head:
             repeat = self.n_head // self.n_kv_head
             k = k.repeat_interleave(repeat, dim=1)
@@ -125,16 +141,75 @@ class CausalSelfAttention(nn.Module):
         return self.proj(y)
 
 
+class GatedResidual(nn.Module):
+    """Four-branch residual stream read through a learned elementwise gate.
+
+    Qwen3.8-Flash-Next's Gated Residual: normalise each branch independently,
+    predict an elementwise gate per branch and channel from all branches, and
+    average the gated branches. Widening the stream alone was worth +1.58 points
+    of average accuracy; making the read data-dependent added a further +1.98 --
+    while the *loss* gap was only 0.002, and in a separate case loss fell
+    monotonically while accuracy saturated.
+
+    That is the direct evidence for our own D5 (screen on benchmarks, not loss
+    alone), and this is the change that would demonstrate it at 58M.
+    """
+
+    def __init__(self, dim: int, n_branch: int = 4, gate_rank: int = 32):
+        super().__init__()
+        assert dim % n_branch == 0, "n_embd must divide evenly into branches"
+        self.n_branch = n_branch
+        self.branch_dim = dim // n_branch
+        self.norms = nn.ModuleList([RMSNorm(self.branch_dim) for _ in range(n_branch)])
+        self.w1 = nn.Linear(dim, gate_rank, bias=True)
+        self.w2 = nn.Linear(gate_rank, dim, bias=True)
+        # Start almost closed so the block begins as a faithful copy of the
+        # pre-norm residual path, and has to learn to open the wider stream.
+        nn.init.zeros_(self.w2.weight)
+        nn.init.constant_(self.w2.bias, -4.0)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Return a full-width transform of the residual stream.
+
+        Branches are normalised independently, gated elementwise, then
+        *concatenated* back to full width as the block input; attention and the
+        MLP still run at full width, so this adds a gated residual path without
+        splitting the sublayers.
+
+        Scope note: Qwen3.8 widens the stream to `n_branch` full-width branches
+        (a real capacity increase, +1.58 accuracy) and additionally makes the read
+        data-dependent (+1.98). This implements only the gating half on the
+        existing width, so it tests the *mechanism*, not the widening. The
+        ablation is registered as such.
+        """
+        gated = []
+        for i, n in enumerate(self.norms):
+            sl = slice(i * self.branch_dim, (i + 1) * self.branch_dim)
+            b = n(x[..., sl])
+            g = torch.sigmoid(self.w2(F.silu(self.w1(x)))[..., sl])
+            gated.append(b * g)
+        return torch.cat(gated, dim=-1)
+
+
 class Block(nn.Module):
-    def __init__(self, config: GPTConfig):
+    def __init__(self, config: GPTConfig, layer_index: int = 0):
         super().__init__()
         self.norm1 = RMSNorm(config.n_embd)
-        self.attn = CausalSelfAttention(config)
+        # NoPE: every nope_interval-th layer drops rotary embeddings.
+        use_rope = not (
+            config.nope_interval and (layer_index + 1) % config.nope_interval == 0
+        )
+        self.attn = CausalSelfAttention(config, use_rope=use_rope)
         self.norm2 = RMSNorm(config.n_embd)
         self.mlp = SwiGLU(config)
+        self.gated = GatedResidual(config.n_embd) if config.gated_residual else None
 
     def forward(self, x: torch.Tensor, attn_mask: torch.Tensor | None = None) -> torch.Tensor:
-        x = x + self.attn(self.norm1(x), attn_mask)
+        # Gated Residual transforms the stream *before* the pre-norm, as in
+        # Qwen3.8: widen and gate the residual path, then run the sublayers at
+        # full width on the merged result.
+        pre = self.gated(x) if self.gated is not None else x
+        x = x + self.attn(self.norm1(pre), attn_mask)
         x = x + self.mlp(self.norm2(x))
         return x
 
@@ -146,7 +221,9 @@ class GPT(nn.Module):
         super().__init__()
         self.cfg = config
         self.tok_emb = nn.Embedding(config.vocab_size, config.n_embd)
-        self.blocks = nn.ModuleList([Block(config) for _ in range(config.n_layer)])
+        self.blocks = nn.ModuleList(
+            [Block(config, layer_index=i) for i in range(config.n_layer)]
+        )
         self.norm_f = RMSNorm(config.n_embd)
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
         self.tok_emb.weight = self.lm_head.weight  # weight tying
