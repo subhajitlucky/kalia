@@ -39,12 +39,52 @@ from collections.abc import Iterable, Iterator
 DOC_SEPARATOR = 50256
 # (label, repo_id, config, field). Repo ids and configs are distinct: the two
 # smollm-corpus sources share one repo and differ only by config name.
+#
+# The long-form source is `sedthh/gutenberg_english`, not `deepmind/pg19`. Two
+# reasons, both checked rather than assumed:
+#
+#   1. pg19 is script-based (a `pg19.py` loader plus Gutenberg file-id lists, no
+#      parquet at all) and modern `datasets` refuses to run dataset scripts, so
+#      pg19 cannot be loaded at all -- streaming or not. The first run died on
+#      exactly this.
+#   2. The obvious pg19 parquet mirrors declare **no licence** (`emozilla/pg19`
+#      and `manu/project_gutenberg` both return license=None). Under D44 a
+#      source with no declared licence fails our own permissive filter, so
+#      neither is admissible no matter how well it matches the original corpus.
+#
+# `sedthh/gutenberg_english` is 37 parquet files and declares MIT. Caveat worth
+# carrying into any decision to actually train on it: the MIT tag covers the
+# dataset packaging, while the underlying Gutenberg texts are public domain in
+# the US but not uniformly so in every jurisdiction. That is a judgement call
+# for the adoption decision, not something a probe should decide silently.
 SOURCES = [
     ("cosmopedia-v2", "HuggingFaceTB/smollm-corpus", "cosmopedia-v2", "text"),
     ("fineweb-edu-dedup", "HuggingFaceTB/smollm-corpus", "fineweb-edu-dedup", "text"),
     ("TinyStories", "roneneldan/TinyStories", None, "text"),
-    ("pg19 (long-form)", "deepmind/pg19", None, "text"),
+    ("gutenberg-english (long-form)", "sedthh/gutenberg_english", None, "TEXT"),
 ]
+
+
+def _pick_field(row: dict, field: str) -> str:
+    """Resolve the text column, tolerating case differences.
+
+    `sedthh/gutenberg_english` names its column `TEXT` while every other source
+    here uses `text`. Guessing wrong is not a crash -- `row.get("text")` returns
+    None, the `if text` guard drops every row, and the probe reports "0
+    documents" as if that were a measurement. So a missing field is raised
+    loudly instead of silently emptying the sample.
+    """
+    if field in row:
+        return field
+    lowered = {k.lower(): k for k in row}
+    if field.lower() in lowered:
+        return lowered[field.lower()]
+    for alias in ("text", "content", "TEXT", "Content"):
+        if alias in row:
+            return alias
+    raise KeyError(
+        f"text column not found: wanted {field!r}, dataset has {sorted(row)[:8]}"
+    )
 
 
 def iter_texts(repo: str, config: str | None, field: str, limit: int | None = None) -> Iterator[str]:
@@ -53,17 +93,14 @@ def iter_texts(repo: str, config: str | None, field: str, limit: int | None = No
     if config:
         ds = load_dataset(repo, name=config, split="train", streaming=True)
     else:
-        # pg19 is one row per book and huge; a non-streaming read with a bounded
-        # split is far cheaper than streaming it. The streaming path was what
-        # killed the first run with SIGABRT.
-        try:
-            ds = load_dataset(repo, split="train")
-        except Exception:
-            ds = load_dataset(repo, split="train", streaming=True)
+        # Long-form sources are large; stream them and stop at `limit` rather
+        # than materialising the whole split. The first run SIGABRT'd on a
+        # non-streaming read of a multi-GB script dataset.
+        ds = load_dataset(repo, split="train", streaming=True)
     for i, row in enumerate(ds):
         if limit is not None and i >= limit:
             break
-        text = row.get(field) or ""
+        text = row.get(_pick_field(row, field)) or ""
         if text:
             yield text
 
@@ -106,6 +143,15 @@ def main() -> None:
         print(f"\n=== {label}  ({repo}) ===", flush=True)
         try:
             stats = length_stats(iter_texts(repo, config, field, limit=args.limit), limit=args.limit)
+            if stats.get("n", 0) == 0:
+                # Never report an empty sample as a measurement. A zero here
+                # means the column name was wrong, not that the source has no
+                # documents -- and a false "no long documents" would be read as
+                # evidence against the hypothesis.
+                raise ValueError(
+                    f"0 documents yielded from {repo} (field={field!r}); "
+                    "treat as a probe failure, not a measurement"
+                )
             report[label] = stats
             print(json.dumps(stats, indent=2), flush=True)
         except Exception as exc:  # noqa: BLE001 - a source may be unavailable
