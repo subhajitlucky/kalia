@@ -33,10 +33,22 @@ CELLS = [
     ),
     (
         "code",
-        "!pip install -q lm-eval==0.4.9 datasets\n"
-        "import glob, shutil, sys\n"
+        "# lm-eval 0.4.9 imports transformers.AutoModelForVision2Seq, which was REMOVED in\n"
+        "# transformers v5 -- and Kaggle's image now ships v5. Pinning transformers<5 as well\n"
+        "# gives a pair that matches. kalia_lm.py does not import transformers at all (it uses\n"
+        "# tiktoken + our own model.py), so the downgrade cannot affect our code.\n"
+        '!pip install -q "lm-eval==0.4.9" "transformers<5" tiktoken pyyaml datasets\n'
+        "import glob, importlib.metadata as md, shutil, sys\n"
         "print(sys.version)\n"
-        "print(sorted(glob.glob(\"/kaggle/input/notebooks/subhajitlucky/kalia-train-v020/*\")))",
+        "import importlib.metadata as md\n"
+        "for pkg in ('lm_eval', 'transformers', 'torch', 'datasets'):\n"
+        "    try:\n"
+        '        print(f"{pkg:14s} {md.version(pkg)}")\n'
+        "    except Exception as exc:\n"
+        '        print(f"{pkg:14s} MISSING ({exc})")\n'
+        "import transformers\n"
+        'print("AutoModelForVision2Seq present:", hasattr(transformers, "AutoModelForVision2Seq"))\n'
+        "print(''.join(sorted(glob.glob('/kaggle/input/notebooks/subhajitlucky/kalia-train-v020/*'))))",
     ),
     (
         "code",
