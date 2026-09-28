@@ -26,3 +26,4 @@ Every decision, result and incident is recorded here. No silent changes.
 | 2026-09-28 | why-27b-beats-397b | `docs/research/2026-09-28-why-27b-beats-397b.md` | frontier gain decomposition; data >> architecture; test-time compute is the transferable 1000x lever; D1-D8 queued |
 | 2026-09-28 | open-source-landscape | `docs/research/2026-09-28-open-source-landscape-and-transfers.md` | 30 orgs, last two generations each; four unconditional transfers survive the cost/yardstick/D2/evidence filters |
 | 2026-09-28 | sanskrit-reading-list | `docs/research/2026-09-28-sanskrit-reading-list-50.md` | 50 works audited with honest verdicts; Chakravala/Pingala/Katapayadi are the real algorithms; corpus is silent on learning mechanisms |
+| 2026-09-28 | X17-doc-mask | `docs/preregistrations/2026-09-28-X17-doc-mask.md` | intra-document masking micro-ablation: 2 arms, 30M, 500 steps, bar 0.010 nats (same as D15) |
