@@ -171,11 +171,37 @@ rather than resumed. The plateau is documented in the repository journal.
 
 ## Training data attribution
 
-| Dataset | License |
-|---|---|
-| roneneldan/TinyStories | CDLA-Sharing-1.0 |
-| HuggingFaceTB/smollm-corpus (FineWeb-Edu dedup) | ODC-By-1.0 |
-| GPT-2 BPE tokenizer (openai/tiktoken) | MIT |
+Mixture weights, as built (`kalia-prep-v2`): FineWeb-Edu 60%, TinyStories 20%,
+Cosmopedia 15%, code 5%, of 2.4B training tokens.
+
+| Dataset | Share | License |
+|---|---|---|
+| HuggingFaceTB/smollm-corpus (FineWeb-Edu dedup) | 60% | ODC-By-1.0 |
+| roneneldan/TinyStories | 20% | CDLA-Sharing-1.0 |
+| HuggingFaceTB/cosmopedia | 15% | Apache-2.0 |
+| bigcode/codeparrot-clean (Python) | 5% | **per-file, mixed — see below** |
+| GPT-2 BPE tokenizer (openai/tiktoken) | — | MIT |
+
+### Disclosure: the code slice of *this* checkpoint is not licence-clean
+
+The 5% code slice of this checkpoint was built **without** a licence filter.
+Sampling 20,000 files of the source corpus (197M characters) measures **41.7% of
+characters under non-permissive licences**, of which GPL-family terms are 39.5%
+of all files (GPL-3.0, AGPL-3.0, GPL-2.0, LGPL). Applying that share, this
+checkpoint trained on roughly **50M copyleft-licensed code tokens, ≈2% of the
+training set**. The figure is an estimate: it samples the upstream corpus
+rather than our shard, and uses character share as a proxy for token share.
+
+**No copyleft obligation is attached to these weights.** This release
+redistributes weights only, not data. Training on copyleft text does not make
+the weights a derivative work — the prevailing view, though not settled in every
+jurisdiction. The obligation would attach to redistributing the copyleft text
+itself, which this release does not do and will not.
+
+The successor checkpoint, **v0.2.0**, rebuilds the code slice with a permissive
+licence filter and is licence-clean by construction. The process failure and its
+measurement are recorded as incident I16; the filter's late arrival is the root
+cause.
 
 Datasets are **not** redistributed. Code: MIT. Weights: Apache-2.0.
 
