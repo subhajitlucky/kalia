@@ -146,8 +146,12 @@ Muon 3.5937 → Muon + QK-Norm + soft-cap **3.5103**. The full-scale Muon model
 overtook the AdamW baseline's final loss with **~23% fewer tokens**.
 
 The "Abhimanyu gap" is the project's entry–exit asymmetry metric: the model can
-enter fluent text but cannot exit it (process it in reverse). A pre-registered
-experiment (chunk-preserving reversal training) tests whether that closes.
+enter fluent text but cannot exit it (process it in reverse). The pre-registered
+experiment aimed at closing it has since run and **failed**: training on 50%
+chunk-preserving reversal left the gap at 5.25 nats against a 5.11-nat control —
+worse, on both seeds, on both metrics (X16, decision D42). Reversing chunk
+*order* does not teach token-level entry, so no gap claim is carried forward and
+v0.2.0 ships the same recipe with a compliance-rebuilt corpus.
 
 ## Stopping
 
