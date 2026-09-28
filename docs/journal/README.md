@@ -24,3 +24,4 @@ Every decision, result and incident is recorded here. No silent changes.
 | 2026-09-23 | `2026-09-23.md` | First coherent generations, overtake of baseline, RSI plan, technique backlog |
 | 2026-09-27 | `2026-09-27.md` | X16 rejected (both pre-registered bars missed on both seeds), v0.1.2's training log recovered from hub history after a mid-run code change dropped it (I14), the rebuilt val set turns out to be a different yardstick (D43), v0.2.0 session 1 |
 | 2026-09-28 | why-27b-beats-397b | `docs/research/2026-09-28-why-27b-beats-397b.md` | frontier gain decomposition; data >> architecture; test-time compute is the transferable 1000x lever; D1-D8 queued |
+| 2026-09-28 | open-source-landscape | `docs/research/2026-09-28-open-source-landscape-and-transfers.md` | 30 orgs, last two generations each; four unconditional transfers survive the cost/yardstick/D2/evidence filters |
