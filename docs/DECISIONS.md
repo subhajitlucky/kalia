@@ -51,3 +51,40 @@ Every significant decision: what, alternatives, evidence, status. Newest last.
 | D45 | 2026-09-28 | **Accuracy thresholds must be stated against the metric's measured noise floor, and our existing accuracy thresholds are under-powered.** X18's CPU completion closed F-3 on its registered terms (gated +1.20 pp on WinoGrande against a >=0.5 pp bar) and the result is still worthless: lm-eval's standard errors at `limit=500` are 1.99-2.24 pp, so the bar sits ~4.5x below the noise and the observed delta is 0.54 sigma. A 0.5 pp bar at that sample size passes about half the time by construction. This is recorded against our own pre-registration, not the mechanism. **The registered thresholds are not retroactively changed**: S-A is still judged on its 1.0 pp term exactly as written, and the noise floor is published alongside the verdict rather than used to rescue it, the same handling P-C was given. Interim v0.2.0 regressions of ARC-Easy -4.6 and LAMBADA -4.6 are outside noise and stand; PIQA -0.2 and WinoGrande -0.8 are inside it and do not. Every future accuracy bar is set above the measured standard error or uses enough samples to bring it below | Move the bar now that X18 failed it; silently re-run the benchmark with more samples and pick the number that rescues S-A; keep 0.5 pp because it is a round number | A threshold chosen without reference to the metric's resolution is not a threshold, it is a coin flip with extra steps. X18's loss bar (0.010 nats) was sound -- the failure is specifically that we wrote an accuracy bar twice without ever measuring what one standard error is worth at our sample size. The honest cost is that X18's accuracy half produced no information and had to be re-planned as X19's loss-only question | active |
 | D46 | 2026-09-28 | **The gated-residual gain is real but is not a gate.** X19 ran one arm: the four-branch residual normalisation with the gate deleted, 500 steps, same seed/corpus. Result 4.7680 against control 4.7662 and gated 4.7226, against a pre-registered G-1 bar of 4.7544. **G-1 fails by 0.0136: the branch normalisation contributes nothing and every bit of the -0.0436 lives in the gate.** G-0 had measured the gate's response to its input at 5e-06; G-1 shows removing it destroys the gain. Both are correct, and together they mean the module is a learned *static* per-channel modulation -- effectively a rank-32 low-rank adapter on the residual path -- rather than the data-dependent read it was borrowed as. The component earns its parameters; the name and the claim do not transfer | Ship Gated Residual as a validated mechanism; call the result a null and drop the arm; re-run with a second seed before believing any of it | A technique can be necessary and inert with respect to its documented mechanism simultaneously, and only a controlled removal says which half you are measuring. Honest report: the name transferred, the behaviour did not, and the next experiment this creates is a static low-rank residual adapter with no data dependence at all -- if that reproduces -0.0436, the gate was never a gate | active |
 | D47 | 2026-09-29 | **X20: a static learned per-channel modulation beats the published data-dependent gate by 0.0922 nats with 73,728 fewer parameters. Nothing is promoted; replication is pre-registered.** The arm keeps the branch normalisation and replaces the gate's input path with a learned constant. Result 4.6304 against control 4.7662, gated 4.7226 and branchnorm 4.7680, clearing H-1's bar of 4.7544 by 0.1240. The input-dependent read is therefore not inert at our scale but actively harmful, and the component that helps is not the mechanism the source technique describes. H-3 registered 'lands strictly between the known arms' and failed below both, which is recorded rather than argued away. **But 0.1358 is 3.1x the largest effect any architecture arm has produced here, every arm so far is single-seed, and the previous best was already shown unattributable -- so the number is reported and nothing ships.** A paired replication against control at fresh seeds is pre-registered as X21, on the discipline the modded-nanogpt records use for a result of this size: interleaved unseeded repeats of arm and control, with a stated test | Ship it to v0.3.0 on one seed because the effect is large and the direction is unambiguous; discount a large effect as noise because one seed is too few; drop the whole line as a single-seed mirage without replicating | A big effect from a component simpler than the one it beats deserves more scepticism, not less -- we rejected 0.0436 on exactly these grounds and 0.1358 on one seed is less established, not more. H-2 also remains unverified: the kernel never emitted the static gate's channel dispersion, so whether the adapter learned anything non-trivial is unknown, and that is part of what the replication must close | active |
+
+## D48 — The architecture line is closed; there is no baseline, so deltas were unreadable (2026-09-29)
+
+**Context.** X21 replicated X20's static-gate arm at two fresh seeds. The
+−0.1358-nat gain inverted to **+0.0516** (worse than control) at both seeds, and
+R-1/R-2/R-4 all failed. Running it also produced the number this project never had:
+the control's own spread across configurations we had been treating as
+comparable.
+
+**Evidence.** Seed 1337 gives control 4.7662 (X18) and 4.7680 (X19) — two
+independent sessions, **0.0018 apart**. Seeds 1338/1339 give 4.8769/4.8908, about
+**0.11 higher**. Session noise is therefore tiny and the ~0.11 gap is a seed
+effect. Within the fresh pair the two seeds differ by only 0.0139, so seed effects
+are not exchangeable: some seeds are simply much better.
+
+**Decision.**
+1. **Do not ship the static gate, or any of the gated-residual variants.**
+2. **Close the architecture-ablation line.** Not because the idea was wrong —
+   because the experiment was uninterpretable without a variance baseline, and
+   the baseline turns out to be larger than the effects being chased.
+3. **No further architecture arm may be run from a single seed.** Minimum design
+   going forward: paired control and treatment at ≥2 fresh seeds, with the control
+   spread reported as a first-class result before any delta is interpreted.
+4. **Retrospective correction to earlier claims.** X18's gated residual
+   (−0.0436) and X19's branch norm (−0.0018) are both **smaller than baseline
+   noise** and are now classified as null results, not as findings ranked by size.
+   The 0.01917 gate mean and its 5e-06 input dispersion remain valid
+   measurements; what they were read as supporting was not.
+
+**Consequence for v0.3.0.** The static gate is removed from the v0.3.0 plan. The
+budget that was going to it moves to the continual-update corpus and the replay
+sweep, which have never been measured on a shared baseline and so have not yet
+produced a number that could have been noise.
+
+**Cost.** ~1.2 GPU-hours of the 1.76 remaining, spent to delete a component.
+Cheaper than shipping one, and cheaper than the alternative: X20's 0.1358 was
+going into the model card as the project's best result.

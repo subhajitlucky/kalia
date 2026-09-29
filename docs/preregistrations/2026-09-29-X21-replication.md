@@ -93,3 +93,58 @@ six.
 
 Any change to arms, seeds, steps, thresholds, or metrics after this commit requires
 a hash-registered amendment. Results are reported regardless of outcome.
+
+---
+
+## Result (appended 2026-09-29, after the run)
+
+Kernel `subhajitlucky/kalia-x21-replication` v2, COMPLETE. All four arms 500/500
+steps, ~32k tok/s, no failures.
+
+| seed | control | staticgate | Δ (static − control) | R-2 |
+|---|---|---|---|---|
+| 1338 | 4.8769 | 4.9623 | **+0.0854** | FAIL |
+| 1339 | 4.8908 | 4.9087 | **+0.0179** | FAIL |
+| **mean** | 4.8839 | 4.9355 | **+0.0516** | — |
+
+- **R-1 FAIL** — mean paired Δ is **+0.0516**, i.e. the static gate was *worse*
+  than control, against a registered bar of ≤ −0.050.
+- **R-2 FAIL** — both individual deltas are positive. Not one seed is close.
+- **R-4 FAIL** — static mean 4.9355 against the gated arm's 4.7226.
+- **R-3 not measured.** The kernel did not emit the static gate's channel-wise
+  std, so H-2's gap is still open. It is moot for the decision: R-1 and R-2 failed
+  on the loss itself, and a gate can be a non-trivial constant in the wrong
+  direction.
+
+**X20 was a single-seed artifact, and the sign reversed.** The 0.1358-nat gain did
+not merely shrink under replication — it inverted, at both fresh seeds, by
+roughly a third to two-thirds of the original magnitude.
+
+### The baseline variance, which is the actual finding
+
+| config | control val loss |
+|---|---|
+| X18, seed 1337 | 4.7662 |
+| X19, seed 1337 | 4.7680 |
+| X20, seed 1337 | 4.7662 |
+| X21, seed 1338 | 4.8769 |
+| X21, seed 1339 | 4.8908 |
+
+Two **independent sessions** at seed 1337 agree to **0.0018**. So the session
+contributes almost nothing, and the **~0.11-nat** gap to the fresh pair is a
+**seed** effect, not a machine or data effect.
+
+But within the fresh pair the two seeds differ by only **0.0139**. A 0.11 gap
+between 1337 and 1338 against 0.0139 between 1338 and 1339 says seed-to-seed
+loss differences are not exchangeable: some seeds are much better than others.
+
+Consequences, stated plainly:
+
+1. The control is **not** seed-invariant. Every single-seed delta in this project
+   was computed against an unmeasured baseline spread.
+2. That spread (~0.11) **exceeds X18's entire −0.0436 "effect"** and X19's
+   −0.0018 by an order of magnitude. Both were noise being read as signal.
+3. X20's −0.1358 was the only delta above the spread, and X21 refutes it directly
+   by sign flip. Its apparent 3.1× margin over X18 was a margin over noise.
+4. **The architecture-ablation line has produced zero effects that survive
+   scrutiny.** Three arms, three single-seed results, none reproducible.

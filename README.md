@@ -20,7 +20,7 @@ never compared (decision D43).
 
 **The complete record — method, results, strong points, weak points, and every failure —
 is in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md).** 45 decisions, 9 incidents, 9
-hash-verified pre-registrations, 146 tests.
+hash-verified pre-registrations, 173 tests.
 
 Every weight in KALIA is learned by this project's own training run; nothing is borrowed
 from another model.
@@ -66,11 +66,24 @@ than 1.0 point, and v0.2.0 **fails it on two** — which is why it is held as an
 rather than promoted over v0.1.2. The thresholds were not moved after seeing the result,
 and the noise floor is published beside the verdict rather than used to rescue it (D45).
 
-**What the loss/accuracy split means.** Six architecture ablations moved loss by 0.01–0.05
-nats; changing the data moved it 0.2285 and still cost 3.8 points on ARC-Easy. When loss
-improves and accuracy does not follow, the problem is the data, not the capacity or the
-method. That is the project's main methodological finding and it is what the next version
-is built on.
+**What the loss/accuracy split means.** Changing the data moved loss by 0.2285 and
+still cost 3.8 points on ARC-Easy. When loss improves and accuracy does not follow,
+the problem is the data, not the capacity or the method. That is the project's main
+methodological finding and it is what the next version is built on.
+
+**The architecture ablations produced nothing (D48).** Seven micro-arms were run on a
+30M budget. The best of them — a static learned per-channel modulation, X20 — looked
+like the project's largest result ever at −0.1358 nats, and beat a data-dependent gate
+that actually reads its input. It was replicated at two fresh seeds and **inverted to
++0.0516, worse than control** (X21, R-1/R-2/R-4 all fail).
+
+The replication also produced the number the project never had: **the control's own
+spread**. Two independent sessions at seed 1337 agree to 0.0018, so the machine is not
+the variable — but fresh seeds 1338/1339 come in ~0.11 nats higher. That baseline spread
+**exceeds X18's entire −0.0436 "effect"** and X19's −0.0018 by an order of magnitude.
+Every single-seed delta in this project was read against a baseline that was never
+measured. They were all noise, and the ranking between them was an artefact of
+comparing noise to noise. **No architecture arm may be run from one seed again.**
 
 **Micro-ablations** (30M params, equal tokens, equal seed, step-700 val loss):
 
@@ -126,7 +139,7 @@ kalia/
   tools/                 # dataset publisher, model exporter, figure + notebook builders
   configs/               # the real model config + micro-* ablation arms
   notebooks/             # Kaggle kernels: prep, train, ablate, benchmark, evaluate
-  test_*.py              # 146 tests, flat at the repo root
+  test_*.py              # 173 tests, flat at the repo root
   docs/SYNTHESIS.md      # the whole record in one document
   docs/journal/          # dated engineering journal
   docs/DECISIONS.md      # 45 numbered decisions
@@ -143,7 +156,8 @@ Heavy work belongs on Kaggle. The laptop runs the test suite and nothing else.
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-python -m pytest -q          # 146 tests, ~16s on CPU
+python -m pytest -q          # 173 tests, ~22s on CPU
+python tools/check_notebooks.py   # static-checks every notebook before spending quota
 ```
 
 Two rules this repository learned the hard way, both enforced by tools rather than by
