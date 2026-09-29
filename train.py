@@ -260,6 +260,13 @@ def main(argv=None) -> None:
     scaler = torch.amp.GradScaler("cuda", enabled=is_cuda)
 
     start_step, tokens_seen = 0, 0
+    # Where the LR schedule's step 0 sits. A fresh run starts at 0; a resumed
+    # one rebases so the update gets its own warmup+decay. Bound here rather
+    # than inside the resume branch: the first version put the else next to
+    # `if ckpt_path.exists()` but it bound to the inner `if rewarm`, so a fresh
+    # run reached the training loop with lr_origin unbound and 10 smoke tests
+    # failed. The full suite is what caught it.
+    lr_origin = 0
     ckpt_path = args.out_dir / "ckpt.pt"
     if args.resume:
         if args.hub_repo:
@@ -279,8 +286,44 @@ def main(argv=None) -> None:
             model.load_state_dict(ckpt["model"])
             optimizer.load_state_dict(ckpt["optimizer"])
             start_step, tokens_seen = ckpt["step"], ckpt["tokens"]
-            if is_master:
-                print(f"resumed from step {start_step} ({tokens_seen:,} tokens)")
+            # Schedule origin, for continual updates.
+            #
+            # A resumed run must NOT continue the source run's schedule. Resuming
+            # v0.2.0 at step 4770 of 4770 makes base_lr_scale return min_lr_ratio
+            # for every remaining step, so the LR sits at its decayed floor
+            # forever -- which is exactly the condition Ibrahim et al. (2403.08763)
+            # identify as the worst case for continual adaptation, and exactly what
+            # the re-warm arm in Step 2 exists to test. Without this, the re-warm
+            # arm would silently be a no-re-warm arm and the experiment would report
+            # a null for a mechanism it never ran.
+            #
+            # `lr_step_origin` is where the new schedule's step 0 sits. The weights
+            # resume; the clock does not. tokens_seen still accumulates across the
+            # boundary so data accounting stays continuous.
+            # `rewarm` decides the schedule origin, and it defaults to False.
+            #
+            # Two bugs met here, both of which would have made Step 2 compare two
+            # identical arms and report a meaningless null:
+            #
+            # 1. The origin was rebased unconditionally, so the "no re-warm"
+            #    control also restarted its warmup and climbed back to the same
+            #    peak (measured: both arms peak at 0.00060).
+            # 2. `rewarm` defaulted to True, so a plain `--resume` with no such key
+            #    silently changed the schedule of every resumed run in the project.
+            #    Resuming v0.2.0 mid-run used to continue its cosine; now it would
+            #    have restarted it. That is a behaviour change to historical runs
+            #    and must be opt-in.
+            if train_cfg.get("rewarm", False):
+                lr_origin = start_step
+                if is_master:
+                    print("  LR schedule: re-warm from step 0 of the update budget")
+            else:
+                lr_origin = 0
+                if is_master:
+                    print(
+                        f"  LR schedule: continue the source run's cosine from "
+                        f"step {start_step:,} (rewarm disabled)"
+                    )
 
     if world > 1:
         model = torch.nn.parallel.DistributedDataParallel(
@@ -428,7 +471,48 @@ def main(argv=None) -> None:
     step = start_step
     decay_start = None
     decay_stop_scheduled = False
-    hard_max_steps = train_cfg["max_steps"]
+    # The step budget is measured from the *update's* origin, not from zero.
+    #
+    # A continual update resumes a finished checkpoint: v0.2.0 ends at step 4770
+    # and the update config asks for max_steps 500. Interpreting that as "stop at
+    # absolute step 500" means the loop condition `step < hard_max_steps` is false
+    # on entry and the update silently trains for zero steps while still printing
+    # "re-warm from step 0 of the update budget". Found by running a real resume,
+    # not by reading the code -- the schedule rebasing looked correct in isolation.
+    #
+    # update_budget semantics, explicit and opt-in via `rewarm`: the run performs
+    # max_steps steps *of update*, counted from lr_origin. Without `rewarm` the old
+    # absolute behaviour is kept, because every historical run in this project
+    # used max_steps as an absolute ceiling and silently changing that would alter
+    # how v0.2.0 and its ablations were run.
+    # Step budget, absolute or relative to the resume point.
+    #
+    # `--max-steps N` keeps its historical meaning: stop at absolute step N. The
+    # smoke test asserts it (resume from 10 with --max-steps 20 ends at 20), and
+    # changing it would silently alter how every resumed run in this project
+    # behaves -- including runs already recorded.
+    #
+    # A continual update needs the opposite: "train N more steps". That is
+    # `update_budget`, a config key, set on the v0.3.0 arms. Without it a resumed
+    # v0.2.0 run with max_steps 500 trains zero steps, because step starts at 4770
+    # and `step < hard_max_steps` is false on entry -- while still printing
+    # "re-warm from step 0 of the update budget". Found by running a real resume.
+    #
+    # Two bugs met at the previous attempt and are both avoided here: the budget
+    # was not gated on `rewarm` (so the no-re-warm control trained nothing, and
+    # Step 2 would have compared one arm that moved against one that did not), and
+    # the schedule origin was rebased unconditionally (so the control re-warmed
+    # too, both arms peaking at 0.00060).
+    update_budget = train_cfg.get("update_budget")
+    if update_budget and start_step:
+        hard_max_steps = start_step + int(update_budget)
+        if is_master:
+            print(
+                f"update budget: {int(update_budget):,} steps from step {start_step:,}"
+                f" -> hard stop {hard_max_steps:,}"
+            )
+    else:
+        hard_max_steps = train_cfg["max_steps"]
     try:
         while step < hard_max_steps:
             if args.max_minutes is not None and (time.time() - start_time) / 60 >= args.max_minutes:
@@ -459,7 +543,7 @@ def main(argv=None) -> None:
 
             scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(model.parameters(), train_cfg["grad_clip"])
-            scale = lr_scale(step, train_cfg, decay_start)
+            scale = lr_scale(step - lr_origin, train_cfg, decay_start)
             lr = train_cfg["learning_rate"] * scale
             for group in optimizer.param_groups:
                 group["lr"] = group["base_lr"] * scale

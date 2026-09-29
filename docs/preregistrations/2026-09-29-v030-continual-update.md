@@ -191,9 +191,49 @@ runs the real `train.py` on CPU.
 were uniform enough to make a constant indistinguishable from the truth. The
 policy would have run on a signal that was not there. Now asserted directly.
 
-**What is still not done:** the arm has never run on real data or on a GPU. It is
-code-complete and unit-tested, and that is a strictly weaker claim than
-"validated". Step 1's variance baseline remains the prerequisite for running it.
+**Status update 3, 2026-09-29 — the re-warm mechanism was broken, and the
+notebooks found it.** Five execution notebooks now exist
+(`kalia-v030-cl0`, `-baseline`, `-rewarm`, `-replay`, `-kautilya`), one per
+registered step so a stopping-rule trigger costs one kernel and not the sequence.
+Seven arm configs are written, diff-locked to v0.2.0 so each pair differs in
+exactly the key its claim depends on.
+
+Building them surfaced a defect that would have voided Step 2 without producing
+any error. **`train.py --resume` continues the source run's cosine schedule.**
+Resuming v0.2.0 at step 4770 of 4770 means `base_lr_scale` returns
+`min_lr_ratio` for every remaining step, so the re-warm arm would have been
+byte-identical to its control, run the recipe at LR multiplier 0.100, and
+reported "the recipe does not transfer at 58M" — a null for a mechanism that was
+never switched on. Measured: 0.100 flat for the whole update, versus
+0.02 → 0.97 → 0.10 once rebased.
+
+Fixing it took three attempts and two of the intermediate states were worse than
+the original:
+
+1. Rebasing the schedule **unconditionally** also re-warmed the no-re-warm
+   control. Both arms peaked at 0.00060 — two identical arms and a meaningless
+   null.
+2. Gating the step budget on `rewarm` gave the control a budget of 40 against a
+   `start_step` of 60, so it trained **zero** steps while the treatment trained
+   40. One arm moved, one did not.
+3. Making the budget origin-relative for *any* resumed run broke the smoke test
+   that asserts `--max-steps` means an absolute step ceiling, and would have
+   silently changed how every already-recorded resume behaves.
+
+The resolution keeps both meanings distinct: `--max-steps` stays absolute, and a
+new config key `update_budget` means "N more steps", set on the v0.3.0 arms.
+`rewarm` now defaults to **False**, because a plain `--resume` must not change
+the schedule of runs whose results are already published.
+
+Verified end-to-end by running both arms: same 40 update steps, re-warm peaking
+at 0.00060 against the control's 0.00006 — a 10× difference in the learning rate
+the treatment actually trains at. 12 tests in `test_rewarm_schedule.py`, including
+four that run real resumes; falsified by re-introducing the unconditional rebase.
+
+**What is still not done:** nothing here has run on real data or on a GPU. It is
+code-complete and unit-tested, which is a strictly weaker claim than "validated".
+Step 1's variance baseline remains the prerequisite, and it is the number every
+later threshold is expressed as a multiple of.
 
 ---
 

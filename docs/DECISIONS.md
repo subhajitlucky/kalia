@@ -154,3 +154,52 @@ reinstated as live justification, because it checked "phantom absent OR note
 present" and the note was elsewhere in the file — so it is written to isolate the
 note and compare against what remains. Verified by reinstating the fake (fails)
 and by deleting the note (fails).
+
+## D51 — `--resume` silently continued the source schedule; the re-warm was never on (2026-09-29)
+
+**Context.** Building the v0.3.0 execution notebooks surfaced a defect that would
+have voided Step 2 of the pre-registration without producing a single error.
+
+`train.py --resume` continues the source run's cosine schedule. v0.2.0 ends at
+step 4770 of `max_steps` 4770, and `base_lr_scale` returns `min_lr_ratio` for any
+step at or beyond `max_steps`. So a resumed update would sit at **LR multiplier
+0.100 for every step** — the re-warm arm would have been byte-identical to its
+no-re-warm control, and Step 2 would have reported "the recipe does not transfer
+at 58M." **A null for a mechanism that was never switched on.** Measured: 0.100
+flat, versus 0.02 → 0.97 → 0.10 once the schedule is rebased.
+
+**Two intermediate fixes were worse than the original, and both are recorded
+because both would have produced a plausible wrong answer:**
+
+1. Rebasing the schedule unconditionally also re-warmed the **control**. Both arms
+   peaked at 0.00060 — two identical arms, meaningless null.
+2. Gating the step budget on `rewarm` gave the control a 40-step budget against a
+   `start_step` of 60, so it trained **zero** steps while the treatment trained 40.
+3. Making the budget origin-relative for any resumed run broke the smoke test
+   asserting `--max-steps` is an absolute ceiling, and would have silently
+   changed how every already-recorded resume behaves.
+
+**Decision.**
+1. `--max-steps N` keeps its historical meaning: absolute step N. This is asserted
+   by an existing smoke test and must not move.
+2. A new config key **`update_budget`** means "N more steps", and is set on all
+   seven v0.3.0 arms. Without it a resumed v0.2.0 run with `max_steps` 500 trains
+   nothing, because `step < hard_max_steps` is false on entry.
+3. **`rewarm` now defaults to `False`.** A plain `--resume` must not change the
+   schedule of runs whose results are already published. The opt-in is what keeps
+   v0.2.0's history reproducible.
+4. The schedule origin is rebased **only** when `rewarm` is set, so the control
+   arm continues the source cosine and the treatment restarts it.
+
+**Verification.** Both arms run end-to-end on CPU: same 40 update steps, re-warm
+peaking at 0.00060 against the control's 0.00006 — a 10× difference in the
+learning rate each arm trains at. 12 tests in `test_rewarm_schedule.py`, four of
+which perform real resumes. Falsified by restoring the unconditional rebase: two
+fail.
+
+**Standing lesson.** This is the third time an unexercised code path has turned
+out to be wrong (the pyflakes gate, `per_source_loss`'s model signature, and now
+the resume schedule). In every case the defect was invisible to reading and to
+unit tests, and visible only to running the thing. The v0.3.0 arms are the first
+part of this project whose execution path is exercised end-to-end before it is
+trusted with quota.
