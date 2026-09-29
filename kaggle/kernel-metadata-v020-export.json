@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-v020-export",
+  "title": "KALIA v020 export",
+  "code_file": "kalia-v020-export.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-train-v020", "subhajitlucky/kalia-prep-v2b"],
+  "model_sources": []
+}

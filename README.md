@@ -8,34 +8,71 @@
 A from-scratch ~58M-parameter language model — trained on free Kaggle GPUs with zero
 fine-tuning, zero pretrained weights, and zero budget.
 
-Model weights: [kalia-lm/kalia-v012](https://huggingface.co/kalia-lm/kalia-v012).
+| release | status | tokens | held-out loss | notes |
+|---|---|---|---|---|
+| [`kalia-v012`](https://huggingface.co/kalia-lm/kalia-v012) | released | 1.82B | 3.0533 | stopped at 73% of its schedule |
+| `kalia-v020` | experiment, not yet public | 2.50B | **2.8248** | full 4,770-step schedule, compliance-rebuilt corpus |
 
-KALIA is a decoder-only transformer trained from **random initialization** on a
-2.46B-token English corpus; 1.82B tokens were seen before the weekly quota stopped
-training at step 3,478 of 4,770. Every weight in KALIA is learned by this project's
-own training run; nothing is borrowed from another model. The whole engineering
-record — decisions, incidents, pre-registered experiments — ships with the code.
+Both figures are on the **same** held-out set (the compliance-rebuilt `kalia-prep-v2b`),
+scored by the same deterministic 100-batch protocol. The 2.4366 that appeared in earlier
+releases is v0.1.2 on the *original* held-out set, which the rebuild replaced; the two are
+never compared (decision D43).
+
+**The complete record — method, results, strong points, weak points, and every failure —
+is in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md).** 45 decisions, 9 incidents, 9
+hash-verified pre-registrations, 146 tests.
+
+Every weight in KALIA is learned by this project's own training run; nothing is borrowed
+from another model.
 
 ## Spec
 
 | Field | Value |
 |---|---|
 | Parameters | 57,856,256 |
-| Layers | 10 |
-| Heads | 8 |
+| Layers / heads | 10 / 8 |
 | Embedding dim | 512 |
 | Context length | 1,024 tokens |
 | Vocabulary | 50,257 (GPT-2 BPE) |
 | Architecture | Pre-norm decoder-only: RMSNorm, SwiGLU, RoPE, QK-Norm, logit soft-cap (τ=30), weight tying, no biases |
-| Training data | v0.1.x: TinyStories (~500M tokens) + FineWeb-Edu (~2B tokens) |
+| Optimizer | Muon (Newton–Schulz) on hidden matrices; AdamW for embeddings/head/norms |
+| Schedule | Cosine with warmup, 4,770 steps (~0.5M tokens/step) |
 | Training hardware | Kaggle free tier: 2× NVIDIA T4, ~30 GPU-hours/week |
-| Precision | fp16 with gradient scaling, DDP across 2×T4 |
-| Optimizer | Muon (Newton–Schulz) on hidden matrices, AdamW for embeddings/head/norms (Muon+ validated at micro scale, below promotion threshold) |
-| Schedule | Cosine with warmup; 4,770 steps (~0.5M tokens per step) |
+| Training data | 2.4B tokens, 60/20/15/5 — FineWeb-Edu (ODC-By-1.0) / TinyStories (CDLA-Sharing-1.0) / Cosmopedia v2 (Apache-2.0) / permissively-licensed Python |
 
-## Measured results
+Full per-source licensing analysis, including what may and may not be redistributed, is in
+[`docs/legal/training-data-licence-matrix.md`](docs/legal/training-data-licence-matrix.md).
 
-Micro-ablations (30M params, equal tokens, equal seed, step-700 validation loss):
+## Results
+
+**Held-out loss, v0.1.2 → v0.2.0** — same weights protocol, same held-out set, only the
+corpus changed: **3.0533 → 2.8248, a 0.2285-nat improvement**, 4.6× the pre-registered
+0.05-nat bar. 0.9992 → **0.9244** bits-per-byte.
+
+**Zero-shot accuracy** (lm-eval 0.4.9, 0-shot, 500 samples). Standard errors at this sample
+size are ~2 points, so the deltas are read with that attached:
+
+| task | v0.1.2 | v0.2.0 | Δ | σ |
+|---|---|---|---|---|
+| PIQA | 61.4 | 63.8 | +2.40 | 1.1 |
+| HellaSwag | 36.8 | 39.8 | +3.00 | 1.5 |
+| WinoGrande | 50.2 | 50.8 | +0.60 | inside noise |
+| LAMBADA | 23.0 | 20.8 | **−2.20** | 1.2 |
+| ARC-Easy | 45.8 | 42.0 | **−3.80** | 1.7 |
+
+**Three of the five movements are smaller than the measurement's own noise and cannot be
+called improvements.** The pre-registered stability rule allows no task to regress by more
+than 1.0 point, and v0.2.0 **fails it on two** — which is why it is held as an experiment
+rather than promoted over v0.1.2. The thresholds were not moved after seeing the result,
+and the noise floor is published beside the verdict rather than used to rescue it (D45).
+
+**What the loss/accuracy split means.** Six architecture ablations moved loss by 0.01–0.05
+nats; changing the data moved it 0.2285 and still cost 3.8 points on ARC-Easy. When loss
+improves and accuracy does not follow, the problem is the data, not the capacity or the
+method. That is the project's main methodological finding and it is what the next version
+is built on.
+
+**Micro-ablations** (30M params, equal tokens, equal seed, step-700 val loss):
 
 | Arm | Val loss |
 |---|---|
@@ -43,185 +80,120 @@ Micro-ablations (30M params, equal tokens, equal seed, step-700 validation loss)
 | Muon | 3.5937 |
 | Muon + QK-Norm + soft-cap | **3.5103** |
 
-- Muon+ vs plain Muon at matched tokens: **3.4941 vs 3.5091** (better on 7/7 checkpoints) — below the pre-set 0.02-nat promotion threshold, so v0.1.2 ships **plain Muon**.
-- LR sweep picked 0.02 as optimal (0.015: 3.4943 · 0.02: 3.4941 · 0.03: 3.5027 · 0.06: 3.5380).
-- Full-scale: the Muon model overtook the AdamW baseline's *final* loss with **~23%
-  fewer tokens** (3.2214 @ step 1730 vs 3.2702 @ step 2250).
-- At step 3,478: held-out loss 2.4366 (deterministic, 819k tokens), **0.8184 bits-per-byte** —
-  measured on the original `kalia-prep` val set. Re-measured on the compliance-rebuilt
-  `kalia-prep-v2b` val set (canonical from v0.2.0 on) the same weights score **3.0533 /
-  0.9992 bpB**: the rebuild replaced a source slice and made the held-out set harder by
-  0.62 nats. The two figures are not comparable (D43).
-- Zero-shot benchmarks (lm-eval, 0-shot, 500 samples): **PIQA 61.4%** · ARC-Easy 45.8% ·
-  HellaSwag 36.8% (acc_norm) · WinoGrande 50.2% · LAMBADA 23.0% acc / ppl 194 — a
-  storyteller's profile (near-125M-class on PIQA/ARC-Easy despite 2× fewer params).
-- Entry–exit asymmetry ("Abhimanyu gap"): **6.06 nats** (forward 3.23 vs reversed-text
-  9.29; random ≈ 10.8) — the model can enter text but not exit it. The pre-registered
-  experiment that tested the obvious fix has since run and **failed**: at 30M parameters,
-  training on 50% chunk-preserving reversal left the gap at 5.25 nats against a 5.11-nat
-  control — worse, on both seeds, on both metrics (X16 / D42). Reversing chunk *order* does
-  not teach token-level entry, so no gap claim is carried forward.
+Muon beat AdamW by 0.21 nats; QK-Norm plus soft-cap a further 0.08. LR 0.02 was optimal
+across a 4-point sweep. At full scale the Muon model passed the AdamW baseline's *final*
+loss using ~23% fewer tokens (3.2214 @ step 1730 vs 3.2702 @ step 2250).
 
-v0.1.2 is still training; final numbers are filled in at release. Full evaluation
-reports live in `docs/eval/`.
+## What failed, and what it taught
+
+Negative results are published with the same prominence as wins. That is decision D42, and
+it is the reason this repository is worth reading.
+
+| What | Result | What it taught |
+|---|---|---|
+| Reversal training (X16) | **Rejected.** Both pre-registered bars missed on both seeds — the entry-exit gap got *worse* | Reversing chunk order does not teach token-level entry. The gap is architectural, confirmed at 5.1 nats at 30M, not an undertraining artifact |
+| Gated residual (X18) | **Not attributable.** Best loss gain of any arm (4.4× bar) but the learned gate never opened — 0.0192 against a 0.05 bar, and only 5e-06 of variation in response to its input | The measured effect belonged to the branch normalisation, not to the data-dependent read the technique claims. Its documented init was also dead code, silently overwritten by the global re-init |
+| Document masking (X17) | Implemented and pre-registered, not yet run | — |
+| Licence audit (I16) | **41.7% of the code corpus is copyleft.** The filter existed and was tested — it landed 40 minutes *after* the corpus that needed it | A green test on a filter that ran on the wrong side of a timestamp reads exactly like safety |
+| Dataset publishing (I17) | The Kaggle publisher defaults to `--dir-mode skip`, so the code dataset shipped with no configs, no eval folder, and no JSON at all | Every upload reported success. Assert the interface, then trust it |
+
+**Two measurement mistakes were our own.** A corpus rebuild silently replaced the
+held-out set, making a healthy run look 0.74 nats worse (D43). And two pre-registered
+accuracy thresholds — 0.5 pp and 1.0 pp — sat *below* the ~2 pp standard error of the
+benchmarks they were read from, so one of them passed on noise alone (D45).
 
 ## Repository layout
 
 ```
 kalia/
-  model.py              # RMSNorm, SwiGLU, RoPE, attention, QK-Norm, GPT
-  data.py               # memory-mapped token dataset, batching, reversal transform
-  prepare.py            # tokenize text sources into uint16 .bin shards (license filter)
-  mix_bins.py           # blend shards into a training mixture
-  train.py              # resumable, time-budgeted, DDP-capable training loop
-  ablate.py             # sequential micro-ablation runner (+ Abhimanyu-gap readout)
-  optim.py              # Muon / Muon+ / AdamW hybrid optimizer
-  sample.py             # generate text from a checkpoint
-  eval_probes.py        # frozen 27-prompt probe suite + held-out sentence loss
-  eval_reversibility.py # entry-exit asymmetry (Abhimanyu gap)
-  eval_entities.py      # entity-consistency report
-  compare_models.py     # side-by-side generation comparison
-  configs/              # kalia-m.yaml (the real model) + micro-* ablation configs
-  notebooks/            # Kaggle: prep, mix, train, ablate, reproduce
-  tests/                # pytest suite (64 tests)
-  docs/journal/         # dated engineering journal (decisions, incidents, fixes)
-  docs/DECISIONS.md     # numbered decision log
-  docs/research/        # technique surveys with honest prior-art notes
-  docs/preregistrations/# hash-anchored experiment pre-registrations + LEDGER
-  docs/public/          # model card, article drafts, publish checklist
+  model.py               # RMSNorm, SwiGLU, RoPE, attention, QK-Norm, doc masking, GPT
+  data.py                # memory-mapped token dataset, document masks, replay mixture
+  prepare.py             # tokenize text sources into uint16 .bin shards (licence filter)
+  prep_longform.py       # document-length probe per source
+  mix_bins.py            # blend shards into a training mixture
+  train.py               # resumable, time-budgeted, DDP training loop
+  ablate.py              # sequential micro-ablation runner (+ Abhimanyu-gap readout)
+  optim.py               # Muon / Muon+ / AdamW hybrid optimizer
+  sample.py              # generate text from a checkpoint
+  eval_bench.py          # zero-shot suite via lm-evaluation-harness
+  eval_val.py            # deterministic held-out loss (the registered primary metric)
+  eval_reversibility.py  # entry-exit asymmetry (Abhimanyu gap)
+  eval_probes.py         # frozen 27-prompt probe suite
+  gate_probe.py          # Gated Residual gate statistics (mean and dispersion)
+  lambada_loader.py      # serve LAMBADA to lm-eval without its dead loading script
+  forgetting_probe.py    # continual-learning retention ledger
+  audit_licences.py      # per-file licence audit
+  tools/                 # dataset publisher, model exporter, figure + notebook builders
+  configs/               # the real model config + micro-* ablation arms
+  notebooks/             # Kaggle kernels: prep, train, ablate, benchmark, evaluate
+  test_*.py              # 146 tests, flat at the repo root
+  docs/SYNTHESIS.md      # the whole record in one document
+  docs/journal/          # dated engineering journal
+  docs/DECISIONS.md      # 45 numbered decisions
+  docs/research/         # technique surveys with honest prior-art verdicts
+  docs/preregistrations/ # hash-anchored pre-registrations + LEDGER
+  docs/legal/            # training-data licence matrix
+  docs/public/           # model cards, publish checklist
 ```
-
-## Glossary (for developers new to ML)
-
-| Term | Plain meaning | Developer analogy |
-|---|---|---|
-| Weights / parameters | The learned numbers — all of the model's knowledge | Config object written by training instead of by hand |
-| Architecture | Blueprint for how the numbers are wired together | Schema + code structure |
-| Transformer / GPT | The 2017 public design; a next-token predictor | A public spec (like HTTP) that everyone implements |
-| Layer / heads | Processing stages / parallel attention lanes | Middleware chain / worker pool |
-| Attention | Every token searches earlier tokens and mixes in relevant info | A JOIN across token positions |
-| Embedding | Turns a token ID into a vector of numbers | `Map<tokenId, number[]>` that gets learned |
-| Tokenizer / BPE / vocab | Text → chunk IDs; BPE learns common chunks | A compiler: string → int[] |
-| Context window | How many tokens the model can see at once | Max payload size |
-| RMSNorm | Keeps numbers healthy between stages | Input-validation middleware |
-| QK-Norm | Normalizes attention queries/keys — stabilizes training | Schema validation on a hot path |
-| SwiGLU | Gated feed-forward "thinking" block | Feature transform with a data-controlled volume knob |
-| RoPE | Encodes token order by rotating vectors | Continuous timestamps for positions |
-| Logit soft-cap | Squashes extreme output scores | Rate limiting the response |
-| Random init | Starts knowing nothing | Empty database |
-| Training | Show text, predict next token, nudge dials | The learning loop |
-| Loss | "How wrong" score; random guessing ≈ 10.8 | Error rate |
-| bpB (bits-per-byte) | Loss converted to compression of raw text | gzip ratio, but learned |
-| Ablation | Re-train with one change to measure its effect | A/B test with everything else fixed |
-| Backprop | Computes blame for every dial | `git blame` with auto-fix instructions |
-| AdamW | The dial-nudging rulebook | Update policy |
-| Muon / Muon+ | A newer dial-nudging rulebook for weight matrices | A faster scheduler for a specific workload |
-| Learning rate / warmup / cosine | Nudge size; start gentle, cool down | Ramp-up + graceful shutdown |
-| Batch / gradient accumulation / step | Examples per update / one update | Batched requests / one deploy |
-| fp16 AMP | Half-size numbers → ~2× faster | Compressed transport |
-| DDP | Two GPUs learn together and sync | Two instances behind a load balancer |
-| Checkpoint | Saved state of all dials + optimizer | Database dump |
-| Overfit | Memorizing instead of understanding | Hardcoding test answers |
-| Fine-tune | Adapt a pretrained model (KALIA does NOT do this) | Fork + patch |
-| SFT | Stage 2: teach instruction following | API docs vs conversational onboarding |
-| Quantization / GGUF / Ollama | Shrink weights to run locally | Minifying assets / Docker for models |
-| Kaggle | Free GPU notebooks with weekly quotas | CI runners with GPUs |
-| HF Hub | Hosting for models and checkpoints | npm registry for models |
 
 ## Local quickstart
 
+Heavy work belongs on Kaggle. The laptop runs the test suite and nothing else.
+
 ```bash
-python -m venv .venv
-. .venv/bin/activate
+python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-python -m pytest tests/ -v          # full suite, ~16 seconds on CPU
+python -m pytest -q          # 146 tests, ~16s on CPU
 ```
 
-Smoke-train the tiny test model on CPU (proves the whole pipeline works):
+Two rules this repository learned the hard way, both enforced by tools rather than by
+convention:
 
-```bash
-python -c "
-import numpy as np, pathlib
-p = pathlib.Path('data'); p.mkdir(exist_ok=True)
-rng = np.random.default_rng(0)
-np.array(rng.integers(0, 256, 8192), dtype=np.uint16).tofile(p/'train.bin')
-np.array(rng.integers(0, 256, 2048), dtype=np.uint16).tofile(p/'val.bin')
-"
-python train.py --config configs/smoke.yaml --data-dir data --out-dir out
-```
+- **Never download large artifacts to the developer machine.** Measure on a Kaggle CPU
+  kernel, which costs neither GPU quota nor bandwidth. `tools/publish_code_dataset.py`
+  and `tools/publish_model_card.py` verify by round-trip for the same reason: a remote
+  write that reports success is not evidence the write landed.
+- **Never add a commit trailer.** This repo's history carries none. See
+  [`docs/COMMIT_CONVENTION.md`](docs/COMMIT_CONVENTION.md).
 
-Generate from any checkpoint:
+## Kaggle runbook
 
-```bash
-python sample.py --ckpt out/ckpt.pt --prompt "Once upon a time"
-```
+1. `notebooks/kalia-prep*.ipynb` (CPU) → `Save Version` → `Output` → `Create Dataset`
+   (private). This is the tokenised corpus.
+2. `notebooks/kalia-train-v020.ipynb` (GPU T4 ×2, Internet on, `HF_TOKEN` secret) →
+   every later run resumes from the latest checkpoint on the Hub. Nothing is ever lost.
+3. `notebooks/kalia-v020-final-eval.ipynb` (CPU) → the registered final evaluation.
+4. `tools/publish_model_card.py` → the model card, verified by downloading it back.
 
-Run the evaluation suite on a checkpoint:
-
-```bash
-python eval_probes.py --ckpt out/ckpt.pt --out out/eval/report.md
-python eval_reversibility.py --ckpt out/ckpt.pt --out out/eval/reversibility.md
-```
-
-## Kaggle runbook (training KALIA for real)
-
-**One-time setup**
-
-1. Create a private dataset `kalia-tokens` — run `notebooks/kalia-prep.ipynb` on Kaggle
-   (CPU, Internet on), then `Save Version` → `Output` → `Create Dataset` (private).
-2. Create a HuggingFace **write** token (huggingface.co/settings/tokens) and a private
-   model repo, e.g. `yourname/kalia-m`.
-3. Kaggle: verify your phone (Settings → Phone Verification) to unlock GPU quota.
-4. Kaggle: add your `HF_TOKEN` under Add-ons → Secrets.
-5. Push this repository to GitHub (private is fine — the notebooks clone it with a
-   `GH_TOKEN` Kaggle secret).
-6. Kaggle secrets: add `HF_TOKEN` (HuggingFace write token) and `GH_TOKEN` (GitHub token
-   with read-only access to this repo). Toggle both **on** for each notebook.
-7. Edit `HUB_REPO` in `notebooks/kalia-train-v012.ipynb` to your HuggingFace repo id
-   (e.g. `kalia-lm/kalia-v012`).
-
-**Every training session**
-
-1. Open `notebooks/kalia-train-v012.ipynb`, set Accelerator to **GPU T4 x2**, attach the
-   `kalia-tokens` dataset, Internet on.
-2. Run all cells. The first run starts from random weights; every later run resumes from
-   the latest checkpoint — no progress is ever lost.
-
-**Multi-session mechanics:** `train.py` saves a checkpoint (weights + optimizer + step
-counter) to your HF repo every 30 minutes and at the end of a session. The next session
-pulls the latest checkpoint and continues. Kaggle gives ~30 GPU-hours per week, so KALIA
-needs roughly 1–2 weeks of weekly quota to finish.
-
-**Monitoring:** watch `logs/train_log.csv` in your HF repo. Loss starts near 10.8 (random
-guessing) and should fall toward ~3.1. Sample generations print every 500 steps.
+`train.py` checkpoints to the Hub every 30 minutes and at session end, so the weekly quota
+caps a session but never the run.
 
 ## Version history
 
 - **v0.1.0** — baseline: AdamW, RoPE, SwiGLU, RMSNorm, fp16, T4×2. Final val 3.2702.
-- **v0.1.1** — Muon optimizer for hidden weight matrices (AdamW keeps
-  embeddings/head/norms). Micro-ablation at equal tokens (30M params, 50M
-  tokens): **3.5937 vs 3.8041** val loss, a **−0.21** win.
-- **v0.1.2** — QK-Norm + logit soft-capping (τ = 30) on top of plain Muon at LR 0.02.
-  Same ablation: **3.5103** val loss, **−0.29** vs baseline; LR 0.02 frozen.
-  In full-scale training: 0.9415 bpB at step 3,478, Abhimanyu gap 6.06 nats.
-  Stopped at 73% of the cosine schedule (quota) with the plateau documented.
-  First coherent generations at step 1738: see `docs/samples/`.
-- **v0.1.3+** — nothing: patch numbers stay inside a recipe family. The next
-  release is **v0.2.0** (see roadmap).
-
-## Roadmap
-
-- **v0.2.0** — new data lineage: the compliance-clean v2 corpus (FineWeb-Edu-dedup,
-  TinyStories, Cosmopedia, permissively licensed Python), plus only those changes
-  that pass pre-registered promotion rules (architecture ablation; reversal
-  training). Rules are hashed in `docs/preregistrations/LEDGER.md` before results
-  exist.
-- **v1 — SFT**: a small instruction-tuning stage so KALIA can follow prompts.
-- **v2 — local deployment**: quantization/GGUF export, FastAPI inference service, chat UI.
-- **v3 — scale-up**: reuse the same pipeline at 125M+ params.
+- **v0.1.1** — Muon for hidden weight matrices. Micro-ablation at equal tokens:
+  3.5937 vs 3.8041, a 0.21-nat win.
+- **v0.1.2** — QK-Norm + logit soft-cap (τ=30). Micro-ablation 3.5103, 0.29 vs baseline.
+  Stopped at step 3,478 of 4,770 on quota with the plateau documented. First public release.
+- **v0.2.0** — compliance-rebuilt corpus, same recipe, full 4,770 steps. Val 2.8248
+  (−0.2285 nats vs v0.1.2 on the same yardstick); three of five benchmarks move inside
+  their own noise, two regress beyond it. Held as an experiment: it fails its own
+  pre-registered stability rule on ARC-Easy and LAMBADA.
+- **v0.3.0** — *not* a new base. The first **continual update** of v0.2.0: new corpus, the
+  learning rate re-warmed and re-decayed, old data replayed, and no restart from scratch.
+  With 30 GPU-hours a week, that is the only way this model improves at a rate worth
+  having — and the replay ratio has to be measured at 58M rather than inherited, because
+  published replay results stop at 0.6B backbones.
+- **v0.4.0** — possible base rebuild, only if instance-level data selection proves the
+  mixture is the binding constraint.
 
 ## License
 
-Code: MIT (see `LICENSE`). Model weights: Apache-2.0 at release. Training data is
-not redistributed; sources are attributed in the model card (TinyStories:
-CDLA-Sharing-1.0; FineWeb-Edu / Cosmopedia: ODC-By; code: permissive licenses only).
+Code: MIT (see `LICENSE`). Model weights: Apache-2.0.
+
+Training data is **not** redistributed. The v0.2.0 corpus is licence-clean by
+construction and could be released under three attribution conditions; the recipe,
+manifests and filter ship instead, which reproduces it exactly, since every source is
+public. The v0.1.2 code slice is **never** released — it was built without a licence
+check and is 41.7% copyleft. That is disclosed on the v0.1.2 card rather than quietly
+fixed.
