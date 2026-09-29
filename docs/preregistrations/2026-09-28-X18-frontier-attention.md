@@ -176,3 +176,74 @@ closed. It was never actually designed to.
   conclusion here depends on it, but the notebook's own summary header
   advertised it, so the header overpromised.
 
+## F-3 and F-4 completed — and the accuracy threshold was below our own noise
+
+A CPU kernel (`kalia-x18-close`) supplied the two missing measurements. Both are
+now closed.
+
+**F-4, on 100 real 512-token validation batches** (not the 20 short probe
+sentences used for the first estimate): mean gate **0.01917**, per-block
+0.01916–0.01919, against a 0.01799 floor and a 0.05 threshold. The first estimate
+(0.0192) was right. **F-4 FAIL**, confirmed on real validation text.
+
+**F-3, both halves now measured:**
+
+| task | control | gated | Δ |
+|---|---|---|---|
+| PIQA | 51.8 | 51.6 | −0.20 |
+| ARC-Easy | 29.4 | 29.4 | +0.00 |
+| HellaSwag | 27.0 | 27.8 | +0.80 |
+| WinoGrande | 51.8 | 53.0 | **+1.20** |
+| LAMBADA | 0.0 | 0.0 | +0.00 |
+
+Val loss half passed (4.7226 ≤ 4.7662). Best accuracy delta **+1.20 pp**, so F-3
+**passes on its registered terms** (≥0.5 pp).
+
+### But the threshold is below the noise floor, so that pass means nothing
+
+The standard errors on these measurements, at `limit=500`:
+
+| task | stderr |
+|---|---|
+| PIQA | 2.24 pp |
+| ARC-Easy | 2.04 pp |
+| HellaSwag | 1.99–2.01 pp |
+| WinoGrande | 2.24 pp |
+
+**F-3's registered 0.5 pp threshold sits ~4.5× below the measurement's own
+standard error.** The observed +1.20 pp on WinoGrande is **0.54σ** — the expected
+size of noise, and indistinguishable from it. A 0.5 pp bar at this sample size
+passes roughly half the time by construction.
+
+So F-3 "passes" in the letter and carries no information. Two things follow, and
+the first is uncomfortable:
+
+1. **The pre-registration is at fault, not the mechanism.** The threshold was
+   chosen as a round number without ever being compared against the benchmark's
+   standard error at `limit=500`. This is recorded against X18 honestly. It is
+   the same class of error as a threshold set without reference to the metric's
+   resolution — and we have now made it twice, in the accuracy direction.
+2. **This contaminates the v0.2.0 promotion rule.** S-A allows no task to
+   regress by more than **1.0 pp** — also below the ~2.0–2.2 pp noise floor at
+   `limit=500`. S-A therefore cannot distinguish a real 1 pp regression from a
+   coin flip. The interim measurement's ARC-Easy −4.6 and LAMBADA −4.6 *are*
+   outside noise and stand as real regressions; PIQA −0.2 and WinoGrande −0.8
+   are inside it and do not.
+
+**The registered thresholds are not changed.** S-A is evaluated on its 1.0 pp
+terms exactly as written, and the noise floor is reported *alongside* the result
+rather than used as an escape hatch — the same handling P-C was given. What
+changes is every *future* pre-registration: accuracy thresholds must be stated
+either above the measured standard error or with enough samples to bring it
+below the bar. See D45.
+
+### Where X18 actually leaves us
+
+Both signals that could have supported the mechanism are now measured, and
+neither supports it: the gate is inert (F-4), and the accuracy "gain" is noise
+(F-3). The −0.0436 nats loss improvement remains real and remains unattributed.
+X19 exists precisely to attribute it, and its G-1 threshold is stated in nats
+(0.010), which is unaffected by this problem — the benchmark half of X18 is the
+part that was under-powered.
+
+
