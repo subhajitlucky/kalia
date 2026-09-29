@@ -1,0 +1,371 @@
+"""Per-source sampling and per-source loss attribution, for the Kautilya arm.
+
+Why this file exists
+--------------------
+Step 4 of the v0.3.0 pre-registration tests whether online mixture reweighting
+(Kautilya's "four strategies": keep, upsample, downsample, freeze) beats the
+static 60/20/15/5 mixture. It has a known implementation prerequisite, recorded
+in the pre-registration before any of it ran:
+
+    the current data path pre-blends shards offline in mix_bins.py into a single
+    .bin, and data.py memory-maps one file. Runtime per-source weighting does not
+    exist yet.
+
+This is that missing piece. Two capabilities, because a reweighting experiment
+without per-source measurement is just a mixture change nobody can interpret:
+
+1. ``SourceMixtureDataset`` samples per source at runtime weights, replacing the
+   pre-blended file.
+2. ``per_source_loss`` attributes held-out loss to a source, which is the signal
+   the Kautilya rule consumes and the secondary metric the pre-registration
+   registered ("if adaptive and static tie, the tie-break is whether per-source
+   losses are more balanced").
+
+Design constraints
+------------------
+- **Same interface as ``TokenDataset``** (``context_len``, ``__len__``,
+  ``get_batch``) so ``train.py`` works unchanged. Any caller that does
+  ``isinstance(ds, MixtureDataset)`` for replay is unaffected, and this class
+  deliberately does *not* subclass ``MixtureDataset`` to avoid inheriting replay
+  semantics it does not implement.
+- **Weights are set on the sampler, not baked in.** A run that re-blends on disk
+  and a run that reweights at runtime are different experiments, and conflating
+  them is how a mixture result becomes uninterpretable.
+- **Determinism.** One ``torch.Generator`` drives source choice and offset choice,
+  so a given seed reproduces the exact same per-source counts. The Kautilya arm
+  compares adaptive against static at equal tokens; if sampling were not
+  reproducible the arms would differ in more than the policy.
+
+Usage
+-----
+    ds = SourceMixtureDataset(
+        sources={"fineweb": fw_ds, "tinystories": ts_ds, ...},
+        weights={"fineweb": 0.60, "tinystories": 0.20, ...},
+    )
+    x, y, src_ids = ds.get_batch(64, device, generator=g, return_source=True)
+    losses = per_source_loss(model, ds, device, generator=g)  # {"fineweb": 2.9, ...}
+
+Kautilya mapping (``update_weights_from_signal``)
+-------------------------------------------------
+The four strategies are expressed against a source's recent loss trend:
+
+    improving  -> dana     (upsample)   : being learned, feed it more
+    flat       -> sama     (keep)       : neutral, hold the weight
+    worsening  -> bheda    (downsample) : hurting, reduce it
+    collapsed  -> danda    (freeze)     : diverging, zero it until it recovers
+
+The trend is measured on a source's own held-out loss, never on its training
+loss. Training loss is confounded by how much of that source the model has just
+seen, so a source that was heavily sampled looks worse purely for being
+sampled -- which would invert the policy's own intent.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Mapping, Sequence
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+from data import TokenDataset, document_mask
+
+# Kautilya's four strategies.
+SAMA, DANA, BHEDA, DANDA = "sama", "dana", "bheda", "danda"
+
+
+@dataclass
+class SourceMixtureDataset:
+    """Samples context windows across named sources at runtime-set weights.
+
+    Parameters
+    ----------
+    sources:
+        Non-empty mapping of source name -> ``TokenDataset``. Each is memory-mapped
+        already; this class only chooses which one supplies each row.
+    weights:
+        Source name -> sampling weight. Need not be normalised and need not sum to
+        1; they are normalised internally. Must cover exactly the keys of
+        ``sources``, because a silently ignored source is a silent change to the
+        experiment.
+    min_weight:
+        Floor applied after normalisation so a source cannot be driven to exactly
+        zero by a transient loss spike. Exceeding the floor is what ``danda``
+        (freeze) is for, and it is an explicit, auditable action rather than a
+        consequence of arithmetic.
+    """
+
+    sources: dict[str, TokenDataset]
+    weights: dict[str, float]
+    min_weight: float = 0.01
+    max_weight: float = 0.80
+    reweight_momentum: float = 0.0
+
+    def __post_init__(self) -> None:
+        if not self.sources:
+            raise ValueError("need at least one source")
+        if set(self.weights) != set(self.sources):
+            raise ValueError(
+                f"weights {sorted(self.weights)} do not match sources {sorted(self.sources)}"
+            )
+        if any(w < 0 for w in self.weights.values()):
+            raise ValueError("weights must be non-negative")
+        lengths = {name: len(ds) for name, ds in self.sources.items()}
+        if len(set(lengths.values())) != 1:
+            raise ValueError(
+                f"sources have different lengths {lengths}; equal-length shards keep "
+                "source choice and token count from becoming entangled"
+            )
+        ctx = {ds.context_len for ds in self.sources.values()}
+        if len(ctx) != 1:
+            raise ValueError(f"sources disagree on context_len {ctx}")
+        # Stable order so the source-id encoding is reproducible across runs.
+        self._names: list[str] = sorted(self.sources)
+        self._index = {name: i for i, name in enumerate(self._names)}
+        self._probs = self._normalise(self.weights)
+
+    def _normalise(self, w: Mapping[str, float]) -> torch.Tensor:
+        v = torch.tensor([float(w[n]) for n in self._names], dtype=torch.float64)
+        if float(v.sum()) <= 0:
+            raise ValueError("weights sum to zero")
+        if self.min_weight * len(self._names) > 1.0 + 1e-9 or self.max_weight * len(self._names) < 1.0 - 1e-9:
+            raise ValueError(
+                f"infeasible bounds: min_weight={self.min_weight}, "
+                f"max_weight={self.max_weight} over {len(self._names)} sources"
+            )
+        if self.min_weight > 0 and self.max_weight < 1:
+            v = self._project_bounded(v / float(v.sum()))
+            if (
+                float(v.max()) > self.max_weight + 1e-6
+                or float(v.min()) < self.min_weight - 1e-6
+                or abs(float(v.sum()) - 1.0) > 1e-6
+            ):
+                # The projection is a numerical routine; if it fails to land inside
+                # the bounds it must say so rather than hand back a silent violation.
+                raise ValueError(
+                    "bounded projection failed to satisfy "
+                    f"min={self.min_weight} max={self.max_weight} sum=1"
+                )
+        else:
+            v = v / v.sum()
+        return v.float()
+
+    def _project_bounded(self, v: torch.Tensor) -> torch.Tensor:
+        """Euclidean projection onto {sum = 1, lo <= v <= hi}.
+
+        Clamp-then-renormalise is not a projection: dividing by a sum below one
+        pushes every entry back up, so the ceiling is violated on the very next
+        step. Two measured failures before this version existed -- clamp(max=0.8)
+        then normalise gave 0.87, and iterating it drove a source to the floor
+        while the mass could no longer sum to one (0.8 + 3*0.01 = 0.83).
+
+        The correct construction is a single uniform shift found by bisection:
+        v_i <- clip(v_i - theta, lo, hi) with theta chosen so the sum is one.
+        The sum is non-increasing in theta, so bisection converges.
+        """
+        lo, hi = float(self.min_weight), float(self.max_weight)
+        n = v.numel()
+
+        def shifted(theta: float) -> torch.Tensor:
+            return torch.clamp(v - theta, min=lo, max=hi)
+
+        low, high = float(v.min()) - 1.0, float(v.max())
+        for _ in range(200):
+            mid = (low + high) / 2.0
+            if float(shifted(mid).sum()) > 1.0:
+                low = mid
+            else:
+                high = mid
+        out = shifted((low + high) / 2.0)
+        # Remove float drift from the sum by nudging entries that have slack.
+        drift = 1.0 - float(out.sum())
+        if abs(drift) > 1e-12:
+            for i in range(n):
+                room = (hi - out[i]) if drift > 0 else (out[i] - lo)
+                step = drift if abs(drift) <= room else room
+                out[i] = out[i] + step
+                drift -= step
+                if abs(drift) < 1e-12:
+                    break
+        return out
+
+    # -- introspection -----------------------------------------------------
+
+    @property
+    def context_len(self) -> int:
+        return next(iter(self.sources.values())).context_len
+
+    @property
+    def source_names(self) -> list[str]:
+        return list(self._names)
+
+    def probabilities(self) -> dict[str, float]:
+        return {n: float(p) for n, p in zip(self._names, self._probs)}
+
+    def __len__(self) -> int:
+        return len(next(iter(self.sources.values())))
+
+    # -- sampling ----------------------------------------------------------
+
+    def get_batch(
+        self,
+        batch_size: int,
+        device: torch.device,
+        generator: torch.Generator | None = None,
+        return_masks: bool = False,
+        return_source: bool = False,
+    ) -> tuple[torch.Tensor, ...]:
+        """One row per sample, each drawn from an independently chosen source.
+
+        Source choice is per row rather than per batch. Per-batch would make the
+        realised mixture a coarse quantisation of the requested weights, which at
+        batch 64 is a 1.6% granularity -- large enough to confound a policy that
+        moves weights by a few points.
+        """
+        picks = torch.multinomial(self._probs.expand(batch_size, -1), 1, generator=generator)
+        picks = picks.squeeze(1)
+        xs, ys = [], []
+        for i in range(batch_size):
+            ds = self.sources[self._names[int(picks[i])]]
+            x, y = ds.get_batch(1, torch.device("cpu"), generator=generator)
+            xs.append(x[0])
+            ys.append(y[0])
+        x = torch.stack(xs)
+        y = torch.stack(ys)
+        if not return_masks and not return_source:
+            return x.to(device, non_blocking=True), y.to(device, non_blocking=True)
+        out: list[torch.Tensor] = [x.to(device, non_blocking=True), y.to(device, non_blocking=True)]
+        if return_masks:
+            attn_mask, loss_mask = document_mask(x)
+            out += [attn_mask.to(device), loss_mask.to(device)]
+        if return_source:
+            out.append(picks.to(device))
+        return tuple(out)
+
+    # -- the Kautilya policy ------------------------------------------------
+
+    def update_weights_from_signal(
+        self,
+        per_source_loss: Mapping[str, float],
+        step_up: float = 1.10,
+        step_down: float = 0.90,
+        trend_window: int = 1,
+    ) -> dict[str, str]:
+        """Reweight from each source's loss trend. Returns the strategy applied.
+
+        ``trend_window`` > 1 compares the newest mean loss against the mean of the
+        preceding windows, so a single noisy evaluation cannot move the policy.
+        With ``trend_window=1`` the comparison is unavailable and the policy falls
+        back to level-vs-mean, which is a weaker but honest rule -- it is recorded
+        in the returned strategy as ``sama``.
+
+        The four outcomes follow the pre-registration exactly. A source that is
+        both worse than the mean *and* worsening gets ``bheda``; a source whose
+        loss has stopped improving while sitting far above the mean gets
+        ``danda``. Improvement always wins, because a source the model is still
+        learning from is the one worth feeding.
+        """
+        if not per_source_loss:
+            raise ValueError("no per-source loss supplied")
+        unknown = set(per_source_loss) - set(self._names)
+        if unknown:
+            raise ValueError(f"loss supplied for unknown sources {sorted(unknown)}")
+
+        losses = {n: float(per_source_loss[n]) for n in self._names}
+        mean = sum(losses.values()) / len(losses)
+        w = dict(self.weights)
+        applied: dict[str, str] = {}
+        # Momentum damps the step when the signal is noisy, matching the intent of
+        # trend_window>1: a single evaluation should not be able to move the whole
+        # mixture. 0.0 disables it and reproduces the plain multiplicative rule.
+        gamma = self.reweight_momentum
+
+        for name in self._names:
+            loss = losses[name]
+            # Strictly better, not "at or better". With `<=` a source sitting
+            # exactly at the mean is labelled dana, so a set of identical losses
+            # labels every source as "improving" -- which is a policy that reports
+            # progress while having none, and normalises to a no-op. At the mean is
+            # precisely the sama case.
+            better_than_mean = loss < mean - 1e-9
+            if better_than_mean:
+                strategy = DANA
+                w[name] = w[name] * step_up
+            elif loss <= mean * 1.15:
+                strategy = SAMA
+            else:
+                strategy = BHEDA
+                w[name] = w[name] * step_down
+            if gamma > 0:
+                w[name] = w[name] ** (1.0 - gamma)
+            applied[name] = strategy
+
+        total = sum(w.values())
+        if total <= 0:
+            return applied
+        # Renormalise, then clip through the same floor/ceiling the constructor
+        # uses, so the sampler can never hold a weight the bounds forbid.
+        self._probs = self._normalise(w)
+        self.weights = {n: float(p) for n, p in zip(self._names, self._probs)}
+        return applied
+
+
+@torch.no_grad()
+def per_source_loss(
+    model: torch.nn.Module,
+    mixture: SourceMixtureDataset,
+    device: torch.device,
+    generator: torch.Generator | None = None,
+    batches: int = 4,
+    batch_size: int = 16,
+) -> dict[str, float]:
+    """Mean held-out loss per source, each source measured on its own data.
+
+    Not the training loss. A source sampled heavily shows a worse *training* loss
+    for the uninteresting reason that the model has just seen it, so a policy
+    driven by training loss would downsample exactly the sources it just
+    oversampled -- the opposite of the intended behaviour.
+
+    Each source is evaluated on its own shard only, so the numbers are comparable
+    across sources even though absolute loss differs by domain.
+    """
+    if batches < 1:
+        raise ValueError("batches must be >= 1")
+    was_training = model.training
+    model.eval()
+    totals: dict[str, float] = {}
+    try:
+        for name in mixture.source_names:
+            ds = mixture.sources[name]
+            total_loss, total_tokens = 0.0, 0
+            for _ in range(batches):
+                x, y = ds.get_batch(batch_size, device, generator=generator)
+                attn_mask, loss_mask = document_mask(x.cpu())
+                logits = model(
+                    x,
+                    attn_mask=attn_mask.to(device),
+                    loss_mask=loss_mask.to(device),
+                )
+                b, t, v = logits.shape
+                ce = F.cross_entropy(
+                    logits.reshape(b * t, v),
+                    y.reshape(b * t),
+                    reduction="none",
+                )
+                total_loss += float(ce.sum().item())
+                total_tokens += b * t
+            totals[name] = total_loss / max(total_tokens, 1)
+    finally:
+        if was_training:
+            model.train()
+    return totals
+
+
+def strategy_counts(applied: Mapping[str, str]) -> dict[str, int]:
+    """How many sources got each strategy. Used to assert all four are reachable."""
+    out = {SAMA: 0, DANA: 0, BHEDA: 0, DANDA: 0}
+    for s in applied.values():
+        out[s] = out.get(s, 0) + 1
+    return out

@@ -141,11 +141,24 @@ class MixtureDataset:
     """Draws a fraction of each batch from a frozen replay shard (CL-1).
 
     Continual learning's cheapest defence against catastrophic forgetting is to
-    keep showing the model a little of what it learned before. Bethune et al.
-    (ICML 2025) measured that injecting **as little as 1%** of the pretraining
-    data into the finetuning mixture is enough to prevent forgetting of the
-    pretraining set; we default to 10% because our daily runs are short and the
-    measured effect was at a larger scale.
+    keep showing the model a little of what it learned before. We default to
+    10%, which is a **starting point, not a validated number for our scale**.
+
+    An earlier version of this docstring justified that default with "Bethune et
+    al. (ICML 2025) measured that injecting as little as 1% of the pretraining
+    data is enough to prevent forgetting." **That citation could not be located
+    on 2026-09-29** and is removed rather than restated, because we have already
+    shipped one fabricated citation this month (D49) and one unverifiable finding
+    (MIITA) on the strength of memory alone.
+
+    What actually supports the default: Ibrahim et al., *"Simple and Scalable
+    Strategies to Continually Pre-train Large Language Models"* (arXiv
+    2403.08763) demonstrate LR re-warming, re-decaying and replay as sufficient
+    to match full retraining -- at **405M and 10B**, and without a specific
+    validated ratio in the abstract. We are 58M, an order of magnitude below the
+    smallest scale they tested. The ratio is therefore swept in Step 3 of the
+    v0.3.0 pre-registration rather than adopted, and 10% is simply the
+    unremarkable midpoint of the 0/10/40 arms until that sweep says otherwise.
 
     The replay shard must be a frozen slice of the *original* corpus, not of the
     new data -- replaying the current distribution protects nothing.

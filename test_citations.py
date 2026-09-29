@@ -333,3 +333,38 @@ def test_id_verified_entries_are_a_weaker_claim_than_the_rest():
         assert aid not in ID_VERIFIED_ONLY, (
             f"{aid} had its abstract read in full; do not downgrade it"
         )
+
+
+def test_replay_default_cites_only_verified_work():
+    """The 10% replay default must not rest on an unlocatable citation.
+
+    data.py's MixtureDataset docstring once justified 10% with "Bethune et al.
+    (ICML 2025) measured that 1% replay prevents forgetting." The citation could
+    not be found, and D49 already established that we cite from memory and are
+    sometimes wrong. The default is fine; an invented reason for it is not.
+    """
+    src = (ROOT / "data.py").read_text()
+    # Split the docstring so the retraction note is isolated from the live text.
+    # The previous version of this test checked "phantom absent OR retraction note
+    # present", which passes unconditionally as long as the note is anywhere in the
+    # file -- so reinstating "Bethune et al. measured 1% replay prevents forgetting"
+    # as live justification left every test green. Verified by doing exactly that.
+    head, sep, tail = src.partition("An earlier version of this docstring")
+    assert sep, "the retraction note in data.py has disappeared; keep it"
+    note_end = tail.find("alone.")
+    assert note_end > 0, "retraction note is not delimited; it needs a closing sentence"
+    note = tail[:note_end]
+    live = head + tail[note_end:]
+
+    for phantom in ("Bethune", "ICML 2025", "as little as 1%"):
+        assert phantom not in live, (
+            f"data.py uses {phantom!r} as live justification for the replay default. "
+            "The citation could not be located (2026-09-29) and may only appear "
+            "inside the retraction note."
+        )
+    # The note must name the error, and the surviving justification must be real.
+    assert "could not be located" in note
+    assert "2403.08763" in live, (
+        "data.py should justify the replay default with the paper we verified, "
+        "arXiv 2403.08763"
+    )

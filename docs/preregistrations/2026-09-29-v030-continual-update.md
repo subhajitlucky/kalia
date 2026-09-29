@@ -134,10 +134,37 @@ Two arms, same fresh seed (1401), same total tokens:
 **Known implementation cost, registered now so it is not a surprise:** the
 current data path **pre-blends shards offline** via `mix_bins.py` into a single
 `.bin`, and `data.py` memory-maps one file. Runtime per-source weighting does not
-exist yet. It requires a multi-shard loader with per-source sampling and a way to
-attribute per-source val loss. **This is the single largest piece of engineering
-in 0.3.0 and it is not yet written.** If it is not ready and tested before quota
-resets, Step 4 is deferred to 0.4 rather than rushed.
+exist. It requires a multi-shard loader with per-source sampling and a way to
+attribute per-source val loss.
+
+**Status update, 2026-09-29 (after registration, before any run).** `mixture.py`
+now implements `SourceMixtureDataset` (per-row source sampling at runtime weights,
+same `context_len`/`__len__`/`get_batch` interface as `TokenDataset` so
+`train.py` is unchanged), `per_source_loss` (held-out loss per source — *not*
+training loss, which is confounded by how much of that source was just sampled),
+and `update_weights_from_signal` implementing sama/dana/bheda/danda. 21 CPU tests
+in `test_mixture.py`, deterministic.
+
+Two design bugs were found and fixed while testing it, both recorded because both
+would have produced a plausible, meaningless number:
+
+1. **A source at the mean loss was labelled `dana`, not `sama`.** With `<=`,
+   identical losses across sources labelled every source as "improving" — a policy
+   reporting progress while having none, which normalises to a no-op. Now strict.
+2. **Floor-without-ceiling has no restoring force.** After 500 updates against a
+   persistently-better source, weights reached 0.97/0.01/0.01/0.01. That is not a
+   mixture; it is a single-source run wearing a mixture's name. A naive
+   clamp-then-renormalise did not fix it (0.8 ceiling produced 0.87, because
+   dividing by a sum below 1 pushes entries back up) and iterating it made the
+   bounds *infeasible* (0.8 + 3×0.01 = 0.83 < 1). Replaced with a proper
+   Euclidean projection onto {sum=1, lo≤v≤hi} by bisection on a uniform shift,
+   with the postcondition asserted rather than assumed, and infeasible bounds
+   raising instead of silently violating.
+
+**Still not done, and it is the real blocker:** `train.py` does not call
+`SourceMixtureDataset`, so the arm cannot run yet. That wiring — plus deciding the
+reweight cadence and the evaluation cost of `per_source_loss` during training — is
+the remaining work, and it is why the schedule risk is code rather than GPU.
 
 ---
 

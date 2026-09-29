@@ -126,3 +126,31 @@ confident number resting on something that was never checked. D48 and D49 have
 the same shape, and that is now the project's characteristic risk — an unverified
 input that looks like evidence. The mitigation is the same in both cases:
 hash-register the claim, and require replication before it ships.
+
+## D50 — The replay default's justification was unlocatable; removed rather than restated (2026-09-29)
+
+**Context.** While building the Kautilya mixture loader, I checked the citations
+in code comments. `data.py`'s `MixtureDataset` justified our 10% replay default
+with: *"Bethune et al. (ICML 2025) measured that injecting as little as 1% of the
+pretraining data into the finetuning mixture is enough to prevent forgetting."*
+**That citation could not be located on arXiv or Semantic Scholar on 2026-09-29.**
+
+**Decision.** Remove it and say so in place, rather than searching for a similar
+real paper and attaching that one's numbers to the claim — which is precisely how
+D49 happened. The default itself is unchanged and now rests on what is verified:
+Ibrahim et al. (arXiv 2403.08763) establish that replay is *part* of a recipe
+sufficient to match full retraining, at 405M and 10B, without a validated ratio in
+the abstract. 10% is the unremarkable midpoint of the registered 0/10/40 sweep,
+not a number anyone has established at 58M.
+
+**Why now and not later.** One fabricated title and one misattributed finding
+have already shipped this month. This is the third instance of the same shape and
+it was sitting in a code comment, where nobody re-reads it.
+
+**Consequence.** `test_citations.py` asserts the unlocatable citation appears
+only inside its retraction note, and that live text justifies the default with the
+verified paper. The first version of that test passed with the fake citation
+reinstated as live justification, because it checked "phantom absent OR note
+present" and the note was elsewhere in the file — so it is written to isolate the
+note and compare against what remains. Verified by reinstating the fake (fails)
+and by deleting the note (fails).

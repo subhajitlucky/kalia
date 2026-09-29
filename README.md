@@ -20,7 +20,7 @@ never compared (decision D43).
 
 **The complete record — method, results, strong points, weak points, and every failure —
 is in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md).** 45 decisions, 9 incidents, 9
-hash-verified pre-registrations, 191 tests, machine-readable run results, verified citations.
+hash-verified pre-registrations, 213 tests, machine-readable run results, verified citations.
 
 Every weight in KALIA is learned by this project's own training run; nothing is borrowed
 from another model.
@@ -121,6 +121,7 @@ benchmarks they were read from, so one of them passed on noise alone (D45).
 kalia/
   model.py               # RMSNorm, SwiGLU, RoPE, attention, QK-Norm, doc masking, GPT
   data.py                # memory-mapped token dataset, document masks, replay mixture
+  mixture.py             # per-source sampling + held-out per-source loss (Kautilya arm)
   prepare.py             # tokenize text sources into uint16 .bin shards (licence filter)
   prep_longform.py       # document-length probe per source
   mix_bins.py            # blend shards into a training mixture
@@ -140,7 +141,7 @@ kalia/
   configs/               # the real model config + micro-* ablation arms
   notebooks/             # Kaggle kernels: prep, train, ablate, benchmark, evaluate
   docs/results/         # experiments.json + archived raw logs: every run, machine-readable
-  test_*.py              # 191 tests, flat at the repo root
+  test_*.py              # 213 tests, flat at the repo root
   docs/SYNTHESIS.md      # the whole record in one document
   docs/journal/          # dated engineering journal
   docs/DECISIONS.md      # 45 numbered decisions
@@ -157,7 +158,7 @@ Heavy work belongs on Kaggle. The laptop runs the test suite and nothing else.
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-python -m pytest -q          # 191 tests, ~22s on CPU
+python -m pytest -q          # 213 tests, ~22s on CPU
 python tools/check_notebooks.py   # static-checks every notebook before spending quota
 python tools/collect_results.py --check   # results data still matches its logs
 ```
