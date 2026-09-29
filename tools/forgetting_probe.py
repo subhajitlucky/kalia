@@ -20,7 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import subprocess
+
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -68,6 +68,8 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=1234)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--commit", default=None)
+    parser.add_argument("--no-bpb", action="store_true",
+                        help="skip bytes-per-token measurement (avoids needing tiktoken)")
     args = parser.parse_args()
 
     rows = read_ledger(args.ledger)
@@ -95,6 +97,23 @@ def main() -> None:
         ckpt = torch.load(args.ckpt, map_location="cpu", weights_only=False)
         step = int(ckpt["step"])
 
+    # bits-per-byte, measured rather than assumed. This line used to divide by a
+    # hardcoded 4.4086, which is not the bytes-per-token of our corpus: v0.2.0
+    # measured 3.3775. Every bpB the CL-0 ledger had ever reported was therefore
+    # ~30% too low, silently, and the ledger is the artifact Steps 2-4 are scored
+    # against. eval_val.py already measures this correctly, so use that rather than
+    # carrying a constant that goes stale the moment the mixture changes.
+    bpt = None
+    if not args.no_bpb:
+        try:
+            import tiktoken
+
+            from eval_val import bytes_per_token
+
+            bpt = bytes_per_token(dataset, tiktoken.get_encoding("gpt2"), 4, args.batch_size, args.seed)
+        except Exception as exc:  # pragma: no cover - optional dependency
+            print(f"note: could not measure bytes-per-token ({exc}); omitting bpB")
+
     drift = loss - best if best is not None else 0.0
     record = {
         "step": step,
@@ -103,7 +122,8 @@ def main() -> None:
         "batches": args.batches,
         "seed": args.seed,
         "drift_from_best": round(drift, 6) if best is not None else None,
-        "bpB": round(loss / math.log(2) / 4.4086, 6),
+        "bpB": round(loss / math.log(2) / bpt, 6) if bpt else None,
+        "bytes_per_token": round(bpt, 6) if bpt else None,
         "commit": args.commit,
         "recorded": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }

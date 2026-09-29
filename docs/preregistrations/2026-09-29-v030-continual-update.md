@@ -74,8 +74,15 @@ ground: nothing verified covers 58M, so nothing can be adopted.
 
 ### Step 0 — CL-0 forgetting baseline (prerequisite, ~0.1h)
 
-`tools/forgetting_probe.py` exists and **has never been run.** It produces the
-retention ledger that every later step is scored against.
+`tools/forgetting_probe.py` **had never been run.** It is now executed end-to-end
+on a CPU checkpoint as part of `test_forgetting_probe.py` (6 tests), which is how
+a real bug was found before spending any GPU: the probe's bits-per-byte field
+divided by a hardcoded **4.4086** bytes-per-token, while our corpus measures about
+**3.38**. Every bpB the forgetting ledger had ever reported was ~30% low, and
+that ledger is the artifact Steps 2–4 are scored against. bpB is now measured with
+`eval_val.bytes_per_token` and the divisor is recorded next to the value, so the
+number is auditable. The probe has still never seen a real checkpoint — that is
+what Step 0 on Kaggle is for.
 
 Without it we have no measure of whether a continual update preserved anything,
 which would make the whole exercise uninterpretable. This is the cheapest
