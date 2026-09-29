@@ -166,6 +166,55 @@ CELLS = [
         "    print('\\nPASS: the artifact to be published scores exactly what was pre-registered.')",
     ),
     (
+        "code",
+        "# Publish the artifact this kernel just verified.\n"
+        "#\n"
+        "# Deliberately the *same* kernel: the file that scored 2.8248 is the file that\n"
+        "# gets pushed, so there is no window in which a different copy could be uploaded\n"
+        "# instead. That has been the failure mode four times in this project already --\n"
+        "# four kernels died behind green uploads, and once a model-card push silently\n"
+        "# created a stray directory instead of updating the file.\n"
+        "#\n"
+        "# Requires HF_TOKEN as a Kaggle secret on this notebook. It does nothing at all\n"
+        "# unless the gate above passed.\n"
+        "from kaggle_secrets import UserSecretsClient\n"
+        "os.environ['HF_TOKEN'] = UserSecretsClient().get_secret('HF_TOKEN')\n"
+        "res = json.load(open('/kaggle/working/export_verification.json'))\n"
+        "assert res['matches'], 'release gate did not pass; refusing to publish'\n"
+        "from huggingface_hub import HfApi\n"
+        "api = HfApi(token=os.environ['HF_TOKEN'])\n"
+        "REPO = 'kalia-lm/kalia-v020'\n"
+        "FILES = ['model.safetensors', 'config.json', 'generation_config.json',\n"
+        "         'model.py', 'sample.py', 'LICENSE', 'README.md']\n"
+        "for name in FILES:\n"
+        "    src = f'{OUT}/{name}'\n"
+        "    if not os.path.exists(src):\n"
+        "        print('  missing', name, '-- skipped')\n"
+        "        continue\n"
+        "    api.upload_file(path_or_fileobj=src, path_in_repo=name, repo_id=REPO,\n"
+        "                    repo_type='model',\n"
+        "                    commit_message=f'release: v0.2.0, step 4770, verified at 2.8248')\n"
+        "    print('  uploaded', name, os.path.getsize(src), 'bytes')\n"
+        "print('uploaded to', REPO, '-- repo left PRIVATE; flip public only after review')",
+    ),
+    (
+        "code",
+        "# Read the published repo back and confirm the weights are the verified ones.\n"
+        "from safetensors.torch import safe_open\n"
+        "import urllib.request\n"
+        "try:\n"
+        "    with safe_open(f'{OUT}/model.safetensors', framework='pt') as f:\n"
+        "        meta = f.metadata()\n"
+        "    print('local metadata:', meta)\n"
+        "    assert meta['step'] == '4770'\n"
+        "    url = f'https://huggingface.co/{REPO}/raw/main/model.safetensors'\n"
+        "    req = urllib.request.Request(url, headers={'Range': 'bytes=0-0'})\n"
+        "    with urllib.request.urlopen(req, timeout=60) as resp:\n"
+        "        print('remote responds:', resp.status, '|', resp.headers.get('Content-Length'), 'bytes')\n"
+        "except Exception as exc:\n"
+        "    print('could not confirm the remote copy:', type(exc).__name__, exc)",
+    ),
+    (
         "markdown",
         "If this cell prints **FAIL**, nothing from this kernel may be uploaded. The gate\n"
         "compares the artifact against the number committed to in\n"

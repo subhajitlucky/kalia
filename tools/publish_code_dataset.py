@@ -50,6 +50,8 @@ REQUIRED = [
     "train.py",
     "eval/probe_sentences.json",
     "eval/probe_prompts.json",
+    "LICENSE",
+    "hf-model-card-v020.md",
     "configs/micro-base.yaml",
     "configs/micro-nope.yaml",
     "configs/micro-gated.yaml",
@@ -70,6 +72,15 @@ def stage(dest: Path) -> list[str]:
     for src in sorted((ROOT / "tools").glob("*.py")):
         shutil.copy2(src, dest / src.name)
         copied.append(f"tools/{src.name}")
+
+    # LICENSE travels with the code because the release needs it: the export
+    # kernel copies it into the model repo, and its absence failed the run.
+    for extra in ("LICENSE", "README.md", "docs/public/hf-model-card-v020.md"):
+        src = ROOT / extra
+        if src.exists():
+            name = extra if "/" not in extra else Path(extra).name
+            shutil.copy2(src, dest / name)
+            copied.append(name)
 
     (dest / "configs").mkdir(exist_ok=True)
     for src in sorted((ROOT / "configs").glob("*.yaml")):
