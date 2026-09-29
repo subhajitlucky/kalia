@@ -13,3 +13,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-09-28 | v0.2.0-eval-am2 | `docs/preregistrations/2026-09-28-v020-final-evaluation-amendment-2.md` | `4d56a5b89f0e9a664b6faa283f0d5ea155e859cceb08c081ce2c84f277678cbd` |
 | 2026-09-28 | X17-doc-mask | `docs/preregistrations/2026-09-28-X17-doc-mask.md` | `2a248036e6bcf69ec80c85f130e98c01bfa8cb7d1eebfe1187ecba6bbf51518e` |
 | 2026-09-28 | X18-frontier | `docs/preregistrations/2026-09-28-X18-frontier-attention.md` | `e6d073d516c130574de3e327d7c616f762176c64f95d3e495dd763c2421fe0cc` |
+| 2026-09-28 | X19-branch-norm | `docs/preregistrations/2026-09-28-X19-branch-norm-isolation.md` | `036d0981fd83c8cc98bdf793f78f6463b0d8db7f0a9541dfa236fc7599b27f3e` |
