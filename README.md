@@ -20,7 +20,7 @@ never compared (decision D43).
 
 **The complete record — method, results, strong points, weak points, and every failure —
 is in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md).** 45 decisions, 9 incidents, 9
-hash-verified pre-registrations, 173 tests.
+hash-verified pre-registrations, 184 tests, machine-readable run results.
 
 Every weight in KALIA is learned by this project's own training run; nothing is borrowed
 from another model.
@@ -139,7 +139,8 @@ kalia/
   tools/                 # dataset publisher, model exporter, figure + notebook builders
   configs/               # the real model config + micro-* ablation arms
   notebooks/             # Kaggle kernels: prep, train, ablate, benchmark, evaluate
-  test_*.py              # 173 tests, flat at the repo root
+  docs/results/         # experiments.json + archived raw logs: every run, machine-readable
+  test_*.py              # 184 tests, flat at the repo root
   docs/SYNTHESIS.md      # the whole record in one document
   docs/journal/          # dated engineering journal
   docs/DECISIONS.md      # 45 numbered decisions
@@ -156,8 +157,9 @@ Heavy work belongs on Kaggle. The laptop runs the test suite and nothing else.
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-python -m pytest -q          # 173 tests, ~22s on CPU
+python -m pytest -q          # 184 tests, ~22s on CPU
 python tools/check_notebooks.py   # static-checks every notebook before spending quota
+python tools/collect_results.py --check   # results data still matches its logs
 ```
 
 Two rules this repository learned the hard way, both enforced by tools rather than by

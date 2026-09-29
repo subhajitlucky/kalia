@@ -1,0 +1,522 @@
+/usr/local/lib/python3.12/dist-packages/nbformat/__init__.py:96: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+validate(nb)
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[?25l     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/55.1 kB ? eta -:--:--
+[?25h[?25l     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/44.0 kB ? eta -:--:--
+[?25h  Preparing metadata (setup.py) ... [?25l[?25hdone
+Preparing metadata (setup.py) ... [?25l[?25hdone
+[?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/7.5 MB ? eta -:--:--
+[?25h[?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/12.0 MB ? eta -:--:--
+[?25h[?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/84.1 kB ? eta -:--:--
+[?25h[?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/566.4 kB ? eta -:--:--
+[?25h[?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/100.8 kB ? eta -:--:--
+[?25h[?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/91.1 kB ? eta -:--:--
+[?25h[?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.0/129.6 kB ? eta -:--:--
+[?25h  Building wheel for sqlitedict (setup.py) ... [?25l[?25hdone
+Building wheel for word2number (setup.py) ... [?25l[?25hdone
+lm_eval        0.4.9
+transformers   4.57.6
+torch          2.10.0+cpu
+datasets       5.0.0
+copied eval_bench.py
+copied kalia_lm.py
+copied model.py
+copied data.py
+copied eval_reversibility.py
+copied gate_probe.py
+copied eval/probe_prompts.json
+copied eval/probe_sentences.json
+checkpoints:
+X18 F-4: gate opening
+block 0: mean gate 0.0192
+block 1: mean gate 0.0192
+block 2: mean gate 0.0192
+block 3: mean gate 0.0192
+block 4: mean gate 0.0192
+block 5: mean gate 0.0192
+overall 0.0192 | init 0.0180 | delta +0.0012 | threshold 0.05 | F-4 FAIL
+wrote /kaggle/working/gate_f4_sentences.json
+X18 F-4: gate opening
+block 0: mean gate 0.0192
+block 1: mean gate 0.0192
+block 2: mean gate 0.0192
+block 3: mean gate 0.0192
+block 4: mean gate 0.0192
+block 5: mean gate 0.0192
+overall 0.0192 | init 0.0180 | delta +0.0012 | threshold 0.05 | F-4 FAIL
+wrote /kaggle/working/gate_f4_sentences.json
+probe-sentence F-4 exit code: 0 (0 = ok)
+val.bin: /kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin
+context_len: 512
+val tokens: 10000000
+batches: 100 tokens each: 512
+block 0: mean gate 0.0192
+block 1: mean gate 0.0192
+block 2: mean gate 0.0192
+block 3: mean gate 0.0192
+block 4: mean gate 0.0192
+block 5: mean gate 0.0192
+overall 0.0192 | init 0.0180 | delta +0.0012 | threshold 0.05 | F-4 FAIL
+ARM: micro-base
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+Generating train split:   0%|          | 0/2251 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 2251/2251 [00:00<00:00, 31805.97 examples/s]
+Generating test split:   0%|          | 0/2376 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 2376/2376 [00:00<00:00, 271529.24 examples/s]
+Generating validation split:   0%|          | 0/570 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 570/570 [00:00<00:00, 128645.79 examples/s]
+Generating train split:   0%|          | 0/2251 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 2251/2251 [00:00<00:00, 31805.97 examples/s]
+Generating test split:   0%|          | 0/2376 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 2376/2376 [00:00<00:00, 271529.24 examples/s]
+Generating validation split:   0%|          | 0/570 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 570/570 [00:00<00:00, 128645.79 examples/s]
+Generating train split:   0%|          | 0/2251 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 2251/2251 [00:00<00:00, 31805.97 examples/s]
+Generating test split:   0%|          | 0/2376 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 2376/2376 [00:00<00:00, 271529.24 examples/s]
+Generating validation split:   0%|          | 0/570 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 570/570 [00:00<00:00, 128645.79 examples/s]
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Generating train split:   0%|          | 0/16113 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 16113/16113 [00:00<00:00, 647562.12 examples/s]
+Generating validation split:   0%|          | 0/1838 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 1838/1838 [00:00<00:00, 303568.84 examples/s]
+Generating test split:   0%|          | 0/3084 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 3084/3084 [00:00<00:00, 397652.36 examples/s]
+Generating train split:   0%|          | 0/16113 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 16113/16113 [00:00<00:00, 647562.12 examples/s]
+Generating validation split:   0%|          | 0/1838 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 1838/1838 [00:00<00:00, 303568.84 examples/s]
+Generating test split:   0%|          | 0/3084 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 3084/3084 [00:00<00:00, 397652.36 examples/s]
+Generating train split:   0%|          | 0/16113 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 16113/16113 [00:00<00:00, 647562.12 examples/s]
+Generating validation split:   0%|          | 0/1838 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 1838/1838 [00:00<00:00, 303568.84 examples/s]
+Generating test split:   0%|          | 0/3084 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 3084/3084 [00:00<00:00, 397652.36 examples/s]
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Generating train split:   0%|          | 0/39905 [00:00<?, ? examples/s]
+Generating train split:  60%|██████    | 24000/39905 [00:00<00:00, 229491.12 examples/s]
+Generating train split: 100%|██████████| 39905/39905 [00:00<00:00, 227914.99 examples/s]
+Generating test split:   0%|          | 0/10003 [00:00<?, ? examples/s]
+Generating train split:   0%|          | 0/39905 [00:00<?, ? examples/s]
+Generating train split:  60%|██████    | 24000/39905 [00:00<00:00, 229491.12 examples/s]
+Generating train split: 100%|██████████| 39905/39905 [00:00<00:00, 227914.99 examples/s]
+Generating test split:   0%|          | 0/10003 [00:00<?, ? examples/s]
+Generating train split:   0%|          | 0/39905 [00:00<?, ? examples/s]
+Generating train split:  60%|██████    | 24000/39905 [00:00<00:00, 229491.12 examples/s]
+Generating train split: 100%|██████████| 39905/39905 [00:00<00:00, 227914.99 examples/s]
+Generating test split:   0%|          | 0/10003 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 10003/10003 [00:00<00:00, 209974.44 examples/s]
+Generating validation split:   0%|          | 0/10042 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 10042/10042 [00:00<00:00, 223794.27 examples/s]
+Map:   0%|          | 0/39905 [00:00<?, ? examples/s]
+Map:   2%|▏         | 877/39905 [00:00<00:04, 8652.50 examples/s]
+Generating test split: 100%|██████████| 10003/10003 [00:00<00:00, 209974.44 examples/s]
+Generating validation split:   0%|          | 0/10042 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 10042/10042 [00:00<00:00, 223794.27 examples/s]
+Map:   0%|          | 0/39905 [00:00<?, ? examples/s]
+Map:   2%|▏         | 877/39905 [00:00<00:04, 8652.50 examples/s]
+Generating test split: 100%|██████████| 10003/10003 [00:00<00:00, 209974.44 examples/s]
+Generating validation split:   0%|          | 0/10042 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 10042/10042 [00:00<00:00, 223794.27 examples/s]
+Map:   0%|          | 0/39905 [00:00<?, ? examples/s]
+Map:   2%|▏         | 877/39905 [00:00<00:04, 8652.50 examples/s]
+Map:   5%|▍         | 1970/39905 [00:00<00:04, 7721.22 examples/s]
+Map:   8%|▊         | 3000/39905 [00:00<00:05, 7105.68 examples/s]
+Map:   5%|▍         | 1970/39905 [00:00<00:04, 7721.22 examples/s]
+Map:   8%|▊         | 3000/39905 [00:00<00:05, 7105.68 examples/s]
+Map:   5%|▍         | 1970/39905 [00:00<00:04, 7721.22 examples/s]
+Map:   8%|▊         | 3000/39905 [00:00<00:05, 7105.68 examples/s]
+Map:  10%|▉         | 3891/39905 [00:00<00:04, 7669.16 examples/s]
+Map:  12%|█▏        | 4978/39905 [00:00<00:04, 7496.15 examples/s]
+Map:  10%|▉         | 3891/39905 [00:00<00:04, 7669.16 examples/s]
+Map:  12%|█▏        | 4978/39905 [00:00<00:04, 7496.15 examples/s]
+Map:  10%|▉         | 3891/39905 [00:00<00:04, 7669.16 examples/s]
+Map:  12%|█▏        | 4978/39905 [00:00<00:04, 7496.15 examples/s]
+Map:  15%|█▌        | 6000/39905 [00:00<00:04, 6891.35 examples/s]
+Map:  17%|█▋        | 6912/39905 [00:00<00:04, 7442.59 examples/s]
+Map:  15%|█▌        | 6000/39905 [00:00<00:04, 6891.35 examples/s]
+Map:  17%|█▋        | 6912/39905 [00:00<00:04, 7442.59 examples/s]
+Map:  15%|█▌        | 6000/39905 [00:00<00:04, 6891.35 examples/s]
+Map:  17%|█▋        | 6912/39905 [00:00<00:04, 7442.59 examples/s]
+Map:  20%|██        | 8000/39905 [00:01<00:04, 7036.65 examples/s]
+Map:  22%|██▏       | 8900/39905 [00:01<00:04, 7505.97 examples/s]
+Map:  20%|██        | 8000/39905 [00:01<00:04, 7036.65 examples/s]
+Map:  22%|██▏       | 8900/39905 [00:01<00:04, 7505.97 examples/s]
+Map:  20%|██        | 8000/39905 [00:01<00:04, 7036.65 examples/s]
+Map:  22%|██▏       | 8900/39905 [00:01<00:04, 7505.97 examples/s]
+Map:  25%|██▌       | 10000/39905 [00:01<00:08, 3460.48 examples/s]
+Map:  27%|██▋       | 10895/39905 [00:01<00:06, 4176.53 examples/s]
+Map:  25%|██▌       | 10000/39905 [00:01<00:08, 3460.48 examples/s]
+Map:  27%|██▋       | 10895/39905 [00:01<00:06, 4176.53 examples/s]
+Map:  25%|██▌       | 10000/39905 [00:01<00:08, 3460.48 examples/s]
+Map:  27%|██▋       | 10895/39905 [00:01<00:06, 4176.53 examples/s]
+Map:  30%|██▉       | 11953/39905 [00:02<00:05, 4804.22 examples/s]
+Map:  33%|███▎      | 13000/39905 [00:02<00:05, 5179.37 examples/s]
+Map:  30%|██▉       | 11953/39905 [00:02<00:05, 4804.22 examples/s]
+Map:  33%|███▎      | 13000/39905 [00:02<00:05, 5179.37 examples/s]
+Map:  30%|██▉       | 11953/39905 [00:02<00:05, 4804.22 examples/s]
+Map:  33%|███▎      | 13000/39905 [00:02<00:05, 5179.37 examples/s]
+Map:  35%|███▍      | 13800/39905 [00:02<00:04, 5687.65 examples/s]
+Map:  37%|███▋      | 14864/39905 [00:02<00:04, 6076.49 examples/s]
+Map:  35%|███▍      | 13800/39905 [00:02<00:04, 5687.65 examples/s]
+Map:  37%|███▋      | 14864/39905 [00:02<00:04, 6076.49 examples/s]
+Map:  35%|███▍      | 13800/39905 [00:02<00:04, 5687.65 examples/s]
+Map:  37%|███▋      | 14864/39905 [00:02<00:04, 6076.49 examples/s]
+Map:  40%|███▉      | 15801/39905 [00:02<00:03, 6122.72 examples/s]
+Map:  42%|████▏     | 16835/39905 [00:02<00:03, 6250.58 examples/s]
+Map:  40%|███▉      | 15801/39905 [00:02<00:03, 6122.72 examples/s]
+Map:  42%|████▏     | 16835/39905 [00:02<00:03, 6250.58 examples/s]
+Map:  40%|███▉      | 15801/39905 [00:02<00:03, 6122.72 examples/s]
+Map:  42%|████▏     | 16835/39905 [00:02<00:03, 6250.58 examples/s]
+Map:  45%|████▍     | 17781/39905 [00:02<00:03, 6129.98 examples/s]
+Map:  47%|████▋     | 18737/39905 [00:03<00:03, 5961.43 examples/s]
+Map:  45%|████▍     | 17781/39905 [00:02<00:03, 6129.98 examples/s]
+Map:  47%|████▋     | 18737/39905 [00:03<00:03, 5961.43 examples/s]
+Map:  45%|████▍     | 17781/39905 [00:02<00:03, 6129.98 examples/s]
+Map:  47%|████▋     | 18737/39905 [00:03<00:03, 5961.43 examples/s]
+Map:  49%|████▊     | 19395/39905 [00:03<00:03, 5948.59 examples/s]
+Map:  51%|█████     | 20260/39905 [00:03<00:03, 5859.63 examples/s]
+Map:  49%|████▊     | 19395/39905 [00:03<00:03, 5948.59 examples/s]
+Map:  51%|█████     | 20260/39905 [00:03<00:03, 5859.63 examples/s]
+Map:  49%|████▊     | 19395/39905 [00:03<00:03, 5948.59 examples/s]
+Map:  51%|█████     | 20260/39905 [00:03<00:03, 5859.63 examples/s]
+Map:  52%|█████▏    | 20928/39905 [00:03<00:03, 6041.64 examples/s]
+Map:  55%|█████▍    | 21932/39905 [00:03<00:02, 6250.56 examples/s]
+Map:  52%|█████▏    | 20928/39905 [00:03<00:03, 6041.64 examples/s]
+Map:  55%|█████▍    | 21932/39905 [00:03<00:02, 6250.56 examples/s]
+Map:  52%|█████▏    | 20928/39905 [00:03<00:03, 6041.64 examples/s]
+Map:  55%|█████▍    | 21932/39905 [00:03<00:02, 6250.56 examples/s]
+Map:  57%|█████▋    | 22921/39905 [00:03<00:02, 6357.55 examples/s]
+Map:  60%|██████    | 23952/39905 [00:03<00:02, 6514.89 examples/s]
+Map:  57%|█████▋    | 22921/39905 [00:03<00:02, 6357.55 examples/s]
+Map:  60%|██████    | 23952/39905 [00:03<00:02, 6514.89 examples/s]
+Map:  57%|█████▋    | 22921/39905 [00:03<00:02, 6357.55 examples/s]
+Map:  60%|██████    | 23952/39905 [00:03<00:02, 6514.89 examples/s]
+Map:  63%|██████▎   | 24976/39905 [00:04<00:02, 6608.99 examples/s]
+Map:  65%|██████▌   | 25980/39905 [00:04<00:02, 6634.10 examples/s]
+Map:  63%|██████▎   | 24976/39905 [00:04<00:02, 6608.99 examples/s]
+Map:  65%|██████▌   | 25980/39905 [00:04<00:02, 6634.10 examples/s]
+Map:  63%|██████▎   | 24976/39905 [00:04<00:02, 6608.99 examples/s]
+Map:  65%|██████▌   | 25980/39905 [00:04<00:02, 6634.10 examples/s]
+Map:  68%|██████▊   | 26973/39905 [00:04<00:01, 6625.90 examples/s]
+Map:  70%|███████   | 27986/39905 [00:04<00:01, 6662.40 examples/s]
+Map:  68%|██████▊   | 26973/39905 [00:04<00:01, 6625.90 examples/s]
+Map:  70%|███████   | 27986/39905 [00:04<00:01, 6662.40 examples/s]
+Map:  68%|██████▊   | 26973/39905 [00:04<00:01, 6625.90 examples/s]
+Map:  70%|███████   | 27986/39905 [00:04<00:01, 6662.40 examples/s]
+Map:  73%|███████▎  | 28984/39905 [00:04<00:01, 6654.75 examples/s]
+Map:  75%|███████▌  | 30000/39905 [00:04<00:01, 6376.93 examples/s]
+Map:  73%|███████▎  | 28984/39905 [00:04<00:01, 6654.75 examples/s]
+Map:  75%|███████▌  | 30000/39905 [00:04<00:01, 6376.93 examples/s]
+Map:  73%|███████▎  | 28984/39905 [00:04<00:01, 6654.75 examples/s]
+Map:  75%|███████▌  | 30000/39905 [00:04<00:01, 6376.93 examples/s]
+Map:  77%|███████▋  | 30842/39905 [00:05<00:01, 6813.15 examples/s]
+Map:  80%|███████▉  | 31870/39905 [00:05<00:01, 6822.47 examples/s]
+Map:  77%|███████▋  | 30842/39905 [00:05<00:01, 6813.15 examples/s]
+Map:  80%|███████▉  | 31870/39905 [00:05<00:01, 6822.47 examples/s]
+Map:  77%|███████▋  | 30842/39905 [00:05<00:01, 6813.15 examples/s]
+Map:  80%|███████▉  | 31870/39905 [00:05<00:01, 6822.47 examples/s]
+Map:  82%|████████▏ | 32886/39905 [00:05<00:01, 6804.47 examples/s]
+Map:  85%|████████▍ | 33910/39905 [00:05<00:00, 6808.89 examples/s]
+Map:  82%|████████▏ | 32886/39905 [00:05<00:01, 6804.47 examples/s]
+Map:  85%|████████▍ | 33910/39905 [00:05<00:00, 6808.89 examples/s]
+Map:  82%|████████▏ | 32886/39905 [00:05<00:01, 6804.47 examples/s]
+Map:  85%|████████▍ | 33910/39905 [00:05<00:00, 6808.89 examples/s]
+Map:  87%|████████▋ | 34886/39905 [00:05<00:00, 6715.37 examples/s]
+Map:  90%|████████▉ | 35868/39905 [00:05<00:00, 6661.09 examples/s]
+Map:  87%|████████▋ | 34886/39905 [00:05<00:00, 6715.37 examples/s]
+Map:  90%|████████▉ | 35868/39905 [00:05<00:00, 6661.09 examples/s]
+Map:  87%|████████▋ | 34886/39905 [00:05<00:00, 6715.37 examples/s]
+Map:  90%|████████▉ | 35868/39905 [00:05<00:00, 6661.09 examples/s]
+Map:  92%|█████████▏| 36884/39905 [00:05<00:00, 6690.88 examples/s]
+Map:  95%|█████████▍| 37894/39905 [00:06<00:00, 6701.66 examples/s]
+Map:  92%|█████████▏| 36884/39905 [00:05<00:00, 6690.88 examples/s]
+Map:  95%|█████████▍| 37894/39905 [00:06<00:00, 6701.66 examples/s]
+Map:  92%|█████████▏| 36884/39905 [00:05<00:00, 6690.88 examples/s]
+Map:  95%|█████████▍| 37894/39905 [00:06<00:00, 6701.66 examples/s]
+Map:  97%|█████████▋| 38791/39905 [00:06<00:00, 6483.03 examples/s]
+Map: 100%|█████████▉| 39818/39905 [00:06<00:00, 6496.87 examples/s]
+Map:  97%|█████████▋| 38791/39905 [00:06<00:00, 6483.03 examples/s]
+Map: 100%|█████████▉| 39818/39905 [00:06<00:00, 6496.87 examples/s]
+Map:  97%|█████████▋| 38791/39905 [00:06<00:00, 6483.03 examples/s]
+Map: 100%|█████████▉| 39818/39905 [00:06<00:00, 6496.87 examples/s]
+Map: 100%|██████████| 39905/39905 [00:06<00:00, 6211.09 examples/s]
+Map: 100%|██████████| 39905/39905 [00:06<00:00, 6211.09 examples/s]
+Map: 100%|██████████| 39905/39905 [00:06<00:00, 6211.09 examples/s]
+Map:   0%|          | 0/10042 [00:00<?, ? examples/s]
+Map:   9%|▊         | 868/10042 [00:00<00:01, 8535.08 examples/s]
+Map:   0%|          | 0/10042 [00:00<?, ? examples/s]
+Map:   9%|▊         | 868/10042 [00:00<00:01, 8535.08 examples/s]
+Map:   0%|          | 0/10042 [00:00<?, ? examples/s]
+Map:   9%|▊         | 868/10042 [00:00<00:01, 8535.08 examples/s]
+Map:  20%|█▉        | 2000/10042 [00:00<00:01, 7000.82 examples/s]
+Map:  29%|██▉       | 2941/10042 [00:00<00:00, 7875.13 examples/s]
+Map:  20%|█▉        | 2000/10042 [00:00<00:01, 7000.82 examples/s]
+Map:  29%|██▉       | 2941/10042 [00:00<00:00, 7875.13 examples/s]
+Map:  20%|█▉        | 2000/10042 [00:00<00:01, 7000.82 examples/s]
+Map:  29%|██▉       | 2941/10042 [00:00<00:00, 7875.13 examples/s]
+Map:  39%|███▉      | 3955/10042 [00:00<00:00, 7382.63 examples/s]
+Map:  49%|████▉     | 4959/10042 [00:00<00:00, 7112.56 examples/s]
+Map:  39%|███▉      | 3955/10042 [00:00<00:00, 7382.63 examples/s]
+Map:  49%|████▉     | 4959/10042 [00:00<00:00, 7112.56 examples/s]
+Map:  39%|███▉      | 3955/10042 [00:00<00:00, 7382.63 examples/s]
+Map:  49%|████▉     | 4959/10042 [00:00<00:00, 7112.56 examples/s]
+Map:  59%|█████▉    | 5934/10042 [00:00<00:00, 6891.60 examples/s]
+Map:  68%|██████▊   | 6849/10042 [00:00<00:00, 6621.85 examples/s]
+Map:  59%|█████▉    | 5934/10042 [00:00<00:00, 6891.60 examples/s]
+Map:  68%|██████▊   | 6849/10042 [00:00<00:00, 6621.85 examples/s]
+Map:  59%|█████▉    | 5934/10042 [00:00<00:00, 6891.60 examples/s]
+Map:  68%|██████▊   | 6849/10042 [00:00<00:00, 6621.85 examples/s]
+Map:  78%|███████▊  | 7794/10042 [00:01<00:00, 6511.95 examples/s]
+Map:  88%|████████▊ | 8810/10042 [00:01<00:00, 6544.26 examples/s]
+Map:  78%|███████▊  | 7794/10042 [00:01<00:00, 6511.95 examples/s]
+Map:  88%|████████▊ | 8810/10042 [00:01<00:00, 6544.26 examples/s]
+Map:  78%|███████▊  | 7794/10042 [00:01<00:00, 6511.95 examples/s]
+Map:  88%|████████▊ | 8810/10042 [00:01<00:00, 6544.26 examples/s]
+Map:  98%|█████████▊| 9819/10042 [00:01<00:00, 6570.82 examples/s]
+Map: 100%|██████████| 10042/10042 [00:01<00:00, 6688.39 examples/s]
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Map:  98%|█████████▊| 9819/10042 [00:01<00:00, 6570.82 examples/s]
+Map: 100%|██████████| 10042/10042 [00:01<00:00, 6688.39 examples/s]
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Map:  98%|█████████▊| 9819/10042 [00:01<00:00, 6570.82 examples/s]
+Map: 100%|██████████| 10042/10042 [00:01<00:00, 6688.39 examples/s]
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Generating test split:   0%|          | 0/5153 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 5153/5153 [00:00<00:00, 397916.79 examples/s]
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Generating test split:   0%|          | 0/5153 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 5153/5153 [00:00<00:00, 397916.79 examples/s]
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Generating test split:   0%|          | 0/5153 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 5153/5153 [00:00<00:00, 397916.79 examples/s]
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Generating train split:   0%|          | 0/40398 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 40398/40398 [00:00<00:00, 1169546.05 examples/s]
+Generating test split:   0%|          | 0/1767 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 1767/1767 [00:00<00:00, 383014.74 examples/s]
+Generating validation split:   0%|          | 0/1267 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 1267/1267 [00:00<00:00, 288798.61 examples/s]
+Generating train split:   0%|          | 0/40398 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 40398/40398 [00:00<00:00, 1169546.05 examples/s]
+Generating test split:   0%|          | 0/1767 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 1767/1767 [00:00<00:00, 383014.74 examples/s]
+Generating validation split:   0%|          | 0/1267 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 1267/1267 [00:00<00:00, 288798.61 examples/s]
+Generating train split:   0%|          | 0/40398 [00:00<?, ? examples/s]
+Generating train split: 100%|██████████| 40398/40398 [00:00<00:00, 1169546.05 examples/s]
+Generating test split:   0%|          | 0/1767 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 1767/1767 [00:00<00:00, 383014.74 examples/s]
+Generating validation split:   0%|          | 0/1267 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 1267/1267 [00:00<00:00, 288798.61 examples/s]
+bootstrapping for stddev: perplexity
+fatal: not a git repository (or any parent up to mount point /kaggle)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+bootstrapping for stddev: perplexity
+fatal: not a git repository (or any parent up to mount point /kaggle)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+fatal: not a git repository (or any parent up to mount point /kaggle)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+BENCHMARK SUMMARY (0-shot)
+arc_easy {"acc,none": 0.268, "acc_stderr,none": 0.019827714859587477, "acc_norm,none": 0.294, "acc_norm_stderr,none": 0.02039509548493655}
+hellaswag {"acc,none": 0.292, "acc_stderr,none": 0.020354375480530096, "acc_norm,none": 0.27, "acc_norm_stderr,none": 0.019874354831287473}
+lambada_openai {"perplexity,none": 316631.4294676532, "perplexity_stderr,none": 88741.54199283672, "acc,none": 0.0, "acc_stderr,none": 0.0}
+piqa {"acc,none": 0.522, "acc_stderr,none": 0.02236139673920787, "acc_norm,none": 0.518, "acc_norm_stderr,none": 0.022368565117387874}
+winogrande {"acc,none": 0.518, "acc_stderr,none": 0.022368565117387874}
+BENCHMARK SUMMARY (0-shot)
+arc_easy {"acc,none": 0.268, "acc_stderr,none": 0.019827714859587477, "acc_norm,none": 0.294, "acc_norm_stderr,none": 0.02039509548493655}
+hellaswag {"acc,none": 0.292, "acc_stderr,none": 0.020354375480530096, "acc_norm,none": 0.27, "acc_norm_stderr,none": 0.019874354831287473}
+lambada_openai {"perplexity,none": 316631.4294676532, "perplexity_stderr,none": 88741.54199283672, "acc,none": 0.0, "acc_stderr,none": 0.0}
+piqa {"acc,none": 0.522, "acc_stderr,none": 0.02236139673920787, "acc_norm,none": 0.518, "acc_norm_stderr,none": 0.022368565117387874}
+winogrande {"acc,none": 0.518, "acc_stderr,none": 0.022368565117387874}
+ARM: micro-gated
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+ERROR:datasets.load:`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+bootstrapping for stddev: perplexity
+fatal: not a git repository (or any parent up to mount point /kaggle)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+bootstrapping for stddev: perplexity
+fatal: not a git repository (or any parent up to mount point /kaggle)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+fatal: not a git repository (or any parent up to mount point /kaggle)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+BENCHMARK SUMMARY (0-shot)
+arc_easy {"acc,none": 0.252, "acc_stderr,none": 0.019435727282249564, "acc_norm,none": 0.294, "acc_norm_stderr,none": 0.02039509548493655}
+hellaswag {"acc,none": 0.306, "acc_stderr,none": 0.020629569998345414, "acc_norm,none": 0.278, "acc_norm_stderr,none": 0.020055833888070865}
+lambada_openai {"perplexity,none": 331928.7293680756, "perplexity_stderr,none": 91511.48447612174, "acc,none": 0.0, "acc_stderr,none": 0.0}
+piqa {"acc,none": 0.522, "acc_stderr,none": 0.02236139673920787, "acc_norm,none": 0.516, "acc_norm_stderr,none": 0.022371610982580396}
+winogrande {"acc,none": 0.53, "acc_stderr,none": 0.0223427481925028}
+BENCHMARK SUMMARY (0-shot)
+arc_easy {"acc,none": 0.252, "acc_stderr,none": 0.019435727282249564, "acc_norm,none": 0.294, "acc_norm_stderr,none": 0.02039509548493655}
+hellaswag {"acc,none": 0.306, "acc_stderr,none": 0.020629569998345414, "acc_norm,none": 0.278, "acc_norm_stderr,none": 0.020055833888070865}
+lambada_openai {"perplexity,none": 331928.7293680756, "perplexity_stderr,none": 91511.48447612174, "acc,none": 0.0, "acc_stderr,none": 0.0}
+piqa {"acc,none": 0.522, "acc_stderr,none": 0.02236139673920787, "acc_norm,none": 0.516, "acc_norm_stderr,none": 0.022371610982580396}
+winogrande {"acc,none": 0.53, "acc_stderr,none": 0.0223427481925028}
+F-3: gated minus control, in accuracy points
+task                       control     gated    delta
+arc_easy                      29.4      29.4    +0.00
+hellaswag                     27.0      27.8    +0.80  <- >=0.5pp
+lambada_openai                 0.0       0.0    +0.00
+piqa                          51.8      51.6    -0.20
+winogrande                    51.8      53.0    +1.20  <- >=0.5pp
+best task delta +1.20 pp | F-3 needs >= 0.5 pp -> PASS
+val loss delta was -0.0436 nats (gated better)
+/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[NbConvertApp] Writing 30872 bytes to __notebook__.ipynb
+[NbConvertApp] Converting notebook __notebook__.ipynb to html
+[NbConvertApp] Writing 323136 bytes to __results__.html
+[521 lines in 1s (feed closed)]

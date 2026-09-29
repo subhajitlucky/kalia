@@ -1,0 +1,159 @@
+{
+  "schema": "kalia-results/1",
+  "note": "Regenerate with tools/collect_results.py from the archived logs in docs/results/logs/. An arm with val_curve: null was truncated out of the rolling log window; its final value is recorded, the curve is not.",
+  "experiments": [
+    {
+      "experiment": "x18-close",
+      "kernel": "subhajitlucky/kalia-x18-close",
+      "present": true,
+      "truncated": false,
+      "arms": [
+        {
+          "arm": "micro-base",
+          "params": 29920512,
+          "val_loss_final": 4.7662,
+          "val_curve": null,
+          "source": "prereg:x18-close",
+          "truncated": true,
+          "delta_vs_control": 0.0
+        },
+        {
+          "arm": "micro-gated",
+          "params": 30072768,
+          "val_loss_final": 4.7226,
+          "val_curve": null,
+          "source": "prereg:x18-close",
+          "truncated": true,
+          "delta_vs_control": -0.0436
+        },
+        {
+          "arm": "micro-nope",
+          "params": 29920512,
+          "val_loss_final": 4.7772,
+          "val_curve": null,
+          "source": "prereg:x18-close",
+          "truncated": true,
+          "delta_vs_control": 0.011
+        }
+      ]
+    },
+    {
+      "experiment": "x19-branchnorm",
+      "kernel": "subhajitlucky/kalia-x19-branchnorm",
+      "present": true,
+      "truncated": false,
+      "arms": [
+        {
+          "arm": "micro-branchnorm",
+          "params": 29922816,
+          "val_loss_final": 4.768,
+          "val_curve": null,
+          "source": "docs/results/logs/x19-branchnorm.log",
+          "truncated": true,
+          "delta_vs_control": 0.0018
+        },
+        {
+          "arm": "micro-base",
+          "params": 29920512,
+          "val_loss_final": 4.7662,
+          "val_curve": null,
+          "source": "prereg:x19-branchnorm",
+          "truncated": true,
+          "delta_vs_control": 0.0
+        }
+      ]
+    },
+    {
+      "experiment": "x20-staticgate",
+      "kernel": "subhajitlucky/kalia-x20-staticgate",
+      "present": true,
+      "truncated": false,
+      "arms": [
+        {
+          "arm": "micro-staticgate",
+          "params": 29999040,
+          "val_loss_final": 4.6304,
+          "val_curve": null,
+          "source": "docs/results/logs/x20-staticgate.log",
+          "truncated": true,
+          "delta_vs_control": -0.1358
+        },
+        {
+          "arm": "micro-base",
+          "params": 29920512,
+          "val_loss_final": 4.7662,
+          "val_curve": null,
+          "source": "prereg:x20-staticgate",
+          "truncated": true,
+          "delta_vs_control": 0.0
+        }
+      ]
+    },
+    {
+      "experiment": "x21",
+      "kernel": "subhajitlucky/kalia-x21-replication",
+      "present": true,
+      "truncated": false,
+      "arms": [
+        {
+          "arm": "micro-base-s1338",
+          "params": 29920512,
+          "val_loss_final": 4.8769,
+          "val_curve": {
+            "100": 6.0044,
+            "200": 5.3419,
+            "300": 5.078,
+            "400": 4.8592,
+            "500": 4.8769
+          },
+          "source": "docs/results/logs/x21.log",
+          "seed": 1338
+        },
+        {
+          "arm": "micro-staticgate-s1338",
+          "params": 29999040,
+          "val_loss_final": 4.9623,
+          "val_curve": {
+            "100": 6.0207,
+            "200": 5.5024,
+            "300": 5.0403,
+            "400": 4.817,
+            "500": 4.9623
+          },
+          "source": "docs/results/logs/x21.log",
+          "delta_vs_control": 0.0854,
+          "seed": 1338
+        },
+        {
+          "arm": "micro-base-s1339",
+          "params": 29920512,
+          "val_loss_final": 4.8908,
+          "val_curve": {
+            "100": 5.8744,
+            "200": 5.272,
+            "300": 5.0547,
+            "400": 4.6659,
+            "500": 4.8908
+          },
+          "source": "docs/results/logs/x21.log",
+          "seed": 1339
+        },
+        {
+          "arm": "micro-staticgate-s1339",
+          "params": 29999040,
+          "val_loss_final": 4.9087,
+          "val_curve": {
+            "100": 5.9459,
+            "200": 5.1411,
+            "300": 4.9996,
+            "400": 4.7341,
+            "500": 4.9087
+          },
+          "source": "docs/results/logs/x21.log",
+          "delta_vs_control": 0.0179,
+          "seed": 1339
+        }
+      ]
+    }
+  ]
+}

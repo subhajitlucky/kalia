@@ -1,0 +1,102 @@
+/usr/local/lib/python3.12/dist-packages/nbformat/__init__.py:96: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+validate(nb)
+0.03s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+code from /kaggle/working/kalia
+branch_norm in model.py: True
+data: /kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin
+arm config present: True
+KALIA params: 29,999,040 | device: cuda:0 | world: 1
+doc_mask: off
+step 10/500 | loss 9.9386 | lr 1.50e-04 | 26,965 tok/s
+step 20/500 | loss 9.0720 | lr 3.00e-04 | 27,045 tok/s
+step 30/500 | loss 7.9944 | lr 4.50e-04 | 26,645 tok/s
+step 40/500 | loss 7.1220 | lr 6.00e-04 | 28,163 tok/s
+step 50/500 | loss 6.9410 | lr 5.99e-04 | 27,250 tok/s
+step 60/500 | loss 6.7629 | lr 5.98e-04 | 27,871 tok/s
+step 70/500 | loss 6.3177 | lr 5.95e-04 | 27,658 tok/s
+step 80/500 | loss 6.1058 | lr 5.90e-04 | 28,566 tok/s
+step 90/500 | loss 6.0393 | lr 5.85e-04 | 28,495 tok/s
+step 100/500 | loss 6.0393 | lr 5.78e-04 | 27,956 tok/s
+step 100 | val loss 5.9919
+step 110/500 | loss 5.8801 | lr 5.71e-04 | 28,179 tok/s
+step 120/500 | loss 5.7453 | lr 5.62e-04 | 28,530 tok/s
+step 130/500 | loss 5.8344 | lr 5.52e-04 | 28,643 tok/s
+step 140/500 | loss 5.5005 | lr 5.41e-04 | 29,588 tok/s
+step 150/500 | loss 5.6606 | lr 5.29e-04 | 29,238 tok/s
+step 160/500 | loss 5.6193 | lr 5.16e-04 | 29,148 tok/s
+step 170/500 | loss 5.4110 | lr 5.02e-04 | 29,650 tok/s
+step 180/500 | loss 5.5511 | lr 4.87e-04 | 30,465 tok/s
+step 190/500 | loss 5.4806 | lr 4.72e-04 | 29,398 tok/s
+step 200/500 | loss 5.4878 | lr 4.56e-04 | 30,121 tok/s
+step 200 | val loss 5.3744
+step 210/500 | loss 5.1478 | lr 4.39e-04 | 29,681 tok/s
+step 220/500 | loss 5.2320 | lr 4.22e-04 | 30,242 tok/s
+step 230/500 | loss 5.2464 | lr 4.05e-04 | 30,422 tok/s
+step 240/500 | loss 5.1447 | lr 3.87e-04 | 30,823 tok/s
+step 250/500 | loss 5.2317 | lr 3.69e-04 | 30,637 tok/s
+step 260/500 | loss 5.0894 | lr 3.50e-04 | 30,640 tok/s
+step 270/500 | loss 4.9445 | lr 3.32e-04 | 30,790 tok/s
+step 280/500 | loss 5.0321 | lr 3.13e-04 | 31,016 tok/s
+step 290/500 | loss 4.9178 | lr 2.95e-04 | 30,764 tok/s
+step 300/500 | loss 5.1020 | lr 2.77e-04 | 30,181 tok/s
+step 300 | val loss 5.0679
+step 310/500 | loss 5.1183 | lr 2.59e-04 | 30,736 tok/s
+step 320/500 | loss 4.9303 | lr 2.41e-04 | 25,875 tok/s
+step 330/500 | loss 4.9693 | lr 2.24e-04 | 30,832 tok/s
+step 340/500 | loss 4.9774 | lr 2.07e-04 | 30,755 tok/s
+step 350/500 | loss 4.7991 | lr 1.91e-04 | 30,796 tok/s
+step 360/500 | loss 4.8189 | lr 1.76e-04 | 31,212 tok/s
+step 370/500 | loss 4.9228 | lr 1.61e-04 | 31,409 tok/s
+step 380/500 | loss 4.7273 | lr 1.47e-04 | 30,909 tok/s
+step 390/500 | loss 4.9212 | lr 1.34e-04 | 31,601 tok/s
+step 400/500 | loss 4.8185 | lr 1.22e-04 | 31,597 tok/s
+step 400 | val loss 4.9119
+step 410/500 | loss 4.7770 | lr 1.10e-04 | 31,296 tok/s
+step 420/500 | loss 4.6963 | lr 1.00e-04 | 31,736 tok/s
+step 430/500 | loss 4.9014 | lr 9.11e-05 | 31,768 tok/s
+step 440/500 | loss 4.7835 | lr 8.31e-05 | 32,231 tok/s
+step 450/500 | loss 4.9121 | lr 7.62e-05 | 31,671 tok/s
+step 460/500 | loss 4.7430 | lr 7.05e-05 | 31,967 tok/s
+step 470/500 | loss 4.7390 | lr 6.60e-05 | 32,018 tok/s
+step 480/500 | loss 4.8062 | lr 6.28e-05 | 31,973 tok/s
+step 490/500 | loss 4.8050 | lr 6.08e-05 | 31,632 tok/s
+step 500/500 | loss 4.6783 | lr 6.00e-05 | 31,743 tok/s
+step 500 | val loss 4.6304
+final checkpoint saved at step 500
+data: /kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data
+ARM: micro-staticgate
+ABLATION SUMMARY (final step, val loss, abhimanyu gap)
+micro-staticgate         500,4.6304
+micro-staticgate: 100=5.9919  200=5.3744  300=5.0679  400=4.9119  500=4.6304
+final val loss 4.6304
+G-2: checkpoint params 29,999,040 | expected 29,999,040 | PASS
+G-2: gate tensors present: 0 (expected 0 for this arm)
+G-2: branch tensors present: 42
+G-2 PASS
+=== X19 G-1 ===
+control      4.7662
+gated        4.7226   (-0.0436 vs control)
+branchnorm   4.7680   (+0.0018 vs control)
+staticgate   4.6304   (-0.1358 vs control, -0.0922 vs gated)
+G-1 bar      4.7544   (midpoint + 0.010)
+H-1 PASS  the static adapter reproduces the gain
+=> the data-dependent read contributes nothing. The gate was
+never a gate: the name transferred, the behaviour did not.
+=> 73,728 fewer parameters for the same result.
+Caveat carried from X18 and still binding here: single seed, 30M parameters, 500 steps. A screening window, not a training run.
+/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[NbConvertApp] Writing 17360 bytes to __notebook__.ipynb
+[NbConvertApp] Converting notebook __notebook__.ipynb to html
+[NbConvertApp] Writing 300647 bytes to __results__.html
+[101 lines in 2s (feed closed)]
