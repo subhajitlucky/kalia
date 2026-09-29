@@ -58,7 +58,7 @@ CELLS = [
     ),
     (
         "code",
-        "import glob, os, shutil, sys\n"
+        "import glob, json, os, shutil, subprocess, sys\n"
         "\n"
         "work = '/kaggle/working/kalia'\n"
         "if not os.path.exists(work):\n"
