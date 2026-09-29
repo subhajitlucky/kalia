@@ -16,3 +16,5 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-09-28 | X19-branch-norm | `docs/preregistrations/2026-09-28-X19-branch-norm-isolation.md` | `036d0981fd83c8cc98bdf793f78f6463b0d8db7f0a9541dfa236fc7599b27f3e` |
 | 2026-09-28 | X19-am1 | `docs/preregistrations/2026-09-28-X19-amendment-1.md` | `86282fd251d7de2889698e4ff4c6033edefabba82cfd308535dfa6eff4ef408d` |
 | 2026-09-29 | X20-static-gate | `docs/preregistrations/2026-09-29-X20-static-gate.md` | `d5ec8deef729147fed5fb260b1a5007031b2d7c3429b1b45c945bffba9cef6f4` |
+| 2026-09-29 | X20-am1 | `docs/preregistrations/2026-09-29-X20-amendment-1.md` | `e94c467acb8d7e247b28ae51c50fb5fe3a9f20db7c8c9120c576c1f3a826de30` |
+| 2026-09-29 | X21-replication | `docs/preregistrations/2026-09-29-X21-replication.md` | `e0a86cec9f2276cbd26f4564e9550b6389171543e1342e0b3635c847821487ba` |

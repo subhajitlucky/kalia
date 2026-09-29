@@ -92,3 +92,70 @@ One arm, 500 steps, 30M parameters — the same footprint as X19, which took abo
 
 Any change to arms, steps, seed, thresholds, or metrics after this commit requires
 a hash-registered amendment. Results are reported regardless of outcome.
+
+## Results — read on 2026-09-29
+
+One arm, 500 steps, seed 1337, same corpus and lineage as X18/X19.
+
+| arm | params | val loss | vs control |
+|---|---|---|---|
+| control (`micro-base`) | 29,920,512 | 4.7662 | — |
+| branchnorm (`micro-branchnorm`, X19) | 29,922,816 | 4.7680 | +0.0018 |
+| gated (`micro-gated`, X18) | 30,072,768 | 4.7226 | −0.0436 |
+| **staticgate** (`micro-staticgate`) | **29,999,040** | **4.6304** | **−0.1358** |
+
+`micro-staticgate: 100=5.9919 200=5.3744 300=5.0679 400=4.9119 500=4.6304`
+
+| ID | Threshold | Measured | Verdict |
+|---|---|---|---|
+| **H-1** | ≤ 4.7544 | **4.6304** | **PASS**, by 0.1240 |
+| **H-2** | channel-wise std > 1e-3 | not emitted by the kernel | **unverified** |
+| **H-3** | 4.7226 ≤ static ≤ 4.7712 | 4.6304 | **FAIL** — below the gated arm |
+
+G-2 re-verified on the trained checkpoint: **29,999,040 parameters exactly**, zero
+input-path tensors. Amendment 1's corrected figure is confirmed against the
+constructed model.
+
+### What this shows
+
+**A gate that never reads its input beats one that does, by 0.0922 nats, with
+73,728 fewer parameters.** And it beats control by 0.1358 — **3.1× the entire
+gated-arm gain** — from a mechanism that is not in the published technique.
+
+The data-dependent read is not merely inert at our scale (G-0). It is
+**actively harmful**: removing the input path makes the same module substantially
+better. Whatever Gated Residual is doing, it is not the thing it is named for, and
+the part that helps is a static per-channel modulation that the paper does not
+describe.
+
+**H-3 failed in the favourable direction.** It was registered as "lands strictly
+between the known arms" and the result lands below both. Recorded, not argued away.
+
+### The honest caveat, and why this is not yet a result we can use
+
+**0.1358 is 3.1× the largest effect any architecture arm has produced in this
+project.** The previous best, X18's 0.0436, was already shown to be unattributable
+to its stated mechanism. An effect three times larger, from a component strictly
+*simpler* than the thing it beats, has two available explanations and this run
+cannot distinguish them:
+
+1. It is real and large.
+2. It is a single-seed artifact.
+
+Every X18/X19/X20 arm is single-seed. We rejected a 0.0436 effect on precisely
+that basis, and the pre-registration of this document recorded that a null would
+have been the *more* interesting result — which is itself a sign the prior was
+weak. D45 exists because we learned the hard way that a threshold below the
+measurement's noise passes on nothing; the same scepticism applies here with more
+force, not less, precisely because the number is large.
+
+**So H-1 is reported as passing and nothing is promoted.** Replication is
+pre-registered separately, paired against control at fresh seeds, which is the
+discipline the modded-nanogpt records use for a result of this size: interleaved
+unseeded repeats of arm and control on the same machine, with a stated test.
+
+**H-2 remains unverified** — the kernel did not emit the channel-wise dispersion of
+the static gate, so it is not known whether the adapter learned a non-trivial
+pattern or collapsed toward a constant. That is a real gap in the evidence for the
+mechanism and is closed by the replication.
+
