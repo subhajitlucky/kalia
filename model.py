@@ -26,6 +26,9 @@ class GPTConfig:
     gated_residual: bool = False
     """Use the 4-branch Gated Residual stream (Qwen3.8)."""
 
+    branch_norm: bool = False
+    """4-branch stream normalisation with no gate (X19: isolates X18's -0.0436)."""
+
 
 class RMSNorm(nn.Module):
     """Root-mean-square layer norm (no mean subtraction, no bias)."""
@@ -141,6 +144,48 @@ class CausalSelfAttention(nn.Module):
         return self.proj(y)
 
 
+class BranchNorm(nn.Module):
+    """The gate-free half of Gated Residual: branch-wise normalisation only.
+
+    X18's ``micro-gated`` arm finished 0.0436 nats ahead of control -- 4.4x the
+    registered bar -- and the gate was then measured as non-responsive to its
+    input (G-0: std across inputs 5e-06 against a mean of 0.019). So the gate is
+    inert and the *structure* is the only candidate left. This class is that
+    structure with the gate removed, which is what X19 needs to attribute the
+    gain.
+
+    Four quarters of the residual stream are RMSNorm'd independently and
+    concatenated back to full width before the sublayers. Because RMSNorm is
+    scale-invariant, ``GatedResidual`` at a near-closed gate reduces to exactly
+    this multiplied by ~0.019, so the two arms differ only by the gate's
+    ``w1``/``w2``.
+
+    Not free, and the pre-registration was corrected for saying so: each
+    ``RMSNorm`` carries a learnable weight, so this adds ``4 * branch_dim ==
+    n_embd`` parameters per block. See Amendment 1 to X19.
+    """
+
+    def __init__(self, dim: int, n_branch: int = 4):
+        super().__init__()
+        assert dim % n_branch == 0, "n_embd must divide evenly into branches"
+        self.n_branch = n_branch
+        self.branch_dim = dim // n_branch
+        self.norms = nn.ModuleList([RMSNorm(self.branch_dim) for _ in range(n_branch)])
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Normalise each branch independently, then concatenate to full width.
+
+        With RMSNorm's affine weight initialised to ones this is exactly
+        "renormalise each quarter of the residual stream", which is the
+        operation the gated arm was performing underneath its dead gate.
+        """
+        parts = []
+        for i, norm in enumerate(self.norms):
+            sl = slice(i * self.branch_dim, (i + 1) * self.branch_dim)
+            parts.append(norm(x[..., sl]))
+        return torch.cat(parts, dim=-1)
+
+
 class GatedResidual(nn.Module):
     """Four-branch residual stream read through a learned elementwise gate.
 
@@ -203,12 +248,20 @@ class Block(nn.Module):
         self.norm2 = RMSNorm(config.n_embd)
         self.mlp = SwiGLU(config)
         self.gated = GatedResidual(config.n_embd) if config.gated_residual else None
+        # X19: the same branch structure with the gate removed. Mutually
+        # exclusive with gated_residual so an arm cannot accidentally carry both.
+        assert not (config.gated_residual and config.branch_norm), (
+            "branch_norm and gated_residual are alternative arms, not combinable"
+        )
+        self.branch = BranchNorm(config.n_embd) if config.branch_norm else None
 
     def forward(self, x: torch.Tensor, attn_mask: torch.Tensor | None = None) -> torch.Tensor:
         # Gated Residual transforms the stream *before* the pre-norm, as in
         # Qwen3.8: widen and gate the residual path, then run the sublayers at
         # full width on the merged result.
-        pre = self.gated(x) if self.gated is not None else x
+        pre = x if self.gated is None and self.branch is None else (
+            self.gated(x) if self.gated is not None else self.branch(x)
+        )
         x = x + self.attn(self.norm1(pre), attn_mask)
         x = x + self.mlp(self.norm2(x))
         return x
