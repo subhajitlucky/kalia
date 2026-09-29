@@ -138,6 +138,75 @@ either survives without it or it does not exist.
 Recorded before the run, as required. The prior recorded in this document — "the
 real uncertainty is G-0, and it cuts against me" — resolved against me.
 
+## Results — read on 2026-09-29
+
+One arm, 500 steps, seed 1337, the same corpus and commit lineage as X18's arms.
+Control and gated are X18's existing arms, not re-run.
+
+| arm | params | val loss | vs control |
+|---|---|---|---|
+| control (`micro-base`) | 29,920,512 | 4.7662 | — |
+| **branchnorm** (`micro-branchnorm`) | 29,922,816 | **4.7680** | **+0.0018** |
+| gated (`micro-gated`) | 30,072,768 | 4.7226 | −0.0436 |
+
+`micro-branchnorm: 100=6.1606 200=5.2772 300=5.0264 400=4.8699 500=4.7680`
+
+| ID | Threshold | Measured | Verdict |
+|---|---|---|---|
+| **G-1** | ≤ 4.7544 (midpoint + 0.010) | **4.7680** | **FAIL** — by 0.0136 |
+| **G-2** | 29,922,816 params, 0 gate tensors | 29,922,816, 0 gates | **PASS** |
+| **G-3** | per-quarter RMS ≈ 1.0, differs from control by >1% | verified by construction, `test_branch_norm.py` | **PASS** |
+
+**G-1 fails, and it fails decisively.** The branch normalisation is not merely short
+of the gain — it is **0.0018 nats worse than control**, i.e. it contributes nothing.
+Every bit of X18's −0.0436 lives in the gate.
+
+### The uncomfortable part: a component can be necessary and inert at once
+
+G-0 measured the gate's response to its input at **5e-06** — it does not react to
+what it is given. G-1 shows that removing it destroys a 0.0436-nat gain. **Both
+measurements are correct and they do not sit together comfortably.**
+
+The resolution, if there is one, is that the gate is not functioning as a *gate* at
+all. `pre = concat(norm_i(x_i) * sigmoid(w2·silu(w1·x)))` with `g ≈ 0.019` is a
+**learned, static, per-channel modulation of the normalised stream** — and G-0
+already measured that it is not constant, only that it does not vary *with input*
+(channel std 2.96e-04, 1.5% relative). So what we implemented and measured is
+effectively a **rank-32 learned low-rank adapter on the residual path**, wearing the
+clothes of a data-dependent gate.
+
+That is a real component doing real work. It is **not** the mechanism Qwen3.8
+claims, and the honest report is that the *name* transferred and the *behaviour* did
+not. Nothing here supports the data-dependent-read story; something else in the same
+module does.
+
+### Second thing the run found, in our own code
+
+The kernel's **G-2 check failed spuriously** and reported
+`parameter count 49,221,504 != 29,922,816`. The model was correct. The check summed
+`state_dict.values()`, which counts the tied `lm_head` a second time:
+`29,922,816 + (50,257 × 384) = 49,221,504`, exactly. Fixed to count parameters
+rather than entries.
+
+Worth recording plainly: the arm was trained correctly and then failed on a
+verification step that was wrong, after producing a complete and usable loss curve.
+A check that is itself unverified is not a check. The fix is now arithmetic that can
+be confirmed without a checkpoint.
+
+### Consequences
+
+- **Nothing is promoted.** Both registered arms that were candidates have now been
+  resolved against.
+- **The gate's mechanism is not validated at our scale**, but the gate's *parameters*
+  are earning their place. That is a different claim from the one the technique
+  makes, and the distinction is the finding.
+- If someone wanted the gain without the misleading name, the honest next
+  experiment is to implement a **static learned low-rank residual adapter** with no
+  data dependence at all, and test whether it reproduces −0.0436. If it does, the
+  gate was never a gate. That is a cheap, well-posed question this run created.
+- Single seed, 30M parameters, 500 steps — a screening window, as registered.
+
+
 
 ## Deviations
 
