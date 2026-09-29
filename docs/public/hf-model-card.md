@@ -172,15 +172,18 @@ differences smaller than about 2 points are not real.
 - **Entity consistency degrades over long outputs** (names drift).
 - **No instruction following.** Post-training is a planned stage, not a
   completed one.
-- **One benchmark regressed against v0.1.2** when the corpus was rebuilt for
-  licence compliance: ARC-Easy 45.8 → 42.0. Held-out loss improved by 0.2285
-  nats over the same rebuild, so loss and accuracy moved in opposite directions.
-  The cause is not isolated; a 5%→10% code share is the prime suspect and the
-  mixture is more sensitive to it than we expected.
-- **Long-range recall is weak.** LAMBADA is the task this corpus is worst
-  equipped for: only 17.7% of training tokens sit inside a document of at least
-  the 1,024-token context length, and TinyStories — 20% of the mixture —
-  supplies 0.01% of long documents.
+- **Two of five zero-shot benchmarks regressed against v0.1.2** when the corpus
+  was rebuilt for licence compliance: ARC-Easy 45.8 → 42.0 and LAMBADA 23.0 →
+  20.8. Held-out loss over the same rebuild improved by 0.2285 nats, so loss and
+  accuracy moved in opposite directions. Three of the five tasks moved by less
+  than their own ~2 pp standard error and are not separable at all. Whether the
+  code-share change caused the regression is not established; it is the open
+  question the next version has to answer.
+- **Long-range recall is weak, and measurably so.** Only 17.7% of training tokens
+  sit inside a document at least as long as the 1,024-token context, and
+  TinyStories — 20% of the mixture — supplies 0.01% of them. LAMBADA, which
+  requires holding a discourse and recalling its end, is the task this corpus is
+  worst equipped for, and it is one of the two that regressed.
 - **Training runs to a plateau.** Validation loss is flat across the final
   1,500 of 4,770 steps. The last 31% of training produced no measurable gain.
 - **May produce inaccurate or biased text.** Not for production decisions.

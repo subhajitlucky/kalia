@@ -55,18 +55,24 @@ That is **4.6× the pre-registered 0.05 nat bar** (P-B, passed).
 
 **Zero-shot benchmarks** (lm-eval, 0-shot, 500 samples):
 
-| task | v0.1.2 | v0.2.0 | Δ | S-A (≤1.0pp) |
-|---|---|---|---|---|
-| PIQA | 61.4 | 63.8 | **+2.40** | ok |
-| HellaSwag | 36.8 | 39.8 | **+3.00** | ok |
-| WinoGrande | 50.2 | 50.8 | +0.60 | ok |
-| ARC-Easy | 45.8 | 42.0 | **−3.80** | **FAIL** |
-| LAMBADA | 23.0 | *pending* | — | never ran |
+| task | v0.1.2 | v0.2.0 | Δ | σ | S-A (≤1.0pp) |
+|---|---|---|---|---|---|
+| PIQA | 61.4 | 63.8 | +2.40 | 1.1 | ok |
+| HellaSwag | 36.8 | 39.8 | +3.00 | 1.5 | ok |
+| WinoGrande | 50.2 | 50.8 | +0.60 | 0.3 | ok |
+| LAMBADA | 23.0 | 20.8 | **−2.20** | 1.2 | **FAIL** |
+| ARC-Easy | 45.8 | 42.0 | **−3.80** | 1.7 | **FAIL** |
+
+**Registered verdict: P-B PASS, S-A FAIL.**
 
 **Read the noise before the numbers.** Standard errors at `limit=500` are
-1.99–2.24 pp, so PIQA, HellaSwag and WinoGrande are *not* separable from
-v0.1.2, and ARC-Easy's −3.80 is ~1.7σ. The loss improvement is the solid
-result; the benchmark table is directional.
+1.8–2.2 pp, so **three of the five tasks are not separable from v0.1.2 at all.**
+The two failures are ARC-Easy at ~1.7σ and LAMBADA at ~1.2σ — neither
+overwhelming alone, but pointing the same way. The honest summary is *a clear
+improvement in held-out loss, no measurable change in most zero-shot accuracy,
+and a modest real signal of regression on the two tasks that need knowledge
+breadth and long-range recall.* The registered thresholds were not moved to
+escape this.
 
 **The interim measurement was actively misleading.** At step 3,470, four of five
 tasks were regressing. The final checkpoint reversed that on three. Conclusions
