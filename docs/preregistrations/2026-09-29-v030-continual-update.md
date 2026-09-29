@@ -161,10 +161,32 @@ would have produced a plausible, meaningless number:
    with the postcondition asserted rather than assumed, and infeasible bounds
    raising instead of silently violating.
 
-**Still not done, and it is the real blocker:** `train.py` does not call
-`SourceMixtureDataset`, so the arm cannot run yet. That wiring — plus deciding the
-reweight cadence and the evaluation cost of `per_source_loss` during training — is
-the remaining work, and it is why the schedule risk is code rather than GPU.
+**Status update 2, 2026-09-29.** The arm is wired and tested. `train.py` takes
+`--sources / --source-bins / --source-weights`, re-estimates weights every
+`adaptive_every` steps from held-out per-source loss, and writes
+`per_source_log.csv` (per-source loss, resulting weight, and the strategy applied
+to each source) so the policy's decisions are auditable rather than inferred.
+`adaptive_every: 0` gives the static control from the same code path.
+`configs/kalia-kautilya.yaml` is diff-locked to `kalia-v020.yaml` outside an
+explicit allow-list, so the only difference between the two arms is whether the
+policy runs.
+
+Three bugs found while wiring, each of which would have produced a plausible
+number rather than an error: `per_source_loss` called the model with the wrong
+signature (KALIA's `GPT.forward` takes `targets` and returns `(logits, loss)`);
+the base `TokenDataset` was built unconditionally so a per-source run still
+required a `train.bin` it never read; and `validate_weights` referenced a
+non-existent local `seed`. The first was only caught because an integration test
+runs the real `train.py` on CPU.
+
+**Falsification also exposed a gap the unit tests missed:** replacing
+`per_source_loss` with a constant left every test green, because the toy models
+were uniform enough to make a constant indistinguishable from the truth. The
+policy would have run on a signal that was not there. Now asserted directly.
+
+**What is still not done:** the arm has never run on real data or on a GPU. It is
+code-complete and unit-tested, and that is a strictly weaker claim than
+"validated". Step 1's variance baseline remains the prerequisite for running it.
 
 ---
 
