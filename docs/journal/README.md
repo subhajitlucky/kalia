@@ -26,4 +26,10 @@ Every decision, result and incident is recorded here. No silent changes.
 | 2026-09-28 | why-27b-beats-397b | `docs/research/2026-09-28-why-27b-beats-397b.md` | frontier gain decomposition; data >> architecture; test-time compute is the transferable 1000x lever; D1-D8 queued |
 | 2026-09-28 | open-source-landscape | `docs/research/2026-09-28-open-source-landscape-and-transfers.md` | 30 orgs, last two generations each; four unconditional transfers survive the cost/yardstick/D2/evidence filters |
 | 2026-09-28 | sanskrit-reading-list | `docs/research/2026-09-28-sanskrit-reading-list-50.md` | 50 works audited with honest verdicts; Chakravala/Pingala/Katapayadi are the real algorithms; corpus is silent on learning mechanisms |
+| 2026-09-28 | journal | `2026-09-28.md` | 41.7% of the code corpus measured copyleft (I16) and disclosed on the live card (D44); v0.2.0 finishes the full 4,770-step schedule and plateaus for its last 31%; X18 closed with the gate measured inert in both moments (G-0); our own accuracy thresholds found to sit below the benchmark's own noise (D45); X19 registered with an amendment correcting an error in it; CDLA-Sharing read, so the corpus is redistributable |
 | 2026-09-28 | X17-doc-mask | `docs/preregistrations/2026-09-28-X17-doc-mask.md` | intra-document masking micro-ablation: 2 arms, 30M, 500 steps, bar 0.010 nats (same as D15) |
+| 2026-09-28 | X18-frontier | `docs/preregistrations/2026-09-28-X18-frontier-attention.md` | NoPE and Gated Residual: NoPE rejected, gated -0.0436 nats but the gate measured inert; F-3's accuracy half found to be 0.54 sigma |
+| 2026-09-28 | X19-branch-norm | `docs/preregistrations/2026-09-28-X19-branch-norm-isolation.md` | isolates the branch normalisation from the dead gate; one arm, G-1 bar 4.7544 |
+| 2026-09-28 | X19-am1 | `docs/preregistrations/2026-09-28-X19-amendment-1.md` | corrects G-2's parameter arithmetic, which was wrong in the direction that flattered the arm |
+| 2026-09-28 | legal | `docs/legal/training-data-licence-matrix.md` | per-source licence analysis; all four sources permit weight release, only v0.2.0's corpus is redistributable |
+
