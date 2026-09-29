@@ -68,9 +68,24 @@ def test_serves_exactly_one_file_not_six():
     make_loader(config_parquets(REPO_FILES), rec)(REPO, name=CONFIG, split="test")
     path, _args, kwargs = rec.calls[0]
     assert path == "parquet", "must load through the parquet reader"
-    urls = kwargs["data_files"]
-    assert isinstance(urls, str), "a single file, not a list of six"
-    assert urls.endswith("default/test/default.parquet")
+    files = kwargs["data_files"]
+    assert isinstance(files, dict), "a single file keyed by split, not a list of six"
+    assert list(files) == ["test"], f"only the test split, got {list(files)}"
+    assert files["test"].endswith("default/test/default.parquet")
+    assert kwargs["split"] == "test", "the split must exist in the loaded dataset"
+
+
+def test_split_is_named_because_a_bare_data_files_load_calls_it_train():
+    """Version 3's failure: `Unknown split "test". Should be one of ['train']`.
+
+    Passing `data_files=<url>` gives one split named `train`, so asking for
+    `test` fails at read time. The file must be keyed by its split name.
+    """
+    rec = _Recorder()
+    make_loader(config_parquets(REPO_FILES), rec)(REPO, name=CONFIG)
+    files = rec.calls[0][2]["data_files"]
+    assert list(files) == ["test"], "keying the file by split name is what makes it loadable"
+    assert rec.calls[0][2]["split"] == "test"
 
 
 def test_serves_default_regardless_of_how_the_config_is_passed():
@@ -82,7 +97,7 @@ def test_serves_default_regardless_of_how_the_config_is_passed():
     ):
         rec = _Recorder()
         make_loader(config_parquets(REPO_FILES), rec)(REPO, *args, **dict(kwargs))
-        assert rec.calls[0][2]["data_files"].endswith("default/test/default.parquet")
+        assert rec.calls[0][2]["data_files"]["test"].endswith("default/test/default.parquet")
 
 
 def test_refuses_a_different_config_rather_than_silently_serving_the_wrong_task():

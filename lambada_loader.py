@@ -90,8 +90,13 @@ def make_loader(
 
         kwargs.pop("name", None)
         kwargs.pop("trust_remote_code", None)
+        # A bare `data_files=<url>` load exposes exactly one split, and the
+        # parquet reader names it "train" -- so asking for "test" fails with
+        # `Unknown split "test". Should be one of ['train']`. Passing the file
+        # under a "test" key names the split we actually want.
+        kwargs["data_files"] = {"test": url}
         kwargs["split"] = SPLIT
-        return original("parquet", data_files=url, **kwargs)
+        return original("parquet", **kwargs)
 
     return patched
 
