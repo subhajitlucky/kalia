@@ -15,3 +15,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-09-28 | X18-frontier | `docs/preregistrations/2026-09-28-X18-frontier-attention.md` | `e6d073d516c130574de3e327d7c616f762176c64f95d3e495dd763c2421fe0cc` |
 | 2026-09-28 | X19-branch-norm | `docs/preregistrations/2026-09-28-X19-branch-norm-isolation.md` | `036d0981fd83c8cc98bdf793f78f6463b0d8db7f0a9541dfa236fc7599b27f3e` |
 | 2026-09-28 | X19-am1 | `docs/preregistrations/2026-09-28-X19-amendment-1.md` | `86282fd251d7de2889698e4ff4c6033edefabba82cfd308535dfa6eff4ef408d` |
+| 2026-09-29 | X20-static-gate | `docs/preregistrations/2026-09-29-X20-static-gate.md` | `d5ec8deef729147fed5fb260b1a5007031b2d7c3429b1b45c945bffba9cef6f4` |
