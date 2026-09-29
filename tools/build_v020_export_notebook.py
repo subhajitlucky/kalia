@@ -83,7 +83,11 @@ CELLS = [
         "n = write_safetensors(ck['model'], step, tokens, f'{OUT}/model.safetensors')\n"
         "for f in ['model.py', 'sample.py', 'LICENSE']:\n"
         "    shutil.copy(f'{work}/{f}', f'{OUT}/{f}')\n"
-        "print(f'wrote {n} tensors ->', sorted(os.listdir(OUT)))",
+        "# The card is shipped in the code dataset and published as README.md, so the\n"
+        "# kernel that verifies the weights also publishes the card describing them.\n"
+        "shutil.copy(f'{work}/hf-model-card-v020.md', f'{OUT}/README.md')\n"
+        "print(f'wrote {n} tensors ->', sorted(os.listdir(OUT)))\n"
+        "assert os.path.exists(f'{OUT}/README.md'), 'card was not staged'",
     ),
     (
         "code",
