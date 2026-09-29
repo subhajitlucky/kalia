@@ -88,3 +88,41 @@ produced a number that could have been noise.
 **Cost.** ~1.2 GPU-hours of the 1.76 remaining, spent to delete a component.
 Cheaper than shipping one, and cheaper than the alternative: X20's 0.1358 was
 going into the model card as the project's best result.
+
+## D49 — A load-bearing citation was about the wrong paper; the decision survives on weaker grounds (2026-09-29)
+
+**Context.** Before building v0.3.0's continual update, every arXiv ID in
+`docs/research/` was checked against arxiv.org. The continual-learning design
+document cited arXiv 2403.08763 under the title *"Rules of thumb for continual
+pre-training"* — **a title that does not exist**; the real paper is *"Simple and
+Scalable Strategies to Continually Pre-train Large Language Models"* (Ibrahim et
+al.). More seriously, it attributed to MIITA (arXiv 2607.22556) the finding that
+replay degrades sharply as the backbone shrinks, including a quoted phrase, a
+CT0/FOREVER degradation claim, and a 0.6B floor. **MIITA's abstract contains none
+of that** — it is a memory-based, inference-time method that works "without
+backbone updates," not a replay paper at all. The 0.6B figure appears to have
+been inferred from the words "small language models" in its title.
+
+**Decision.**
+1. **Retract the MIITA-derived claim and the "slope goes against us" conclusion.**
+   Both are recorded as retracted in the research doc, in place, with the
+   retraction visible rather than a quiet edit.
+2. **Keep the replay-ratio sweep — for a weaker, honest reason.** The recipe is
+   verified at 405M and 10B. Nothing verified covers 58M. Therefore no ratio can
+   be *adopted*; only measured. The decision was always right; the reason was
+   partly wrong, and the surviving reason is weaker but sufficient.
+3. **Do not build v0.3.0 on any unverified claim.** The four CL papers are now
+   abstract-verified. The active-forgetting and orthogonal-projection methods are
+   marked direction-setting, not evidence.
+4. **`test_citations.py` pins the verified titles** and fails if a research doc
+   cites an ID with no verified title. Falsified three ways: re-inventing the
+   Ibrahim title, substituting a wrong FST title, and restoring the MIITA claim —
+   all three fail the suite, the clean file passes.
+
+**Cost of getting this wrong.** If v0.3.0 had been built and shipped on the
+MIITA citation, the model card would have claimed a literature-grounded rationale
+that did not exist. This is the same failure as X20 in a different costume: a
+confident number resting on something that was never checked. D48 and D49 have
+the same shape, and that is now the project's characteristic risk — an unverified
+input that looks like evidence. The mitigation is the same in both cases:
+hash-register the claim, and require replication before it ships.
