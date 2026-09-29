@@ -230,6 +230,37 @@ at 0.00060 against the control's 0.00006 — a 10× difference in the learning r
 the treatment actually trains at. 12 tests in `test_rewarm_schedule.py`, including
 four that run real resumes; falsified by re-introducing the unconditional rebase.
 
+**Status update 4, 2026-09-29 — a readiness audit found two missing artifacts.**
+Auditing what the notebooks actually reference against what exists:
+
+- `kalia-lm/kalia-v020` publishes `checkpoints/ckpt.pt`, `model.safetensors`, the
+  two log CSVs, and **no data shard at all**. Step 0's probe had nothing to
+  measure.
+- `mix_bins.py` pre-blends the four sources into one `train.bin` and **discards
+  the originals**. Step 4's runtime mixture had no shards to reweight, so the
+  Kautilya arm could not have run *however much quota was available* — a code
+  problem, not a compute one.
+
+`kalia-publish-sources` is a CPU kernel that derives both from the prep output
+and publishes them to the model repo at `corpus/probe_val.bin` and
+`corpus/<source>.bin`. The probe shard is a slice of the **training** stream, not
+a held-out set: CL-0 exists to detect forgetting of what was learned, so the
+measuring set has to be data the model was trained on. No new licence question
+arises — same filtered sources, same uint16 tokens v0.2.0 already saw.
+
+The first version of the producer and consumer **disagreed on the filenames**
+(publisher wrote `corpus/val_forget.bin`, CL-0 looked for
+`checkpoints/probe_val.bin`), so Step 0 would still have failed on a missing file
+rather than on anything about continual learning. A producer and two consumers
+agreeing by accident is not a contract, so `test_publish_contract.py` reads the
+actual notebook JSON and fails if either side is renamed. Falsified in both
+directions.
+
+Both dependent notebooks now **name the prerequisite instead of falling back**:
+CL-0 no longer offers to substitute `val.bin` for the frozen probe set, because a
+silent fallback keeps the numbers coming while making the ledger incomparable
+across updates.
+
 **What is still not done:** nothing here has run on real data or on a GPU. It is
 code-complete and unit-tested, which is a strictly weaker claim than "validated".
 Step 1's variance baseline remains the prerequisite, and it is the number every

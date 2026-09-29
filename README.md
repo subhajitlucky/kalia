@@ -141,8 +141,9 @@ kalia/
   tools/                 # dataset publisher, model exporter, figure + notebook builders
   configs/               # the real model config + micro-* ablation arms
   notebooks/             # Kaggle kernels: prep, train, ablate, benchmark, evaluate
+  kaggle/                # kernel metadata for each v0.3.0 step, one kernel per step
   docs/results/         # experiments.json + archived raw logs: every run, machine-readable
-  test_*.py              # 285 tests, flat at the repo root
+  test_*.py              # 292 tests, flat at the repo root
   docs/SYNTHESIS.md      # the whole record in one document
   docs/journal/          # dated engineering journal
   docs/DECISIONS.md      # 45 numbered decisions
@@ -159,7 +160,7 @@ Heavy work belongs on Kaggle. The laptop runs the test suite and nothing else.
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-python -m pytest -q          # 285 tests, ~100s on CPU
+python -m pytest -q          # 292 tests, ~95s on CPU
 python tools/check_notebooks.py   # static-checks every notebook before spending quota
 python tools/collect_results.py --check   # results data still matches its logs
 ```

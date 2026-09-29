@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-publish-sources",
+  "title": "KALIA publish per-source shards and probe set",
+  "code_file": "kalia-publish-sources.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev", "subhajitlucky/kalia-prep-v2b"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
