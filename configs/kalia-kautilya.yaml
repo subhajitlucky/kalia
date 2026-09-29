@@ -1,0 +1,58 @@
+# Kautilya arm, v0.3.0 Step 4.
+#
+# The model block is byte-identical to configs/kalia-v020.yaml and the optimizer
+# block matches it too. That is the entire design constraint: the only thing that
+# may differ between the static control arm and the adaptive treatment arm is
+# `adaptive_every`. If a hyperparameter moved, the comparison would confound the
+# mixture policy with whatever else changed, which is how X18's arm drifted from
+# its control and made the whole result meaningless.
+#
+# A test (test_kautilya_config.py) asserts this config equals kalia-v020.yaml
+# outside the four keys the arm is allowed to touch.
+#
+# Set adaptive_every: 0 for the registered STATIC control arm. Same code path,
+# no reweighting -- so the two arms differ only in whether the policy runs.
+model:
+  vocab_size: 50257
+  n_layer: 10
+  n_head: 8
+  n_embd: 512
+  context_len: 1024
+  dropout: 0.0
+  qk_norm: true
+  logit_softcap: 30.0
+train:
+  optimizer: muon          # adamw | muon
+  muon_learning_rate: 0.02
+  muon_momentum: 0.95
+  muon_weight_decay: 0.0
+  ns_steps: 5
+  micro_batch_size: 8
+  grad_accum_steps: 32
+  # 1000 steps, not 4770. This is a mechanism test at a micro budget, and the
+  # v0.3.0 pre-registration puts it behind Step 1's variance baseline -- it is
+  # not a claim to beat v0.2.0's 2.8248.
+  max_steps: 1000
+  learning_rate: 6.0e-4
+  min_lr_ratio: 0.1
+  warmup_steps: 100
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  eval_interval: 100
+  eval_steps: 20
+  sample_interval: 0
+  sample_tokens: 80
+  checkpoint_interval_minutes: 20
+  log_interval: 10
+  # Fresh seed: 1337 generated the original hypothesis (X20) and every prior
+  # single-seed delta. D48 closed the architecture line partly because 1337 is an
+  # unusually good seed -- fresh seeds 1338/1339 came in ~0.11 nats higher.
+  seed: 1401
+  # Kautilya: re-estimate source weights every N steps from held-out per-source
+  # loss. 0 = static. Aligned to eval_interval so a policy decision and a val
+  # measurement land on the same boundary and can be read together.
+  adaptive_every: 100
+  adaptive_batches: 4
+  adaptive_batch_size: 16

@@ -62,11 +62,9 @@ sampled -- which would invert the policy's own intent.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Mapping, Sequence
+from dataclasses import dataclass
+from typing import Mapping
 
-import numpy as np
 import torch
 import torch.nn.functional as F
 
@@ -102,6 +100,7 @@ class SourceMixtureDataset:
     min_weight: float = 0.01
     max_weight: float = 0.80
     reweight_momentum: float = 0.0
+    seed: int = 0
 
     def __post_init__(self) -> None:
         if not self.sources:
@@ -125,6 +124,12 @@ class SourceMixtureDataset:
         self._names: list[str] = sorted(self.sources)
         self._index = {name: i for i, name in enumerate(self._names)}
         self._probs = self._normalise(self.weights)
+        # Own generator for callers that pass none. train.py's evaluate() calls
+        # get_batch(batch, device) with no generator, which would otherwise draw
+        # source choices from the *global* RNG -- making a validation pass depend
+        # on how many batches training happened to draw first, and silently
+        # breaking run-to-run reproducibility of the val number.
+        self._rng = torch.Generator().manual_seed(int(self.seed))
 
     def _normalise(self, w: Mapping[str, float]) -> torch.Tensor:
         v = torch.tensor([float(w[n]) for n in self._names], dtype=torch.float64)
@@ -224,12 +229,13 @@ class SourceMixtureDataset:
         batch 64 is a 1.6% granularity -- large enough to confound a policy that
         moves weights by a few points.
         """
-        picks = torch.multinomial(self._probs.expand(batch_size, -1), 1, generator=generator)
+        gen = generator if generator is not None else self._rng
+        picks = torch.multinomial(self._probs.expand(batch_size, -1), 1, generator=gen)
         picks = picks.squeeze(1)
         xs, ys = [], []
         for i in range(batch_size):
             ds = self.sources[self._names[int(picks[i])]]
-            x, y = ds.get_batch(1, torch.device("cpu"), generator=generator)
+            x, y = ds.get_batch(1, torch.device("cpu"), generator=gen)
             xs.append(x[0])
             ys.append(y[0])
         x = torch.stack(xs)
@@ -312,6 +318,11 @@ class SourceMixtureDataset:
         return applied
 
 
+def _unwrap(model: torch.nn.Module) -> torch.nn.Module:
+    """Return the underlying module when wrapped by DDP."""
+    return getattr(model, "module", model)
+
+
 @torch.no_grad()
 def per_source_loss(
     model: torch.nn.Module,
@@ -343,11 +354,16 @@ def per_source_loss(
             for _ in range(batches):
                 x, y = ds.get_batch(batch_size, device, generator=generator)
                 attn_mask, loss_mask = document_mask(x.cpu())
-                logits = model(
-                    x,
-                    attn_mask=attn_mask.to(device),
-                    loss_mask=loss_mask.to(device),
-                )
+                # KALIA's GPT.forward returns (logits, loss) and takes `targets`
+                # plus optional attn_mask/loss_mask. It does not accept a
+                # loss_mask keyword and does not return bare logits. Calling it
+                # the way a generic model wrapper would returns a tuple -- which
+                # is exactly what happened before this was fixed, and it only
+                # surfaced when the function met the real model inside train.py.
+                # Unwrap defensively so a DDP-wrapped model works too.
+                raw = _unwrap(model)
+                out = raw(x, y, attn_mask=attn_mask.to(device), loss_mask=loss_mask.to(device))
+                logits = out[0] if isinstance(out, tuple) else out
                 b, t, v = logits.shape
                 ce = F.cross_entropy(
                     logits.reshape(b * t, v),

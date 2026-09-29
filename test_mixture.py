@@ -216,16 +216,20 @@ def test_strategy_counts_covers_all_four(four_sources):
 # --- per-source loss ------------------------------------------------------
 
 class _ToyModel(torch.nn.Module):
-    """Predicts a fixed distribution, so loss is a deterministic function of y."""
+    """Matches KALIA's GPT.forward contract: (x, targets, attn_mask, loss_mask)
+    -> (logits, loss). The first version returned bare logits from a different
+    signature, which passed against itself and failed the moment it met the real
+    model in train.py.
+    """
 
     def __init__(self, vocab=512):
         super().__init__()
         self.vocab = vocab
         self.p = torch.nn.Parameter(torch.zeros(1))
 
-    def forward(self, x, attn_mask=None, loss_mask=None):
+    def forward(self, x, targets=None, attn_mask=None, loss_mask=None):
         b, t = x.shape
-        return torch.zeros(b, t, self.vocab) + self.p
+        return torch.zeros(b, t, self.vocab) + self.p, None
 
 
 def test_per_source_loss_reports_every_source(four_sources):
@@ -266,12 +270,81 @@ def test_per_source_loss_distinguishes_sources(four_sources):
             self.vocab = vocab
             self.bias = torch.nn.Parameter(torch.zeros(vocab))
 
-        def forward(self, x, attn_mask=None, loss_mask=None):
+        def forward(self, x, targets=None, attn_mask=None, loss_mask=None):
             b, t = x.shape
             # Strongly favour the low token ids, which dominate one shard only.
             prior = torch.zeros(self.vocab)
             prior[:64] = 8.0
-            return prior.expand(b, t, self.vocab).clone()
+            return prior.expand(b, t, self.vocab).clone(), None
 
     loss = per_source_loss(Skewed(), ds, torch.device("cpu"), batches=3, batch_size=8)
     assert len(set(round(v, 6) for v in loss.values())) > 1, loss
+
+
+def test_per_source_loss_actually_varies_by_source(four_sources):
+    """A constant per-source loss would silently drive the policy on a fake signal.
+
+    Found by falsification: replacing the measured value with a constant 3.0 left
+    every test green, because the toy model in the other tests was uniform enough
+    that a constant was indistinguishable from the truth. The policy would then
+    label every source `sama` forever and the arm would report "the mixture is
+    stable" when nothing had been measured at all.
+
+    So this asserts on a model that genuinely separates the shards: the resulting
+    losses must not all be equal.
+    """
+    ds = SourceMixtureDataset(four_sources, STATIC)
+
+    class SharpPrior(torch.nn.Module):
+        """Favours a narrow id range that one shard over-represents."""
+
+        def __init__(self, vocab=512):
+            super().__init__()
+            self.vocab = vocab
+
+        def forward(self, x, targets=None, attn_mask=None, loss_mask=None):
+            b, t = x.shape
+            prior = torch.zeros(self.vocab)
+            prior[:8] = 12.0
+            return prior.expand(b, t, self.vocab).clone(), None
+
+    loss = per_source_loss(SharpPrior(), ds, torch.device("cpu"), batches=4, batch_size=16)
+    spread = max(loss.values()) - min(loss.values())
+    assert spread > 1e-6, (
+        f"per-source loss is constant across sources ({spread:.2e}); the Kautilya "
+        "policy would be reading a signal that is not there"
+    )
+
+
+def test_a_constant_signal_leaves_the_mixture_untouched(four_sources):
+    """The other half of the contract: identical input must not move weights.
+
+    If per-source losses never differ, every source is at the mean, so every source
+    is `sama` and the weights must be exactly what they were.
+    """
+    ds = SourceMixtureDataset(four_sources, STATIC)
+    before = ds.probabilities()
+    applied = ds.update_weights_from_signal({n: 3.0 for n in ds.source_names})
+    assert set(applied.values()) == {SAMA}
+    after = ds.probabilities()
+    for k in before:
+        assert after[k] == pytest.approx(before[k], abs=1e-9), k
+
+
+def test_policy_responds_to_a_contrived_spread(four_sources):
+    """Sanity: a real spread must move weights in the registered direction.
+
+    Guards against a policy that no longer reads its input at all, which is the
+    failure mode a constant-loss test cannot see.
+    """
+    ds = SourceMixtureDataset(four_sources, STATIC)
+    start = ds.probabilities()
+    # python is clearly the worst source, repeatedly.
+    for _ in range(20):
+        ds.update_weights_from_signal(
+            {"fineweb": 1.0, "tinystories": 1.1, "cosmopedia": 1.2, "python": 8.0}
+        )
+    end = ds.probabilities()
+    assert end["python"] < start["python"]
+    assert end["fineweb"] > start["fineweb"]
+    assert pytest.approx(sum(end.values()), abs=1e-6) == 1.0

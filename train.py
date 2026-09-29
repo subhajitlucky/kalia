@@ -11,7 +11,10 @@ import torch
 import yaml
 from torch.optim import AdamW
 
+import json
+
 from data import MixtureDataset, TokenDataset
+from mixture import SourceMixtureDataset, per_source_loss, strategy_counts
 from model import GPT, GPTConfig
 from optim import MuonWithAuxAdam, split_muon_params
 
@@ -38,6 +41,26 @@ def parse_args(argv=None):
         type=Path,
         default=None,
         help="frozen replay shard for continual learning (CL-1); requires replay_prob > 0",
+    )
+    # Kautilya arm (v0.3.0 Step 4): per-source bins sampled at runtime weights,
+    # instead of the offline pre-blend produced by mix_bins.py.
+    p.add_argument(
+        "--sources",
+        nargs="*",
+        default=None,
+        help="source names, e.g. fineweb tinystories cosmopedia python",
+    )
+    p.add_argument(
+        "--source-bins",
+        nargs="*",
+        type=Path,
+        default=None,
+        help="one .bin per source, in the same order as --sources",
+    )
+    p.add_argument(
+        "--source-weights",
+        default=None,
+        help='JSON object of source weights, e.g. {"fineweb":0.6,"python":0.05}',
     )
     return p.parse_args(argv)
 
@@ -267,26 +290,89 @@ def main(argv=None) -> None:
     # CL-1: replay keeps a fraction of each batch on the *original* corpus, which is
     # what prevents a continual run from eroding what it learned before. The shard
     # must be frozen data, not a slice of whatever is new today.
+    # Kautilya: how often to re-estimate source weights. 0 disables reweighting,
+    # leaving a *static* per-source mixture -- which is the registered control
+    # arm, so the same code path serves both and only the cadence differs.
+    adaptive_every = int(train_cfg.get("adaptive_every", 0))
     replay_prob = float(train_cfg.get("replay_prob", 0.0))
     if replay_prob > 0 and args.replay_bin is None:
         raise SystemExit("replay_prob > 0 requires --replay-bin pointing at a frozen shard")
 
     rev_cfg = config.get("reversal") or {}
-    base_train_ds = TokenDataset(
-        args.data_dir / "train.bin",
-        model_cfg.context_len,
-        reversal_prob=float(rev_cfg.get("prob", 0.0)),
-        reversal_min_chunk=int(rev_cfg.get("min_chunk", 4)),
-        reversal_max_chunk=int(rev_cfg.get("max_chunk", 16)),
-    )
+    # The base dataset is only needed for the plain and replay paths. Constructing
+    # it unconditionally meant a per-source run still required a train.bin that it
+    # never reads -- so the arm could not be run against per-source shards alone,
+    # which is the whole point of the arm. Decide first, then build.
+    per_source_mode = bool(args.sources or args.source_bins or args.source_weights)
+
+    def _build_base() -> TokenDataset:
+        return TokenDataset(
+            args.data_dir / "train.bin",
+            model_cfg.context_len,
+            reversal_prob=float(rev_cfg.get("prob", 0.0)),
+            reversal_min_chunk=int(rev_cfg.get("min_chunk", 4)),
+            reversal_max_chunk=int(rev_cfg.get("max_chunk", 16)),
+        )
+
+    base_train_ds = None if (per_source_mode and replay_prob <= 0) else _build_base()
     if replay_prob > 0:
         replay_ds = TokenDataset(args.replay_bin, model_cfg.context_len)
         train_ds = MixtureDataset(base_train_ds, replay_ds, replay_prob=replay_prob)
         if is_master:
             print(f"replay: {replay_prob:.0%} of each batch from {args.replay_bin}")
+    elif per_source_mode:
+        # Guard the parallel lists before zip(), which would silently truncate to
+        # the shorter one and drop a source without saying so. A dropped source
+        # changes the mixture, which is the one thing this arm is measuring.
+        if not (args.sources and args.source_bins and args.source_weights):
+            missing = [
+                name
+                for name, val in (
+                    ("--sources", args.sources),
+                    ("--source-bins", args.source_bins),
+                    ("--source-weights", args.source_weights),
+                )
+                if not val
+            ]
+            raise SystemExit(
+                f"Kautilya per-source training needs all three of --sources, "
+                f"--source-bins, --source-weights; missing {missing}"
+            )
+        if len(args.sources) != len(args.source_bins):
+            raise SystemExit(
+                f"--sources has {len(args.sources)} entries but --source-bins has "
+                f"{len(args.source_bins)}; they must correspond one-to-one"
+            )
+        # Kautilya arm (v0.3.0 Step 4): sample per source at runtime weights instead
+        # of consuming the offline pre-blend from mix_bins.py. Mixing these two is
+        # the mistake the pre-registration warns about -- an offline re-blend and a
+        # runtime reweight are different experiments, and a run that silently did
+        # both would be uninterpretable.
+        source_weights = json.loads(args.source_weights or "{}")
+        unknown = set(source_weights) - set(args.sources)
+        if unknown:
+            raise SystemExit(f"--source-weights names sources not in --sources: {sorted(unknown)}")
+        missing = [n for n in args.sources if n not in source_weights]
+        if missing:
+            raise SystemExit(f"--source-weights is missing weights for: {sorted(missing)}")
+        src_datasets = {
+            name: TokenDataset(path, model_cfg.context_len)
+            for name, path in zip(args.sources, args.source_bins)
+        }
+        train_ds = SourceMixtureDataset(
+            sources=src_datasets,
+            weights={n: float(source_weights[n]) for n in args.sources},
+            seed=int(train_cfg["seed"]) + rank,
+        )
+        if is_master:
+            probs = train_ds.probabilities()
+            pretty = ", ".join(f"{n} {p:.1%}" for n, p in sorted(probs.items()))
+            print(f"per-source mixture (Kautilya arm): {pretty}")
+            if adaptive_every > 0:
+                print(f"  reweighting every {adaptive_every} steps from held-out per-source loss")
     else:
         train_ds = base_train_ds
-    if is_master and base_train_ds.reversal_prob > 0:
+    if is_master and base_train_ds is not None and base_train_ds.reversal_prob > 0:
         print(
             f"reversal: prob {train_ds.reversal_prob} | chunks "
             f"{train_ds.reversal_min_chunk}-{train_ds.reversal_max_chunk}"
@@ -312,6 +398,7 @@ def main(argv=None) -> None:
 
     log_path = args.out_dir / "train_log.csv"
     val_log_path = args.out_dir / "val_log.csv"
+    per_source_path = args.out_dir / "per_source_log.csv"
     if is_master:
         args.out_dir.mkdir(parents=True, exist_ok=True)
         if not log_path.exists() or start_step == 0:
@@ -320,6 +407,16 @@ def main(argv=None) -> None:
         if not val_log_path.exists() or start_step == 0:
             with open(val_log_path, "w", newline="") as fh:
                 csv.writer(fh).writerow(["step", "val_loss", "bpb"])
+        if adaptive_every > 0 and isinstance(train_ds, SourceMixtureDataset):
+            if not per_source_path.exists() or start_step == 0:
+                names = train_ds.source_names
+                with open(per_source_path, "w", newline="") as fh:
+                    csv.writer(fh).writerow(
+                        ["step"]
+                        + [f"loss_{n}" for n in names]
+                        + [f"weight_{n}" for n in names]
+                        + [f"strategy_{n}" for n in names]
+                    )
 
     tokens_per_step = (
         train_cfg["micro_batch_size"] * train_cfg["grad_accum_steps"] * model_cfg.context_len * world
@@ -388,6 +485,51 @@ def main(argv=None) -> None:
                         [step, f"{loss_total:.4f}", f"{lr:.6e}", tokens_seen, f"{time.time() - start_time:.1f}"]
                     )
 
+            # Kautilya reweighting. Runs on the eval boundary so the per-source
+            # loss and the policy decision land in the same place as the val
+            # curve, and so the cost is amortised rather than paid every step.
+            #
+            # Only master reweights, and the resulting weights are broadcast, so
+            # every rank samples the same mixture. Reweighting per-rank would make
+            # ranks disagree about the data they are training on.
+            if (
+                adaptive_every > 0
+                and isinstance(train_ds, SourceMixtureDataset)
+                and step > 0
+                and step % adaptive_every == 0
+            ):
+                if world > 1:
+                    probs_t = torch.tensor(
+                        [train_ds.probabilities()[n] for n in train_ds.source_names],
+                        device=device,
+                    )
+                    torch.distributed.broadcast(probs_t, src=0)
+                    if not is_master:
+                        train_ds._probs = probs_t.float()
+                if is_master:
+                    losses = per_source_loss(
+                        model, train_ds, device, generator=generator,
+                        batches=int(train_cfg.get("adaptive_batches", 4)),
+                        batch_size=int(train_cfg.get("adaptive_batch_size", 16)),
+                    )
+                    applied = train_ds.update_weights_from_signal(losses)
+                    counts = strategy_counts(applied)
+                    if per_source_path is not None:
+                        with open(per_source_path, "a", newline="") as fh:
+                            cw = csv.writer(fh)
+                            cw.writerow(
+                                [step]
+                                + [f"{losses[n]:.4f}" for n in train_ds.source_names]
+                                + [f"{train_ds.probabilities()[n]:.4f}" for n in train_ds.source_names]
+                                + [applied[n] for n in train_ds.source_names]
+                            )
+                    probs = train_ds.probabilities()
+                    detail = " ".join(f"{n}={probs[n]:.3f}" for n in train_ds.source_names)
+                    strat = " ".join(f"{k}:{v}" for k, v in counts.items() if v)
+                    print(f"step {step} | per-source loss " +
+                          " ".join(f"{n}={losses[n]:.3f}" for n in train_ds.source_names))
+                    print(f"step {step} | weights {detail} | {strat}")
+
             if (
                 val_ds is not None
                 and train_cfg["eval_interval"] > 0
@@ -416,6 +558,7 @@ def main(argv=None) -> None:
                         device=device,
                         dtype=torch.long,
                     )
+
                     torch.distributed.broadcast(flag, src=0)
                     if decay_start is None and int(flag.item()) >= 0:
                         decay_start = int(flag.item())

@@ -302,12 +302,14 @@ def test_the_cl_document_does_not_claim_miita_says_what_it_does_not():
     doc = RESEARCH / "2026-09-28-continual-learning-frontier.md"
     if not doc.exists():
         pytest.skip("CL doc not present")
-    flat = " ".join(doc.read_text().split())
-    # The retraction notice quotes the claim in order to retract it, so it is
-    # exempt by construction: check the claim is not asserted *outside* the block.
-    body, _, _ = doc.read_text().partition("> **RETRACTED")
-    flat_body = " ".join(body.split()) + " " + " ".join(doc.read_text().split("> ---", 1)[-1].split()) \
-        if "> ---" in doc.read_text() else " ".join(body.split())
+    # The retraction notice quotes the retracted claim in order to retract it, so
+    # that block is exempt by construction. Everything after it (the surviving
+    # argument) is what must not reassert the claim.
+    text = doc.read_text()
+    body, marker, _ = text.partition("> **RETRACTED")
+    assert marker, "the RETRACTED block is missing; the MIITA claim is no longer retracted"
+    tail = text.split("> ---", 1)[-1] if "> ---" in text else ""
+    flat_body = " ".join((" ".join(body.split()) + " " + " ".join(tail.split())).split())
     for phrase in (
         "rely on large parameter capacity",
         "drop substantially",
