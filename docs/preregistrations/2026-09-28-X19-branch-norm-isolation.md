@@ -104,8 +104,40 @@ in total, so this is roughly 20–30 minutes of quota. Scheduled **after** the
 v0.2.0 final evaluation is read, and within the ~2.58h of GPU quota left before
 the 2026-10-03 reset.
 
-G-0 needs no GPU at all — it runs on X18's existing `micro-gated` checkpoint and
-can be measured immediately, in parallel with the arm.
+## G-0 measured on 2026-09-28, before any GPU was spent
+
+Run on X18's existing `micro-gated` checkpoint (30M, 500 steps, seed 1337) — no
+new training, no quota. The new `gate_stats` in `gate_probe.py` reports the
+second moments alongside the mean, and its two new tests build a known-constant
+gate and a known-data-dependent gate to confirm the statistic separates them
+before it is trusted on a real checkpoint.
+
+| quantity | value | reading |
+|---|---|---|
+| mean gate | 0.019172 | floor is 0.017986; F-4 bar 0.05 |
+| max std **across channels** | 2.96e-04 | 1.5% relative — a near-uniform reweighting |
+| max std **across inputs** | **5.09e-06** | **the gate does not respond to its input** |
+
+Per-block input spread runs 1.0e-06 to 5.1e-06 across all six blocks.
+
+**G-0's answer: F-4's reading stands, and it survives the challenge.** I
+registered this specifically because I did not trust my own inference from a
+first moment — a gate can be low on average and strongly variable, in which case
+F-4's threshold was the wrong statistic and the mechanism was fine. The
+dispersion measurement rules that out. The gate is not data-dependent at any
+useful scale: 5e-06 of variation in response to input, against a mean of 0.019,
+is a constant, not a gate. The small channel spread is a fixed per-channel bias,
+not per-input modulation.
+
+So the mechanism Gated Residual actually claims — a *data-dependent* read, worth
++1.98 accuracy in Qwen's split — **is not operating in our arm at all.** What
+remains is the branch structure, and X19's G-1 becomes the decisive test rather
+than a formality: with the gate established inert in both moments, the −0.0436
+either survives without it or it does not exist.
+
+Recorded before the run, as required. The prior recorded in this document — "the
+real uncertainty is G-0, and it cuts against me" — resolved against me.
+
 
 ## Deviations
 
