@@ -18,6 +18,9 @@ Every decision, result and incident is recorded here. No silent changes.
 
 ## Index
 
+> Looking for the whole thing in one place? `docs/SYNTHESIS.md` — what we
+> built, the results, strong points, weak points, and what failed and why.
+
 | Date | File | Highlights |
 |---|---|---|
 | 2026-09-22 | `2026-09-22.md` | Build day: design, 13 tasks, TDD, incidents, ablations, two full runs launched |

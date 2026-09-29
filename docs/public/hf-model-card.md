@@ -163,11 +163,27 @@ rather than resumed. The plateau is documented in the repository journal.
 
 ## Limitations
 
-- Small model: coherent short-form English, not a general assistant.
-- Domain-narrow: children's stories and educational text.
-- Entity consistency degrades over long outputs (names drift).
-- No instruction following (post-training stage is planned).
-- May produce inaccurate or biased text; not for production decisions.
+Stated as measured, not as marketing. The noise floor matters here: at 500
+samples these benchmarks have standard errors of roughly 2.0–2.2 points, so
+differences smaller than about 2 points are not real.
+
+- **Small model.** Coherent short-form English, not a general assistant.
+- **Domain-narrow.** Children's stories and educational web text.
+- **Entity consistency degrades over long outputs** (names drift).
+- **No instruction following.** Post-training is a planned stage, not a
+  completed one.
+- **One benchmark regressed against v0.1.2** when the corpus was rebuilt for
+  licence compliance: ARC-Easy 45.8 → 42.0. Held-out loss improved by 0.2285
+  nats over the same rebuild, so loss and accuracy moved in opposite directions.
+  The cause is not isolated; a 5%→10% code share is the prime suspect and the
+  mixture is more sensitive to it than we expected.
+- **Long-range recall is weak.** LAMBADA is the task this corpus is worst
+  equipped for: only 17.7% of training tokens sit inside a document of at least
+  the 1,024-token context length, and TinyStories — 20% of the mixture —
+  supplies 0.01% of long documents.
+- **Training runs to a plateau.** Validation loss is flat across the final
+  1,500 of 4,770 steps. The last 31% of training produced no measurable gain.
+- **May produce inaccurate or biased text.** Not for production decisions.
 
 ## Training data attribution
 
