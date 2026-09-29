@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x20-staticgate",
+  "title": "KALIA X20 staticgate",
+  "code_file": "kalia-x20-staticgate.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-prep-v2b"],
+  "model_sources": []
+}

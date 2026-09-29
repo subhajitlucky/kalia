@@ -29,6 +29,9 @@ class GPTConfig:
     branch_norm: bool = False
     """4-branch stream normalisation with no gate (X19: isolates X18's -0.0436)."""
 
+    static_gate: bool = False
+    """Branch norm with a learned per-channel gate that never reads its input (X20)."""
+
 
 class RMSNorm(nn.Module):
     """Root-mean-square layer norm (no mean subtraction, no bias)."""
@@ -163,26 +166,53 @@ class BranchNorm(nn.Module):
     Not free, and the pre-registration was corrected for saying so: each
     ``RMSNorm`` carries a learnable weight, so this adds ``4 * branch_dim ==
     n_embd`` parameters per block. See Amendment 1 to X19.
+
+    ``static_gate`` adds X20's arm: the same learned per-channel modulation, but
+    with the input path removed -- ``w1``'s weight is replaced by a learned
+    constant, so the gate is fixed at every position. It is the controlled test of
+    whether the gain needs the gate to *read* the input at all.
     """
 
-    def __init__(self, dim: int, n_branch: int = 4):
+    def __init__(
+        self,
+        dim: int,
+        n_branch: int = 4,
+        gate_rank: int = 32,
+        static_gate: bool = False,
+    ):
         super().__init__()
         assert dim % n_branch == 0, "n_embd must divide evenly into branches"
         self.n_branch = n_branch
         self.branch_dim = dim // n_branch
         self.norms = nn.ModuleList([RMSNorm(self.branch_dim) for _ in range(n_branch)])
+        self.static_gate = static_gate
+        if static_gate:
+            # A learned constant in place of w1's weight: same rank, same w2, same
+            # -4.0 start, and no dependence on x anywhere. Strictly smaller than
+            # GatedResidual by (dim - 1) * rank per block.
+            self.gate_in = nn.Parameter(torch.zeros(gate_rank))
+            self.gate_out = nn.Linear(gate_rank, dim, bias=True)
+            with torch.no_grad():
+                self.gate_out.weight.normal_(0.0, 0.02)
+                self.gate_out.bias.fill_(-4.0)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Normalise each branch independently, then concatenate to full width.
 
         With RMSNorm's affine weight initialised to ones this is exactly
-        "renormalise each quarter of the residual stream", which is the
-        operation the gated arm was performing underneath its dead gate.
+        "renormalise each quarter of the residual stream", which is the operation
+        the gated arm was performing underneath its dead gate.
         """
+        g = None
+        if self.static_gate:
+            g = torch.sigmoid(self.gate_out(F.silu(self.gate_in)))
         parts = []
         for i, norm in enumerate(self.norms):
             sl = slice(i * self.branch_dim, (i + 1) * self.branch_dim)
-            parts.append(norm(x[..., sl]))
+            b = norm(x[..., sl])
+            if g is not None:
+                b = b * g[..., sl]
+            parts.append(b)
         return torch.cat(parts, dim=-1)
 
 
@@ -253,7 +283,18 @@ class Block(nn.Module):
         assert not (config.gated_residual and config.branch_norm), (
             "branch_norm and gated_residual are alternative arms, not combinable"
         )
-        self.branch = BranchNorm(config.n_embd) if config.branch_norm else None
+        # A static_gate without branch_norm would construct a plain control model
+        # while the config claims the X20 arm. Silent no-op configs are how a
+        # clean, confident, wrong number happens.
+        assert not (config.static_gate and not config.branch_norm), (
+            "static_gate requires branch_norm; without it the model is a plain "
+            "control and the config would be lying about which arm is running"
+        )
+        self.branch = (
+            BranchNorm(config.n_embd, static_gate=config.static_gate)
+            if config.branch_norm
+            else None
+        )
 
     def forward(self, x: torch.Tensor, attn_mask: torch.Tensor | None = None) -> torch.Tensor:
         # Gated Residual transforms the stream *before* the pre-norm, as in
