@@ -59,7 +59,8 @@ CELLS = [
         '!pip install -q "lm-eval==0.4.9" "transformers<5" tiktoken pyyaml datasets\n'
         "import glob, os, shutil, sys\n"
         "root = sorted(glob.glob('/kaggle/input/datasets/subhajitlucky/kalia-code-dev'))[0]\n"
-        "for f in ['eval_bench.py', 'kalia_lm.py', 'model.py', 'data.py', 'lambada_loader.py']:\n"
+        "for f in ['eval_bench.py', 'kalia_lm.py', 'model.py', 'data.py',\n"
+        "          'eval_reversibility.py', 'lambada_loader.py']:\n"
         "    shutil.copy(f'{root}/{f}', '/kaggle/working/')\n"
         "os.chdir('/kaggle/working')\n"
         "ckpt = sorted(glob.glob(\n"
@@ -98,7 +99,16 @@ CELLS = [
         ")\n"
         "print(rc.stdout[-3000:])\n"
         "if rc.returncode != 0:\n"
-        "    print('STDERR:', rc.stderr[-3000:])",
+        "    print('STDERR:', rc.stderr[-4000:])\n"
+        "# Version 4 ran eval_bench, it failed on a missing module, and the cell\n"
+        "# carried on -- so the failure surfaced two cells later as a bare\n"
+        "# FileNotFoundError on the results file, with the real cause buried in\n"
+        "# captured output nobody printed. Fail here, where the cause is.\n"
+        "assert rc.returncode == 0, f'eval_bench failed (exit {rc.returncode}); see STDERR above'\n"
+        "import os\n"
+        "assert os.path.exists('/kaggle/working/bench_lambada.json'), (\n"
+        "    'eval_bench exited 0 but wrote no results file')\n"
+        "print('results file written')",
     ),
     (
         "code",
