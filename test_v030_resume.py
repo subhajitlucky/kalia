@@ -58,4 +58,18 @@ def test_ablate_forwards_resume_to_train():
         cwd=ROOT,
     )
     assert proc.returncode == 0, proc.stderr
-    assert "--resume-from-hub" in proc.stdout
+    assert "--resume-from" in proc.stdout
+
+
+def test_train_accepts_resume_from():
+    import subprocess
+    import sys
+
+    proc = subprocess.run(
+        [sys.executable, "train.py", "--help"],
+        capture_output=True,
+        text=True,
+        cwd=ROOT,
+    )
+    assert proc.returncode == 0, proc.stderr
+    assert "--resume-from" in proc.stdout

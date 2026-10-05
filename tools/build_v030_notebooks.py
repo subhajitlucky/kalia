@@ -95,10 +95,14 @@ CELLS = [
                 "# Needs the v0.2.0 checkpoint and a frozen probe shard. Both are published\n"
                 "# to the hub, so fetch by range rather than downloading a full snapshot --\n"
                 "# the user is on metered mobile data and a 334MB pull is not acceptable.\n"
-                "from huggingface_hub import hf_hub_download\n"
-                "\n"
-                "REPO = 'kalia-lm/kalia-v020'\n"
-                "ckpt = hf_hub_download(REPO, 'checkpoints/ckpt.pt', repo_type='model')\n"
+                "ckpt_hits = sorted(glob.glob('/kaggle/input/**/ckpt.pt', recursive=True))\n"
+                "if ckpt_hits:\n"
+                "    ckpt = ckpt_hits[0]\n"
+                "    print('checkpoint: attached dataset file (no hub pull needed)')\n"
+                "else:\n"
+                "    from huggingface_hub import hf_hub_download\n"
+                "    REPO = 'kalia-lm/kalia-v020'\n"
+                "    ckpt = hf_hub_download(REPO, 'checkpoints/ckpt.pt', repo_type='model')\n"
                 "size_mb = os.path.getsize(ckpt) / 1e6\n"
                 "print(f'checkpoint: {ckpt} ({size_mb:.1f} MB)')\n"
                 "assert size_mb > 10, 'checkpoint looks truncated'\n"
@@ -277,9 +281,12 @@ FOLLOWUPS = [
                 "for a in arms:\n"
                 "    assert os.path.exists(f'configs/{a}.yaml'), f'missing configs/{a}.yaml'\n"
                 "print('arms:', arms)\n"
+                "ckpt_hits = sorted(glob.glob('/kaggle/input/**/ckpt.pt', recursive=True))\n"
+                "RESUME_CKPT = ckpt_hits[0] if ckpt_hits else 'kalia-lm/kalia-v020'\n"
+                "print('resume checkpoint:', RESUME_CKPT)\n"
                 "print(subprocess.run([sys.executable, 'ablate.py', '--arms', ','.join(arms),\n"
                 "                       '--steps', '500', '--data-dir', DATA,\n"
-                "                       '--resume-from-hub', 'kalia-lm/kalia-v020',\n"
+                "                       '--resume-from', RESUME_CKPT,\n"
                 "                       '--out-root', '/kaggle/working/out'],\n"
                 "                      capture_output=True, text=True).stdout[-5000:])",
             ),
@@ -325,7 +332,10 @@ FOLLOWUPS = [
                 "    assert os.path.exists(f'configs/{a}.yaml'), f'missing configs/{a}.yaml'\n"
                 "    print(a)\n"
                 "print('\\nRun Step 2 first: the LR schedule must be fixed before a ratio is')\n"
-                "print('meaningful, and Step 1 supplies the bar.')",
+                "print('meaningful, and Step 1 supplies the bar.')\n"
+                "ckpt_hits = sorted(glob.glob('/kaggle/input/**/ckpt.pt', recursive=True))\n"
+                "RESUME_CKPT = ckpt_hits[0] if ckpt_hits else 'kalia-lm/kalia-v020'\n"
+                "print('resume checkpoint:', RESUME_CKPT)\n"
             ),
             (
                 "code",
@@ -353,7 +363,7 @@ FOLLOWUPS = [
                 "code",
                 "print(subprocess.run([sys.executable, 'ablate.py', '--arms', ','.join(arms),\n"
                 "                       '--steps', '500', '--data-dir', DATA,\n"
-                "                       '--resume-from-hub', 'kalia-lm/kalia-v020',\n"
+                "                       '--resume-from', RESUME_CKPT,\n"
                 "                       '--out-root', '/kaggle/working/out'],\n"
                 "                      capture_output=True, text=True).stdout[-6000:])",
             ),
@@ -439,9 +449,12 @@ FOLLOWUPS = [
                 "code",
                 "def run(arm, adaptive_every, tag):\n"
                 "    out = f'/kaggle/working/out/{arm}'\n"
+                "    ckpt_hits = sorted(glob.glob('/kaggle/input/**/ckpt.pt', recursive=True))\n"
+                "    resume_src = ckpt_hits[0] if ckpt_hits else 'kalia-lm/kalia-v020'\n"
+                "    print('resume checkpoint:', resume_src)\n"
                 "    cmd = [sys.executable, 'train.py', '--config', 'configs/kalia-kautilya.yaml',\n"
                 "           '--data-dir', DATA, '--out-dir', out, '--max-steps', '1000',\n"
-                "           '--resume', '--hub-repo', 'kalia-lm/kalia-v020',\n"
+                "           '--resume-from', resume_src,\n"
                 "           '--seed', '1401',\n"
                 "           '--sources', *names,\n"
                 "           '--source-bins', *[found[n] for n in names],\n"

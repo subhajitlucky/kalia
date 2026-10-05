@@ -25,6 +25,9 @@ def parse_args(argv=None):
     p.add_argument("--data-dir", type=Path, required=True)
     p.add_argument("--out-dir", type=Path, default=Path("out"))
     p.add_argument("--resume", action="store_true", help="resume from out_dir/ckpt.pt or --hub-repo")
+    p.add_argument("--resume-from", type=str, default=None,
+                   help="resume from a local ckpt.pt file, a directory containing one, "
+                        "or an HF repo id (implies --resume; repo pull needs HF_TOKEN)")
     p.add_argument("--hub-repo", type=str, default=None, help="HF repo id for checkpoint sync")
     p.add_argument("--max-steps", type=int, default=None, help="override config max_steps")
     p.add_argument("--max-minutes", type=float, default=None, help="stop after this many minutes")
@@ -268,6 +271,21 @@ def main(argv=None) -> None:
     # failed. The full suite is what caught it.
     lr_origin = 0
     ckpt_path = args.out_dir / "ckpt.pt"
+    if args.resume_from and not args.resume:
+        src = Path(args.resume_from)
+        if src.exists():
+            import shutil
+            if src.is_dir():
+                src = src / "ckpt.pt"
+            assert src.exists(), f"resume checkpoint not found: {src}"
+            ckpt_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(src, ckpt_path)
+            if is_master:
+                print(f"resume: staged local checkpoint {src} -> {ckpt_path}")
+            args.resume = True
+        else:
+            args.hub_repo = args.hub_repo or args.resume_from
+            args.resume = True
     if args.resume:
         if args.hub_repo:
             if is_master:
