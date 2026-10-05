@@ -33,7 +33,7 @@ def _registered(label: str) -> str:
     return m.group(1).strip()
 
 
-SEEDS = (1401, 1402)   # registered: two control arms at fresh seeds
+SEEDS = (1401, 1402, 1403)   # Amendment 1 (2026-10-05-v030-amendment-1): three control arms
 STOP_SPREAD = 0.15     # registered stopping rule
 R_BAR = 0.01           # 1x the measured spread; the D48 lesson
 
@@ -279,6 +279,7 @@ FOLLOWUPS = [
                 "print('arms:', arms)\n"
                 "print(subprocess.run([sys.executable, 'ablate.py', '--arms', ','.join(arms),\n"
                 "                       '--steps', '500', '--data-dir', DATA,\n"
+                "                       '--resume-from-hub', 'kalia-lm/kalia-v020',\n"
                 "                       '--out-root', '/kaggle/working/out'],\n"
                 "                      capture_output=True, text=True).stdout[-5000:])",
             ),
@@ -330,6 +331,7 @@ FOLLOWUPS = [
                 "code",
                 "print(subprocess.run([sys.executable, 'ablate.py', '--arms', ','.join(arms),\n"
                 "                       '--steps', '500', '--data-dir', DATA,\n"
+                "                       '--resume-from-hub', 'kalia-lm/kalia-v020',\n"
                 "                       '--out-root', '/kaggle/working/out'],\n"
                 "                      capture_output=True, text=True).stdout[-6000:])",
             ),
@@ -417,6 +419,7 @@ FOLLOWUPS = [
                 "    out = f'/kaggle/working/out/{arm}'\n"
                 "    cmd = [sys.executable, 'train.py', '--config', 'configs/kalia-kautilya.yaml',\n"
                 "           '--data-dir', DATA, '--out-dir', out, '--max-steps', '1000',\n"
+                "           '--resume', '--hub-repo', 'kalia-lm/kalia-v020',\n"
                 "           '--seed', '1401',\n"
                 "           '--sources', *names,\n"
                 "           '--source-bins', *[found[n] for n in names],\n"

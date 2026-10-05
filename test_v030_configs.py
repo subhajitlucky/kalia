@@ -21,6 +21,7 @@ V020 = yaml.safe_load(open("configs/kalia-v020.yaml"))
 ARMS = {
     "v030-ctl-s1401": {"seed": 1401, "rewarm": True},
     "v030-ctl-s1402": {"seed": 1402, "rewarm": True},
+    "v030-ctl-s1403": {"seed": 1403, "rewarm": True},
     "v030-rewarm-s1401": {"seed": 1401, "rewarm": True},
     "v030-norewarm-s1401": {"seed": 1401, "rewarm": False},
     "v030-replay-00-s1401": {"seed": 1401, "rewarm": True, "replay_prob": 0.0},
@@ -67,9 +68,12 @@ def test_expected_values_are_set(name):
 
 def test_step1_pair_differs_only_in_seed():
     """Step 1 is a seed-variance measurement. Nothing else may differ."""
-    a, b = _train("v030-ctl-s1401"), _train("v030-ctl-s1402")
-    differing = {k for k in set(a) | set(b) if a.get(k) != b.get(k)}
-    assert differing == {"seed"}, differing
+    trains = [_train(n) for n in ("v030-ctl-s1401", "v030-ctl-s1402", "v030-ctl-s1403")]
+    base = trains[0]
+    for t in trains[1:]:
+        differing = {k for k in set(base) | set(t) if base.get(k) != t.get(k)}
+        assert differing == {"seed"}, differing
+    assert sorted(t["seed"] for t in trains) == [1401, 1402, 1403]
 
 
 def test_step2_pair_differs_only_in_rewarm():

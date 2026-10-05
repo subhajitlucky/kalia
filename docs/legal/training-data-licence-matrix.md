@@ -118,3 +118,19 @@ situation that disqualified the pg19 mirrors, and it is the one remaining
 unverified cell in this table. It should be resolved before any corpus
 redistribution, and it does not affect the v0.2.0 release, which redistributes
 nothing.
+
+## v0.3.0 new artifacts (added 2026-10-05, pre-launch)
+
+The continual update introduces three new artifact classes. None redistributes
+third-party text beyond what v0.2.0 already covered, but each gets a row here
+because I16 taught us that ordering gaps, not missing filters, are the defect.
+
+| artifact | derivation | licence status |
+|---|---|---|
+| `corpus/probe_val.bin` (CL-0 probe shard) | slice of the v0.2.0 training stream | inherits v0.2.0 coverage; no new source |
+| `corpus/<source>.bin` replay shards | same filtered sources as v0.2.0, repackaged per-source | inherits v0.2.0 coverage; no new source |
+| long-form chunked corpus (`sedthh/gutenberg_english`, sentence-aware chunks) | **new source** | **unverified** — Project Gutenberg texts are public domain in the US, but the HF mirror's declared licence has not been read. Must be read before any redistribution; training use is not blocked by this, redistribution is. |
+
+Rule going forward: no corpus artifact is consumed by a registered step until
+it has a row in this table. That is the filter-gates-build wiring, stated as a
+table invariant rather than a timestamp comparison.

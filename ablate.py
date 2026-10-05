@@ -67,6 +67,9 @@ def main() -> None:
     parser.add_argument("--sentences", type=str, default=None, help="probe sentences json")
     parser.add_argument("--data-dir", type=str, default=None, help="override data directory")
     parser.add_argument("--out-root", type=str, default="/kaggle/working/out")
+    parser.add_argument("--resume-from-hub", type=str, default=None,
+                        help="resume every arm from this HF repo's checkpoints/ckpt.pt "
+                             "(required for continual-update arms; omit for fresh controls)")
     args = parser.parse_args()
     arms = [arm.strip() for arm in args.arms.split(",") if arm.strip()]
     sentences_path = find_sentences(args.sentences) if args.reversibility else None
@@ -88,6 +91,8 @@ def main() -> None:
             "--out-dir",
             out_dir,
         ]
+        if args.resume_from_hub:
+            cmd += ["--resume", "--hub-repo", args.resume_from_hub]
         if args.steps is not None:
             cmd += ["--max-steps", str(args.steps)]
         proc = subprocess.run(cmd)

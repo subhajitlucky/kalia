@@ -19,3 +19,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-09-29 | X20-am1 | `docs/preregistrations/2026-09-29-X20-amendment-1.md` | `e94c467acb8d7e247b28ae51c50fb5fe3a9f20db7c8c9120c576c1f3a826de30` |
 | 2026-09-29 | X21-replication | `docs/preregistrations/2026-09-29-X21-replication.md` | `e0a86cec9f2276cbd26f4564e9550b6389171543e1342e0b3635c847821487ba` |
 | 2026-09-29 | v030-continual-update | `docs/preregistrations/2026-09-29-v030-continual-update.md` | `f3a11c8ed8eb898bcc731678c34a767b8e9f8dc6b7d9bd608ba872100723be91` |
+| 2026-10-05 | v030-am1 | `docs/preregistrations/2026-10-05-v030-amendment-1.md` | `0568748a219b0b888049c701679da51d5ad48b39296ad5ee4da40e1ba071e3ec` |
