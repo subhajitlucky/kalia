@@ -329,6 +329,28 @@ FOLLOWUPS = [
             ),
             (
                 "code",
+                "import pathlib, re\n"
+                "prev2 = pathlib.Path('/kaggle/working/step2_rewarm.json')\n"
+                "if not prev2.exists():\n"
+                "    prev2 = pathlib.Path('/kaggle/input/step2_rewarm.json')\n"
+                "assert prev2.exists(), (\n"
+                "    'Step 2 output not found. Run kalia-v030-rewarm first: the replay\\n'\n"
+                "    '    arms must use the schedule Step 2 validated, not a hardcoded one.')\n"
+                "step2 = json.load(open(prev2))\n"
+                "rewarm = bool(step2['passes'])\n"
+                "print(f\"Step 2 verdict: {'TRANSFERS -> re-warm ON' if rewarm else 'NO TRANSFER -> re-warm OFF'}\")\n"
+                "for a in arms:\n"
+                "    p = f'configs/{a}.yaml'\n"
+                "    txt = open(p).read()\n"
+                "    txt2, n = re.subn(r'(?m)^  rewarm:.*$', f'  rewarm: {str(rewarm)}', txt)\n"
+                "    assert n == 1, f'{p}: expected exactly one rewarm key'\n"
+                "    open(p, 'w').write(txt2)\n"
+                "    print(f'  {a}: rewarm: {str(rewarm)}')\n"
+                "print('Caution: these configs live in the kernel\\'s copy of the repo. '\n"
+                "      'The committed configs are unchanged; the run log records the choice.')",
+            ),
+            (
+                "code",
                 "print(subprocess.run([sys.executable, 'ablate.py', '--arms', ','.join(arms),\n"
                 "                       '--steps', '500', '--data-dir', DATA,\n"
                 "                       '--resume-from-hub', 'kalia-lm/kalia-v020',\n"

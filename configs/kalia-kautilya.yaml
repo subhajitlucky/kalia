@@ -33,6 +33,11 @@ train:
   # v0.3.0 pre-registration puts it behind Step 1's variance baseline -- it is
   # not a claim to beat v0.2.0's 2.8248.
   max_steps: 1000
+  # "N more steps" from the resume point. Without this a resumed run stops
+  # immediately: start_step (4770) is already past the absolute max_steps
+  # ceiling, so the loop condition is false on entry and the arm trains zero
+  # steps while reporting success. Same defect class as the re-warm schedule.
+  update_budget: 1000
   learning_rate: 6.0e-4
   min_lr_ratio: 0.1
   warmup_steps: 100

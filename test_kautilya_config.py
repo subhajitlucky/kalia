@@ -34,6 +34,7 @@ ALLOWED = {
     "adaptive_every",
     "adaptive_batches",
     "adaptive_batch_size",
+    "update_budget",  # 1000 more steps from the resume point, not an absolute ceiling
 }
 
 
@@ -123,3 +124,16 @@ def test_typos_would_be_rejected_by_the_mismatch_check(bad):
         if V020["train"].get(k) != drifted["train"].get(k)
     }
     assert bad in drift and drift - ALLOWED == {bad}
+
+
+def test_update_budget_matches_max_steps():
+    """A resumed run stops at start_step + update_budget.
+
+    Without update_budget the resume point (4770) is already past the
+    absolute max_steps ceiling, so the arm trains zero steps and reports
+    success -- the same silent-null class as the re-warm schedule defect.
+    """
+    assert KAUT["train"].get("update_budget") == KAUT["train"]["max_steps"], (
+        "update_budget must equal max_steps so the arm trains a full budget "
+        "from the resume point"
+    )
