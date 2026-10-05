@@ -1,0 +1,222 @@
+[
+  {
+    "id": "gutenberg-00",
+    "control": {
+      "retention": 0.0306,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0306,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-01",
+    "control": {
+      "retention": 0.0256,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0256,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-02",
+    "control": {
+      "retention": 0.1364,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.1364,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-03",
+    "control": {
+      "retention": 0.025,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.025,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-04",
+    "control": {
+      "retention": 0.0192,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0192,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-05",
+    "control": {
+      "retention": 0.0648,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0648,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-06",
+    "control": {
+      "retention": 0.0388,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0388,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-07",
+    "control": {
+      "retention": 0.0288,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0288,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-08",
+    "control": {
+      "retention": 0.0,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-09",
+    "control": {
+      "retention": 0.0,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-10",
+    "control": {
+      "retention": 0.0233,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0233,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-11",
+    "control": {
+      "retention": 0.0,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-12",
+    "control": {
+      "retention": 0.0139,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0139,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-13",
+    "control": {
+      "retention": 0.0526,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0526,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-14",
+    "control": {
+      "retention": 0.0,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-15",
+    "control": {
+      "retention": 0.0488,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0488,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-16",
+    "control": {
+      "retention": 0.029,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.029,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-17",
+    "control": {
+      "retention": 0.0135,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0135,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-18",
+    "control": {
+      "retention": 0.0294,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.0294,
+      "updates": 4
+    }
+  },
+  {
+    "id": "gutenberg-19",
+    "control": {
+      "retention": 0.1163,
+      "updates": 4
+    },
+    "ttt": {
+      "retention": 0.1163,
+      "updates": 4
+    }
+  }
+]
