@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-v030-baseline",
+  "title": "KALIA v030 baseline",
+  "code_file": "kalia-v030-baseline.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": false,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-prep-v2b"],
+  "model_sources": []
+}

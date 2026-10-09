@@ -1,0 +1,8 @@
+{
+  "corpus/probe_val.bin": "1664f71a4b5e96d28d20c7b531fdaf36409a25cd243dd73de0dee26bfd8fa795",
+  "val.bin": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc",
+  "corpus/fineweb.bin": "ee38e52a23874bf0cbe691deb4c98f112c4f581a952cb482a26fb867378011dc",
+  "corpus/tinystories.bin": "05b4d90c1c0719afc6ad6219a2e59a1ac5e355f69d7a44d3383b65bdebcfe1a3",
+  "corpus/cosmopedia.bin": "bde9f790fa3f1d6a9a0c82dc6abd75d3c577c41ded3151693816d8ecfdbfbfd3",
+  "corpus/python.bin": "169b22d47270249f838f190faeb95ceeba35763f5eefbaf8c2766c4f1d71bb32"
+}

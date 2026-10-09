@@ -1,0 +1,19 @@
+{
+  "id": "subhajitlucky/kalia-v030-cl0",
+  "title": "KALIA v030 cl0",
+  "code_file": "kalia-v030-cl0.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev",
+    "subhajitlucky/kalia-v020-ckpt"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-prep-v2b"
+  ],
+  "model_sources": []
+}
