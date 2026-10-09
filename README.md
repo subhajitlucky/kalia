@@ -130,6 +130,8 @@ kalia/
   ablate.py              # sequential micro-ablation runner (+ Abhimanyu-gap readout)
   optim.py               # Muon / Muon+ / AdamW hybrid optimizer
   sample.py              # generate text from a checkpoint
+  retrieval.py           # lexical BM25 lookup: the model reads what it cannot store
+  best_of_n.py           # sample N continuations, rank by the model's own log-prob
   eval_bench.py          # zero-shot suite via lm-evaluation-harness
   eval_val.py            # deterministic held-out loss (the registered primary metric)
   eval_reversibility.py  # entry-exit asymmetry (Abhimanyu gap)

@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-retrieval-probe",
+  "title": "KALIA retrieval probe",
+  "code_file": "kalia_retrieval_probe_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev", "subhajitlucky/kalia-v020-ckpt"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-prep-v2b"],
+  "model_sources": []
+}

@@ -376,6 +376,7 @@ class GPT(nn.Module):
         max_new_tokens: int,
         temperature: float = 0.8,
         top_k: int | None = 200,
+        generator: torch.Generator | None = None,
     ) -> torch.Tensor:
         was_training = self.training
         self.eval()
@@ -387,7 +388,8 @@ class GPT(nn.Module):
                 top = torch.topk(logits, min(top_k, logits.size(-1))).values[:, [-1]]
                 logits = logits.masked_fill(logits < top, float("-inf"))
             probs = F.softmax(logits, dim=-1)
-            idx = torch.cat((idx, torch.multinomial(probs, num_samples=1)), dim=1)
+            sample = torch.multinomial(probs, num_samples=1, generator=generator)
+            idx = torch.cat((idx, sample), dim=1)
         if was_training:
             self.train()
         return idx
