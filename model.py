@@ -26,6 +26,14 @@ class GPTConfig:
     gated_residual: bool = False
     """Use the 4-branch Gated Residual stream (Qwen3.8)."""
 
+    reverse_attention: bool = False
+    """WITHDRAWN arm (X27-am1): the registered reverse-stream design attended
+    to future positions, so it could read the token being predicted. Enabling
+    it raises; the flag is kept as a tombstone so the lesson lives where
+    someone would try to switch it on. See
+    docs/preregistrations/2026-10-09-X27-amendment-1.md.
+    """
+
     branch_norm: bool = False
     """4-branch stream normalisation with no gate (X19: isolates X18's -0.0436)."""
 
@@ -274,6 +282,16 @@ class Block(nn.Module):
         use_rope = not (
             config.nope_interval and (layer_index + 1) % config.nope_interval == 0
         )
+        # X27 was withdrawn before any GPU hour: as designed, the reverse
+        # stream attended to future positions and could read the token being
+        # predicted. The flag is a tripwire, not a usable arm.
+        if config.reverse_attention:
+            raise ValueError(
+                "RCAA is withdrawn (X27-am1): the registered design attended to "
+                "future positions, so the model could read the token it was "
+                "asked to predict. See "
+                "docs/preregistrations/2026-10-09-X27-amendment-1.md"
+            )
         self.attn = CausalSelfAttention(config, use_rope=use_rope)
         self.norm2 = RMSNorm(config.n_embd)
         self.mlp = SwiGLU(config)
