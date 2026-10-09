@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x26-kautilya-pilot",
+  "title": "KALIA x26 kautilya pilot",
+  "code_file": "kalia_kautilya_pilot_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev", "subhajitlucky/kalia-v020-ckpt"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-prep-v2b"],
+  "model_sources": []
+}
