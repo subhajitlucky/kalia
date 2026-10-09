@@ -606,7 +606,12 @@ def main(argv=None) -> None:
                         batches=int(train_cfg.get("adaptive_batches", 4)),
                         batch_size=int(train_cfg.get("adaptive_batch_size", 16)),
                     )
-                    applied = train_ds.update_weights_from_signal(losses)
+                    applied = train_ds.update_weights_from_signal(
+                        losses,
+                        trend_window=int(train_cfg.get("adaptive_trend_window", 1)),
+                        trend_eps=float(train_cfg.get("adaptive_trend_eps", 0.01)),
+                        collapse_margin=float(train_cfg.get("adaptive_collapse_margin", 0.5)),
+                    )
                     counts = strategy_counts(applied)
                     if per_source_path is not None:
                         with open(per_source_path, "a", newline="") as fh:

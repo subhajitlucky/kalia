@@ -203,6 +203,49 @@ def test_rejects_loss_for_an_unknown_source(four_sources):
         ds.update_weights_from_signal({"fineweb": 2.0, "mystery": 2.0})
 
 
+def test_trend_window_upsamples_an_improving_source(four_sources):
+    """A1's rule: dana goes to the source whose loss is *falling*, even when its
+    level is not the lowest. The X26 pilot showed the level rule drifting into
+    'eating dessert' -- feeding what is already easy."""
+    ds = SourceMixtureDataset(four_sources, STATIC)
+    flat = {"tinystories": 2.0, "cosmopedia": 2.0, "python": 2.0}
+    for fineweb in (3.0, 3.0, 3.0):
+        ds.update_weights_from_signal({"fineweb": fineweb, **flat}, trend_window=2)
+    applied = ds.update_weights_from_signal({"fineweb": 2.7, **flat}, trend_window=2)
+    assert applied["fineweb"] == DANA
+    assert applied["python"] == SAMA
+
+
+def test_trend_window_downsamples_a_worsening_source(four_sources):
+    ds = SourceMixtureDataset(four_sources, STATIC)
+    flat = {"tinystories": 2.0, "cosmopedia": 2.0, "python": 2.0}
+    for fineweb in (2.0, 2.0, 2.0):
+        ds.update_weights_from_signal({"fineweb": fineweb, **flat}, trend_window=2)
+    applied = ds.update_weights_from_signal({"fineweb": 2.4, **flat}, trend_window=2)
+    assert applied["fineweb"] == BHEDA
+
+
+def test_trend_window_freezes_a_collapsed_source(four_sources):
+    ds = SourceMixtureDataset(four_sources, STATIC)
+    flat = {"tinystories": 2.0, "cosmopedia": 2.0, "python": 2.0}
+    for fineweb in (2.0, 2.0, 2.0):
+        ds.update_weights_from_signal({"fineweb": fineweb, **flat}, trend_window=2)
+    applied = ds.update_weights_from_signal({"fineweb": 3.2, **flat}, trend_window=2)
+    assert applied["fineweb"] == DANDA
+    assert strategy_counts(applied)[DANDA] == 1
+
+
+def test_trend_policy_falls_back_until_two_windows_exist(four_sources):
+    ds = SourceMixtureDataset(four_sources, STATIC)
+    applied = ds.update_weights_from_signal(
+        {"fineweb": 3.0, "tinystories": 2.0, "cosmopedia": 2.0, "python": 2.0},
+        trend_window=3,
+    )
+    # A trend needs two windows; before that the level rule runs, and under it
+    # the above-mean source is bheda'd.
+    assert applied["fineweb"] == BHEDA
+
+
 def test_strategy_counts_covers_all_four(four_sources):
     ds = SourceMixtureDataset(four_sources, STATIC)
     applied = ds.update_weights_from_signal(

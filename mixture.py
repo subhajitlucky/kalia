@@ -130,6 +130,10 @@ class SourceMixtureDataset:
         # on how many batches training happened to draw first, and silently
         # breaking run-to-run reproducibility of the val number.
         self._rng = torch.Generator().manual_seed(int(self.seed))
+        # Per-update loss history, for the trend-based policy (trend_window >= 2).
+        # Bounded so a long run cannot grow memory without limit; 32 windows is
+        # far more than any registered trend window needs.
+        self._loss_history: list[dict[str, float]] = []
 
     def _normalise(self, w: Mapping[str, float]) -> torch.Tensor:
         v = torch.tensor([float(w[n]) for n in self._names], dtype=torch.float64)
@@ -277,29 +281,46 @@ class SourceMixtureDataset:
         step_up: float = 1.10,
         step_down: float = 0.90,
         trend_window: int = 1,
+        trend_eps: float = 0.01,
+        collapse_margin: float = 0.5,
     ) -> dict[str, str]:
         """Reweight from each source's loss trend. Returns the strategy applied.
 
-        ``trend_window`` > 1 compares the newest mean loss against the mean of the
-        preceding windows, so a single noisy evaluation cannot move the policy.
-        With ``trend_window=1`` the comparison is unavailable and the policy falls
-        back to level-vs-mean, which is a weaker but honest rule -- it is recorded
-        in the returned strategy as ``sama``.
+        ``trend_window == 1`` keeps the level-vs-mean rule the first pilot ran
+        under (X26): a source below the mean is upsampled whether or not it is
+        still improving, which its diary showed drifting toward "eating
+        dessert" -- feeding what is already easy. That rule is retained
+        unchanged so the pilot's recorded behaviour stays reproducible.
 
-        The four outcomes follow the pre-registration exactly. A source that is
-        both worse than the mean *and* worsening gets ``bheda``; a source whose
-        loss has stopped improving while sitting far above the mean gets
-        ``danda``. Improvement always wins, because a source the model is still
-        learning from is the one worth feeding.
+        ``trend_window >= 2`` implements the A1 design faithfully: the newest
+        window's mean is compared against the preceding window's mean, relative
+        to ``trend_eps`` (fraction of the previous mean):
+
+            improving  -> dana   (upsample)
+            flat       -> sama   (keep)
+            worsening  -> bheda  (downsample)
+            collapsed  -> danda  (freeze at the floor), when a source is
+                          ``collapse_margin`` nats above its best-ever mean
+
+        Until ``2 * trend_window`` evaluations exist the policy falls back to
+        the level rule, because a trend needs two windows to exist at all.
+
+        The four outcomes follow the pre-registration exactly. Improvement
+        always wins, because a source the model is still learning from is the
+        one worth feeding.
         """
         if not per_source_loss:
             raise ValueError("no per-source loss supplied")
         unknown = set(per_source_loss) - set(self._names)
         if unknown:
             raise ValueError(f"loss supplied for unknown sources {sorted(unknown)}")
+        if trend_window < 1:
+            raise ValueError(f"trend_window must be >= 1, got {trend_window}")
 
         losses = {n: float(per_source_loss[n]) for n in self._names}
-        mean = sum(losses.values()) / len(losses)
+        self._loss_history.append(dict(losses))
+        del self._loss_history[:-32]
+
         w = dict(self.weights)
         applied: dict[str, str] = {}
         # Momentum damps the step when the signal is noisy, matching the intent of
@@ -307,25 +328,50 @@ class SourceMixtureDataset:
         # mixture. 0.0 disables it and reproduces the plain multiplicative rule.
         gamma = self.reweight_momentum
 
-        for name in self._names:
-            loss = losses[name]
-            # Strictly better, not "at or better". With `<=` a source sitting
-            # exactly at the mean is labelled dana, so a set of identical losses
-            # labels every source as "improving" -- which is a policy that reports
-            # progress while having none, and normalises to a no-op. At the mean is
-            # precisely the sama case.
-            better_than_mean = loss < mean - 1e-9
-            if better_than_mean:
-                strategy = DANA
-                w[name] = w[name] * step_up
-            elif loss <= mean * 1.15:
-                strategy = SAMA
-            else:
-                strategy = BHEDA
-                w[name] = w[name] * step_down
-            if gamma > 0:
-                w[name] = w[name] ** (1.0 - gamma)
-            applied[name] = strategy
+        use_trend = trend_window >= 2 and len(self._loss_history) >= 2 * trend_window
+        if use_trend:
+            recent = self._loss_history[-trend_window:]
+            previous = self._loss_history[-2 * trend_window : -trend_window]
+            best = {n: min(window[n] for window in self._loss_history) for n in self._names}
+            for name in self._names:
+                new_mean = sum(window[name] for window in recent) / trend_window
+                prev_mean = sum(window[name] for window in previous) / trend_window
+                eps = abs(prev_mean) * trend_eps
+                if new_mean > best[name] + collapse_margin:
+                    strategy = DANDA
+                    w[name] = self.min_weight
+                elif new_mean < prev_mean - eps:
+                    strategy = DANA
+                    w[name] = w[name] * step_up
+                elif new_mean > prev_mean + eps:
+                    strategy = BHEDA
+                    w[name] = w[name] * step_down
+                else:
+                    strategy = SAMA
+                if gamma > 0:
+                    w[name] = w[name] ** (1.0 - gamma)
+                applied[name] = strategy
+        else:
+            mean = sum(losses.values()) / len(losses)
+            for name in self._names:
+                loss = losses[name]
+                # Strictly better, not "at or better". With `<=` a source sitting
+                # exactly at the mean is labelled dana, so a set of identical losses
+                # labels every source as "improving" -- which is a policy that reports
+                # progress while having none, and normalises to a no-op. At the mean is
+                # precisely the sama case.
+                better_than_mean = loss < mean - 1e-9
+                if better_than_mean:
+                    strategy = DANA
+                    w[name] = w[name] * step_up
+                elif loss <= mean * 1.15:
+                    strategy = SAMA
+                else:
+                    strategy = BHEDA
+                    w[name] = w[name] * step_down
+                if gamma > 0:
+                    w[name] = w[name] ** (1.0 - gamma)
+                applied[name] = strategy
 
         total = sum(w.values())
         if total <= 0:
