@@ -23,3 +23,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-10-05 | X25-ttt | `docs/preregistrations/2026-10-05-X25-ttt-inference.md` | `ccc333ded2b733b1a5bf66b9597397333aa9b527afb7926993c9e503d450c4f6` |
 | 2026-10-05 | X25-am1 | `docs/preregistrations/2026-10-05-X25-amendment-1.md` | `8294f53635aff6ebfb8163f265c540d4be7d90089b54c984a10201a08d0033e8` |
 | 2026-10-09 | X26-kautilya-pilot | `docs/preregistrations/2026-10-09-X26-kautilya-pilot.md` | `ed09bec8bc09bb55d6e51cb986f7691f3bcd906a0648bbff902a2f31ee982c41` |
+| 2026-10-09 | X27-rcaa | `docs/preregistrations/2026-10-09-X27-rcaa-reverse-attention.md` | `2b0e541f1d8767576b56f8784e2842b38b90c94340c02f349e02269cf24ec942` |
