@@ -1,0 +1,255 @@
+[{"stream_name":"stdout","time":9.053431814,"data":"gpus: 2\n"}
+,{"stream_name":"stderr","time":9.738011975,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":15.372195069,"data":"shard fineweb: 249 MB\n"}
+,{"stream_name":"stdout","time":18.818328716,"data":"shard tinystories: 249 MB\n"}
+,{"stream_name":"stdout","time":31.917241723,"data":"shard cosmopedia: 249 MB\n"}
+,{"stream_name":"stdout","time":35.082757128,"data":"shard python: 249 MB\n"}
+,{"stream_name":"stdout","time":35.115787604,"data":"val shard: /kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin\n"}
+,{"stream_name":"stdout","time":35.126295627,"data":"resume from: /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":35.133935874,"data":"\n"}
+,{"stream_name":"stdout","time":35.133954499,"data":"===== kautilya-static (adaptive_every=0) =====\n"}
+,{"stream_name":"stderr","time":37.192976787,"data":"\n"}
+,{"stream_name":"stderr","time":37.193007607,"data":"*****************************************\n"}
+,{"stream_name":"stderr","time":37.1930154,"data":"Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. \n"}
+,{"stream_name":"stderr","time":37.193021423,"data":"*****************************************\n"}
+,{"stream_name":"stdout","time":41.436079461,"data":"KALIA params: 57,856,256 | device: cuda:0 | world: 2\n"}
+,{"stream_name":"stdout","time":41.436113461,"data":"doc_mask: off\n"}
+,{"stream_name":"stdout","time":57.503466961,"data":"resume: staged local checkpoint /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt -\u003e /kaggle/working/out/kautilya-static/ckpt.pt\n"}
+,{"stream_name":"stdout","time":58.800757551,"data":"  LR schedule: re-warm from step 0 of the update budget\n"}
+,{"stream_name":"stdout","time":59.540712544,"data":"per-source mixture (Kautilya arm): cosmopedia 15.0%, fineweb 60.0%, python 5.0%, tinystories 20.0%\n"}
+,{"stream_name":"stdout","time":59.543922055,"data":"update budget: 1,000 steps from step 4,770 -\u003e hard stop 5,770\n"}
+,{"stream_name":"stdout","time":224.737207231,"data":"step 4780/1000 | loss 2.8314 | lr 6.00e-05 | 31,745 tok/s\n"}
+,{"stream_name":"stdout","time":389.431026865,"data":"step 4790/1000 | loss 2.7710 | lr 1.20e-04 | 31,809 tok/s\n"}
+,{"stream_name":"stdout","time":554.128630495,"data":"step 4800/1000 | loss 2.8281 | lr 1.80e-04 | 31,798 tok/s\n"}
+,{"stream_name":"stdout","time":562.368781318,"data":"step 4800 | val loss 2.7660\n"}
+,{"stream_name":"stdout","time":726.676209696,"data":"step 4810/1000 | loss 2.8208 | lr 2.40e-04 | 31,821 tok/s\n"}
+,{"stream_name":"stdout","time":891.373850297,"data":"step 4820/1000 | loss 2.7541 | lr 3.00e-04 | 31,870 tok/s\n"}
+,{"stream_name":"stdout","time":1056.157406155,"data":"step 4830/1000 | loss 2.7414 | lr 3.60e-04 | 31,794 tok/s\n"}
+,{"stream_name":"stdout","time":1220.864892523,"data":"step 4840/1000 | loss 2.8355 | lr 4.20e-04 | 31,881 tok/s\n"}
+,{"stream_name":"stdout","time":1271.162163429,"data":"checkpoint saved at step 4843\n"}
+,{"stream_name":"stdout","time":1386.399950233,"data":"step 4850/1000 | loss 2.8700 | lr 4.80e-04 | 31,858 tok/s\n"}
+,{"stream_name":"stdout","time":1550.959882587,"data":"step 4860/1000 | loss 2.6297 | lr 5.40e-04 | 31,935 tok/s\n"}
+,{"stream_name":"stdout","time":1715.716770984,"data":"step 4870/1000 | loss 2.7375 | lr 6.00e-04 | 31,910 tok/s\n"}
+,{"stream_name":"stdout","time":1880.415554047,"data":"step 4880/1000 | loss 2.5837 | lr 6.00e-04 | 31,924 tok/s\n"}
+,{"stream_name":"stdout","time":2044.992601309,"data":"step 4890/1000 | loss 2.7601 | lr 5.99e-04 | 31,879 tok/s\n"}
+,{"stream_name":"stdout","time":2209.719851179,"data":"step 4900/1000 | loss 2.6924 | lr 5.99e-04 | 31,954 tok/s\n"}
+,{"stream_name":"stdout","time":2217.973647117,"data":"step 4900 | val loss 2.6783\n"}
+,{"stream_name":"stdout","time":2382.342392377,"data":"step 4910/1000 | loss 2.7813 | lr 5.98e-04 | 31,888 tok/s\n"}
+,{"stream_name":"stdout","time":2482.084454855,"data":"checkpoint saved at step 4916\n"}
+,{"stream_name":"stdout","time":2547.949545793,"data":"step 4920/1000 | loss 2.8066 | lr 5.96e-04 | 31,714 tok/s\n"}
+,{"stream_name":"stdout","time":2712.611760334,"data":"step 4930/1000 | loss 2.8428 | lr 5.94e-04 | 31,816 tok/s\n"}
+,{"stream_name":"stdout","time":2877.239428336,"data":"step 4940/1000 | loss 2.7785 | lr 5.92e-04 | 31,869 tok/s\n"}
+,{"stream_name":"stdout","time":3041.892682202,"data":"step 4950/1000 | loss 2.7555 | lr 5.90e-04 | 31,771 tok/s\n"}
+,{"stream_name":"stdout","time":3206.98009374,"data":"step 4960/1000 | loss 2.7858 | lr 5.87e-04 | 31,753 tok/s\n"}
+,{"stream_name":"stdout","time":3372.069928216,"data":"step 4970/1000 | loss 2.7031 | lr 5.84e-04 | 31,728 tok/s\n"}
+,{"stream_name":"stdout","time":3537.296477136,"data":"step 4980/1000 | loss 2.7394 | lr 5.81e-04 | 31,733 tok/s\n"}
+,{"stream_name":"stdout","time":3686.615306637,"data":"checkpoint saved at step 4989\n"}
+,{"stream_name":"stdout","time":3703.075930959,"data":"step 4990/1000 | loss 2.8136 | lr 5.77e-04 | 31,853 tok/s\n"}
+,{"stream_name":"stdout","time":3868.180326718,"data":"step 5000/1000 | loss 2.7165 | lr 5.73e-04 | 31,739 tok/s\n"}
+,{"stream_name":"stdout","time":3876.097279536,"data":"step 5000 | val loss 2.9829\n"}
+,{"stream_name":"stdout","time":4040.887049344,"data":"step 5010/1000 | loss 2.8208 | lr 5.69e-04 | 31,733 tok/s\n"}
+,{"stream_name":"stdout","time":4206.023008923,"data":"step 5020/1000 | loss 2.6927 | lr 5.64e-04 | 31,645 tok/s\n"}
+,{"stream_name":"stdout","time":4371.372173725,"data":"step 5030/1000 | loss 2.7977 | lr 5.59e-04 | 31,645 tok/s\n"}
+,{"stream_name":"stdout","time":4536.593650847,"data":"step 5040/1000 | loss 2.7372 | lr 5.54e-04 | 31,749 tok/s\n"}
+,{"stream_name":"stdout","time":4701.676467859,"data":"step 5050/1000 | loss 2.7431 | lr 5.49e-04 | 31,743 tok/s\n"}
+,{"stream_name":"stdout","time":4866.729693769,"data":"step 5060/1000 | loss 2.7316 | lr 5.43e-04 | 31,741 tok/s\n"}
+,{"stream_name":"stdout","time":4900.623973544,"data":"checkpoint saved at step 5062\n"}
+,{"stream_name":"stdout","time":5032.793056201,"data":"step 5070/1000 | loss 2.7223 | lr 5.37e-04 | 31,723 tok/s\n"}
+,{"stream_name":"stdout","time":5197.998934252,"data":"step 5080/1000 | loss 2.6929 | lr 5.31e-04 | 31,734 tok/s\n"}
+,{"stream_name":"stdout","time":5363.106047782,"data":"step 5090/1000 | loss 2.6870 | lr 5.25e-04 | 31,760 tok/s\n"}
+,{"stream_name":"stdout","time":5528.020264085,"data":"step 5100/1000 | loss 2.7695 | lr 5.18e-04 | 31,758 tok/s\n"}
+,{"stream_name":"stdout","time":5535.940578701,"data":"step 5100 | val loss 2.7749\n"}
+,{"stream_name":"stdout","time":5700.345470094,"data":"step 5110/1000 | loss 2.7475 | lr 5.11e-04 | 31,810 tok/s\n"}
+,{"stream_name":"stdout","time":5864.948153835,"data":"step 5120/1000 | loss 2.7020 | lr 5.04e-04 | 31,839 tok/s\n"}
+,{"stream_name":"stdout","time":6029.70644335,"data":"step 5130/1000 | loss 2.7151 | lr 4.97e-04 | 31,855 tok/s\n"}
+,{"stream_name":"stdout","time":6113.009093625,"data":"checkpoint saved at step 5135\n"}
+,{"stream_name":"stdout","time":6195.324230676,"data":"step 5140/1000 | loss 2.7117 | lr 4.89e-04 | 31,803 tok/s\n"}
+,{"stream_name":"stdout","time":6360.128949218,"data":"step 5150/1000 | loss 2.7510 | lr 4.82e-04 | 31,857 tok/s\n"}
+,{"stream_name":"stdout","time":6524.828242222,"data":"step 5160/1000 | loss 2.7446 | lr 4.74e-04 | 31,784 tok/s\n"}
+,{"stream_name":"stdout","time":6689.442290673,"data":"step 5170/1000 | loss 2.7585 | lr 4.66e-04 | 31,822 tok/s\n"}
+,{"stream_name":"stdout","time":6853.850300866,"data":"step 5180/1000 | loss 2.7624 | lr 4.58e-04 | 31,862 tok/s\n"}
+,{"stream_name":"stdout","time":7018.171762173,"data":"step 5190/1000 | loss 2.7681 | lr 4.49e-04 | 31,879 tok/s\n"}
+,{"stream_name":"stdout","time":7182.896698183,"data":"step 5200/1000 | loss 2.7508 | lr 4.41e-04 | 31,890 tok/s\n"}
+,{"stream_name":"stdout","time":7190.784535226,"data":"step 5200 | val loss 2.8040\n"}
+,{"stream_name":"stdout","time":7323.143191014,"data":"checkpoint saved at step 5208\n"}
+,{"stream_name":"stdout","time":7355.984094388,"data":"step 5210/1000 | loss 2.7304 | lr 4.32e-04 | 31,859 tok/s\n"}
+,{"stream_name":"stdout","time":7520.735114807,"data":"step 5220/1000 | loss 2.7796 | lr 4.23e-04 | 31,846 tok/s\n"}
+,{"stream_name":"stdout","time":7685.452143253,"data":"step 5230/1000 | loss 2.6928 | lr 4.14e-04 | 31,792 tok/s\n"}
+,{"stream_name":"stdout","time":7850.252299548,"data":"step 5240/1000 | loss 2.7686 | lr 4.05e-04 | 31,808 tok/s\n"}
+,{"stream_name":"stdout","time":8014.80786374,"data":"step 5250/1000 | loss 2.6650 | lr 3.96e-04 | 31,785 tok/s\n"}
+,{"stream_name":"stdout","time":8179.570360264,"data":"step 5260/1000 | loss 2.6750 | lr 3.87e-04 | 31,792 tok/s\n"}
+,{"stream_name":"stdout","time":8344.442265063,"data":"step 5270/1000 | loss 2.7643 | lr 3.78e-04 | 31,805 tok/s\n"}
+,{"stream_name":"stdout","time":8509.393701722,"data":"step 5280/1000 | loss 2.7633 | lr 3.69e-04 | 31,728 tok/s\n"}
+,{"stream_name":"stdout","time":8526.775752643,"data":"checkpoint saved at step 5281\n"}
+,{"stream_name":"stdout","time":8675.122555489,"data":"step 5290/1000 | loss 2.7830 | lr 3.59e-04 | 31,924 tok/s\n"}
+,{"stream_name":"stdout","time":8840.076474476,"data":"step 5300/1000 | loss 2.7909 | lr 3.50e-04 | 31,743 tok/s\n"}
+,{"stream_name":"stdout","time":8847.958495279,"data":"step 5300 | val loss 2.8570\n"}
+,{"stream_name":"stdout","time":9012.495105299,"data":"step 5310/1000 | loss 2.7073 | lr 3.40e-04 | 31,791 tok/s\n"}
+,{"stream_name":"stdout","time":9177.538692349,"data":"step 5320/1000 | loss 2.8193 | lr 3.31e-04 | 31,772 tok/s\n"}
+,{"stream_name":"stdout","time":9342.676843617,"data":"step 5330/1000 | loss 2.6189 | lr 3.22e-04 | 31,660 tok/s\n"}
+,{"stream_name":"stdout","time":9507.862802077,"data":"step 5340/1000 | loss 2.6168 | lr 3.12e-04 | 31,835 tok/s\n"}
+,{"stream_name":"stdout","time":9672.810835635,"data":"step 5350/1000 | loss 2.7076 | lr 3.03e-04 | 31,760 tok/s\n"}
+,{"stream_name":"stdout","time":9739.688084605,"data":"checkpoint saved at step 5354\n"}
+,{"stream_name":"stdout","time":9838.453378497,"data":"step 5360/1000 | loss 2.5654 | lr 2.93e-04 | 31,896 tok/s\n"}
+,{"stream_name":"stdout","time":10003.410830353,"data":"step 5370/1000 | loss 2.6871 | lr 2.84e-04 | 31,918 tok/s\n"}
+,{"stream_name":"stdout","time":10168.069572749,"data":"step 5380/1000 | loss 2.7069 | lr 2.75e-04 | 31,876 tok/s\n"}
+,{"stream_name":"stdout","time":10333.039596686,"data":"step 5390/1000 | loss 2.6243 | lr 2.66e-04 | 31,793 tok/s\n"}
+,{"stream_name":"stdout","time":10497.650872151,"data":"step 5400/1000 | loss 2.7613 | lr 2.56e-04 | 31,854 tok/s\n"}
+,{"stream_name":"stdout","time":10505.531488965,"data":"step 5400 | val loss 2.6687\n"}
+,{"stream_name":"stdout","time":10670.067500164,"data":"step 5410/1000 | loss 2.6907 | lr 2.47e-04 | 31,816 tok/s\n"}
+,{"stream_name":"stdout","time":10835.114037224,"data":"step 5420/1000 | loss 2.6710 | lr 2.39e-04 | 31,754 tok/s\n"}
+,{"stream_name":"stdout","time":10951.325418159,"data":"checkpoint saved at step 5427\n"}
+,{"stream_name":"stdout","time":11000.51732331,"data":"step 5430/1000 | loss 2.7039 | lr 2.30e-04 | 31,984 tok/s\n"}
+,{"stream_name":"stdout","time":11165.00932545,"data":"step 5440/1000 | loss 2.7248 | lr 2.21e-04 | 31,902 tok/s\n"}
+,{"stream_name":"stdout","time":11329.793037057,"data":"step 5450/1000 | loss 2.7082 | lr 2.12e-04 | 31,839 tok/s\n"}
+,{"stream_name":"stdout","time":11494.725964482,"data":"step 5460/1000 | loss 2.6987 | lr 2.04e-04 | 31,776 tok/s\n"}
+,{"stream_name":"stdout","time":11659.588286797,"data":"step 5470/1000 | loss 2.8056 | lr 1.96e-04 | 31,784 tok/s\n"}
+,{"stream_name":"stdout","time":11824.363550154,"data":"step 5480/1000 | loss 2.7614 | lr 1.88e-04 | 31,883 tok/s\n"}
+,{"stream_name":"stdout","time":11989.329166971,"data":"step 5490/1000 | loss 2.6861 | lr 1.80e-04 | 31,831 tok/s\n"}
+,{"stream_name":"stdout","time":12154.413076077,"data":"step 5500/1000 | loss 2.6809 | lr 1.72e-04 | 31,760 tok/s\n"}
+,{"stream_name":"stdout","time":12162.283709853,"data":"step 5500 | val loss 2.8423\n"}
+,{"stream_name":"stdout","time":12163.185734481,"data":"checkpoint saved at step 5500\n"}
+,{"stream_name":"stdout","time":12327.803132275,"data":"step 5510/1000 | loss 2.8005 | lr 1.65e-04 | 31,881 tok/s\n"}
+,{"stream_name":"stdout","time":12492.564577612,"data":"step 5520/1000 | loss 2.7274 | lr 1.57e-04 | 31,890 tok/s\n"}
+,{"stream_name":"stdout","time":12657.341728572,"data":"step 5530/1000 | loss 2.6818 | lr 1.50e-04 | 31,830 tok/s\n"}
+,{"stream_name":"stdout","time":12821.832256882,"data":"step 5540/1000 | loss 2.6237 | lr 1.43e-04 | 31,948 tok/s\n"}
+,{"stream_name":"stdout","time":12986.52119393,"data":"step 5550/1000 | loss 2.7226 | lr 1.36e-04 | 31,831 tok/s\n"}
+,{"stream_name":"stdout","time":13151.205350335,"data":"step 5560/1000 | loss 2.6286 | lr 1.30e-04 | 31,802 tok/s\n"}
+,{"stream_name":"stdout","time":13315.766495784,"data":"step 5570/1000 | loss 2.7596 | lr 1.24e-04 | 31,965 tok/s\n"}
+,{"stream_name":"stdout","time":13366.033188581,"data":"checkpoint saved at step 5573\n"}
+,{"stream_name":"stdout","time":13481.266957389,"data":"step 5580/1000 | loss 2.6270 | lr 1.18e-04 | 31,870 tok/s\n"}
+,{"stream_name":"stdout","time":13645.886057322,"data":"step 5590/1000 | loss 2.7155 | lr 1.12e-04 | 31,788 tok/s\n"}
+,{"stream_name":"stdout","time":13810.673536512,"data":"step 5600/1000 | loss 2.6926 | lr 1.07e-04 | 31,746 tok/s\n"}
+,{"stream_name":"stdout","time":13818.581264079,"data":"step 5600 | val loss 2.8439\n"}
+,{"stream_name":"stdout","time":13983.061769647,"data":"step 5610/1000 | loss 2.7578 | lr 1.02e-04 | 31,912 tok/s\n"}
+,{"stream_name":"stdout","time":14147.543648895,"data":"step 5620/1000 | loss 2.6503 | lr 9.66e-05 | 31,929 tok/s\n"}
+,{"stream_name":"stdout","time":14312.236750572,"data":"step 5630/1000 | loss 2.6506 | lr 9.20e-05 | 31,889 tok/s\n"}
+,{"stream_name":"stdout","time":14477.011134458,"data":"step 5640/1000 | loss 2.6557 | lr 8.77e-05 | 31,835 tok/s\n"}
+,{"stream_name":"stdout","time":14576.742067703,"data":"checkpoint saved at step 5646\n"}
+,{"stream_name":"stdout","time":14642.440952009,"data":"step 5650/1000 | loss 2.6777 | lr 8.37e-05 | 31,934 tok/s\n"}
+,{"stream_name":"stdout","time":14806.920391918,"data":"step 5660/1000 | loss 2.6704 | lr 8.00e-05 | 31,876 tok/s\n"}
+,{"stream_name":"stdout","time":14971.780339869,"data":"step 5670/1000 | loss 2.6384 | lr 7.66e-05 | 31,774 tok/s\n"}
+,{"stream_name":"stdout","time":15136.520865045,"data":"step 5680/1000 | loss 2.6836 | lr 7.35e-05 | 31,831 tok/s\n"}
+,{"stream_name":"stdout","time":15301.091268251,"data":"step 5690/1000 | loss 2.6949 | lr 7.07e-05 | 31,932 tok/s\n"}
+,{"stream_name":"stdout","time":15465.854535152,"data":"step 5700/1000 | loss 2.6973 | lr 6.82e-05 | 31,763 tok/s\n"}
+,{"stream_name":"stdout","time":15473.727653983,"data":"step 5700 | val loss 2.8200\n"}
+,{"stream_name":"stdout","time":15638.168922574,"data":"step 5710/1000 | loss 2.6536 | lr 6.61e-05 | 31,920 tok/s\n"}
+,{"stream_name":"stdout","time":15787.654946699,"data":"checkpoint saved at step 5719\n"}
+,{"stream_name":"stdout","time":15804.12324809,"data":"step 5720/1000 | loss 2.5869 | lr 6.43e-05 | 31,838 tok/s\n"}
+,{"stream_name":"stdout","time":15968.949945618,"data":"step 5730/1000 | loss 2.8118 | lr 6.28e-05 | 31,767 tok/s\n"}
+,{"stream_name":"stdout","time":16133.813500547,"data":"step 5740/1000 | loss 2.6379 | lr 6.16e-05 | 31,808 tok/s\n"}
+,{"stream_name":"stdout","time":16298.509419351,"data":"step 5750/1000 | loss 2.7543 | lr 6.07e-05 | 31,869 tok/s\n"}
+,{"stream_name":"stdout","time":16463.332946335,"data":"step 5760/1000 | loss 2.6438 | lr 6.02e-05 | 31,752 tok/s\n"}
+,{"stream_name":"stdout","time":16628.081833709,"data":"step 5770/1000 | loss 2.6267 | lr 6.00e-05 | 31,810 tok/s\n"}
+,{"stream_name":"stdout","time":16628.977877956,"data":"final checkpoint saved at step 5770\n"}
+,{"stream_name":"stdout","time":16632.853847228,"data":"\n"}
+,{"stream_name":"stdout","time":16632.85389581,"data":"===== kautilya-adaptive (adaptive_every=100) =====\n"}
+,{"stream_name":"stderr","time":16634.709616412,"data":"\n"}
+,{"stream_name":"stderr","time":16634.709663759,"data":"*****************************************\n"}
+,{"stream_name":"stderr","time":16634.709700475,"data":"Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. \n"}
+,{"stream_name":"stderr","time":16634.709707775,"data":"*****************************************\n"}
+,{"stream_name":"stdout","time":16638.212025036,"data":"KALIA params: 57,856,256 | device: cuda:0 | world: 2\n"}
+,{"stream_name":"stdout","time":16638.212052686,"data":"doc_mask: off\n"}
+,{"stream_name":"stdout","time":16639.612445769,"data":"resume: staged local checkpoint /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt -\u003e /kaggle/working/out/kautilya-adaptive/ckpt.pt\n"}
+,{"stream_name":"stdout","time":16640.117502021,"data":"  LR schedule: re-warm from step 0 of the update budget\n"}
+,{"stream_name":"stdout","time":16640.479240792,"data":"per-source mixture (Kautilya arm): cosmopedia 15.0%, fineweb 60.0%, python 5.0%, tinystories 20.0%\n"}
+,{"stream_name":"stdout","time":16640.479267739,"data":"  reweighting every 100 steps from held-out per-source loss\n"}
+,{"stream_name":"stdout","time":16640.504341157,"data":"update budget: 1,000 steps from step 4,770 -\u003e hard stop 5,770\n"}
+,{"stream_name":"stdout","time":16805.915258184,"data":"step 4780/1000 | loss 2.8314 | lr 6.00e-05 | 31,930 tok/s\n"}
+,{"stream_name":"stdout","time":16970.649231321,"data":"step 4790/1000 | loss 2.7710 | lr 1.20e-04 | 31,775 tok/s\n"}
+,{"stream_name":"stdout","time":17135.68677238,"data":"step 4800/1000 | loss 2.8282 | lr 1.80e-04 | 31,826 tok/s\n"}
+,{"stream_name":"stderr","time":17137.491486969,"data":"[rank1]: Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":17137.491516796,"data":"[rank1]:   File \"/kaggle/working/kalia/train.py\", line 722, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":17137.491541353,"data":"[rank1]:     main()\n"}
+,{"stream_name":"stderr","time":17137.491546334,"data":"[rank1]:     ~~~~^^\n"}
+,{"stream_name":"stderr","time":17137.491550562,"data":"[rank1]:   File \"/kaggle/working/kalia/train.py\", line 545, in main\n"}
+,{"stream_name":"stderr","time":17137.491554882,"data":"[rank1]:     batch = train_ds.get_batch(\n"}
+,{"stream_name":"stderr","time":17137.491570626,"data":"[rank1]:         train_cfg[\"micro_batch_size\"],\n"}
+,{"stream_name":"stderr","time":17137.4915747,"data":"[rank1]:     ...\u003c2 lines\u003e...\n"}
+,{"stream_name":"stderr","time":17137.491578131,"data":"[rank1]:         return_masks=doc_mask,\n"}
+,{"stream_name":"stderr","time":17137.49158132,"data":"[rank1]:     )\n"}
+,{"stream_name":"stderr","time":17137.491584452,"data":"[rank1]:   File \"/kaggle/working/kalia/mixture.py\", line 233, in get_batch\n"}
+,{"stream_name":"stderr","time":17137.491587854,"data":"[rank1]:     picks = torch.multinomial(self._probs.expand(batch_size, -1), 1, generator=gen)\n"}
+,{"stream_name":"stderr","time":17137.491591159,"data":"[rank1]: RuntimeError: Expected a 'cuda' device type for generator but found 'cpu'\n"}
+,{"stream_name":"stderr","time":17137.746305501,"data":"[rank0]: Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":17137.746334837,"data":"[rank0]:   File \"/kaggle/working/kalia/train.py\", line 722, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":17137.746339555,"data":"[rank0]:     main()\n"}
+,{"stream_name":"stderr","time":17137.746342885,"data":"[rank0]:     ~~~~^^\n"}
+,{"stream_name":"stderr","time":17137.746346037,"data":"[rank0]:   File \"/kaggle/working/kalia/train.py\", line 612, in main\n"}
+,{"stream_name":"stderr","time":17137.746349373,"data":"[rank0]:     losses = per_source_loss(\n"}
+,{"stream_name":"stderr","time":17137.746352584,"data":"[rank0]:         model, train_ds, device, generator=generator,\n"}
+,{"stream_name":"stderr","time":17137.74635606,"data":"[rank0]:         batches=int(train_cfg.get(\"adaptive_batches\", 4)),\n"}
+,{"stream_name":"stderr","time":17137.746359559,"data":"[rank0]:         batch_size=int(train_cfg.get(\"adaptive_batch_size\", 16)),\n"}
+,{"stream_name":"stderr","time":17137.746363172,"data":"[rank0]:     )\n"}
+,{"stream_name":"stderr","time":17137.746366395,"data":"[rank0]:   File \"/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py\", line 124, in decorate_context\n"}
+,{"stream_name":"stderr","time":17137.746370046,"data":"[rank0]:     return func(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":17137.746373694,"data":"[rank0]:   File \"/kaggle/working/kalia/mixture.py\", line 365, in per_source_loss\n"}
+,{"stream_name":"stderr","time":17137.746377118,"data":"[rank0]:     out = raw(x, y, attn_mask=attn_mask.to(device), loss_mask=loss_mask.to(device))\n"}
+,{"stream_name":"stderr","time":17137.746380496,"data":"[rank0]:   File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1779, in _wrapped_call_impl\n"}
+,{"stream_name":"stderr","time":17137.746384005,"data":"[rank0]:     return self._call_impl(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":17137.74638713,"data":"[rank0]:            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":17137.746390431,"data":"[rank0]:   File \"/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py\", line 1790, in _call_impl\n"}
+,{"stream_name":"stderr","time":17137.74639384,"data":"[rank0]:     return forward_call(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":17137.746397278,"data":"[rank0]:   File \"/kaggle/working/kalia/model.py\", line 355, in forward\n"}
+,{"stream_name":"stderr","time":17137.746400842,"data":"[rank0]:     logits = cap * torch.tanh(logits / cap)\n"}
+,{"stream_name":"stderr","time":17137.746404003,"data":"[rank0]:                    ~~~~~~~~~~^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":17137.746408102,"data":"[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.07 GiB. GPU 0 has a total capacity of 14.56 GiB of which 2.42 GiB is free. Including non-PyTorch memory, this process has 12.14 GiB memory in use. Of the allocated memory 11.01 GiB is allocated by PyTorch, and 925.88 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\n"}
+,{"stream_name":"stderr","time":17138.322533357,"data":"W1009 09:54:58.997000 133 torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 139 closing signal SIGTERM\n"}
+,{"stream_name":"stderr","time":17138.586989907,"data":"E1009 09:54:59.262000 133 torch/distributed/elastic/multiprocessing/api.py:986] failed (exitcode: 1) local_rank: 1 (pid: 140) of binary: /usr/bin/python3\n"}
+,{"stream_name":"stderr","time":17138.588874435,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":17138.589732147,"data":"  File \"\u003cfrozen runpy\u003e\", line 203, in _run_module_as_main\n"}
+,{"stream_name":"stderr","time":17138.589748476,"data":"  File \"\u003cfrozen runpy\u003e\", line 88, in _run_code\n"}
+,{"stream_name":"stderr","time":17138.589752724,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/distributed/run.py\", line 994, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":17138.58975661,"data":"    main()\n"}
+,{"stream_name":"stderr","time":17138.589759892,"data":"    ~~~~^^\n"}
+,{"stream_name":"stderr","time":17138.589763131,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py\", line 362, in wrapper\n"}
+,{"stream_name":"stderr","time":17138.589767198,"data":"    return f(*args, **kwargs)\n"}
+,{"stream_name":"stderr","time":17138.58977032,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/distributed/run.py\", line 990, in main\n"}
+,{"stream_name":"stderr","time":17138.589773922,"data":"    run(args)\n"}
+,{"stream_name":"stderr","time":17138.589777011,"data":"    ~~~^^^^^^\n"}
+,{"stream_name":"stderr","time":17138.589780033,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/distributed/run.py\", line 981, in run\n"}
+,{"stream_name":"stderr","time":17138.589783519,"data":"    elastic_launch(\n"}
+,{"stream_name":"stderr","time":17138.589786758,"data":"    ~~~~~~~~~~~~~~~\n"}
+,{"stream_name":"stderr","time":17138.589790399,"data":"        config=config,\n"}
+,{"stream_name":"stderr","time":17138.589794114,"data":"        ~~~~~~~~~~~~~~\n"}
+,{"stream_name":"stderr","time":17138.589797174,"data":"        entrypoint=cmd,\n"}
+,{"stream_name":"stderr","time":17138.589800596,"data":"        ~~~~~~~~~~~~~~~\n"}
+,{"stream_name":"stderr","time":17138.589803629,"data":"    )(*cmd_args)\n"}
+,{"stream_name":"stderr","time":17138.589806912,"data":"    ~^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":17138.589810674,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/distributed/launcher/api.py\", line 170, in __call__\n"}
+,{"stream_name":"stderr","time":17138.589813995,"data":"    return launch_agent(self._config, self._entrypoint, list(args))\n"}
+,{"stream_name":"stderr","time":17138.589817495,"data":"  File \"/usr/local/lib/python3.13/dist-packages/torch/distributed/launcher/api.py\", line 317, in launch_agent\n"}
+,{"stream_name":"stderr","time":17138.589820872,"data":"    raise ChildFailedError(\n"}
+,{"stream_name":"stderr","time":17138.589823913,"data":"    ...\u003c2 lines\u003e...\n"}
+,{"stream_name":"stderr","time":17138.589827356,"data":"    )\n"}
+,{"stream_name":"stderr","time":17138.589831036,"data":"torch.distributed.elastic.multiprocessing.errors.ChildFailedError: \n"}
+,{"stream_name":"stderr","time":17138.589834445,"data":"============================================================\n"}
+,{"stream_name":"stderr","time":17138.589849164,"data":"train.py FAILED\n"}
+,{"stream_name":"stderr","time":17138.58985248,"data":"------------------------------------------------------------\n"}
+,{"stream_name":"stderr","time":17138.589855909,"data":"Failures:\n"}
+,{"stream_name":"stderr","time":17138.589859361,"data":"[1]:\n"}
+,{"stream_name":"stderr","time":17138.589862772,"data":"  time      : 2026-10-09_09:54:59\n"}
+,{"stream_name":"stderr","time":17138.589865871,"data":"  host      : b87e610f0c74\n"}
+,{"stream_name":"stderr","time":17138.589868977,"data":"  rank      : 0 (local_rank: 0)\n"}
+,{"stream_name":"stderr","time":17138.58987238,"data":"  exitcode  : -15 (pid: 139)\n"}
+,{"stream_name":"stderr","time":17138.589875569,"data":"  error_file: \u003cN/A\u003e\n"}
+,{"stream_name":"stderr","time":17138.589879116,"data":"  traceback : Signal 15 (SIGTERM) received by PID 139\n"}
+,{"stream_name":"stderr","time":17138.589882371,"data":"------------------------------------------------------------\n"}
+,{"stream_name":"stderr","time":17138.589885688,"data":"Root Cause (first observed failure):\n"}
+,{"stream_name":"stderr","time":17138.58988887,"data":"[0]:\n"}
+,{"stream_name":"stderr","time":17138.589892148,"data":"  time      : 2026-10-09_09:54:58\n"}
+,{"stream_name":"stderr","time":17138.589895407,"data":"  host      : b87e610f0c74\n"}
+,{"stream_name":"stderr","time":17138.58989878,"data":"  rank      : 1 (local_rank: 1)\n"}
+,{"stream_name":"stderr","time":17138.589901987,"data":"  exitcode  : 1 (pid: 140)\n"}
+,{"stream_name":"stderr","time":17138.589905378,"data":"  error_file: \u003cN/A\u003e\n"}
+,{"stream_name":"stderr","time":17138.589908631,"data":"  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html\n"}
+,{"stream_name":"stderr","time":17138.589912036,"data":"============================================================\n"}
+,{"stream_name":"stdout","time":17138.979788738,"data":"\n"}
+,{"stream_name":"stdout","time":17138.979821596,"data":"arm return codes: static=0 adaptive=1\n"}
+,{"stream_name":"stderr","time":17141.428357362,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":17141.42837609,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":17141.662311071,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":17141.662336684,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":17142.398867859,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":17143.315295961,"data":"[NbConvertApp] Writing 289188 bytes to __results__.html\n"}
+]

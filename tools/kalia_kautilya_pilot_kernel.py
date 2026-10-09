@@ -14,6 +14,10 @@ import shutil
 import subprocess
 import sys
 
+# Must be set before torch initialises CUDA. The X26 OOM report recommended it,
+# and the reweight forward is the tightest memory moment in the run.
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+
 work = "/kaggle/working/kalia"
 if not os.path.exists(work):
     hits = sorted(glob.glob("/kaggle/input/**/mixture.py", recursive=True))
@@ -83,7 +87,15 @@ def run_arm(arm: str, adaptive_every: int) -> int:
     return subprocess.run(cmd).returncode
 
 
-rc_static = run_arm("kautilya-static", 0)
-rc_adaptive = run_arm("kautilya-adaptive", 100)
+# Run v1 completed the static arm (final val 2.8200, trajectory in the archived
+# log) but the session failed in the adaptive arm and Kaggle publishes no
+# outputs for failed runs. This version re-runs the adaptive arm with the
+# chunked per_source_loss; the static arm is re-run afterwards only if quota
+# remains, to recover its artifacts.
+RUN_STATIC = False
+RUN_ADAPTIVE = True
+
+rc_static = run_arm("kautilya-static", 0) if RUN_STATIC else 0
+rc_adaptive = run_arm("kautilya-adaptive", 100) if RUN_ADAPTIVE else 0
 print(f"\narm return codes: static={rc_static} adaptive={rc_adaptive}")
 sys.exit(0 if rc_static == 0 and rc_adaptive == 0 else 1)

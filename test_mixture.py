@@ -249,6 +249,26 @@ def test_per_source_loss_is_reproducible(four_sources):
     assert a == b
 
 
+def test_per_source_loss_micro_batching_matches_the_full_batch(four_sources):
+    """The X26 OOM fix must not change the number.
+
+    The first real Kautilya run died with CUDA OOM inside this function at
+    batch 16 x context 1024 (16,384 x 50,257 fp32 logits ~ 3 GiB) while the
+    training process held the card. Chunking the forward is a memory fix, not
+    a protocol change: the mean over the same tokens must be identical.
+    """
+    ds = SourceMixtureDataset(four_sources, STATIC)
+    m = _ToyModel()
+    full = per_source_loss(
+        m, ds, torch.device("cpu"), torch.Generator().manual_seed(7), batches=2, batch_size=8
+    )
+    chunked = per_source_loss(
+        m, ds, torch.device("cpu"), torch.Generator().manual_seed(7),
+        batches=2, batch_size=8, micro_batch=3,
+    )
+    assert full == chunked
+
+
 def test_per_source_loss_restores_training_mode(four_sources):
     ds = SourceMixtureDataset(four_sources, STATIC)
     m = _ToyModel().train()

@@ -331,6 +331,7 @@ def per_source_loss(
     generator: torch.Generator | None = None,
     batches: int = 4,
     batch_size: int = 16,
+    micro_batch: int = 2,
 ) -> dict[str, float]:
     """Mean held-out loss per source, each source measured on its own data.
 
@@ -341,38 +342,56 @@ def per_source_loss(
 
     Each source is evaluated on its own shard only, so the numbers are comparable
     across sources even though absolute loss differs by domain.
+
+    The forward is chunked into ``micro_batch`` rows because the full-batch
+    logits are ~3 GiB at batch 16 x context 1024 (16,384 x 50,257 fp32) and the
+    training process already holds most of the card. The first real run of the
+    Kautilya policy died with CUDA OOM here (X26, 2026-10-09); chunking is a
+    memory fix, not a protocol change -- the mean is over the same tokens, and a
+    test asserts the chunked and full-batch numbers are identical.
     """
     if batches < 1:
         raise ValueError("batches must be >= 1")
+    if micro_batch < 1:
+        raise ValueError("micro_batch must be >= 1")
     was_training = model.training
     model.eval()
     totals: dict[str, float] = {}
     try:
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
         for name in mixture.source_names:
             ds = mixture.sources[name]
             total_loss, total_tokens = 0.0, 0
             for _ in range(batches):
                 x, y = ds.get_batch(batch_size, device, generator=generator)
                 attn_mask, loss_mask = document_mask(x.cpu())
-                # KALIA's GPT.forward returns (logits, loss) and takes `targets`
-                # plus optional attn_mask/loss_mask. It does not accept a
-                # loss_mask keyword and does not return bare logits. Calling it
-                # the way a generic model wrapper would returns a tuple -- which
-                # is exactly what happened before this was fixed, and it only
-                # surfaced when the function met the real model inside train.py.
-                # Unwrap defensively so a DDP-wrapped model works too.
-                raw = _unwrap(model)
-                out = raw(x, y, attn_mask=attn_mask.to(device), loss_mask=loss_mask.to(device))
-                logits = out[0] if isinstance(out, tuple) else out
-                b, t, v = logits.shape
-                ce = F.cross_entropy(
-                    logits.reshape(b * t, v),
-                    y.reshape(b * t),
-                    reduction="none",
-                )
-                total_loss += float(ce.sum().item())
-                total_tokens += b * t
+                for start in range(0, batch_size, micro_batch):
+                    xb = x[start : start + micro_batch]
+                    yb = y[start : start + micro_batch]
+                    mb = attn_mask[start : start + micro_batch].to(device)
+                    lm = loss_mask[start : start + micro_batch].to(device)
+                    # KALIA's GPT.forward returns (logits, loss) and takes `targets`
+                    # plus optional attn_mask/loss_mask. It does not accept a
+                    # loss_mask keyword and does not return bare logits. Calling it
+                    # the way a generic model wrapper would returns a tuple -- which
+                    # is exactly what happened before this was fixed, and it only
+                    # surfaced when the function met the real model inside train.py.
+                    # Unwrap defensively so a DDP-wrapped model works too.
+                    raw = _unwrap(model)
+                    out = raw(xb, yb, attn_mask=mb, loss_mask=lm)
+                    logits = out[0] if isinstance(out, tuple) else out
+                    b, t, v = logits.shape
+                    ce = F.cross_entropy(
+                        logits.reshape(b * t, v),
+                        yb.reshape(b * t),
+                        reduction="none",
+                    )
+                    total_loss += float(ce.sum().item())
+                    total_tokens += b * t
             totals[name] = total_loss / max(total_tokens, 1)
+            if device.type == "cuda":
+                torch.cuda.empty_cache()
     finally:
         if was_training:
             model.train()
