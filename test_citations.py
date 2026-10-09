@@ -150,6 +150,111 @@ VERIFIED.update({
             "that KL-to-base is 'free'",
         ],
     },
+    # Verified against arxiv.org on 2026-10-08 (abstracts fetched and read in
+    # full). These six back docs/research/2026-10-08-frontier-recheck.md.
+    "2603.11513": {
+        "title": ("Can Small Language Models Use What They Retrieve? An Empirical "
+                  "Study of Retrieval Utilization Across Model Scale"),
+        "authors": "Pandey et al.",
+        "submitted": "2026-03-12",
+        "role": "The finding that resets the retrieval plan: below 7B, utilization, not retrieval, is the bottleneck.",
+        "claims_verified": [
+            "five model sizes 360M-8B, three families, four conditions "
+            "(none/BM25/dense-E5/oracle)",
+            "parametric knowledge split separating Known from Unknown questions",
+            "with oracle retrieval, <=7B models fail to extract the answer 85-100% of the "
+            "time on questions they cannot answer alone",
+            "adding retrieval context destroys 42-100% of previously correct answers; "
+            "the distraction is driven by the presence of context, not its quality",
+            "dominant failure is irrelevant generation: the model ignores the context",
+            "for sub-7B, standard-prompting RAG can be a net negative trade-off",
+        ],
+        "claims_NOT_in_abstract": [
+            "the specific 0.0% exact-match figure for the 360M model (paper full text, not abstract)",
+        ],
+    },
+    "2608.26973": {
+        "title": "Squeezing More from Limited Data with Recursive Transformers",
+        "authors": "Gülbahar et al.",
+        "submitted": "2026-08-27",
+        "role": "The architecture exception for a v0.4 rebuild: fix the embedding-share defect structurally.",
+        "claims_verified": [
+            "standard Transformers scale down poorly under limited data because embeddings "
+            "consume a large fraction of the parameter budget and per-token computation is "
+            "tied to representational capacity",
+            "recursive weight sharing scales compute at fixed parameters; factorized "
+            "embeddings reduce vocabulary-map parameters",
+            "recursive models outperform standard Transformers at 10M and 100M word budgets "
+            "and are competitive with BabyLM Challenge 2025 winners",
+        ],
+        "claims_NOT_in_abstract": [
+            "the 13M-1.2B parameter sweep range and specific scores (paper full text)",
+        ],
+    },
+    "2609.37891": {
+        "title": "It's All Training: A Fully Synthetic Single-Stage Recipe for LLMs",
+        "authors": "Langlais et al.",
+        "submitted": "2026-09-29",
+        "role": "Evidence that engineered data shifts the scaling curve; lineage caveat recorded.",
+        "claims_verified": [
+            "SYNTH: an open synthetic corpus derived from 58,698 Wikipedia articles, "
+            "single-stage pre/mid/post training",
+            "evaluated on a 56M model (Monad), 0.3B-0.6B dense models, and a 13B/1B-active MoE",
+            "at iso-compute beats filtered web data; competitive with similarly-sized "
+            "open-weight baselines despite 10-140x fewer training tokens",
+            "corpus is back-translated from grounded passages; released permissively; NeurIPS 2026",
+        ],
+        "claims_NOT_in_abstract": [
+            "Monad's ~180B training tokens and the Gemma-3-270M / SmolLM2-360M comparisons "
+            "(paper full text, not abstract)",
+            "the question of using it at all for KALIA: external-model back-translation "
+            "conflicts with the from-scratch lineage (D2/D21 spirit)",
+        ],
+    },
+    "2604.16535": {
+        "title": "SCATR: Simple Calibrated Test-Time Ranking",
+        "authors": "Shyamal et al.",
+        "submitted": "2026-04-16",
+        "role": "Why best_of_n.py's log-prob scorer is the weak-selector baseline, and what replaces it.",
+        "claims_verified": [
+            "token log-probability confidence heuristics often perform substantially worse "
+            "than learned scorers for Best-of-N selection",
+            "SCATR learns a lightweight scorer from a small calibration set using hidden "
+            "representations of the base model",
+            "improves over confidence-based baselines by up to 9%; up to 8000x fewer "
+            "trainable parameters than LoRA; up to 1000x faster inference",
+        ],
+        "claims_NOT_in_abstract": [
+            "the penultimate-layer embedding detail and per-benchmark tables (paper full text)",
+        ],
+    },
+    "2603.03417": {
+        "title": "Parallel Test-Time Scaling with Multi-Sequence Verifiers",
+        "authors": "Kim et al.",
+        "submitted": "2026-03-03",
+        "role": "Joint (multi-sequence) verification: better calibration, earlier stopping.",
+        "claims_verified": [
+            "MSV scores each candidate conditioned on the full sampled set instead of in isolation",
+            "improves best-of-64 accuracy by up to 6% relative on math reasoning benchmarks",
+            "early-stopping reaches baseline accuracy with less than half the latency",
+        ],
+        "claims_NOT_in_abstract": [
+            "the 75% ECE reduction figure (paper full text)",
+        ],
+    },
+    "2603.12658": {
+        "title": ("Beyond Static Models: An Evolving Framework for Continual Learning "
+                  "in Large Language Models across Training Stages"),
+        "authors": "Chen et al.",
+        "submitted": "2026-03-13",
+        "role": "Current CL survey; reference for any future resume of the v0.3.0 line.",
+        "claims_verified": [
+            "comprehensive survey of continual learning for LLMs across continual "
+            "pre-training, continual fine-tuning, and continual alignment",
+            "taxonomy of rehearsal-, regularization-, and architecture-based methods",
+            "notes persistent open problems in knowledge integration and evaluation",
+        ],
+    },
 })
 
 ID_RE = re.compile(r"arXiv[:\s]+(\d{4}\.\d{4,5})", re.I)

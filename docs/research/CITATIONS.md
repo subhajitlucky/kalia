@@ -95,6 +95,38 @@ Also unverified and therefore not relied on: the Active Forgetting paper
 GORP, Muon-OGD) named in the CL document. They are marked as direction-setting,
 not as evidence.
 
+## 2026-10-08 re-check (frontier improvements after Step 1)
+
+Six new IDs, each checked against arxiv.org on **2026-10-08** by fetching and
+reading the abstract page in full. Titles and claims recorded in
+`test_citations.py`; the note that uses them is
+`docs/research/2026-10-08-frontier-recheck.md`.
+
+| ID | Title | Level |
+|---|---|---|
+| 2603.11513 | Can Small Language Models Use What They Retrieve? An Empirical Study of Retrieval Utilization Across Model Scale | abstract read |
+| 2608.26973 | Squeezing More from Limited Data with Recursive Transformers | abstract read |
+| 2609.37891 | It's All Training: A Fully Synthetic Single-Stage Recipe for LLMs | abstract read |
+| 2604.16535 | SCATR: Simple Calibrated Test-Time Ranking | abstract read |
+| 2603.03417 | Parallel Test-Time Scaling with Multi-Sequence Verifiers | abstract read |
+| 2603.12658 | Beyond Static Models: An Evolving Framework for Continual Learning in Large Language Models across Training Stages | abstract read |
+
+Two title-level corrections matter for future edits:
+
+- **2603.12658 was cited from a draft title** ("Continual Learning in Large
+  Language Models") in an early version of the re-check. The arXiv title is
+  *Beyond Static Models: An Evolving Framework for Continual Learning in Large
+  Language Models across Training Stages*. The verified title is the one
+  recorded.
+- **2604.16535's title is "SCATR", not "SCaTR"**: the arXiv metadata capitalises
+  it as SCATR, and the record follows the metadata.
+
+Cited by venue only (no arXiv ID claimed, numeric claims from their abstracts
+were not relied on as evidence in our docs): FOREVER (ACL 2026, forgetting-curve
+replay scheduling); Revisiting Replay and Gradient Alignment (L4LA 2026, PMLR
+v330); Best-of-Majority (ICLR 2026); Best-of-N TR-2026-02 (Zenodo); MiniRAG
+(ACL 2026); CALI (Zenodo, 2026).
+
 ## What would have caught this
 
 A test asserting the verified title appears in any document citing the ID. It

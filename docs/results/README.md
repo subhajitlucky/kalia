@@ -56,6 +56,106 @@ of it. Seven of the eleven arms are in that state.
 Only X21 has complete curves, because it is the only run whose log was archived
 whole.
 
+## v0.3.0 Step 1 — the 58M control spread (2026-10-08)
+
+Not an experiment: a baseline measurement, run twice in two sessions. Three
+fresh-seed control arms, 500 steps each, v0.2.0 recipe.
+
+| arm | session 1 | session 2 | Δ |
+|---|---|---|---|
+| `v030-ctl-s1401` | 3.8045 | 3.8086 | +0.0041 |
+| `v030-ctl-s1402` | 3.7388 | 3.7367 | −0.0021 |
+| `v030-ctl-s1403` | 4.0280 | 4.0279 | −0.0001 |
+| **spread** | **0.2892** | **0.2912** | **+0.0020** |
+
+Session reproducibility is ≤ 0.0041 nats; the 0.29-nat spread is a **seed
+effect**, not machine noise. At 30M the same protocol measured 0.1139, so the
+58M ruler is 2.5x shakier. Both conditions of the pre-registered programme-stop
+clause held (spread > 0.15, second measurement confirming), so **Steps 2–4 were
+not run** and no further micro-scale architecture or data claims will be
+published at 58M.
+
+Raw artifacts: `step1_spread.json`, `step1_spread_rerun.json`, and the six
+`logs/v030-baseline-*-val_log.csv` files. `experiments.json` does not yet
+include these rows — the collector extension is follow-up work.
+
+## Tier 1 probe — retrieval utilization and best-of-N (2026-10-08)
+
+The 58M model, three probes, 64/48 items, deterministic, bootstrap CIs over
+items (paired where the comparison is paired). Harness: `retrieval_probe.py`;
+raw record: `retrieval-probe.json`.
+
+**Can it read a fact it was just given?** Synthetic facts with invented family
+names (unknown by construction); the answer is one of 8 single-token places,
+chance = 0.125.
+
+| condition | top-1 | 95% CI | MRR |
+|---|---|---|---|
+| none | 0.000 | [0.000, 0.000] | 0.035 |
+| BM25 (true passage in top-3 100% of the time) | 0.297 | [0.188, 0.406] | 0.475 |
+| oracle (the true sentence prepended) | **0.828** | [0.734, 0.922] | 0.880 |
+
+At 58M the model **can** copy an answer that is sitting one sentence away
+(0.828 against 0.125 chance). The utilization failure the 2026 literature finds
+for sub-7B instruction models does not transfer to verbatim copying — but as
+soon as two confusable facts sit in the context, accuracy drops to 0.297 even
+though retrieval never missed.
+
+**Does context help or hurt on real text?** Mean NLL of 16 held-out tokens,
+paired per window: relevant context −0.1075 nats [−0.179, −0.046]; irrelevant
+context **+0.1222 nats** [+0.077, +0.171]. Both intervals exclude zero:
+relevant context helps, and an unrelated passage measurably distracts.
+
+**Does best-of-N help?** On the oracle condition, 8 samples per item:
+
+| selector | top-1 | 95% CI |
+|---|---|---|
+| greedy | 0.828 | [0.734, 0.922] |
+| majority | 0.672 | [0.562, 0.797] |
+| own log-prob, sel(k=1) | 0.828 | [0.734, 0.922] |
+| own log-prob, sel(k=2) | 0.703 | [0.594, 0.812] |
+| own log-prob, sel(k=4) | 0.547 | [0.422, 0.672] |
+| coverage (ceiling for any selector) | 0.953 | [0.891, 1.000] |
+
+Scoring the whole 4-token continuation selects **worse than greedy** (−0.281
+[−0.406, −0.172]): a fluent wrong continuation out-scores a correct first token
+that continues awkwardly. The fix — score only the decision position
+(`score_tokens=1`) — removes the harm but adds nothing: sel(k=1) − greedy =
+**+0.000 [0.000, 0.000]**. At 58M the best first token in the sampled pool *is*
+the greedy token. Reaching the 0.953 coverage ceiling needs a selector with
+information the model's own log-probs do not carry — a SCATR-style head trained
+on labels — and that number is what it has to beat.
+
+## Corpus contamination gate — 13-gram scan vs the five benchmarks (2026-10-08)
+
+`corpus_gates.py` scans tokenized shards for **exact** 13-gram matches against
+the five scored evaluation sets; every hash hit is verified token-for-token, so
+no collision can appear as a finding. Run on `train.bin` (2.4B tokens) and
+`val.bin` (10M tokens):
+
+| task | verified windows (train) | approx. regions |
+|---|---|---|
+| PIQA | 1,429 | ~111 |
+| HellaSwag | 725 | ~167 |
+| LAMBADA | 368 | ~191 |
+| ARC-Easy | 377 | ~170 |
+| WinoGrande | 0 | 0 |
+| val.bin (all tasks) | 4 | ~3 |
+
+2,903 windows in 2.41B tokens is ~1.2 per million — small but real: the corpus
+carries wikiHow-style instruction text (PIQA/HellaSwag), book prose (LAMBADA),
+and science phrasing (ARC-Easy) that the benchmarks also use. Honest card line:
+those four scores may be marginally optimistic, bounded by a share well under
+0.001% of tokens; WinoGrande is unaffected. Raw record: `corpus-gates.json`.
+
+**The first run of this gate reported 63,491,977 PIQA hits — all of them
+whitespace.** 120 PIQA rows carry copied web text with long space runs, and a
+13-space window matches Python indentation millions of times. The absurd count
+was the bug report; patterns now require >=6 distinct tokens. A second artifact
+(ARC's `choices` is a dict; stringifying it produced Python-repr patterns that
+matched quiz-like code 601 times) was caught the same way. A gate that reports
+63M hits is broken, and the count says so before any human reads the matches.
+
 ## What the record says
 
 **X20's −0.1358 inverted.** At two fresh seeds the static gate is *worse* than
