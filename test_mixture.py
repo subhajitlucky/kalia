@@ -266,7 +266,15 @@ def test_per_source_loss_micro_batching_matches_the_full_batch(four_sources):
         m, ds, torch.device("cpu"), torch.Generator().manual_seed(7),
         batches=2, batch_size=8, micro_batch=3,
     )
-    assert full == chunked
+    assert full.keys() == chunked.keys()
+    for name in full:
+        # Not exact equality: summing per-chunk partials and summing the full
+        # batch differ in float reduction order (measured 2.4e-7 here). That is
+        # arithmetic, not a change in the measurement.
+        assert full[name] == pytest.approx(chunked[name], rel=1e-6, abs=1e-9), (
+            f"{name}: chunking changed the number beyond float-summation order "
+            f"({full[name]} vs {chunked[name]})"
+        )
 
 
 def test_per_source_loss_restores_training_mode(four_sources):
