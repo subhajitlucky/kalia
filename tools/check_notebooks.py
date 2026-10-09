@@ -73,6 +73,15 @@ def main() -> int:
     checked = 0
     for path in sorted(NOTEBOOKS.glob("*.ipynb")):
         nb = json.loads(path.read_text())
+        # Kaggle's nbformat validator now hard-errors on missing cell ids, and
+        # the rejection surfaces as a blank pre-flight ERROR with zero logs --
+        # five runs were lost to it on 2026-10-07 before the cause was found.
+        # Every notebook must carry ids.
+        missing_ids = [i for i, c in enumerate(nb["cells"]) if not c.get("id")]
+        if missing_ids:
+            failures.append(path.name)
+            print(f"  {path.name:44s} MISSING CELL IDS at cells {missing_ids[:6]}")
+            continue
         src = "\n\n".join(s for s in (cell_source(c) for c in nb["cells"]) if s.strip())
         if not src:
             continue

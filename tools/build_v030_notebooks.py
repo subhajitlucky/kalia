@@ -41,9 +41,10 @@ R_BAR = 0.01           # 1x the measured spread; the D48 lesson
 def nb(cells):
     return {
         "cells": [
-            {"cell_type": k, "metadata": {}, "source": s.splitlines(keepends=True),
+            {"cell_type": k, "id": f"cell{i:03d}", "metadata": {},
+             "source": s.splitlines(keepends=True),
              **({"execution_count": None, "outputs": []} if k == "code" else {})}
-            for k, s in cells
+            for i, (k, s) in enumerate(cells)
         ],
         "metadata": {
             "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
@@ -59,10 +60,19 @@ SETUP = (
     "\n"
     "work = '/kaggle/working/kalia'\n"
     "if not os.path.exists(work):\n"
+    "    # Prefer the kalia-code-dev dataset. Any train.py in /kaggle/input also\n"
+    "    # matches a stale repo bundled inside old kernel outputs (a Sep-23\n"
+    "    # snapshot), which silently lacked tools/forgetting_probe.py -- the\n"
+    "    # same silent-wrong-source defect class as I17. Assert the source.\n"
     "    hits = sorted(glob.glob('/kaggle/input/**/train.py', recursive=True))\n"
-    "    assert hits, 'attach the kalia-code-dev dataset'\n"
-    "    shutil.copytree(os.path.dirname(hits[0]), work)\n"
+    "    preferred = [p for p in hits if '/kalia-code-dev/' in p]\n"
+    "    assert preferred, ('kalia-code-dev is not attached or lacks train.py; '\n"
+    "                       'other train.py found (do NOT trust them): ' + str(hits))\n"
+    "    shutil.copytree(os.path.dirname(preferred[0]), work)\n"
     "os.chdir(work)\n"
+    "for req in ('train.py', 'tools/forgetting_probe.py', 'configs/kalia-v020.yaml',\n"
+    "            'mixture.py', 'make_replay_shard.py'):\n"
+    "    assert os.path.exists(req), f'{req} missing from the copied code snapshot'\n"
     "data = sorted(glob.glob('/kaggle/input/**/train.bin', recursive=True))\n"
     "assert data, 'train.bin not found - attach a prep output as a kernel source'\n"
     "DATA = os.path.dirname(data[0])\n"
@@ -95,13 +105,16 @@ CELLS = [
                 "# Needs the v0.2.0 checkpoint and a frozen probe shard. Both are published\n"
                 "# to the hub, so fetch by range rather than downloading a full snapshot --\n"
                 "# the user is on metered mobile data and a 334MB pull is not acceptable.\n"
+                "# The hub import must be hoisted: with the checkpoint attached the\n"
+                "# else-branch never ran, so the probe fallback died on a NameError\n"
+                "# instead of downloading (found on the first Step 0 run).\n"
+                "from huggingface_hub import hf_hub_download\n"
+                "REPO = 'kalia-lm/kalia-v020'\n"
                 "ckpt_hits = sorted(glob.glob('/kaggle/input/**/ckpt.pt', recursive=True))\n"
                 "if ckpt_hits:\n"
                 "    ckpt = ckpt_hits[0]\n"
                 "    print('checkpoint: attached dataset file (no hub pull needed)')\n"
                 "else:\n"
-                "    from huggingface_hub import hf_hub_download\n"
-                "    REPO = 'kalia-lm/kalia-v020'\n"
                 "    ckpt = hf_hub_download(REPO, 'checkpoints/ckpt.pt', repo_type='model')\n"
                 "size_mb = os.path.getsize(ckpt) / 1e6\n"
                 "print(f'checkpoint: {ckpt} ({size_mb:.1f} MB)')\n"
@@ -125,15 +138,31 @@ CELLS = [
                 "    'frozen probe slice the CL-0 ledger has no fixed measuring set, and\\n'\n"
                 "    'drift between updates would be compared against different data each\\n'\n"
                 "    'time. Substituting val.bin silently would keep the numbers coming\\n'\n"
-                "    'while making the ledger incomparable across updates.')",
+                "    'while making the ledger incomparable across updates.')\n"
+                "# G2 re-check (D43): the probe is the ledger's yardstick, so its\n"
+                "# identity is verified at every run, not assumed. Hash recorded in\n"
+                "# docs/legal/val-shard-hashes.json.\n"
+                "import hashlib as _hl\n"
+                "_probe_sha = _hl.sha256(open(probe_bin, 'rb').read()).hexdigest()\n"
+                "print('probe sha256:', _probe_sha)\n"
+                "assert _probe_sha == (\n"
+                "    '1664f71a4b5e96d28d20c7b531fdaf36409a25cd243dd73de0dee26bfd8fa795'), (\n"
+                "    'probe shard does not match the G2-recorded yardstick; stop -- the '\n"
+                "    'CL-0 ledger would be comparing different data across updates')",
             ),
             (
                 "code",
+                "# Device-adaptive: CL-0 is inference-only on a 58M model, so CPU\n"
+                "# produces the same deterministic numbers as GPU. Kaggle began\n"
+                "# rejecting GPU session requests (blank pre-flight errors) while\n"
+                "# every CPU run passed, so this run must not depend on GPU quota.\n"
+                "device = 'cuda' if torch.cuda.is_available() else 'cpu'\n"
+                "print('probe device:', device)\n"
                 "ledger = '/kaggle/working/cl0_ledger.jsonl'\n"
                 "r = subprocess.run(\n"
                 "    [sys.executable, 'tools/forgetting_probe.py',\n"
                 "     '--ckpt', ckpt, '--probe', probe_bin, '--ledger', ledger,\n"
-                "     '--batches', '25', '--batch-size', '8', '--device', 'cuda',\n"
+                "     '--batches', '25', '--batch-size', '8', '--device', device,\n"
                 "     '--commit', 'v0.2.0 baseline'],\n"
                 "    capture_output=True, text=True)\n"
                 "print(r.stdout[-3000:])\n"

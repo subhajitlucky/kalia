@@ -48,6 +48,7 @@ REQUIRED = [
     "model.py",
     "optim.py",
     "train.py",
+    "tools/forgetting_probe.py",
     "eval/probe_sentences.json",
     "eval/probe_prompts.json",
     "LICENSE",
@@ -69,8 +70,14 @@ def stage(dest: Path) -> list[str]:
         shutil.copy2(src, dest / src.name)
         copied.append(src.name)
 
+    # tools/ must keep its directory: the kernels invoke
+    # `python tools/forgetting_probe.py` relative to the repo root. A flat
+    # staging put the file at the root, where nothing looks for it -- found
+    # when the first Step 0 run died on a missing tools/forgetting_probe.py
+    # after the dataset "restore" had passed its own verification.
+    (dest / "tools").mkdir(exist_ok=True)
     for src in sorted((ROOT / "tools").glob("*.py")):
-        shutil.copy2(src, dest / src.name)
+        shutil.copy2(src, dest / "tools" / src.name)
         copied.append(f"tools/{src.name}")
 
     # LICENSE travels with the code because the release needs it: the export

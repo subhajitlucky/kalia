@@ -106,6 +106,32 @@ def test_dependent_notebooks_name_the_prerequisite_rather_than_falling_back():
     )
 
 
+def test_published_shards_are_equalised_and_val_skipped():
+    """Step 4 crashes on GPU without equal lengths; retraining val heads
+    contaminates the canonical set. Both are the publisher's job."""
+    pub = _source(PUBLISHER)
+    assert "equalised_tokens" in pub and "L = min(" in pub
+    assert "val_tokens_skipped" in pub and "starts[name] * 2" in pub
+
+
+def test_python_comes_only_from_the_filtered_slice():
+    """prep-v2's code slice predates the licence filter (I16). The publisher
+    must require the v2b path for python and forbid the v2 one."""
+    pub = _source(PUBLISHER)
+    assert "'python': V2B" in pub
+    assert "FORBID" in pub and "I16" in pub
+
+
+def test_publish_notebook_has_an_api_runnable_token_path():
+    """API-triggered runs cannot read Kaggle secrets (I1/D10), which is why every
+    CLI-run publish hit 'no HF token' while the artifacts built fine. The
+    publisher must accept a token from an attached input file as well, or the
+    publish is browser-only forever."""
+    pub = _source(PUBLISHER)
+    assert "'/kaggle/input/**/hf_token'" in pub
+    assert "UserSecretsClient" in pub
+
+
 def test_v020_repo_does_not_already_contain_these_artifacts():
     """Documents what the audit found, so the test fails if that ever changes
     in a way that makes the publisher redundant.
