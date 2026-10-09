@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-corpus-gates",
+  "title": "KALIA corpus gates",
+  "code_file": "kalia_corpus_gates_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-prep-v2b"],
+  "model_sources": []
+}
