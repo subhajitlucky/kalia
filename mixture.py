@@ -209,6 +209,25 @@ class SourceMixtureDataset:
     def probabilities(self) -> dict[str, float]:
         return {n: float(p) for n, p in zip(self._names, self._probs)}
 
+    def set_probabilities(self, probs) -> None:
+        """Replace sampling probabilities, always storing them on CPU.
+
+        The DDP reweight path hands over a CUDA tensor (NCCL collectives
+        require one), but this sampler draws with a CPU generator, and a
+        CUDA-stored ``_probs`` breaks the next batch on the receiving rank.
+        Found in the first real Kautilya run (X26, 2026-10-09): rank 1 was the
+        only rank that received the tensor, and the run deadlocked in the
+        following step's collectives.
+        """
+        values = torch.as_tensor(probs, dtype=torch.float32).detach().cpu()
+        if values.numel() != len(self._names):
+            raise ValueError(
+                f"expected {len(self._names)} probabilities, got {values.numel()}"
+            )
+        if float(values.sum()) <= 0:
+            raise ValueError("probabilities must sum to a positive value")
+        self._probs = values
+
     def __len__(self) -> int:
         return len(next(iter(self.sources.values())))
 

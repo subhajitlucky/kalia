@@ -600,14 +600,6 @@ def main(argv=None) -> None:
                 and step > 0
                 and step % adaptive_every == 0
             ):
-                if world > 1:
-                    probs_t = torch.tensor(
-                        [train_ds.probabilities()[n] for n in train_ds.source_names],
-                        device=device,
-                    )
-                    torch.distributed.broadcast(probs_t, src=0)
-                    if not is_master:
-                        train_ds._probs = probs_t.float()
                 if is_master:
                     losses = per_source_loss(
                         model, train_ds, device, generator=generator,
@@ -631,6 +623,22 @@ def main(argv=None) -> None:
                     print(f"step {step} | per-source loss " +
                           " ".join(f"{n}={losses[n]:.3f}" for n in train_ds.source_names))
                     print(f"step {step} | weights {detail} | {strat}")
+                # Broadcast the *post-update* weights. The first real run (X26)
+                # sent the pre-update tensor, so every non-master rank sampled a
+                # stale mixture until the next reweight -- the one thing the
+                # broadcast exists to prevent. set_probabilities stores it on
+                # CPU because the sampler draws with a CPU generator, and the
+                # barrier keeps ranks from entering the next step's collectives
+                # while the master is still finishing the reweight.
+                if world > 1:
+                    probs_t = torch.tensor(
+                        [train_ds.probabilities()[n] for n in train_ds.source_names],
+                        device=device,
+                    )
+                    torch.distributed.broadcast(probs_t, src=0)
+                    if not is_master:
+                        train_ds.set_probabilities(probs_t)
+                    torch.distributed.barrier()
 
             if (
                 val_ds is not None

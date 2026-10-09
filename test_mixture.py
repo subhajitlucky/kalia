@@ -249,6 +249,24 @@ def test_per_source_loss_is_reproducible(four_sources):
     assert a == b
 
 
+def test_set_probabilities_stores_cpu_and_feeds_the_sampler(four_sources):
+    """The DDP reweight hands over a CUDA tensor; the sampler needs CPU.
+
+    X26: rank 1 stored the broadcast tensor as-is and the run deadlocked in
+    the following step's collectives. This pins the storage contract.
+    """
+    ds = SourceMixtureDataset(four_sources, STATIC)
+    ds.set_probabilities([0.25, 0.25, 0.25, 0.25])
+    assert ds._probs.device.type == "cpu"
+    assert abs(sum(ds.probabilities().values()) - 1.0) < 1e-6
+    x, y = ds.get_batch(2, torch.device("cpu"), torch.Generator().manual_seed(0))
+    assert x.shape[0] == 2
+    with pytest.raises(ValueError):
+        ds.set_probabilities([0.5])
+    with pytest.raises(ValueError):
+        ds.set_probabilities([0.0, 0.0, 0.0, 0.0])
+
+
 def test_per_source_loss_micro_batching_matches_the_full_batch(four_sources):
     """The X26 OOM fix must not change the number.
 
