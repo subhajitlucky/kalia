@@ -156,6 +156,48 @@ was the bug report; patterns now require >=6 distinct tokens. A second artifact
 matched quiz-like code 601 times) was caught the same way. A gate that reports
 63M hits is broken, and the count says so before any human reads the matches.
 
+## X26 — the Kautilya pilot: the policy ate dessert (2026-10-09)
+
+The first real run of the Kautilya adaptive mixture: two paired arms resumed
+from v0.2.0 at step 4770, seed 1401, 1000 update steps each, differing only in
+whether the policy ran (`adaptive_every` 0 vs 100). Artifacts in
+`x26-pilot/` (the static arm's val log is reconstructed from the archived v1
+run log; its session failed after completing and Kaggle publishes no outputs
+for failed runs).
+
+**Held-out val, identical protocol:**
+
+| step | static | adaptive |
+|---|---|---|
+| 4800 | 2.7660 | 2.7660 |
+| 4900 | 2.6783 | 2.6801 |
+| 5000 | 2.9829 | 2.9786 |
+| 5100 | 2.7749 | 2.7784 |
+| 5300 | 2.8570 | 2.8596 |
+| 5500 | 2.8423 | 2.8543 |
+| **5700** | **2.8200** | **2.8377** |
+
+The arms track each other to 0.002 while the policy has barely moved, then
+diverge as the mixture drifts: adaptive ends **+0.0177 nats worse**.
+
+**The diary (per_source_log.csv):** ten decisions, monotonic throughout —
+FineWeb-Edu 60% → **22.7%**, TinyStories 20% → **56.3%**, Python 5% → 14.1%,
+Cosmopedia 15% → 7.0%. The policy downsampled the hardest source every single
+time and upsampled the two easiest.
+
+**The mechanism-level finding.** The adaptive arm's *training* loss fell from
+~2.63 to **1.79** while held-out loss on the original distribution did not
+improve. It lowered the number it was optimizing by changing the distribution
+it was measured on — feeding itself what was already easy ("eating dessert").
+The val delta itself is small and unverified (this is a registered screen; a
+same-config rerun to bound paired noise plus a fresh seed is required before
+any verdict), but the drift and the train/val divergence are robust: they are
+properties of the policy, not of a noisy evaluation.
+
+Next arm, already implemented: the trend-based policy (improving/flat/
+worsening/collapsed instead of level-vs-mean), which should not reward a
+source for merely being easy.
+
 ## What the record says
 
 **X20's −0.1358 inverted.** At two fresh seeds the static gate is *worse* than
