@@ -1,0 +1,546 @@
+{
+  "prompt_tokens": 768,
+  "gen_tokens": 256,
+  "n": 8,
+  "stories": [
+    {
+      "id": "gutenberg-00",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.0025176470588235294,
+        "logprob": -0.46506834030151367
+      },
+      "logprob_pick": {
+        "retention": 0.0294,
+        "mean_span": 0.0225,
+        "logprob": -2.5771360397338867
+      },
+      "entity_pick": {
+        "retention": 0.0294,
+        "mean_span": 0.023914705882352942,
+        "logprob": -2.5903241634368896
+      },
+      "reference": {
+        "retention": 0.1176,
+        "mean_span": 0.04302058823529412,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 5,
+      "logprob_pick_index": 6,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-01",
+      "greedy": {
+        "retention": 0.1111,
+        "mean_span": 0.13614444444444446,
+        "logprob": -0.7849444150924683
+      },
+      "logprob_pick": {
+        "retention": 0.2222,
+        "mean_span": 0.13988888888888887,
+        "logprob": -1.6979320049285889
+      },
+      "entity_pick": {
+        "retention": 0.2222,
+        "mean_span": 0.13988888888888887,
+        "logprob": -1.6979320049285889
+      },
+      "reference": {
+        "retention": 0.2222,
+        "mean_span": 0.13725555555555558,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 7,
+      "logprob_pick_index": 7,
+      "same_pick": 1
+    },
+    {
+      "id": "gutenberg-02",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.04333611111111111,
+        "logprob": -0.26633918285369873
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.04790833333333334,
+        "logprob": -0.5999653935432434
+      },
+      "entity_pick": {
+        "retention": 0.0556,
+        "mean_span": 0.08433055555555555,
+        "logprob": -2.823648452758789
+      },
+      "reference": {
+        "retention": 0.0,
+        "mean_span": 0.025052777777777778,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 4,
+      "logprob_pick_index": 5,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-03",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.022147058823529412,
+        "logprob": -0.40631967782974243
+      },
+      "logprob_pick": {
+        "retention": 0.0588,
+        "mean_span": 0.030658823529411766,
+        "logprob": -1.222332239151001
+      },
+      "entity_pick": {
+        "retention": 0.1765,
+        "mean_span": 0.10002941176470588,
+        "logprob": -2.7488906383514404
+      },
+      "reference": {
+        "retention": 0.0,
+        "mean_span": 0.013052941176470587,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 4,
+      "logprob_pick_index": 3,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-04",
+      "greedy": {
+        "retention": 0.1053,
+        "mean_span": 0.08520526315789474,
+        "logprob": -0.5042780041694641
+      },
+      "logprob_pick": {
+        "retention": 0.1053,
+        "mean_span": 0.07895263157894737,
+        "logprob": -1.6076974868774414
+      },
+      "entity_pick": {
+        "retention": 0.1579,
+        "mean_span": 0.1212578947368421,
+        "logprob": -2.266857385635376
+      },
+      "reference": {
+        "retention": 0.0,
+        "mean_span": 0.029178947368421054,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 1,
+      "logprob_pick_index": 4,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-05",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.04975744680851064,
+        "logprob": -0.27274346351623535
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.059427659574468085,
+        "logprob": -1.1617051362991333
+      },
+      "entity_pick": {
+        "retention": 0.0,
+        "mean_span": 0.059427659574468085,
+        "logprob": -1.1617051362991333
+      },
+      "reference": {
+        "retention": 0.0851,
+        "mean_span": 0.0713531914893617,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 4,
+      "logprob_pick_index": 4,
+      "same_pick": 1
+    },
+    {
+      "id": "gutenberg-06",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.03334230769230769,
+        "logprob": -0.3506852388381958
+      },
+      "logprob_pick": {
+        "retention": 0.0385,
+        "mean_span": 0.04848076923076923,
+        "logprob": -2.195871591567993
+      },
+      "entity_pick": {
+        "retention": 0.0769,
+        "mean_span": 0.06130384615384616,
+        "logprob": -2.65909743309021
+      },
+      "reference": {
+        "retention": 0.2692,
+        "mean_span": 0.16389615384615386,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 4,
+      "logprob_pick_index": 1,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-07",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.02214769230769231,
+        "logprob": -0.2914755344390869
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.028006153846153847,
+        "logprob": -0.41500043869018555
+      },
+      "entity_pick": {
+        "retention": 0.0308,
+        "mean_span": 0.04458923076923077,
+        "logprob": -2.5059239864349365
+      },
+      "reference": {
+        "retention": 0.1077,
+        "mean_span": 0.08206307692307693,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 7,
+      "logprob_pick_index": 2,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-08",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.02011578947368421,
+        "logprob": -0.0957828015089035
+      },
+      "logprob_pick": {
+        "retention": 0.0263,
+        "mean_span": 0.028186842105263156,
+        "logprob": -1.9144537448883057
+      },
+      "entity_pick": {
+        "retention": 0.0263,
+        "mean_span": 0.03259473684210526,
+        "logprob": -2.1923270225524902
+      },
+      "reference": {
+        "retention": 0.0,
+        "mean_span": 0.009228947368421054,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 6,
+      "logprob_pick_index": 2,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-09",
+      "greedy": {
+        "retention": 0.1351,
+        "mean_span": 0.1586108108108108,
+        "logprob": -0.26604151725769043
+      },
+      "logprob_pick": {
+        "retention": 0.027,
+        "mean_span": 0.16017027027027028,
+        "logprob": -0.37743622064590454
+      },
+      "entity_pick": {
+        "retention": 0.1351,
+        "mean_span": 0.1503054054054054,
+        "logprob": -1.7867155075073242
+      },
+      "reference": {
+        "retention": 0.2703,
+        "mean_span": 0.1520054054054054,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 5,
+      "logprob_pick_index": 1,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-10",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.06351666666666667,
+        "logprob": -0.3502866327762604
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.06271249999999999,
+        "logprob": -2.4984068870544434
+      },
+      "entity_pick": {
+        "retention": 0.0833,
+        "mean_span": 0.075375,
+        "logprob": -2.6155881881713867
+      },
+      "reference": {
+        "retention": 0.1667,
+        "mean_span": 0.1075875,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 2,
+      "logprob_pick_index": 4,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-11",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.030195652173913044,
+        "logprob": -0.15559998154640198
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.02706521739130435,
+        "logprob": -1.0103641748428345
+      },
+      "entity_pick": {
+        "retention": 0.1304,
+        "mean_span": 0.041826086956521735,
+        "logprob": -1.1746327877044678
+      },
+      "reference": {
+        "retention": 0.1304,
+        "mean_span": 0.046047826086956525,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 7,
+      "logprob_pick_index": 1,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-12",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.022370967741935484,
+        "logprob": -0.574381947517395
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.02772258064516129,
+        "logprob": -0.35307037830352783
+      },
+      "entity_pick": {
+        "retention": 0.0645,
+        "mean_span": 0.0576741935483871,
+        "logprob": -2.380244255065918
+      },
+      "reference": {
+        "retention": 0.0323,
+        "mean_span": 0.03606774193548387,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 1,
+      "logprob_pick_index": 6,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-13",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.13038695652173912,
+        "logprob": -0.4168640971183777
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.14622173913043476,
+        "logprob": -0.9447339773178101
+      },
+      "entity_pick": {
+        "retention": 0.1739,
+        "mean_span": 0.17684347826086957,
+        "logprob": -2.7157440185546875
+      },
+      "reference": {
+        "retention": 0.0,
+        "mean_span": 0.07669565217391304,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 2,
+      "logprob_pick_index": 6,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-14",
+      "greedy": {
+        "retention": 0.1667,
+        "mean_span": 0.14419166666666666,
+        "logprob": -0.7223547101020813
+      },
+      "logprob_pick": {
+        "retention": 0.1667,
+        "mean_span": 0.17468333333333333,
+        "logprob": -0.4062369465827942
+      },
+      "entity_pick": {
+        "retention": 0.1667,
+        "mean_span": 0.18165,
+        "logprob": -1.5711867809295654
+      },
+      "reference": {
+        "retention": 0.1667,
+        "mean_span": 0.15626666666666666,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 4,
+      "logprob_pick_index": 6,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-15",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.02001,
+        "logprob": -0.3321053385734558
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.02025,
+        "logprob": -1.988787293434143
+      },
+      "entity_pick": {
+        "retention": 0.1,
+        "mean_span": 0.03354,
+        "logprob": -2.042112112045288
+      },
+      "reference": {
+        "retention": 0.1,
+        "mean_span": 0.07202,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 6,
+      "logprob_pick_index": 5,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-16",
+      "greedy": {
+        "retention": 0.0417,
+        "mean_span": 0.012629166666666665,
+        "logprob": -0.32127493619918823
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.0,
+        "logprob": -2.358948230743408
+      },
+      "entity_pick": {
+        "retention": 0.0417,
+        "mean_span": 0.010283333333333334,
+        "logprob": -2.5289111137390137
+      },
+      "reference": {
+        "retention": 0.125,
+        "mean_span": 0.028616666666666665,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 5,
+      "logprob_pick_index": 2,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-17",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.0,
+        "logprob": -0.1869933158159256
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.0,
+        "logprob": -0.34917736053466797
+      },
+      "entity_pick": {
+        "retention": 0.05,
+        "mean_span": 0.04145,
+        "logprob": -1.7818294763565063
+      },
+      "reference": {
+        "retention": 0.1,
+        "mean_span": 0.05630500000000001,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 2,
+      "logprob_pick_index": 1,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-18",
+      "greedy": {
+        "retention": 0.0312,
+        "mean_span": 0.00295,
+        "logprob": -0.4093835651874542
+      },
+      "logprob_pick": {
+        "retention": 0.0312,
+        "mean_span": 0.004003125,
+        "logprob": -2.0462710857391357
+      },
+      "entity_pick": {
+        "retention": 0.0312,
+        "mean_span": 0.0175125,
+        "logprob": -2.6248555183410645
+      },
+      "reference": {
+        "retention": 0.0,
+        "mean_span": 0.0,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 2,
+      "logprob_pick_index": 6,
+      "same_pick": 0
+    },
+    {
+      "id": "gutenberg-19",
+      "greedy": {
+        "retention": 0.0,
+        "mean_span": 0.0,
+        "logprob": -0.509029746055603
+      },
+      "logprob_pick": {
+        "retention": 0.0,
+        "mean_span": 0.0,
+        "logprob": -2.5894217491149902
+      },
+      "entity_pick": {
+        "retention": 0.0625,
+        "mean_span": 0.0304875,
+        "logprob": -2.7186498641967773
+      },
+      "reference": {
+        "retention": 0.0625,
+        "mean_span": 0.0384,
+        "logprob": -Infinity
+      },
+      "entity_pick_index": 1,
+      "logprob_pick_index": 5,
+      "same_pick": 0
+    }
+  ],
+  "aggregate": {
+    "greedy": {
+      "retention": 0.029554999999999998,
+      "mean_span": 0.049978782406319824
+    },
+    "logprob_pick": {
+      "retention": 0.03527,
+      "mean_span": 0.055341943392886984
+    },
+    "entity_pick": {
+      "retention": 0.09074499999999999,
+      "mean_span": 0.07421422138362563
+    },
+    "reference": {
+      "retention": 0.097785,
+      "mean_span": 0.06720573193378124
+    },
+    "same_pick_count": 2
+  }
+}

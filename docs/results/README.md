@@ -198,6 +198,39 @@ Next arm, already implemented: the trend-based policy (improving/flat/
 worsening/collapsed instead of level-vs-mean), which should not reward a
 source for merely being easy.
 
+## Entity-verified decoding — first measurement (2026-10-11)
+
+20 frozen Gutenberg probe stories (`eval/ttt_probe_stories.json`), prompt 768
+tokens, 256 generated, 8 samples at temperature 0.8 plus a greedy draw. The
+same 8 samples were ranked three ways; retention and span via `eval_entities.py`.
+Raw record: `entity-decode.json`.
+
+| selector | retention | paired delta vs greedy (95% CI) | mean span | mean logprob |
+|---|---|---|---|---|
+| greedy | 0.030 | — | 0.050 | −0.38 |
+| log-probability pick | 0.035 | +0.006 [−0.012, +0.023] | 0.055 | −1.42 |
+| **entity pick (rule)** | **0.091** | **+0.061 [+0.039, +0.086]** | 0.074 | −2.23 |
+| reference prose | 0.098 | — | 0.067 | — |
+
+Paired bootstrap over stories, 5,000 resamples. The entity rule **triples**
+retention over greedy and **beats the log-probability selector by 2.6x** —
+whose own gain is again indistinguishable from zero. The model's entity-picked
+continuations keep their characters about as well as the real Gutenberg
+continuation does (0.091 vs 0.098). The rule picks differently from the
+log-probability selector in 18 of 20 stories.
+
+Two honest caveats, recorded with the result:
+
+1. **The metric rewards keeping names, not quality.** The reference is not a
+   ceiling for retention — the model beats it on several stories — because
+   real prose moves on while the model echoes. What is claimed is a
+   consistency improvement on the registered failure metric, nothing more.
+2. **The selection trades fluency-likelihood for retention.** Entity picks
+   average −2.23 mean log-prob against greedy's −0.38. They are still draws
+   from the model's own 0.8-temperature pool, but the rule systematically
+   prefers less-likely text; whether that costs story quality is unmeasured
+   and is the next question.
+
 ## What the record says
 
 **X20's −0.1358 inverted.** At two fresh seeds the static gate is *worse* than
