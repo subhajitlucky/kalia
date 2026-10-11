@@ -25,3 +25,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-10-09 | X26-kautilya-pilot | `docs/preregistrations/2026-10-09-X26-kautilya-pilot.md` | `ed09bec8bc09bb55d6e51cb986f7691f3bcd906a0648bbff902a2f31ee982c41` |
 | 2026-10-09 | X27-rcaa | `docs/preregistrations/2026-10-09-X27-rcaa-reverse-attention.md` | `2b0e541f1d8767576b56f8784e2842b38b90c94340c02f349e02269cf24ec942` |
 | 2026-10-09 | X27-am1 | `docs/preregistrations/2026-10-09-X27-amendment-1.md` | `5adb33e13926b38cb87d6a1b152955ab2f8e3bf5a37199d8b5a1e367d25356c2` |
+| 2026-10-09 | X28-kautilya-trend | `docs/preregistrations/2026-10-09-X28-kautilya-trend.md` | `8e9fec68a29fe4cab64aa3e56c49108582394f8b849a9472672b65bf2bbc7d61` |

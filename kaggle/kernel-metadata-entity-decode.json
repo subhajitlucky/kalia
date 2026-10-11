@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-entity-decode",
+  "title": "KALIA entity decode",
+  "code_file": "kalia_entity_decode_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev", "subhajitlucky/kalia-v020-ckpt"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
