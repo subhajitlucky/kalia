@@ -1,0 +1,19 @@
+{
+  "id": "subhajitlucky/kalia-x29-krama",
+  "title": "KALIA x29 krama",
+  "code_file": "kalia_x29_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev",
+    "subhajitlucky/kalia-v020-ckpt"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-prep-v2b"
+  ],
+  "model_sources": []
+}
