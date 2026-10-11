@@ -17,6 +17,7 @@ from data import MixtureDataset, TokenDataset
 from mixture import SourceMixtureDataset, per_source_loss, strategy_counts
 from model import GPT, GPTConfig
 from optim import MuonWithAuxAdam, split_muon_params
+from patha import PathaReplayDataset
 
 
 def parse_args(argv=None):
@@ -378,9 +379,19 @@ def main(argv=None) -> None:
     base_train_ds = None if (per_source_mode and replay_prob <= 0) else _build_base()
     if replay_prob > 0:
         replay_ds = TokenDataset(args.replay_bin, model_cfg.context_len)
-        train_ds = MixtureDataset(base_train_ds, replay_ds, replay_prob=replay_prob)
+        # X29: the replay presentation order. "uniform" is the historical
+        # random draw; krama/jata/ghana are the Vedic recitation orderings.
+        replay_pattern = str(train_cfg.get("replay_pattern", "uniform"))
+        if replay_pattern == "uniform":
+            train_ds = MixtureDataset(base_train_ds, replay_ds, replay_prob=replay_prob)
+        else:
+            train_ds = PathaReplayDataset(
+                base_train_ds, replay_ds, replay_prob=replay_prob,
+                pattern=replay_pattern, seed=int(train_cfg["seed"]) + rank,
+            )
         if is_master:
-            print(f"replay: {replay_prob:.0%} of each batch from {args.replay_bin}")
+            print(f"replay: {replay_prob:.0%} of each batch from {args.replay_bin} "
+                  f"(pattern: {replay_pattern})")
     elif per_source_mode:
         # Guard the parallel lists before zip(), which would silently truncate to
         # the shorter one and drop a source without saying so. A dropped source
