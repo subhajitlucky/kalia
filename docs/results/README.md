@@ -231,6 +231,39 @@ Two honest caveats, recorded with the result:
    prefers less-likely text; whether that costs story quality is unmeasured
    and is the next question.
 
+## X28 — the Kautilya replication: the dessert is real, and the machine is exact (2026-10-11)
+
+Three arms, seed 1401, 1000 update steps. The static arm reran the X26 control;
+the level arm reran the X26 policy exactly. Artifacts in `x28-trio/`.
+
+**Run-to-run reproducibility (same arm, two independent sessions):**
+
+| step | static v1 | static rerun | delta |
+|---|---|---|---|
+| 5000 | 2.9829 | 2.9822 | −0.0007 |
+| 5600 | 2.8439 | 2.8407 | −0.0032 |
+| **5700** | **2.8200** | **2.8201** | **+0.0001** |
+
+Per-checkpoint agreement is −0.0032 to +0.0019; the final points differ by
+**0.0001 nats**. The machine is not the variable, and the paired-noise bound
+X26 deferred is now measured.
+
+**The policy replicates.** The level arm ended at **2.8384** against X26's
+adaptive arm at **2.8377** — a **+0.0007** difference — and its diary is
+identical to the X26 diary to four decimals (final weights 0.2269 / 0.5625,
+the same monotonic drift to the easy sources).
+
+**The policy's cost is real and readable:** level − static(rerun) =
+**+0.0183 nats**, against X26's +0.0177. The delta grows with the drift
+(+0.0001 early, +0.0183 by the end) — the mechanism's signature. Against the
+measured session noise (~0.001–0.003 per checkpoint), the cost is ~10–180x
+larger.
+
+**Registered expectation check:** the capability outcome is small but not
+null, and it is negative for the policy. A fresh-seed (1402) replication is
+still required by the X28 pre-registration before any claim ships; the trend
+arm (does judging by improvement stop the drift?) is running.
+
 ## What the record says
 
 **X20's −0.1358 inverted.** At two fresh seeds the static gate is *worse* than
