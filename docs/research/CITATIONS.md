@@ -153,3 +153,20 @@ title there.
 The deeper lesson matches the rest of this project: an unverified check is worse
 than no check, because it produces a passing result. Two of the five attempts
 above would have reported "verified" while verifying nothing.
+
+## Added 2026-10-12 (title-level only)
+
+Four IDs cited by `docs/research/2026-10-12-vikriti-completion-and-prior-art.md`
+as prior-art pointers. Their titles were read from the arXiv/ar5iv pages
+returned by web search on **2026-10-12**; the abstracts were **not** re-read,
+and no numeric claim from these papers is relied on anywhere in our docs.
+
+| ID | title (verbatim from the arXiv page) |
+|---|---|
+| 2508.17677 | TiKMiX: Take Data Influence into Dynamic Mixture for Language Model Pre-training |
+| 2305.13477 | Look-back Decoding for Open-Ended Text Generation |
+| 2102.08858 | Metrical Tagging in the Wild: Building and Annotating Poetry Corpora with Rhythmic Features |
+| 2502.03678 | Reflection-Window Decoding: Text Generation with Selective Refinement |
+
+`test_citations.py` records these in `ID_VERIFIED_ONLY`, so the weaker level of
+verification cannot drift upward by accident.

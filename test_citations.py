@@ -128,6 +128,10 @@ ID_VERIFIED_ONLY = {
     "2510.05491": "title confirmed from arXiv abstract page; numeric claims not re-read",
     "2602.02522": "title confirmed from arXiv abstract page; numeric claims not re-read",
     "2606.00371": "title confirmed from arXiv abstract page; numeric claims not re-read",
+    "2508.17677": "title read from the arXiv page returned by search 2026-10-12; abstract not re-read",
+    "2305.13477": "title read from the arXiv page returned by search 2026-10-12; abstract not re-read",
+    "2102.08858": "title read from the arXiv page returned by search 2026-10-12; abstract not re-read",
+    "2502.03678": "title read from the arXiv page returned by search 2026-10-12; abstract not re-read",
 }
 
 VERIFIED.update({
@@ -256,6 +260,30 @@ VERIFIED.update({
         ],
     },
 })
+
+VERIFIED.update({
+    # Title-only records added 2026-10-12 for
+    # docs/research/2026-10-12-vikriti-completion-and-prior-art.md. Titles were
+    # read from the arXiv/ar5iv pages returned by web search on 2026-10-12;
+    # abstracts were NOT re-read for numeric claims, and none are relied on.
+    "2508.17677": {
+        "title": "TiKMiX: Take Data Influence into Dynamic Mixture for Language Model Pre-training",
+        "doc": "vikriti-completion-and-prior-art",
+    },
+    "2305.13477": {
+        "title": "Look-back Decoding for Open-Ended Text Generation",
+        "doc": "vikriti-completion-and-prior-art",
+    },
+    "2102.08858": {
+        "title": "Metrical Tagging in the Wild: Building and Annotating Poetry Corpora with Rhythmic Features",
+        "doc": "vikriti-completion-and-prior-art",
+    },
+    "2502.03678": {
+        "title": "Reflection-Window Decoding: Text Generation with Selective Refinement",
+        "doc": "vikriti-completion-and-prior-art",
+    },
+})
+
 
 ID_RE = re.compile(r"arXiv[:\s]+(\d{4}\.\d{4,5})", re.I)
 
