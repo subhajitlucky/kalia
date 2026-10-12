@@ -115,6 +115,38 @@ def test_batches_carry_new_and_replay_rows_with_masks(tmp_path):
     assert ds.context_len == 32 and len(ds) == len(new)
 
 
+def test_new_rows_are_drawn_on_cpu_and_moved_once(tmp_path):
+    """The first X29 GPU launch died twice on a mixed-device torch.cat.
+
+    TokenDataset.get_batch moves to `device` internally; _replay_rows returns
+    CPU tensors; concatenating a CUDA tensor with a CPU one raises on the very
+    first GPU batch -- and passes on CPU, which is why the local tests missed
+    it. This pins the contract: every row is assembled on CPU and the batch is
+    moved once, at the end.
+    """
+    replay = _ds(tmp_path, "replay", 2)
+
+    class SpyNew:
+        context_len = 32
+
+        def __init__(self) -> None:
+            self.seen: list[str] = []
+
+        def get_batch(self, n, device, generator=None):
+            self.seen.append(str(device))
+            return (
+                torch.zeros(n, 32, dtype=torch.long),
+                torch.zeros(n, 32, dtype=torch.long),
+            )
+
+    spy = SpyNew()
+    ds = PathaReplayDataset(spy, replay, replay_prob=0.5, pattern="jata", seed=0)
+    gen = torch.Generator().manual_seed(0)
+    ds.get_batch(16, torch.device("cpu"), gen)
+    assert spy.seen, "new rows must actually be drawn"
+    assert all(d == "cpu" for d in spy.seen), spy.seen
+
+
 def test_budget_and_pattern_validation(tmp_path):
     new = _ds(tmp_path, "new", 1)
     replay = _ds(tmp_path, "replay", 2)

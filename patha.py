@@ -142,7 +142,13 @@ class PathaReplayDataset:
         if n_replay > 0:
             parts.append(self._replay_rows(n_replay))
         if batch_size - n_replay > 0:
-            parts.append(self.new_data.get_batch(batch_size - n_replay, device, gen))
+            # Drawn on CPU like the replay rows: TokenDataset.get_batch moves to
+            # `device` internally, and concatenating a CUDA tensor with a CPU
+            # one raises on the first GPU batch. The first X29 launch died on
+            # exactly that, twice, because the local tests only ever ran on
+            # CPU -- the same blind spot as X26's device-mixed _probs. All rows
+            # are assembled on CPU and moved once, at the end.
+            parts.append(self.new_data.get_batch(batch_size - n_replay, torch.device("cpu"), gen))
         x = torch.cat([p[0] for p in parts], dim=0)
         y = torch.cat([p[1] for p in parts], dim=0)
         if not return_masks:
