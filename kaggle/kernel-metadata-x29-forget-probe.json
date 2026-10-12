@@ -14,8 +14,7 @@
   "competition_sources": [],
   "kernel_sources": [
     "subhajitlucky/kalia-x29-uniform",
-    "subhajitlucky/kalia-x29-jata",
-    "subhajitlucky/kalia-prep-v2b"
+    "subhajitlucky/kalia-x29-jata"
   ],
   "model_sources": []
 }
