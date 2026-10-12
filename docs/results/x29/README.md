@@ -39,9 +39,42 @@ The step-5000 spike (~+0.2 on both arms) is reproducible — X28's static rerun
 reproduced its own 5000 spike to 0.0007 — so it is a property of the protocol
 at that step, not noise.
 
-## Status
+## Primary metric: CL-0 retention (registered)
 
-Secondary metric (val): recorded above, **no claim** — n=1 per arm, primary
-metric pending, second seed required before any winner.
-Primary metric (CL-0 retention): probe run in flight; ledger to be archived
-here as `forgetting_x29.jsonl`.
+Measured on the **G2-pinned probe shard** (`corpus/probe_val.bin`, sha256
+`1664f71a…`, pinned in `docs/legal/val-shard-hashes.json`, fetched from
+`kalia-lm/kalia-v020`), protocol identical to the 2026-10-07 baseline:
+25 × 8 × 1024 tokens, seed 1234, CPU. Self-check: re-scoring the v0.2.0
+checkpoint reproduced the recorded baseline to **0.000001** (2.798876 vs
+2.798875). Ledger: `forgetting_x29.jsonl`.
+
+| row | probe_loss | drift vs pretrain best |
+|---|---|---|
+| v0.2.0 baseline (step 4770) | 2.798875 | — |
+| **uniform** (step 5770) | **2.775169** | **−0.023706** |
+| **jata** (step 5770) | **2.816978** | **+0.018103** |
+
+Baseline measured 2026-10-07 at step 4770; both arms measured 2026-10-12 at
+step 5770. Drift is signed from the ledger's best-ever (the baseline):
+negative = better than the pretrain's own score on the frozen probe.
+
+**The arm gap is 0.0418 nats** — same instrument, same session, and 40,000×
+the self-check's reproducibility. Retention and val **order the arms
+identically** (uniform better, jata worse, by ~0.04 on both). No claim yet:
+n=1 per arm, ghana/krama pending, and the pre-registration requires a second
+seed for any winner.
+
+## Incident record: the probe almost scored the wrong instrument (v1–v3)
+
+The first three probe-kernel versions scored `data/probe/val_forget.bin` (the
+2026-09-28 pretrain-era split, sha `7b71e339…`) instead of the G2-pinned
+`corpus/probe_val.bin` (`1664f71a…`). Re-scoring v0.2.0 on the wrong file
+gave 2.909614 — **+0.1107** against the recorded row — and the built-in
+self-check refused to score any arm until the right instrument was used.
+That +0.11 gap is the two files' difficulty difference; it also means a
+silent substitution would have shipped a fake 0.11-nat "regression" on every
+arm. The same producer/consumer probe-file mismatch has a recorded precedent
+(`test_publish_contract.py`: "producer wrote val_forget.bin, consumer wanted
+probe_val.bin"); this was its third sighting. Fix in `d220918`; the kernel
+now fetches the pinned shard from the hub and refuses any other hash.
+

@@ -301,12 +301,22 @@ jata trails uniform by +0.041–0.055 at **every** checkpoint from 5100 on —
 15× the per-checkpoint session-noise bound (≤0.003, measured in X28) — and
 uniform sits slightly below no-replay static.
 
-**No claim:** n=1 per arm, and the registered primary metric (CL-0 retention
-drift on the final checkpoints) is measured by `kalia-x29-forget-probe`, a
-CPU kernel that rebuilds the frozen probe file (sha256-verified), seeds the
-ledger with the exact v0.2.0 baseline row (2.798875 at 4770), and re-scores
-the baseline as a self-check before any arm is believed. The registration
-requires a second seed for any winner.
+**Retention (primary metric), CL-0 ledger on the G2-pinned probe shard:** the
+self-check re-scored v0.2.0 to **0.000001** of the recorded 2026-10-07
+baseline (2.798876 vs 2.798875) — the instrument is exact across five days.
+Then: uniform **−0.0237** (better than the pretrain's own probe score), jata
+**+0.0181** (regression). The arm gap is **0.0418 nats**, same instrument,
+same session — and it orders the arms **identically** to val. First arm-level
+retention movement this project has measured; no claim (n=1, second seed
+required; ghana/krama pending).
+
+One incident for the record: the probe's first three versions scored the
+wrong probe file (`val_forget.bin` instead of the G2-pinned
+`corpus/probe_val.bin`) — the built-in self-check refused with a +0.1107
+discrepancy, which is exactly the fake-regression a silent substitution
+would have produced on every arm. The same producer/consumer mismatch is
+already pinned by `test_publish_contract.py`; this was its third sighting,
+fixed in `d220918`.
 
 Also on the record: both jata failures (and one uniform failure) before this
 run were **our bug, not the platform's** — `PathaReplayDataset` concatenated
