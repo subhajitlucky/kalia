@@ -261,8 +261,31 @@ larger.
 
 **Registered expectation check:** the capability outcome is small but not
 null, and it is negative for the policy. A fresh-seed (1402) replication is
-still required by the X28 pre-registration before any claim ships; the trend
-arm (does judging by improvement stop the drift?) is running.
+still required by the X28 pre-registration before any claim ships.
+
+**The trend arm — the drift is slowed, not stopped, and the cost tracks the
+drift.** Final held-out val: static 2.8201 < **trend 2.8277** < level 2.8384,
+and the mixture drift orders exactly the same way:
+
+| arm | FineWeb (hard) | TinyStories (easy) | val vs static |
+|---|---|---|---|
+| static | 60% (fixed) | 20% (fixed) | — |
+| trend | 41.4% | 41.4% | +0.0076 |
+| level | 22.7% | 56.3% | +0.0183 |
+
+The trend rule (judge by improvement, not level) **halved the drift and
+halved the cost** — but did not stop it, falsifying the registered mechanism
+prediction that its weights would stay near 60/20/15/5. The recorded
+hypothesis for why: both rules share the same feedback loop — a source with
+more exposure shows lower and improving loss (familiarity, not learning), and
+improvement earns more exposure. `per_source_loss` draws windows from the same
+shards the sampler trains on, so the signal cannot separate the two. A frozen
+per-source probe set, never trained on, is the fix the next iteration would
+need; not queued yet.
+
+The dose-response is the useful part: three arms, three drift magnitudes,
+three costs, ordered — evidence that the drift causes the cost rather than
+merely accompanying it.
 
 ## What the record says
 
