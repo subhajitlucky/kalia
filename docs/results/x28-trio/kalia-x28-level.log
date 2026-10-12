@@ -1,0 +1,174 @@
+[{"stream_name":"stdout","time":10.213534012,"data":"arm: level | gpus: 2\n"}
+,{"stream_name":"stderr","time":10.789208273,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":13.170849361,"data":"shard fineweb: 249 MB\n"}
+,{"stream_name":"stdout","time":14.87921099,"data":"shard tinystories: 249 MB\n"}
+,{"stream_name":"stdout","time":19.090923129,"data":"shard cosmopedia: 249 MB\n"}
+,{"stream_name":"stdout","time":21.728457938,"data":"shard python: 249 MB\n"}
+,{"stream_name":"stdout","time":21.756009208000002,"data":"val shard: /kaggle/input/kalia-prep-v2b/data/val.bin\n"}
+,{"stream_name":"stdout","time":21.766057586,"data":"resume from: /kaggle/input/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":21.782912184,"data":"\n"}
+,{"stream_name":"stdout","time":21.782927249,"data":"===== kautilya-level =====\n"}
+,{"stream_name":"stderr","time":23.690830752,"data":"\n"}
+,{"stream_name":"stderr","time":23.69086766,"data":"*****************************************\n"}
+,{"stream_name":"stderr","time":23.690873356,"data":"Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. \n"}
+,{"stream_name":"stderr","time":23.69088017,"data":"*****************************************\n"}
+,{"stream_name":"stdout","time":27.488842361,"data":"KALIA params: 57,856,256 | device: cuda:0 | world: 2\n"}
+,{"stream_name":"stdout","time":27.488873812,"data":"doc_mask: off\n"}
+,{"stream_name":"stdout","time":42.936148038,"data":"resume: staged local checkpoint /kaggle/input/kalia-v020-ckpt/ckpt.pt -\u003e /kaggle/working/out/kautilya-level/ckpt.pt\n"}
+,{"stream_name":"stdout","time":43.468735913,"data":"  LR schedule: re-warm from step 0 of the update budget\n"}
+,{"stream_name":"stdout","time":44.291067008,"data":"per-source mixture (Kautilya arm): cosmopedia 15.0%, fineweb 60.0%, python 5.0%, tinystories 20.0%\n"}
+,{"stream_name":"stdout","time":44.291097226,"data":"  reweighting every 100 steps from held-out per-source loss\n"}
+,{"stream_name":"stdout","time":44.294310951,"data":"update budget: 1,000 steps from step 4,770 -\u003e hard stop 5,770\n"}
+,{"stream_name":"stdout","time":207.12344761,"data":"step 4780/1000 | loss 2.8313 | lr 6.00e-05 | 32,018 tok/s\n"}
+,{"stream_name":"stdout","time":373.156986994,"data":"step 4790/1000 | loss 2.7711 | lr 1.20e-04 | 31,672 tok/s\n"}
+,{"stream_name":"stdout","time":539.193493332,"data":"step 4800/1000 | loss 2.8282 | lr 1.80e-04 | 31,522 tok/s\n"}
+,{"stream_name":"stdout","time":556.053032836,"data":"step 4800 | per-source loss cosmopedia=2.439 fineweb=3.555 python=1.246 tinystories=1.400\n"}
+,{"stream_name":"stdout","time":556.053064636,"data":"step 4800 | weights cosmopedia=0.155 fineweb=0.560 python=0.057 tinystories=0.228 | sama:1 dana:2 bheda:1\n"}
+,{"stream_name":"stderr","time":556.057114614,"data":"/usr/local/lib/python3.13/dist-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.\n"}
+,{"stream_name":"stderr","time":556.057137196,"data":"  return func(*args, **kwargs)\n"}
+,{"stream_name":"stdout","time":564.884786936,"data":"step 4800 | val loss 2.7659\n"}
+,{"stream_name":"stdout","time":730.822123264,"data":"step 4810/1000 | loss 2.6697 | lr 2.40e-04 | 31,620 tok/s\n"}
+,{"stream_name":"stdout","time":896.763211499,"data":"step 4820/1000 | loss 2.6835 | lr 3.00e-04 | 31,654 tok/s\n"}
+,{"stream_name":"stdout","time":1062.827483924,"data":"step 4830/1000 | loss 2.6988 | lr 3.60e-04 | 31,672 tok/s\n"}
+,{"stream_name":"stdout","time":1228.772903181,"data":"step 4840/1000 | loss 2.7528 | lr 4.20e-04 | 31,571 tok/s\n"}
+,{"stream_name":"stdout","time":1246.293146575,"data":"checkpoint saved at step 4841\n"}
+,{"stream_name":"stdout","time":1395.772799407,"data":"step 4850/1000 | loss 2.6598 | lr 4.80e-04 | 31,575 tok/s\n"}
+,{"stream_name":"stdout","time":1561.609048106,"data":"step 4860/1000 | loss 2.5967 | lr 5.40e-04 | 31,615 tok/s\n"}
+,{"stream_name":"stdout","time":1727.563719658,"data":"step 4870/1000 | loss 2.6400 | lr 6.00e-04 | 31,685 tok/s\n"}
+,{"stream_name":"stdout","time":1893.47779725,"data":"step 4880/1000 | loss 2.4999 | lr 6.00e-04 | 31,706 tok/s\n"}
+,{"stream_name":"stdout","time":2059.222711685,"data":"step 4890/1000 | loss 2.6982 | lr 5.99e-04 | 31,532 tok/s\n"}
+,{"stream_name":"stdout","time":2225.172615887,"data":"step 4900/1000 | loss 2.6294 | lr 5.99e-04 | 31,538 tok/s\n"}
+,{"stream_name":"stdout","time":2241.828532367,"data":"step 4900 | per-source loss cosmopedia=2.514 fineweb=3.353 python=1.331 tinystories=1.480\n"}
+,{"stream_name":"stdout","time":2241.82856377,"data":"step 4900 | weights cosmopedia=0.146 fineweb=0.526 python=0.066 tinystories=0.262 | dana:2 bheda:2\n"}
+,{"stream_name":"stdout","time":2250.463388368,"data":"step 4900 | val loss 2.6799\n"}
+,{"stream_name":"stdout","time":2416.285088849,"data":"step 4910/1000 | loss 2.5829 | lr 5.98e-04 | 31,565 tok/s\n"}
+,{"stream_name":"stdout","time":2450.377392691,"data":"checkpoint saved at step 4912\n"}
+,{"stream_name":"stdout","time":2583.131994819,"data":"step 4920/1000 | loss 2.6188 | lr 5.96e-04 | 31,477 tok/s\n"}
+,{"stream_name":"stdout","time":2749.179271043,"data":"step 4930/1000 | loss 2.6919 | lr 5.94e-04 | 31,572 tok/s\n"}
+,{"stream_name":"stdout","time":2915.184474743,"data":"step 4940/1000 | loss 2.6366 | lr 5.92e-04 | 31,571 tok/s\n"}
+,{"stream_name":"stdout","time":3081.405852072,"data":"step 4950/1000 | loss 2.4904 | lr 5.90e-04 | 31,650 tok/s\n"}
+,{"stream_name":"stdout","time":3247.407843635,"data":"step 4960/1000 | loss 2.6698 | lr 5.87e-04 | 31,612 tok/s\n"}
+,{"stream_name":"stdout","time":3413.491515026,"data":"step 4970/1000 | loss 2.6007 | lr 5.84e-04 | 31,565 tok/s\n"}
+,{"stream_name":"stdout","time":3579.507314091,"data":"step 4980/1000 | loss 2.6555 | lr 5.81e-04 | 31,585 tok/s\n"}
+,{"stream_name":"stdout","time":3663.385473183,"data":"checkpoint saved at step 4985\n"}
+,{"stream_name":"stdout","time":3746.425031605,"data":"step 4990/1000 | loss 2.6633 | lr 5.77e-04 | 31,577 tok/s\n"}
+,{"stream_name":"stdout","time":3912.534119767,"data":"step 5000/1000 | loss 2.5437 | lr 5.73e-04 | 31,626 tok/s\n"}
+,{"stream_name":"stdout","time":3929.208792809,"data":"step 5000 | per-source loss cosmopedia=2.562 fineweb=3.452 python=1.238 tinystories=1.459\n"}
+,{"stream_name":"stdout","time":3929.208820618,"data":"step 5000 | weights cosmopedia=0.136 fineweb=0.491 python=0.075 tinystories=0.299 | dana:2 bheda:2\n"}
+,{"stream_name":"stdout","time":3937.858556748,"data":"step 5000 | val loss 2.9787\n"}
+,{"stream_name":"stdout","time":4103.514681121,"data":"step 5010/1000 | loss 2.5062 | lr 5.69e-04 | 31,624 tok/s\n"}
+,{"stream_name":"stdout","time":4269.067440994,"data":"step 5020/1000 | loss 2.4717 | lr 5.64e-04 | 31,610 tok/s\n"}
+,{"stream_name":"stdout","time":4434.799527638,"data":"step 5030/1000 | loss 2.5318 | lr 5.59e-04 | 31,748 tok/s\n"}
+,{"stream_name":"stdout","time":4600.439214803,"data":"step 5040/1000 | loss 2.3941 | lr 5.54e-04 | 31,694 tok/s\n"}
+,{"stream_name":"stdout","time":4765.992967646,"data":"step 5050/1000 | loss 2.5098 | lr 5.49e-04 | 31,716 tok/s\n"}
+,{"stream_name":"stdout","time":4866.439447678,"data":"checkpoint saved at step 5056\n"}
+,{"stream_name":"stdout","time":4932.626827641,"data":"step 5060/1000 | loss 2.4113 | lr 5.43e-04 | 31,677 tok/s\n"}
+,{"stream_name":"stdout","time":5098.124636504,"data":"step 5070/1000 | loss 2.4946 | lr 5.37e-04 | 31,758 tok/s\n"}
+,{"stream_name":"stdout","time":5263.656769638,"data":"step 5080/1000 | loss 2.4291 | lr 5.31e-04 | 31,576 tok/s\n"}
+,{"stream_name":"stdout","time":5429.268079408,"data":"step 5090/1000 | loss 2.4750 | lr 5.25e-04 | 31,709 tok/s\n"}
+,{"stream_name":"stdout","time":5594.828877692,"data":"step 5100/1000 | loss 2.4437 | lr 5.18e-04 | 31,591 tok/s\n"}
+,{"stream_name":"stdout","time":5611.514199868,"data":"step 5100 | per-source loss cosmopedia=2.515 fineweb=3.447 python=1.364 tinystories=1.443\n"}
+,{"stream_name":"stdout","time":5611.514226121,"data":"step 5100 | weights cosmopedia=0.138 fineweb=0.447 python=0.083 tinystories=0.332 | sama:1 dana:2 bheda:1\n"}
+,{"stream_name":"stdout","time":5620.179054644,"data":"step 5100 | val loss 2.7797\n"}
+,{"stream_name":"stdout","time":5786.234084218,"data":"step 5110/1000 | loss 2.4287 | lr 5.11e-04 | 31,555 tok/s\n"}
+,{"stream_name":"stdout","time":5952.071036005,"data":"step 5120/1000 | loss 2.3919 | lr 5.04e-04 | 31,582 tok/s\n"}
+,{"stream_name":"stdout","time":6069.062641637,"data":"checkpoint saved at step 5127\n"}
+,{"stream_name":"stdout","time":6118.78865822,"data":"step 5130/1000 | loss 2.3812 | lr 4.97e-04 | 31,515 tok/s\n"}
+,{"stream_name":"stdout","time":6284.730541708,"data":"step 5140/1000 | loss 2.3597 | lr 4.89e-04 | 31,586 tok/s\n"}
+,{"stream_name":"stdout","time":6450.803210404,"data":"step 5150/1000 | loss 2.5091 | lr 4.82e-04 | 31,602 tok/s\n"}
+,{"stream_name":"stdout","time":6616.808353307,"data":"step 5160/1000 | loss 2.4641 | lr 4.74e-04 | 31,558 tok/s\n"}
+,{"stream_name":"stdout","time":6782.928954866,"data":"step 5170/1000 | loss 2.4197 | lr 4.66e-04 | 31,617 tok/s\n"}
+,{"stream_name":"stdout","time":6948.985818621,"data":"step 5180/1000 | loss 2.4069 | lr 4.58e-04 | 31,562 tok/s\n"}
+,{"stream_name":"stdout","time":7114.933445268,"data":"step 5190/1000 | loss 2.4016 | lr 4.49e-04 | 31,613 tok/s\n"}
+,{"stream_name":"stdout","time":7280.934034351,"data":"step 5200/1000 | loss 2.4848 | lr 4.41e-04 | 31,594 tok/s\n"}
+,{"stream_name":"stdout","time":7297.675482197,"data":"step 5200 | per-source loss cosmopedia=2.474 fineweb=3.336 python=1.246 tinystories=1.347\n"}
+,{"stream_name":"stdout","time":7297.675510532,"data":"step 5200 | weights cosmopedia=0.126 fineweb=0.409 python=0.093 tinystories=0.372 | dana:2 bheda:2\n"}
+,{"stream_name":"stdout","time":7306.337135694,"data":"step 5200 | val loss 2.8054\n"}
+,{"stream_name":"stdout","time":7307.187730581,"data":"checkpoint saved at step 5200\n"}
+,{"stream_name":"stdout","time":7473.055029217,"data":"step 5210/1000 | loss 2.2645 | lr 4.32e-04 | 31,734 tok/s\n"}
+,{"stream_name":"stdout","time":7639.059106485,"data":"step 5220/1000 | loss 2.3684 | lr 4.23e-04 | 31,508 tok/s\n"}
+,{"stream_name":"stdout","time":7804.987691798,"data":"step 5230/1000 | loss 2.3163 | lr 4.14e-04 | 31,593 tok/s\n"}
+,{"stream_name":"stdout","time":7970.951489383,"data":"step 5240/1000 | loss 2.3098 | lr 4.05e-04 | 31,559 tok/s\n"}
+,{"stream_name":"stdout","time":8136.985952377,"data":"step 5250/1000 | loss 2.2756 | lr 3.96e-04 | 31,644 tok/s\n"}
+,{"stream_name":"stdout","time":8302.953861657,"data":"step 5260/1000 | loss 2.2464 | lr 3.87e-04 | 31,580 tok/s\n"}
+,{"stream_name":"stdout","time":8468.842317952,"data":"step 5270/1000 | loss 2.2117 | lr 3.78e-04 | 31,627 tok/s\n"}
+,{"stream_name":"stdout","time":8519.570885814,"data":"checkpoint saved at step 5273\n"}
+,{"stream_name":"stdout","time":8635.772896172,"data":"step 5280/1000 | loss 2.3496 | lr 3.69e-04 | 31,590 tok/s\n"}
+,{"stream_name":"stdout","time":8801.71258492,"data":"step 5290/1000 | loss 2.2960 | lr 3.59e-04 | 31,586 tok/s\n"}
+,{"stream_name":"stdout","time":8967.714132725,"data":"step 5300/1000 | loss 2.3484 | lr 3.50e-04 | 31,614 tok/s\n"}
+,{"stream_name":"stdout","time":8984.441702609,"data":"step 5300 | per-source loss cosmopedia=2.571 fineweb=3.457 python=1.240 tinystories=1.329\n"}
+,{"stream_name":"stdout","time":8984.441730531,"data":"step 5300 | weights cosmopedia=0.114 fineweb=0.371 python=0.103 tinystories=0.412 | dana:2 bheda:2\n"}
+,{"stream_name":"stdout","time":8993.132429393,"data":"step 5300 | val loss 2.8591\n"}
+,{"stream_name":"stdout","time":9158.990212847,"data":"step 5310/1000 | loss 2.2014 | lr 3.40e-04 | 31,580 tok/s\n"}
+,{"stream_name":"stdout","time":9324.618696744,"data":"step 5320/1000 | loss 2.1250 | lr 3.31e-04 | 31,581 tok/s\n"}
+,{"stream_name":"stdout","time":9490.55384591,"data":"step 5330/1000 | loss 2.2079 | lr 3.22e-04 | 31,603 tok/s\n"}
+,{"stream_name":"stdout","time":9656.406828464,"data":"step 5340/1000 | loss 2.3020 | lr 3.12e-04 | 31,473 tok/s\n"}
+,{"stream_name":"stdout","time":9723.673551128,"data":"checkpoint saved at step 5344\n"}
+,{"stream_name":"stdout","time":9823.271499437,"data":"step 5350/1000 | loss 2.2077 | lr 3.03e-04 | 31,656 tok/s\n"}
+,{"stream_name":"stdout","time":9989.060788187,"data":"step 5360/1000 | loss 2.2039 | lr 2.93e-04 | 31,601 tok/s\n"}
+,{"stream_name":"stdout","time":10154.83608625,"data":"step 5370/1000 | loss 2.1866 | lr 2.84e-04 | 31,592 tok/s\n"}
+,{"stream_name":"stdout","time":10320.673858869,"data":"step 5380/1000 | loss 2.1634 | lr 2.75e-04 | 31,547 tok/s\n"}
+,{"stream_name":"stdout","time":10486.567867189,"data":"step 5390/1000 | loss 2.3344 | lr 2.66e-04 | 31,625 tok/s\n"}
+,{"stream_name":"stdout","time":10652.471811532,"data":"step 5400/1000 | loss 2.2701 | lr 2.56e-04 | 31,630 tok/s\n"}
+,{"stream_name":"stdout","time":10669.198184399,"data":"step 5400 | per-source loss cosmopedia=2.609 fineweb=3.348 python=1.176 tinystories=1.391\n"}
+,{"stream_name":"stdout","time":10669.198212648,"data":"step 5400 | weights cosmopedia=0.103 fineweb=0.333 python=0.113 tinystories=0.452 | dana:2 bheda:2\n"}
+,{"stream_name":"stdout","time":10677.842647978,"data":"step 5400 | val loss 2.6741\n"}
+,{"stream_name":"stdout","time":10844.084764892,"data":"step 5410/1000 | loss 2.2346 | lr 2.47e-04 | 31,554 tok/s\n"}
+,{"stream_name":"stdout","time":10927.955733733,"data":"checkpoint saved at step 5415\n"}
+,{"stream_name":"stdout","time":11010.918030206,"data":"step 5420/1000 | loss 2.1013 | lr 2.39e-04 | 31,615 tok/s\n"}
+,{"stream_name":"stdout","time":11176.924071466,"data":"step 5430/1000 | loss 2.0447 | lr 2.30e-04 | 31,640 tok/s\n"}
+,{"stream_name":"stdout","time":11342.993306644,"data":"step 5440/1000 | loss 2.0702 | lr 2.21e-04 | 31,529 tok/s\n"}
+,{"stream_name":"stdout","time":11509.005627884,"data":"step 5450/1000 | loss 2.1457 | lr 2.12e-04 | 31,513 tok/s\n"}
+,{"stream_name":"stdout","time":11674.694354909,"data":"step 5460/1000 | loss 2.0629 | lr 2.04e-04 | 31,673 tok/s\n"}
+,{"stream_name":"stdout","time":11840.736725407,"data":"step 5470/1000 | loss 2.0969 | lr 1.96e-04 | 31,535 tok/s\n"}
+,{"stream_name":"stdout","time":12006.490385765,"data":"step 5480/1000 | loss 2.1229 | lr 1.88e-04 | 31,552 tok/s\n"}
+,{"stream_name":"stdout","time":12140.30585624,"data":"checkpoint saved at step 5488\n"}
+,{"stream_name":"stdout","time":12173.479443301,"data":"step 5490/1000 | loss 2.2093 | lr 1.80e-04 | 31,509 tok/s\n"}
+,{"stream_name":"stdout","time":12339.520391958,"data":"step 5500/1000 | loss 2.1630 | lr 1.72e-04 | 31,627 tok/s\n"}
+,{"stream_name":"stdout","time":12356.245584968,"data":"step 5500 | per-source loss cosmopedia=2.542 fineweb=3.401 python=1.191 tinystories=1.383\n"}
+,{"stream_name":"stdout","time":12356.245628645,"data":"step 5500 | weights cosmopedia=0.091 fineweb=0.296 python=0.123 tinystories=0.491 | dana:2 bheda:2\n"}
+,{"stream_name":"stdout","time":12364.842973074,"data":"step 5500 | val loss 2.8544\n"}
+,{"stream_name":"stdout","time":12530.860656763,"data":"step 5510/1000 | loss 2.1593 | lr 1.65e-04 | 31,497 tok/s\n"}
+,{"stream_name":"stdout","time":12696.702857869,"data":"step 5520/1000 | loss 1.9900 | lr 1.57e-04 | 31,561 tok/s\n"}
+,{"stream_name":"stdout","time":12862.607976244,"data":"step 5530/1000 | loss 2.0878 | lr 1.50e-04 | 31,572 tok/s\n"}
+,{"stream_name":"stdout","time":13028.413941119,"data":"step 5540/1000 | loss 1.9978 | lr 1.43e-04 | 31,524 tok/s\n"}
+,{"stream_name":"stdout","time":13194.239657317,"data":"step 5550/1000 | loss 2.0235 | lr 1.36e-04 | 31,531 tok/s\n"}
+,{"stream_name":"stdout","time":13344.312413962,"data":"checkpoint saved at step 5559\n"}
+,{"stream_name":"stdout","time":13360.830882039,"data":"step 5560/1000 | loss 2.0509 | lr 1.30e-04 | 31,740 tok/s\n"}
+,{"stream_name":"stdout","time":13526.799862908,"data":"step 5570/1000 | loss 2.0598 | lr 1.24e-04 | 31,569 tok/s\n"}
+,{"stream_name":"stdout","time":13692.763818771,"data":"step 5580/1000 | loss 2.0698 | lr 1.18e-04 | 31,569 tok/s\n"}
+,{"stream_name":"stdout","time":13858.385611812,"data":"step 5590/1000 | loss 2.0512 | lr 1.12e-04 | 31,698 tok/s\n"}
+,{"stream_name":"stdout","time":14024.205213334,"data":"step 5600/1000 | loss 2.0309 | lr 1.07e-04 | 31,715 tok/s\n"}
+,{"stream_name":"stdout","time":14040.867469274,"data":"step 5600 | per-source loss cosmopedia=2.596 fineweb=3.409 python=1.229 tinystories=1.299\n"}
+,{"stream_name":"stdout","time":14040.867495966,"data":"step 5600 | weights cosmopedia=0.080 fineweb=0.260 python=0.132 tinystories=0.528 | dana:2 bheda:2\n"}
+,{"stream_name":"stdout","time":14049.468777375,"data":"step 5600 | val loss 2.8589\n"}
+,{"stream_name":"stdout","time":14214.682686542,"data":"step 5610/1000 | loss 1.9623 | lr 1.02e-04 | 31,753 tok/s\n"}
+,{"stream_name":"stdout","time":14380.195297392,"data":"step 5620/1000 | loss 1.8672 | lr 9.66e-05 | 31,625 tok/s\n"}
+,{"stream_name":"stdout","time":14545.331563129,"data":"step 5630/1000 | loss 1.9646 | lr 9.20e-05 | 31,825 tok/s\n"}
+,{"stream_name":"stdout","time":14546.22113724,"data":"checkpoint saved at step 5630\n"}
+,{"stream_name":"stdout","time":14711.275498286,"data":"step 5640/1000 | loss 1.9755 | lr 8.77e-05 | 31,778 tok/s\n"}
+,{"stream_name":"stdout","time":14876.345668705,"data":"step 5650/1000 | loss 1.9557 | lr 8.37e-05 | 31,667 tok/s\n"}
+,{"stream_name":"stdout","time":15041.487246751,"data":"step 5660/1000 | loss 1.9799 | lr 8.00e-05 | 31,794 tok/s\n"}
+,{"stream_name":"stdout","time":15206.446456725,"data":"step 5670/1000 | loss 1.8825 | lr 7.66e-05 | 31,881 tok/s\n"}
+,{"stream_name":"stdout","time":15371.307032629,"data":"step 5680/1000 | loss 1.9658 | lr 7.35e-05 | 31,909 tok/s\n"}
+,{"stream_name":"stdout","time":15536.544410292,"data":"step 5690/1000 | loss 2.0280 | lr 7.07e-05 | 31,750 tok/s\n"}
+,{"stream_name":"stdout","time":15701.589981605,"data":"step 5700/1000 | loss 2.0341 | lr 6.82e-05 | 31,861 tok/s\n"}
+,{"stream_name":"stdout","time":15718.302594296,"data":"step 5700 | per-source loss cosmopedia=2.557 fineweb=3.427 python=1.214 tinystories=1.311\n"}
+,{"stream_name":"stdout","time":15718.302619823,"data":"step 5700 | weights cosmopedia=0.070 fineweb=0.227 python=0.141 tinystories=0.563 | dana:2 bheda:2\n"}
+,{"stream_name":"stdout","time":15726.954446987,"data":"step 5700 | val loss 2.8384\n"}
+,{"stream_name":"stdout","time":15760.992470862,"data":"checkpoint saved at step 5702\n"}
+,{"stream_name":"stdout","time":15893.254896164,"data":"step 5710/1000 | loss 1.7926 | lr 6.61e-05 | 31,642 tok/s\n"}
+,{"stream_name":"stdout","time":16058.783660817,"data":"step 5720/1000 | loss 1.8766 | lr 6.43e-05 | 31,816 tok/s\n"}
+,{"stream_name":"stdout","time":16224.428657003,"data":"step 5730/1000 | loss 1.8211 | lr 6.28e-05 | 31,498 tok/s\n"}
+,{"stream_name":"stdout","time":16389.892846733,"data":"step 5740/1000 | loss 1.8396 | lr 6.16e-05 | 31,814 tok/s\n"}
+,{"stream_name":"stdout","time":16555.475582795,"data":"step 5750/1000 | loss 1.7991 | lr 6.07e-05 | 31,780 tok/s\n"}
+,{"stream_name":"stdout","time":16721.121338991,"data":"step 5760/1000 | loss 1.7998 | lr 6.02e-05 | 31,745 tok/s\n"}
+,{"stream_name":"stdout","time":16886.834786421,"data":"step 5770/1000 | loss 1.7925 | lr 6.00e-05 | 31,657 tok/s\n"}
+,{"stream_name":"stdout","time":16887.716349736,"data":"final checkpoint saved at step 5770\n"}
+,{"stream_name":"stderr","time":16895.68544105,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":16895.685486629,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":16895.974098675,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":16895.974125434,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":16896.789143693,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":16897.816524808,"data":"[NbConvertApp] Writing 288805 bytes to __results__.html\n"}
+]

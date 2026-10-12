@@ -1,0 +1,23 @@
+[{"stream_name":"stdout","time":1.392946906,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":9.820189116,"data":"probe shard: hub pull kalia-lm/kalia-v020/corpus/probe_val.bin\n"}
+,{"stream_name":"stdout","time":9.822533786,"data":"probe sha256 ok (1664f71a4b5e...)\n"}
+,{"stream_name":"stdout","time":9.894963538,"data":"baseline: /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":9.895008758,"data":"  arm: /kaggle/input/notebooks/subhajitlucky/kalia-x29-jata/out/x29-jata/ckpt.pt\n"}
+,{"stream_name":"stdout","time":9.895013438,"data":"  arm: /kaggle/input/notebooks/subhajitlucky/kalia-x29-uniform/out/x29-uniform/ckpt.pt\n"}
+,{"stream_name":"stdout","time":351.307690655,"data":"\n"}
+,{"stream_name":"stdout","time":351.307737645,"data":"self-check: v0.2.0 re-scored 2.798876 vs recorded 2.798875 (delta 0.000001)\n"}
+,{"stream_name":"stdout","time":676.750883258,"data":"arm jata: probe_loss 2.816978  drift +0.018103\n"}
+,{"stream_name":"stdout","time":1006.344132643,"data":"arm uniform: probe_loss 2.775169  drift -0.023706\n"}
+,{"stream_name":"stdout","time":1006.344237003,"data":"\n"}
+,{"stream_name":"stdout","time":1006.344246273,"data":"=== CL-0 ledger (X29) ===\n"}
+,{"stream_name":"stdout","time":1006.344319583,"data":"  step  4770  probe_loss 2.798875  drift    baseline\n"}
+,{"stream_name":"stdout","time":1006.344343393,"data":"  step  5770  probe_loss 2.816978  drift +0.018103\n"}
+,{"stream_name":"stdout","time":1006.344348913,"data":"  step  5770  probe_loss 2.775169  drift -0.023706\n"}
+,{"stream_name":"stdout","time":1006.344353593,"data":"archived: /kaggle/working/forgetting_x29.jsonl\n"}
+,{"stream_name":"stderr","time":1008.683819023,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1008.683856794,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1009.067859667,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1009.067900197,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1009.869284043,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1011.14418521,"data":"[NbConvertApp] Writing 298202 bytes to __results__.html\n"}
+]
