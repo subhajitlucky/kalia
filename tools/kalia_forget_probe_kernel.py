@@ -52,7 +52,7 @@ EXPECTED_PROBE_SHA = "1664f71a4b5e96d28d20c7b531fdaf36409a25cd243dd73de0dee26bfd
 BASELINE_STEP = 4770
 BASELINE_PROBE_LOSS = 2.798875
 BASELINE_TOLERANCE = 0.002  # float-order wiggle on a 204,800-token mean
-COMMIT = "e7ccf07"
+COMMIT = "d220918"
 
 # --- the code, same resolution as every other kernel ------------------------
 hits = sorted(glob.glob("/kaggle/input/**/patha.py", recursive=True))
