@@ -45,10 +45,14 @@ COMMIT = "d1055c5"
 # --- the code, same resolution as every other kernel ------------------------
 hits = sorted(glob.glob("/kaggle/input/**/patha.py", recursive=True))
 assert hits, "attach subhajitlucky/kalia-code-dev"
+# Path(hits[0]) -- glob returns str, and this line shipped once as
+# hits[0].parent, which killed two probe versions instantly with an
+# AttributeError and an empty-looking log feed.
+code_root = Path(hits[0]).parent
 work = Path("/kaggle/working/kalia")
 if not work.exists():
-    shutil.copytree(hits[0].parent, work)
-print(f"code: {hits[0].parent}")
+    shutil.copytree(code_root, work)
+print(f"code: {code_root}")
 
 # --- rebuild the frozen probe and verify it is the instrument ---------------
 val_bins = sorted(glob.glob("/kaggle/input/**/val.bin", recursive=True))
@@ -92,6 +96,7 @@ def run_probe(ckpt: Path, step: int, target_ledger: Path) -> dict:
             "--probe", str(probe_dir / "val_forget.bin"),
             "--ledger", str(target_ledger),
             "--device", "cpu",
+            "--no-bpb",
             "--commit", COMMIT,
         ],
         cwd=work,
