@@ -287,6 +287,38 @@ The dose-response is the useful part: three arms, three drift magnitudes,
 three costs, ordered — evidence that the drift causes the cost rather than
 merely accompanying it.
 
+## X29 — patha replay, arms 1–2 (2026-10-12)
+
+The first test of Vedic recitation orderings (krama / jata / ghana) as replay
+schedules: four arms, one continual update each (4770 → 5770, seed 1401, 10%
+replay of the same 256 windows), identical except presentation order of the
+replay stream. Null or small was the registered expectation. Artifacts in
+`x29/`.
+
+**Val (secondary metric), final step 5700:** uniform (control) **2.8076**,
+jata **2.8510**; the X28 no-replay static arm ended 2.8201 at the same step.
+jata trails uniform by +0.041–0.055 at **every** checkpoint from 5100 on —
+15× the per-checkpoint session-noise bound (≤0.003, measured in X28) — and
+uniform sits slightly below no-replay static.
+
+**No claim:** n=1 per arm, and the registered primary metric (CL-0 retention
+drift on the final checkpoints) is measured by `kalia-x29-forget-probe`, a
+CPU kernel that rebuilds the frozen probe file (sha256-verified), seeds the
+ledger with the exact v0.2.0 baseline row (2.798875 at 4770), and re-scores
+the baseline as a self-check before any arm is believed. The registration
+requires a second seed for any winner.
+
+Also on the record: both jata failures (and one uniform failure) before this
+run were **our bug, not the platform's** — `PathaReplayDataset` concatenated
+CPU replay rows with device-side new rows, which passes on CPU and dies on
+the first GPU batch (rank 1 crashes, rank 0's allreduce times out). Fixed by
+assembling on CPU and moving once (`d1055c5`), with a contract test that
+spies on the device argument. This is the second bug of this shape (x26's
+`_probs` was the first): local CPU tests cannot falsify device contracts,
+and the test suite now pins this one where it can.
+
+
+
 ## What the record says
 
 **X20's −0.1358 inverted.** At two fresh seeds the static gate is *worse* than
