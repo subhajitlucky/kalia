@@ -8,8 +8,8 @@ One continual update of v0.2.0 per arm, seed 1401, steps 4770 → 5770, `rewarm`
 |---|---|---|---|
 | uniform (control) | complete | 2.8076 | subhajitlucky/kalia-x29-uniform |
 | jata | complete | 2.8510 | subhajitlucky/kalia-x29-jata |
-| ghana | launched 2026-10-12 | — | subhajitlucky/kalia-x29-ghana |
-| krama | staged, next quota window | — | — |
+| ghana | complete | 2.8752 | subhajitlucky/kalia-x29-ghana |
+| krama | launched 2026-10-13 | — | subhajitlucky/kalia-x29-krama |
 
 Artifacts per completed arm: `val_log.csv` (per 100 steps), `train_log.csv`
 (per 10 steps). Final checkpoints live in the kernel outputs
@@ -18,22 +18,27 @@ Artifacts per completed arm: `val_log.csv` (per 100 steps), `train_log.csv`
 
 ## val curve (val.bin, the same protocol as X26/X28)
 
-| step | uniform | jata |
-|---|---|---|
-| 4800 | 2.7680 | 2.7766 |
-| 4900 | 2.6816 | 2.7025 |
-| 5000 | 2.9769 | 3.0137 |
-| 5100 | 2.7717 | 2.8129 |
-| 5200 | 2.7998 | 2.8543 |
-| 5300 | 2.8412 | 2.8953 |
-| 5400 | 2.6628 | 2.7181 |
-| 5500 | 2.8324 | 2.8869 |
-| 5600 | 2.8297 | 2.8788 |
-| 5700 | 2.8076 | 2.8510 |
+| step | uniform | jata | ghana |
+|---|---|---|---|
+| 4800 | 2.7680 | 2.7766 | 2.7858 |
+| 4900 | 2.6816 | 2.7025 | 2.7153 |
+| 5000 | 2.9769 | 3.0137 | 3.0180 |
+| 5100 | 2.7717 | 2.8129 | 2.8181 |
+| 5200 | 2.7998 | 2.8543 | 2.8593 |
+| 5300 | 2.8412 | 2.8953 | 2.8996 |
+| 5400 | 2.6628 | 2.7181 | 2.7327 |
+| 5500 | 2.8324 | 2.8869 | 2.9128 |
+| 5600 | 2.8297 | 2.8788 | 2.8990 |
+| 5700 | 2.8076 | 2.8510 | 2.8752 |
 
-jata − uniform: +0.009 (4800), **+0.041 … +0.055 at every checkpoint from
-5100 on**. Session noise bound (X28, same protocol): ≤ 0.003 per checkpoint.
-Context: the X28 no-replay static arm ended 2.8201 at the same step.
+**The val ordering is monotone in structure depth, at every checkpoint from
+5,000 on:** uniform (no structure) < jata (two-word braid) < ghana (nested
+triples). Final gaps: jata−uniform **+0.0434**, ghana−jata **+0.0242**,
+ghana−uniform **+0.0676** — all far above the ≤0.003 session-noise bound.
+The deeper and denser the recitation structure of the replay stream, the
+worse the held-out loss. Session noise bound (X28, same protocol): ≤ 0.003
+per checkpoint. Context: the X28 no-replay static arm ended 2.8201 at the
+same step.
 
 The step-5000 spike (~+0.2 on both arms) is reproducible — X28's static rerun
 reproduced its own 5000 spike to 0.0007 — so it is a property of the protocol

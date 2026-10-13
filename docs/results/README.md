@@ -287,7 +287,7 @@ The dose-response is the useful part: three arms, three drift magnitudes,
 three costs, ordered — evidence that the drift causes the cost rather than
 merely accompanying it.
 
-## X29 — patha replay, arms 1–2 (2026-10-12)
+## X29 — patha replay, arms 1–3 (2026-10-13)
 
 The first test of Vedic recitation orderings (krama / jata / ghana) as replay
 schedules: four arms, one continual update each (4770 → 5770, seed 1401, 10%
@@ -296,10 +296,15 @@ replay stream. Null or small was the registered expectation. Artifacts in
 `x29/`.
 
 **Val (secondary metric), final step 5700:** uniform (control) **2.8076**,
-jata **2.8510**; the X28 no-replay static arm ended 2.8201 at the same step.
-jata trails uniform by +0.041–0.055 at **every** checkpoint from 5100 on —
-15× the per-checkpoint session-noise bound (≤0.003, measured in X28) — and
-uniform sits slightly below no-replay static.
+jata **2.8510**, ghana **2.8752**; the X28 no-replay static arm ended 2.8201
+at the same step. The ordering is **monotone in structure depth at every
+checkpoint from 5,000 on**: no structure (uniform) < two-word braid (jata) <
+nested triples (ghana), final gaps +0.0434 and +0.0242 — every one far above
+the ≤0.003 per-checkpoint session-noise bound. Uniform also sits slightly
+below no-replay static, so plain shuffled replay helps and denser recitation
+structure hurts, in proportion to its depth. krama (adjacent pairs, the
+mildest structure) is running; the full picture decides the registered
+comparison.
 
 **Retention (primary metric), CL-0 ledger on the G2-pinned probe shard:** the
 self-check re-scored v0.2.0 to **0.000001** of the recorded 2026-10-07
