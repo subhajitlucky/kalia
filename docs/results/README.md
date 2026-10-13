@@ -306,15 +306,16 @@ shuffled replay helps, and each added layer of recitation structure (adjacent
 pairs → two-word braid → nested triples) costs about 0.02 nats.
 
 **Retention (primary metric), CL-0 ledger on the G2-pinned probe shard:** the
-self-check re-scored v0.2.0 to **0.000001** of the recorded 2026-10-07
-baseline (2.798876 vs 2.798875) — the instrument is exact across five days.
-Then, monotone on the same rungs as val: uniform **−0.0237** (better than the
-pretrain's own probe score), jata **+0.0181**, ghana **+0.0446** (the largest
-CL-0 drift this project has measured). The two metrics agree in size as well
-as direction (uniform→jata: −0.0434 val / −0.0418 retention; jata→ghana:
-+0.0242 val / +0.0265 retention). krama's retention is the last row, in
-flight. First arm-level retention movement this project has measured; no
-claim (n=1, second seed required).
+self-check re-scored v0.2.0 to **0.000000–0.000001** of the recorded
+2026-10-07 baseline across two sessions — the instrument is exact. All four
+arms are monotone on the same rungs as val: uniform **−0.0237** (better than
+the pretrain's own probe score), krama **−0.0007** (at the baseline), jata
+**+0.0181**, ghana **+0.0446** (the largest CL-0 drift this project has
+measured). The two instruments even agree on **rung sizes** — val
++0.0238/+0.0196/+0.0242 against retention +0.0230/+0.0188/+0.0265 — three
+~0.02 steps each, from two different evaluation sets and protocols. First
+arm-level retention movement this project has measured; no claim (n=1, second
+seed required).
 
 One incident for the record: the probe's first three versions scored the
 wrong probe file (`val_forget.bin` instead of the G2-pinned

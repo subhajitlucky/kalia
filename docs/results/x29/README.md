@@ -7,7 +7,7 @@ One continual update of v0.2.0 per arm, seed 1401, steps 4770 → 5770, `rewarm`
 | arm | state | val@5700 | retention drift | kernel |
 |---|---|---|---|---|
 | uniform (control) | complete | **2.8076** | **−0.0237** | subhajitlucky/kalia-x29-uniform |
-| krama | complete | 2.8314 | probe in flight | subhajitlucky/kalia-x29-krama |
+| krama | complete | 2.8314 | −0.0007 | subhajitlucky/kalia-x29-krama |
 | jata | complete | 2.8510 | +0.0181 | subhajitlucky/kalia-x29-jata |
 | ghana | complete | 2.8752 | +0.0446 | subhajitlucky/kalia-x29-ghana |
 
@@ -57,27 +57,35 @@ Measured on the **G2-pinned probe shard** (`corpus/probe_val.bin`, sha256
 checkpoint reproduced the recorded baseline to **0.000001** (2.798876 vs
 2.798875). Ledger: `forgetting_x29.jsonl`.
 
-| row | probe_loss | drift vs pretrain best |
+| row | probe_loss | drift vs pretrain baseline |
 |---|---|---|
 | v0.2.0 baseline (step 4770) | 2.798875 | — |
 | **uniform** (step 5770) | **2.775169** | **−0.023706** |
+| **krama** (step 5770) | **2.798185** | **−0.000690** |
 | **jata** (step 5770) | **2.816978** | **+0.018103** |
 | **ghana** (step 5770) | **2.843516** | **+0.044641** |
-| krama (step 5770) | probe in flight (v6) | — |
 
 Baseline measured 2026-10-07 at step 4770; the arms measured 2026-10-13 at
-step 5770, all in one probe session (the uniform and jata rows reproduced the
-2026-10-12 session to the last decimal). Drift is signed from the ledger's
-best-ever (the baseline): negative = better than the pretrain's own score on
-the frozen probe.
+step 5770 (across two probe sessions that reproduced each other's rows to the
+last decimal). The drifts above are all referenced to the **baseline** so the
+rungs are comparable; the archived ledger's own `drift_from_best` column is
+sequential (each row is scored against the best so far), so it differs for
+rows scored after a better arm. probe_loss is the stable quantity.
 
-**Retention is monotone in structure depth too, on the same rungs as val:**
-uniform −0.0237 < jata +0.0181 < ghana +0.0446. The two metrics agree not
-just in direction but in size: uniform→jata is −0.0434 on val and −0.0418 on
-retention; jata→ghana is +0.0242 on val and +0.0265 on retention. Two
-independent instruments, one rung ladder — and ghana's retention loss
-(+0.0446) is the largest single drift this project has measured on CL-0.
-No claim yet: n=1 per arm, krama's retention pending, and the
+**Retention is monotone in structure depth, on the same rungs as val:**
+uniform −0.0237 < krama −0.0007 < jata +0.0181 < ghana +0.0446. Krama — the
+mildest structure, no reversal — sits essentially at the baseline. The two
+instruments agree not just in direction but in **rung sizes**:
+
+| rung | Δ val | Δ retention |
+|---|---|---|
+| uniform→krama | +0.0238 | +0.0230 |
+| krama→jata | +0.0196 | +0.0188 |
+| jata→ghana | +0.0242 | +0.0265 |
+
+Three near-equal ~0.02 steps on each instrument, from two different
+evaluation sets and protocols. ghana's +0.0446 is the largest single CL-0
+drift this project has measured. No claim yet: n=1 per arm, and the
 pre-registration requires a second seed for any winner.
 
 ## Incident record: the probe almost scored the wrong instrument (v1–v3)
