@@ -287,7 +287,7 @@ The dose-response is the useful part: three arms, three drift magnitudes,
 three costs, ordered — evidence that the drift causes the cost rather than
 merely accompanying it.
 
-## X29 — patha replay, arms 1–3 (2026-10-13)
+## X29 — patha replay, all four arms complete (2026-10-13)
 
 The first test of Vedic recitation orderings (krama / jata / ghana) as replay
 schedules: four arms, one continual update each (4770 → 5770, seed 1401, 10%
@@ -295,25 +295,26 @@ replay of the same 256 windows), identical except presentation order of the
 replay stream. Null or small was the registered expectation. Artifacts in
 `x29/`.
 
-**Val (secondary metric), final step 5700:** uniform (control) **2.8076**,
-jata **2.8510**, ghana **2.8752**; the X28 no-replay static arm ended 2.8201
-at the same step. The ordering is **monotone in structure depth at every
-checkpoint from 5,000 on**: no structure (uniform) < two-word braid (jata) <
-nested triples (ghana), final gaps +0.0434 and +0.0242 — every one far above
-the ≤0.003 per-checkpoint session-noise bound. Uniform also sits slightly
-below no-replay static, so plain shuffled replay helps and denser recitation
-structure hurts, in proportion to its depth. krama (adjacent pairs, the
-mildest structure) is running; the full picture decides the registered
-comparison.
+**Val (secondary metric), final step 5700 — a monotone staircase in structure
+depth:** uniform (control) **2.8076** < krama **2.8314** < jata **2.8510** <
+ghana **2.8752**; the X28 no-replay static arm ended 2.8201 at the same step.
+The ordering holds at every checkpoint from 5,200 on (exceptions: 5,000 and
+5,100, krama's mid-run spike region), with three near-equal rungs — +0.0238,
++0.0196, +0.0242 — every one far above the ≤0.003 per-checkpoint session-noise
+bound, total span +0.0676. Uniform also sits below no-replay static: plain
+shuffled replay helps, and each added layer of recitation structure (adjacent
+pairs → two-word braid → nested triples) costs about 0.02 nats.
 
 **Retention (primary metric), CL-0 ledger on the G2-pinned probe shard:** the
 self-check re-scored v0.2.0 to **0.000001** of the recorded 2026-10-07
 baseline (2.798876 vs 2.798875) — the instrument is exact across five days.
-Then: uniform **−0.0237** (better than the pretrain's own probe score), jata
-**+0.0181** (regression). The arm gap is **0.0418 nats**, same instrument,
-same session — and it orders the arms **identically** to val. First arm-level
-retention movement this project has measured; no claim (n=1, second seed
-required; ghana/krama pending).
+Then, monotone on the same rungs as val: uniform **−0.0237** (better than the
+pretrain's own probe score), jata **+0.0181**, ghana **+0.0446** (the largest
+CL-0 drift this project has measured). The two metrics agree in size as well
+as direction (uniform→jata: −0.0434 val / −0.0418 retention; jata→ghana:
++0.0242 val / +0.0265 retention). krama's retention is the last row, in
+flight. First arm-level retention movement this project has measured; no
+claim (n=1, second seed required).
 
 One incident for the record: the probe's first three versions scored the
 wrong probe file (`val_forget.bin` instead of the G2-pinned
