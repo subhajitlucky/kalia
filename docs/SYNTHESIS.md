@@ -1,12 +1,13 @@
-# KALIA — the complete record
+# KALIA — the record of the first release
 
 One document that ties the rest together. Everything here links to its primary
 source; nothing is asserted here that isn't measured somewhere in this repo.
 
 **What this is:** a 57.9M-parameter language model trained from scratch, on free
 Kaggle GPU time, with every decision, failure and negative result written down as
-it happened. Seven days, 124 commits, 45 decisions, 9 incidents, 9 hash-verified
-pre-registrations, 137 tests.
+it happened — a dated snapshot of the first seven days, through the v0.1.2 release.
+The living record continues in [`journal/`](journal/) and
+[`DECISIONS.md`](DECISIONS.md).
 
 ---
 
@@ -104,7 +105,7 @@ ourselves:
 copyleft, found in 11 minutes of CPU, and disclosed on the live model card rather
 than quietly fixed.
 
-**Reproducibility is real.** 137 tests, a resumable multi-session harness, a
+**Reproducibility is real.** A full test suite, a resumable multi-session harness, a
 dataset publisher that verifies by round-trip, and a ledger whose hashes anyone
 can check.
 
@@ -200,10 +201,10 @@ that is the only way this model gets better at a rate worth having.
 
 | what | where |
 |---|---|
-| daily narrative | `docs/journal/YYYY-MM-DD.md` (4 entries) |
-| every decision, with alternatives | `docs/DECISIONS.md` (45) |
-| incidents | `docs/journal/*.md` (`## I…`) (9) |
-| pre-registrations + hashes | `docs/preregistrations/` + `LEDGER.md` (9) |
+| daily narrative | `docs/journal/YYYY-MM-DD.md` |
+| every decision, with alternatives | `docs/DECISIONS.md` |
+| incidents | `docs/journal/*.md` (`## I…`) |
+| pre-registrations + hashes | `docs/preregistrations/` + `LEDGER.md` |
 | verify the hashes | `python tools/verify_prereg_ledger.py` |
 | literature research | `docs/research/` (5 documents) |
 | licence analysis | `docs/legal/training-data-licence-matrix.md` |

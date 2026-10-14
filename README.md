@@ -18,9 +18,10 @@ scored by the same deterministic 100-batch protocol. The 2.4366 that appeared in
 releases is v0.1.2 on the *original* held-out set, which the rebuild replaced; the two are
 never compared (decision D43).
 
-**The complete record — method, results, strong points, weak points, and every failure —
-is in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md).** 45 decisions, 9 incidents, 9
-hash-verified pre-registrations, 285 tests, machine-readable run results, verified citations.
+**The full record — method, results, strong points, weak points, and every failure — lives
+in the repository:** the first-release summary in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md),
+the dated journal, the decision ledger, the incident record, the hash-anchored
+pre-registration ledger, and the machine-readable run results.
 
 Every weight in KALIA is learned by this project's own training run; nothing is borrowed
 from another model.
@@ -115,6 +116,23 @@ held-out set, making a healthy run look 0.74 nats worse (D43). And two pre-regis
 accuracy thresholds — 0.5 pp and 1.0 pp — sat *below* the ~2 pp standard error of the
 benchmarks they were read from, so one of them passed on noise alone (D45).
 
+## After the first release
+
+Training and research have continued in public; the chapter-by-chapter record is in the
+journal. In brief:
+
+- **A mixture policy (X26)** that re-weights sources by their loss drifts to the easiest
+  data and costs 0.018 nats held-out — replicated, and halved by an improvement-aware
+  objective that still does not stop the drift.
+- **Recitation orders (X28–X29):** four Vedic pāṭha schedules as replay orders gave a clean
+  val staircase (uniform < krama < jata < ghana, ~0.02-nat rungs) and a monotone retention
+  ladder — structure costs, in proportion to its depth.
+- **Test-time training (X25)** closed as a null; **an entity-consistency decoder** triples
+  character retention over greedy (+0.061).
+- **The 58M measurement floor:** the control's own seed spread (0.2892 nats, 2.5× the 30M
+  spread) stopped micro-scale architecture and data claims; the programme pivoted to
+  inference-time levers and full-scale data changes.
+
 ## Repository layout
 
 ```
@@ -146,10 +164,10 @@ kalia/
   notebooks/             # Kaggle kernels: prep, train, ablate, benchmark, evaluate
   kaggle/                # kernel metadata for each v0.3.0 step, one kernel per step
   docs/results/         # experiments.json + archived raw logs: every run, machine-readable
-  test_*.py              # 292 tests, flat at the repo root
+  test_*.py              # the test suite, flat at the repo root
   docs/SYNTHESIS.md      # the whole record in one document
   docs/journal/          # dated engineering journal
-  docs/DECISIONS.md      # 45 numbered decisions
+  docs/DECISIONS.md      # the decision ledger
   docs/research/         # technique surveys with honest prior-art verdicts
   docs/preregistrations/ # hash-anchored pre-registrations + LEDGER
   docs/legal/            # training-data licence matrix
@@ -163,7 +181,7 @@ Heavy work belongs on Kaggle. The laptop runs the test suite and nothing else.
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-python -m pytest -q          # 292 tests, ~95s on CPU
+python -m pytest -q
 python tools/check_notebooks.py   # static-checks every notebook before spending quota
 python tools/collect_results.py --check   # results data still matches its logs
 ```
