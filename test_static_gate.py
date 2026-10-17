@@ -37,20 +37,33 @@ def _static_module():
 
 
 def test_gate_output_is_identical_for_different_inputs():
-    """The whole experiment. If this fails, the arm is not what X20 registered."""
+    """The whole experiment. If this fails, the arm is not what X20 registered.
+
+    The assertion is equality, not determinism: for deliberately extreme inputs,
+    the forward output must be exactly the branch normalisation times *one*
+    shared constant gate. If any input-dependent term existed, the extreme
+    inputs would break the equality.
+    """
     br = _static_module().eval()
     with torch.no_grad():
-        a = torch.zeros(1, 8, DIM)
-        b = torch.randn(1, 8, DIM) * 100
-        c = torch.full((1, 8, DIM), 511.0)
-        ga = torch.sigmoid(br.gate_out(torch.nn.functional.silu(br.gate_in)))
-        # The gate is computed from learned constants only, so it cannot vary.
-        assert ga.shape == (DIM,)
-        # Drive the branches with the same gate and confirm the gate is the only
-        # thing shared: re-evaluating forward gives the same modulation.
-        assert torch.equal(br(a), br(a))
-        assert torch.equal(br(b), br(b))
-        assert torch.equal(br(c), br(c))
+        gate = torch.sigmoid(br.gate_out(torch.nn.functional.silu(br.gate_in)))
+        for x in (
+            torch.zeros(1, 8, DIM),
+            torch.randn(1, 8, DIM) * 100,
+            torch.full((1, 8, DIM), 511.0),
+        ):
+            expected = torch.cat(
+                [
+                    norm(x[..., i * br.branch_dim : (i + 1) * br.branch_dim])
+                    * gate[i * br.branch_dim : (i + 1) * br.branch_dim]
+                    for i, norm in enumerate(br.norms)
+                ],
+                dim=-1,
+            )
+            assert torch.allclose(br(x), expected), (
+                "forward must equal the branch norm times the constant gate; "
+                "any input dependence would show here"
+            )
 
 
 def test_gate_is_a_constant_vector_not_a_function_of_the_input():

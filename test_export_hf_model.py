@@ -24,7 +24,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 import torch
 
 from model import GPT, GPTConfig
@@ -120,7 +119,29 @@ def test_release_gate_constants_match_the_registered_results():
     assert PROTOCOL == {"batches": 100, "batch_size": 8, "seed": 1234}
 
 
-def test_untrained_toy_model_cannot_pass_the_release_gate():
-    """A sanity check on the gate itself: random weights must not score 2.8248."""
-    with pytest.raises(AssertionError):
-        assert abs(3.14159 - 2.8248) <= 5e-4
+def test_release_gate_accepts_and_rejects_on_the_real_verify_path(tmp_path):
+    """Exercise the function that decides publish vs not, not a restated constant.
+
+    `verify` re-scores the written artifact under the registered protocol. A
+    value matching the score must pass; a value one nat away must fail; and a
+    sentinel of 0.0 must fail rather than being silently truthy.
+    """
+    from tools.export_hf_model import verify
+
+    out = tmp_path / "export"
+    out.mkdir()
+    data = tmp_path / "val.bin"
+    torch.randint(
+        0, TOY["vocab_size"], (4000,), generator=torch.Generator().manual_seed(3)
+    ).to(torch.uint16).numpy().tofile(data)
+    cfg = build_config(TOY)
+    cfg["_val_bin"] = str(data)
+    (out / "config.json").write_text(json.dumps(cfg))
+    write_safetensors(_toy_state(), step=1, tokens=1, path=out / "model.safetensors")
+
+    scored = verify(out / "model.safetensors", expected_val=0.0)
+    assert scored["matches"] is False, "0.0 must not pass the gate"
+    exact = verify(out / "model.safetensors", expected_val=scored["val_loss"])
+    assert exact["matches"] is True, exact
+    off = verify(out / "model.safetensors", expected_val=scored["val_loss"] + 1.0)
+    assert off["matches"] is False, "a one-nat-wrong expectation must be rejected"

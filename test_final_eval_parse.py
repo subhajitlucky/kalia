@@ -78,6 +78,32 @@ def test_verdict_thresholds_map_to_the_registered_bands():
     assert verdict(3.1034) == "P-C", "a real regression is reported as one"
 
 
+def test_mirror_stays_coupled_to_the_notebook_cells():
+    """A mirror the notebook cannot break is not a mirror.
+
+    The parser and the verdict thresholds live in the final-eval notebook's code
+    cells. This fails if those cells change their regexes or thresholds without
+    the mirror here being updated to match.
+    """
+    import json
+    from pathlib import Path
+
+    nb = json.loads(Path("notebooks/kalia-v020-final-eval.ipynb").read_text())
+    code = "\n".join(
+        "".join(c["source"]) for c in nb["cells"] if c.get("cell_type") == "code"
+    )
+    for pat in (
+        r"Val loss:\s*([0-9.]+)",
+        r"bpB:\s*([0-9.]+)",
+        r"bytes/token:\s*([0-9.]+)",
+        r"=\s*([0-9,]+)\s*tokens",
+    ):
+        assert pat in code, f"notebook parser drifted from the mirror: {pat!r}"
+    assert "REF, GOOD, BAD = 3.0533, 3.0033, 3.1033" in code, (
+        "the verdict thresholds in the notebook no longer match the mirror"
+    )
+
+
 def test_parsing_markdown_that_is_actually_json_is_still_rejected_loudly():
     """The original bug, as a test: a JSON body must not silently parse as 0.0."""
     try:

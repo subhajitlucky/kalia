@@ -171,6 +171,62 @@ def test_gqa_equal_heads_matches_mha_params():
     assert same.num_params() == base.num_params()
 
 
+def test_qk_norm_really_normalizes_q_and_k():
+    """qk_norm must be on the forward path, not just counted in the parameter set."""
+    torch.manual_seed(0)
+    cfg = GPTConfig(vocab_size=256, n_layer=1, n_head=2, n_embd=64, context_len=16, qk_norm=True)
+    model = GPT(cfg).eval()
+    attn = model.blocks[0].attn
+    seen = {}
+    attn.q_norm.register_forward_hook(lambda m, i, o: seen.__setitem__("q", o.detach()))
+    attn.k_norm.register_forward_hook(lambda m, i, o: seen.__setitem__("k", o.detach()))
+    with torch.no_grad():
+        model(torch.randint(0, 256, (2, 8)))
+    assert set(seen) == {"q", "k"}, "qk_norm modules were not on the forward path"
+    for name, tensor in seen.items():
+        rms = tensor.pow(2).mean(dim=-1).sqrt()
+        assert torch.allclose(rms, torch.ones_like(rms), atol=1e-3), name
+
+
+def test_qk_norm_changes_attention_output():
+    torch.manual_seed(0)
+    x = torch.randint(0, 256, (2, 8))
+    base = GPT(GPTConfig(vocab_size=256, n_layer=1, n_head=2, n_embd=64, context_len=16)).eval()
+    normed = GPT(
+        GPTConfig(vocab_size=256, n_layer=1, n_head=2, n_embd=64, context_len=16, qk_norm=True)
+    ).eval()
+    normed.load_state_dict(base.state_dict(), strict=False)
+    with torch.no_grad():
+        a, _ = base(x)
+        b, _ = normed(x)
+    assert not torch.allclose(a, b, atol=1e-6)
+
+
+def test_gqa_expands_kv_within_each_group(monkeypatch):
+    """n_kv_head=2 must repeat each kv head across its two query heads, in order."""
+    import torch.nn.functional as F
+
+    torch.manual_seed(0)
+    cfg = GPTConfig(vocab_size=256, n_layer=1, n_head=4, n_embd=64, context_len=16, n_kv_head=2)
+    model = GPT(cfg).eval()
+    calls = {}
+    original = F.scaled_dot_product_attention
+
+    def spy(q, k, v, *args, **kwargs):
+        calls["q"], calls["k"] = q, k
+        return original(q, k, v, *args, **kwargs)
+
+    monkeypatch.setattr(F, "scaled_dot_product_attention", spy)
+    with torch.no_grad():
+        model(torch.randint(0, 256, (2, 8)))
+    k = calls["k"]
+    assert calls["q"].shape[1] == 4
+    assert k.shape[1] == 4, "kv heads must be expanded to match query heads"
+    assert torch.equal(k[:, 0], k[:, 1]), "group 0 must share one kv head"
+    assert torch.equal(k[:, 2], k[:, 3]), "group 1 must share one kv head"
+    assert not torch.equal(k[:, 0], k[:, 2])
+
+
 def test_looping_shares_params_and_runs():
     once = GPT(GPTConfig(vocab_size=256, n_layer=2, n_head=2, n_embd=64, context_len=16))
     twice = GPT(

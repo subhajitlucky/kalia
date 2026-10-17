@@ -152,6 +152,9 @@ def test_normalize_update_directions():
     assert torch.allclose(both.norm(dim=1), torch.ones(16), atol=1e-5)
     assert not torch.allclose(x, both)
 
+    rowcol = normalize_update(x, "row_col")
+    assert torch.allclose(rowcol.norm(dim=0), torch.ones(8), atol=1e-5)
+
     assert torch.equal(normalize_update(x, "none"), x)
     try:
         normalize_update(x, "diagonal")
@@ -175,6 +178,34 @@ def test_muon_plus_steps_end_to_end():
     optimizer.step()
     assert torch.isfinite(loss)
     optimizer.load_state_dict(optimizer.state_dict())
+
+
+def test_muon_weight_decay_shrinks_weights_on_a_zero_gradient():
+    """Decoupled decay must apply even when the orthogonalized update is zero."""
+    p = torch.nn.Parameter(torch.ones(4, 4))
+    optimizer = Muon([p], lr=0.1, weight_decay=0.5)
+    p.grad = torch.zeros_like(p)
+    optimizer.step()
+    assert torch.allclose(p.detach(), torch.full((4, 4), 1.0 - 0.1 * 0.5))
+
+
+def test_muon_nesterov_off_still_optimizes_and_differs():
+    torch.manual_seed(0)
+    target = torch.randn(8, 8)
+    finals = {}
+    for nesterov in (True, False):
+        weight = torch.nn.Parameter(torch.zeros(8, 8))
+        optimizer = Muon([weight], lr=0.05, nesterov=nesterov)
+        for _ in range(50):
+            optimizer.zero_grad()
+            ((weight - target) ** 2).sum().backward()
+            optimizer.step()
+        finals[nesterov] = weight.detach().clone()
+    start_loss = (target**2).sum()
+    assert ((finals[False] - target) ** 2).sum() < start_loss
+    assert not torch.allclose(finals[True], finals[False]), (
+        "nesterov=False must actually change the update, not silently act as True"
+    )
 
 
 def test_load_state_from_older_checkpoint_format():

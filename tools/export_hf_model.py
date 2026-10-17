@@ -18,8 +18,9 @@ So the conversion lives here, and the important part is what it refuses to do:
 - **Refuses to write a config that disagrees with the checkpoint.** The config is
   derived from the checkpoint's own ``config['model']``, never typed by hand, so
   the published architecture cannot drift from the trained one.
-- **Drops the tied ``lm_head.weight``**, matching what v0.1.2 shipped, so the two
-  repos have identical structure.
+- **Keeps the tied ``lm_head.weight``** (de-shared into its own buffer, not
+  dropped), matching the 93-tensor layout v0.1.2 shipped, so the two repos have
+  identical structure.
 
 Usage:
     python tools/export_hf_model.py --ckpt <ckpt.pt> --out <dir> --step 4770
@@ -72,7 +73,7 @@ def build_config(model_cfg: dict) -> dict:
 
 
 def write_safetensors(state: dict, step: int, tokens: int, path: Path) -> int:
-    """Write the weights, dropping the tied head exactly as v0.1.2 shipped."""
+    """Write the weights, keeping the tied head exactly as v0.1.2 shipped."""
     from safetensors.torch import save_file
 
     # Two things, both learned the hard way.
