@@ -1,7 +1,8 @@
 # Training-data licence matrix
 
 Written 2026-09-28, prompted by I16 (41.7% of the code corpus measured as
-copyleft) and by a follow-up question this document answers honestly: we
+non-permissive, 39.5% GPL-family) and by a follow-up question this document
+answers honestly: we
 filtered *code* per-file because The Stack's licensing is genuinely mixed, and
 took the *text* sources' dataset-level licences at face value. That asymmetry was
 never examined. Now it has been.
@@ -18,7 +19,7 @@ good enough to decide what to build and what to refuse to publish.
 | `roneneldan/TinyStories` | 20% | CDLA-Sharing-1.0 | `cdla-sharing-1.0` |
 | `HuggingFaceTB/cosmopedia` (v2, inside smollm-corpus) | 15% | Apache-2.0 | — |
 | code (Python, permissive filter) | 5% | per-file, filtered to 7 permissive | — |
-| code as built for **v0.1.2** | 5% | per-file, **unfiltered** — 41.7% copyleft | — |
+| code as built for **v0.1.2** | 5% | per-file, **unfiltered** — 41.7% non-permissive (39.5% GPL-family) | — |
 
 Note what is *not* in the permissive list: only the code slice is. The three text
 sources are outside it by design — they are single-licence datasets, so a
@@ -63,6 +64,18 @@ requires attribution to the provider, which §3 of ODC-By obliges us to include.
 
 Permissive. Redistribution permitted with the licence and NOTICE retained.
 
+**Container vs content (clarified 2026-10-17).** The slice we train on is the
+`cosmopedia-v2` config of `HuggingFaceTB/smollm-corpus`. That container's card is
+tagged `license: odc-by` at the dataset level and carries **no per-config licence
+field** (the "known gap" of the first release), while the content's own upstream
+dataset, `HuggingFaceTB/cosmopedia`, declares **Apache-2.0** on its card. The two
+readings are both free of copyleft, but they call for different notices, so the
+conservative resolution is to **satisfy both**: retain the Apache-2.0 notice for
+the content and credit the ODC-By container, `HuggingFaceTB/smollm-corpus`. That
+is what the v0.2.0 card and `corpus/NOTICE.md` do, and what the publish
+checklist now says. The earlier checklist row said only "ODC-By" and has been
+corrected; the card and this matrix already said Apache-2.0.
+
 ### Code slice, v0.2.0 — per-file filtered
 
 Only apache-2.0, mit, bsd-2-clause, bsd-3-clause, cc0-1.0, isc and unlicense
@@ -71,11 +84,21 @@ interesting artifact to publish: it is the part with a real provenance story.
 
 ### Code slice, v0.1.2 — per-file unfiltered
 
-41.7% of characters under GPL/AGPL/LGPL/MPL/EPL. Training on it is a separate
+41.7% of characters fall in the non-permissive bucket the audit script defines
+(GPL/AGPL/LGPL/MPL/EPL plus CC-BY/CC-BY-SA); GPL-family alone is 39.5% of files.
+Training on it is a separate
 question from redistributing it, and on the prevailing view the resulting weights
 are not a derivative work. **Redistributing that shard would attach genuine
 copyleft obligations** — source availability, notice, and the share-alike
 consequences of GPL-3.0 and AGPL-3.0. We do not, and will not, publish it.
+
+**Provenance of the number.** The 2026-09-27 measurement's raw report was not
+committed; the recorded aggregate lives in `docs/journal/2026-09-27.md`. It is a
+non-random sample of the first 20,000 streaming rows of the live upstream
+dataset, so re-running it is only comparable if the upstream data and order are
+unchanged. `audit_licences.py` now supports `--revision` and records the
+dataset, sampling method and a sample fingerprint in its report, so any future
+run is self-describing.
 
 ## The asymmetry, stated plainly
 
@@ -92,7 +115,7 @@ loss or accuracy claim.
 | Train on any of these sources | **yes** | all four grant Computational Use |
 | Publish v0.1.2 or v0.2.0 weights | **yes** | CDLA §3.5 puts Results beyond restriction; ODC-By restricts databases, not outputs |
 | Publish the journal, code, configs, logs, pre-registrations, licence audit | **yes** | our own work, MIT/Apache-2.0 as already stated |
-| Redistribute the **v0.2.0** corpus | **yes, conditional** | republish the TinyStories slice under unmodified CDLA-Sharing-1.0 with attribution; attribute FineWeb-Edu; retain the Apache notice for Cosmopedia; ship the filtered code slice with its filter |
+| Redistribute the **v0.2.0** corpus | **yes, conditional** | republish the TinyStories slice under unmodified CDLA-Sharing-1.0 with attribution; attribute FineWeb-Edu; retain the Apache notice for Cosmopedia and credit the ODC-By container; ship the filtered code slice with its filter |
 | Redistribute the **v0.1.2** corpus | **no** | would attach GPL/AGPL obligations; the copyleft slice is not ours to relicense |
 
 So the earlier shorthand — "publish the recipe, not the bytes" — turns out to be

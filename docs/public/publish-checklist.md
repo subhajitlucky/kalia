@@ -21,17 +21,17 @@ git grep -niE "real email|phone|address|password" docs/ README.md || echo "clean
 - [ ] `.secrets/`, `~/.kaggle/`, `out/`, `data/`, `*.bin`, `*.pt` remain ignored
 - [ ] Git history reviewed for anything previously committed by mistake
 
-## 2. Data licenses (state and attribute; never re-publish data)
+## 2. Data licenses (state and attribute; raw data is never re-published)
 
 | Source | License | Redistribution policy |
 |---|---|---|
-| TinyStories | CDLA-Sharing-1.0 | Do **not** re-publish raw or tokenized data. Attribute. |
-| FineWeb-Edu (SmolLM corpus) | ODC-By-1.0 | Do **not** re-publish. Attribute (ODC-By requires attribution). |
-| Cosmopedia v2 (SmolLM corpus) | ODC-By-1.0 | Do **not** re-publish. Attribute. |
+| TinyStories | CDLA-Sharing-1.0 | Raw data: never. Tokenized shards: only republished unmodified, with the CDLA-Sharing notice + attribution (the v0.2.0 `corpus/` release is the sanctioned example). Attribute. |
+| FineWeb-Edu (SmolLM corpus) | ODC-By-1.0 | Raw data: never. Tokenized shards: attribute (ODC-By requires attribution). |
+| Cosmopedia v2 (SmolLM corpus) | Apache-2.0 (upstream `HuggingFaceTB/cosmopedia` card); the container is tagged ODC-By | Raw data: never. Tokenized shards: retain the Apache notice and credit the ODC-By container. |
 | Code (CodeParrot-Clean) | Per-file; metadata absent | **Filter to permissive licenses only** (MIT, Apache-2.0, BSD-2/3, ISC, Unlicense, CC0) — implemented in `prepare.py::is_permissive_license` |
 | GPT-2 BPE tokenizer | MIT (OpenAI) | Attribute. |
 
-- [ ] Tokenized datasets (`*.bin`) are **never** uploaded publicly
+- [ ] Raw source datasets are **never** uploaded. The only published data is the hash-pinned, attribution-complete `corpus/` release documented on the v0.2.0 card; see `docs/legal/training-data-licence-matrix.md`
 - [ ] Model card contains an attribution section listing every source + license
 - [ ] Code subset restricted to permissive licenses only
 - [ ] Kaggle notebooks may be published (they contain code, not data)

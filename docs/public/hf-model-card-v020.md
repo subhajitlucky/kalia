@@ -13,7 +13,7 @@ tags:
 datasets:
 - roneneldan/TinyStories
 - HuggingFaceTB/smollm-corpus
-- sedthh/gutenberg_english
+- HuggingFaceTB/cosmopedia
 pipeline_tag: text-generation
 model-index:
 - name: KALIA v0.2.0
@@ -181,12 +181,34 @@ characters under copyleft licences. That is disclosed on the
 [v0.1.2 card](https://huggingface.co/kalia-lm/kalia-v012) rather than quietly fixed, and
 those bytes are never redistributed.
 
-Datasets are **not** redistributed here. Every source is public, so the reproducible
-artifact is the recipe — mix config, per-source manifests, `prepare.py` and the licence
-filter — which regenerates the corpus exactly. CDLA-Sharing §3.5 places Results (the
-weights) beyond any obligation, and the sharing licence grants the right to train outright;
-the three attribution conditions for releasing the bytes themselves are satisfiable and
-documented in the repository.
+### Released corpus shards (with attribution)
+
+This repository publishes the five shards the continual-update experiments are
+scored against — the four equalised per-source shards and the pinned probe set.
+The full 2.4B-token training mixture is **not** redistributed. These shards are
+124,500,691 tokens per source, equalised because the mixture sampler requires
+equal-length shards, and each skips its source's proportional validation head
+(6M/2M/1.5M/0.5M tokens), so the canonical held-out set cannot appear in them.
+
+| File | Tokens | Source | Licence and attribution |
+|---|---|---|---|
+| `corpus/fineweb.bin` | 124,500,691 | FineWeb-Edu dedup (SmolLM corpus) | ODC-By-1.0 — credit: `HuggingFaceTB/smollm-corpus` |
+| `corpus/tinystories.bin` | 124,500,691 | TinyStories | CDLA-Sharing-1.0 — republished unmodified; credit: `roneneldan/TinyStories` |
+| `corpus/cosmopedia.bin` | 124,500,691 | Cosmopedia v2 (via SmolLM corpus) | Apache-2.0 (content card) — notice retained; ODC-By container credited |
+| `corpus/python.bin` | 124,500,691 | Python, per-file filtered | 7 permissive licences (MIT, Apache-2.0, BSD-2/3, ISC, Unlicense, CC0); filter: `prepare.py::is_permissive_license` |
+| `corpus/probe_val.bin` | 1,000,000 | held-out windows from the sources above | per source, as above |
+| `corpus/manifest.json` | — | source paths, ratios, per-shard SHA-256 | — |
+
+Per-file licences and attribution links are in
+[`corpus/NOTICE.md`](https://huggingface.co/kalia-lm/kalia-v020/blob/main/corpus/NOTICE.md)
+(the repository's `docs/legal/corpus-shard-notice.md`).
+
+The bytes are the licence-filtered build (code from `kalia-prep-v2b`; text
+sources unchanged), so **no copyleft text is redistributed**. The recipe that
+regenerates the full corpus — mix config, `prepare.py` and the licence filter —
+is in the [repository](https://github.com/subhajitlucky/kalia). CDLA-Sharing
+§3.5 places Results (the weights) beyond any obligation, and the sharing licence
+grants the right to train outright.
 
 ## Limitations
 
@@ -212,6 +234,9 @@ documented in the repository.
   transcribed.
 - `logs/train_log.csv` (477 rows, steps 10–4770) and `logs/val_log.csv` (19 rows) are
   included.
+- The `corpus/` shards and probe set are hash-pinned: every published shard's
+  SHA-256 matches `corpus/manifest.json` and the repository's
+  `docs/legal/val-shard-hashes.json`.
 - Every decision, incident and pre-registration behind these numbers is in the
   [repository](https://github.com/subhajitlucky/kalia), with
   [`docs/SYNTHESIS.md`](https://github.com/subhajitlucky/kalia/blob/main/docs/SYNTHESIS.md)

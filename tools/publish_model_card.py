@@ -13,8 +13,8 @@ and comparing it byte-for-byte, and any stray directory the previous mistake lef
 behind is removed.
 
 Usage:
-    python tools/publish_model_card.py            # upload, verify, clean strays
-    python tools/publish_model_card.py --verify   # verify only
+    python tools/publish_model_card.py --release v020   # upload, verify, clean strays
+    python tools/publish_model_card.py --release v020 --verify   # verify only
 """
 
 from __future__ import annotations
@@ -28,8 +28,17 @@ from huggingface_hub import HfApi, hf_hub_download
 
 ROOT = Path(__file__).resolve().parent.parent
 
-REPO = "kalia-lm/kalia-v012"
-LOCAL = ROOT / "docs" / "public" / "hf-model-card.md"
+# One entry per published checkpoint.
+RELEASES = {
+    "v012": {
+        "repo": "kalia-lm/kalia-v012",
+        "local": ROOT / "docs" / "public" / "hf-model-card.md",
+    },
+    "v020": {
+        "repo": "kalia-lm/kalia-v020",
+        "local": ROOT / "docs" / "public" / "hf-model-card-v020.md",
+    },
+}
 REMOTE = "README.md"
 
 # Directories that should never exist in the model repo. Both were created by
@@ -38,17 +47,16 @@ REMOTE = "README.md"
 STRAY_DIRS = ("docs",)
 
 
-def content_matches() -> bool:
+def content_matches(repo: str, local: Path) -> bool:
     with tempfile.TemporaryDirectory() as tmp:
-        got = hf_hub_download(REPO, REMOTE, repo_type="model", local_dir=tmp, force_download=True)
-        return Path(got).read_text(encoding="utf-8") == LOCAL.read_text(encoding="utf-8")
+        got = hf_hub_download(repo, REMOTE, repo_type="model", local_dir=tmp, force_download=True)
+        return Path(got).read_text(encoding="utf-8") == local.read_text(encoding="utf-8")
 
 
-def clean_strays() -> None:
-    api = HfApi()
+def clean_strays(api: HfApi, repo: str) -> None:
     for d in STRAY_DIRS:
         try:
-            api.delete_folder(path_in_repo=d, repo_id=REPO, repo_type="model")
+            api.delete_folder(path_in_repo=d, repo_id=repo, repo_type="model")
             print(f"  removed stray directory: {d}/")
         except Exception as exc:  # noqa: BLE001 - absent is the normal case
             print(f"  no stray directory {d}/ ({type(exc).__name__})")
@@ -56,27 +64,31 @@ def clean_strays() -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--release", choices=sorted(RELEASES), default="v012")
     parser.add_argument("--verify", action="store_true")
     args = parser.parse_args()
 
+    repo = RELEASES[args.release]["repo"]
+    local = RELEASES[args.release]["local"]
+
     api = HfApi()
-    print(f"target: {REPO} :: {REMOTE}")
-    print(f"source: {LOCAL.relative_to(ROOT)}")
+    print(f"target: {repo} :: {REMOTE}")
+    print(f"source: {local.relative_to(ROOT)}")
 
     if not args.verify:
         # Named explicitly, never positionally, and cleaned up afterwards.
         api.upload_file(
-            path_or_fileobj=str(LOCAL),
+            path_or_fileobj=str(local),
             path_in_repo=REMOTE,
-            repo_id=REPO,
+            repo_id=repo,
             repo_type="model",
             commit_message="model card: measured limitations, results and licence disclosure",
         )
         print("uploaded")
-        clean_strays()
+        clean_strays(api, repo)
 
     print("verifying by downloading the live card back...")
-    if content_matches():
+    if content_matches(repo, local):
         print("  live card is byte-identical to the repo source")
         return 0
 

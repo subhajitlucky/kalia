@@ -102,7 +102,7 @@ ourselves:
   standard error** of ~2.2 pp. It passed. The pass was worth nothing (D45).
 
 **Data provenance is audited, not assumed.** 41.7% of the code corpus measured
-copyleft, found in 11 minutes of CPU, and disclosed on the live model card rather
+non-permissive (39.5% GPL-family), found in 11 minutes of CPU, and disclosed on the live model card rather
 than quietly fixed.
 
 **Reproducibility is real.** A full test suite, a resumable multi-session harness, a
@@ -142,8 +142,11 @@ when we needed them.
 thresholds were written as round numbers without ever checking what one standard
 error was worth. We nearly published a noise result as a finding.
 
-**Known gap:** `cosmopedia-v2`'s declared licence *inside* `smollm-corpus` reads
-empty. The last unverified cell in the licence matrix.
+**Known gap (closed 2026-10-17):** `cosmopedia-v2`'s declared licence *inside*
+`smollm-corpus` reads empty. The content's own upstream card
+(`HuggingFaceTB/cosmopedia`) declares Apache-2.0, the container is tagged
+ODC-By, and the project credits both — see the licence matrix's Cosmopedia
+section.
 
 ---
 
@@ -164,7 +167,7 @@ writes four corpora in million-token round-robin blocks, so 0.3% of windows spli
 two corpora with no separator. Invisible to every metric we optimise. Found by
 reading the mixer.
 
-**I16 — 41.7% of the code corpus is copyleft.** The licence filter existed, was
+**I16 — 41.7% of the code corpus is under non-permissive licences (39.5% GPL-family).** The licence filter existed, was
 tested, and was correct. It landed **40 minutes after** the corpus that needed
 it, and nothing tied a new filter to a rebuild of the datasets already built. A
 green test on a filter that ran on the wrong side of a timestamp reads exactly

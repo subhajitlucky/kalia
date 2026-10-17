@@ -108,7 +108,7 @@ it is the reason this repository is worth reading.
 | Reversal training (X16) | **Rejected.** Both pre-registered bars missed on both seeds — the entry-exit gap got *worse* | Reversing chunk order does not teach token-level entry. The gap is architectural, confirmed at 5.1 nats at 30M, not an undertraining artifact |
 | Gated residual (X18) | **Not attributable.** Best loss gain of any arm (4.4× bar) but the learned gate never opened — 0.0192 against a 0.05 bar, and only 5e-06 of variation in response to its input | The measured effect belonged to the branch normalisation, not to the data-dependent read the technique claims. Its documented init was also dead code, silently overwritten by the global re-init |
 | Document masking (X17) | Implemented and pre-registered, not yet run | — |
-| Licence audit (I16) | **41.7% of the code corpus is copyleft.** The filter existed and was tested — it landed 40 minutes *after* the corpus that needed it | A green test on a filter that ran on the wrong side of a timestamp reads exactly like safety |
+| Licence audit (I16) | **41.7% of the code corpus is under non-permissive licences (39.5% GPL-family).** The filter existed and was tested — it landed 40 minutes *after* the corpus that needed it | A green test on a filter that ran on the wrong side of a timestamp reads exactly like safety |
 | Dataset publishing (I17) | The Kaggle publisher defaults to `--dir-mode skip`, so the code dataset shipped with no configs, no eval folder, and no JSON at all | Every upload reported success. Assert the interface, then trust it |
 
 **Two measurement mistakes were our own.** A corpus rebuild silently replaced the
@@ -231,9 +231,13 @@ caps a session but never the run.
 
 Code: MIT (see `LICENSE`). Model weights: Apache-2.0.
 
-Training data is **not** redistributed. The v0.2.0 corpus is licence-clean by
-construction and could be released under three attribution conditions; the recipe,
-manifests and filter ship instead, which reproduces it exactly, since every source is
-public. The v0.1.2 code slice is **never** released — it was built without a licence
-check and is 41.7% copyleft. That is disclosed on the v0.1.2 card rather than quietly
-fixed.
+The full 2.4B-token training mixture is **not** redistributed. The four equalised
+per-source shards and the pinned probe set that the continual-update experiments
+are scored against (~498M tokens) **are** published in the
+[`kalia-v020`](https://huggingface.co/kalia-lm/kalia-v020) repo, hash-pinned in
+`corpus/manifest.json`, with the sources' attribution; the v0.2.0 corpus is
+licence-clean by construction. The recipe, manifests and filter ship here too and
+reproduce the full corpus exactly, since every source is public. The v0.1.2 code
+slice is **never** released — it was built without a licence check and is 41.7%
+non-permissive (39.5% GPL-family). That is disclosed on the v0.1.2 card rather
+than quietly fixed.

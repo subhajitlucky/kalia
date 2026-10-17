@@ -203,3 +203,44 @@ the resume schedule). In every case the defect was invisible to reading and to
 unit tests, and visible only to running the thing. The v0.3.0 arms are the first
 part of this project whose execution path is exercised end-to-end before it is
 trusted with quota.
+
+## D52 — The v0.2.0 card denied a redistribution the repository actually ships (2026-10-17)
+
+**Context.** An external audit of the published artifacts found that
+`kalia-lm/kalia-v020` contains `corpus/{fineweb,tinystories,cosmopedia,python}.bin`
+(4 × 249 MB, 124,500,691 tokens each), `corpus/probe_val.bin` and
+`corpus/manifest.json` — the equalised per-source shards and probe set published
+on 2026-10-07 for the continual-update experiments (journal 2026-10-08). The
+model card published the same day still said "Datasets are not redistributed
+here", as did the repo README and the publish checklist. The upload was
+deliberate; the disclosure was missing. This is the fourth instance of the D49
+shape: a confident public claim that a later change quietly made false.
+
+**Evidence.** All five published shards' LFS SHA-256 match
+`corpus/manifest.json` and `docs/legal/val-shard-hashes.json` exactly. The
+licence matrix had already concluded that redistributing the v0.2.0 corpus is
+"yes, conditional" (CDLA-Sharing notice, ODC-By attribution, Apache notice,
+filtered code) — the card contradicted the matrix, not the licence. The audit
+also found the card's YAML `datasets:` listed `sedthh/gutenberg_english` (an
+eval-probe source, not training data) and omitted Cosmopedia.
+
+**Decision.**
+1. The v0.2.0 card now discloses the released shards with per-file token counts,
+   sources, licences and attribution, and states that the full 2.4B-token
+   mixture remains undistributed.
+2. The repo README and the publish checklist are amended to the conditional
+   policy: raw data is never republished; only hash-pinned, attribution-complete
+   shards may be, and the checklist names the v0.2.0 `corpus/` release as the
+   sanctioned example.
+3. `tools/publish_model_card.py` now takes `--release v012|v020` (default v012,
+   so historical behaviour is unchanged). The v0.2.0 card was re-published and
+   verified byte-for-byte by round-trip download.
+
+**Standing lesson.** A published repository is a claim about its contents. When
+a later step adds files, the card that describes the repository has to move in
+the same change — the corpus upload and the card edit were minutes apart and
+still drifted. The audit that found this also confirmed the artefact side is
+sound: shards hash-match their pins, all Kaggle kernels and datasets are private,
+no copyleft bytes are published, and the only credential at rest is the
+`kalia-publish-aux` Kaggle dataset, which holds the publish token by design and
+must never be made public.
