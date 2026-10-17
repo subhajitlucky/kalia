@@ -35,4 +35,11 @@ Every decision, result and incident is recorded here. No silent changes.
 | 2026-09-28 | X19-branch-norm | `docs/preregistrations/2026-09-28-X19-branch-norm-isolation.md` | isolates the branch normalisation from the dead gate; one arm, G-1 bar 4.7544 |
 | 2026-09-28 | X19-am1 | `docs/preregistrations/2026-09-28-X19-amendment-1.md` | corrects G-2's parameter arithmetic, which was wrong in the direction that flattered the arm |
 | 2026-09-28 | legal | `docs/legal/training-data-licence-matrix.md` | per-source licence analysis; all four sources permit weight release, only v0.2.0's corpus is redistributable |
+| 2026-10-05 | `2026-10-05.md` | v0.3.0 pre-launch: amendment 1; launch-blocker I18 (continual arms never resumed) plus I19/I20 caught pre-GPU; X25 closed as a null across a 40× strength range; corpus rebuild moved local (I21) |
+| 2026-10-08 | `2026-10-08.md` | 58M control spread 0.2892 (2.5× the 30M ruler) trips the registered programme-stop for Steps 2–4; corpus contamination gate; Tier-1 retrieval/best-of-N probes; publish pipeline completes end to end |
+| 2026-10-09 | `2026-10-09.md` | X26 pilot: the level policy eats dessert (FineWeb 60→22.7%, train 2.63→1.79, val +0.0177); X27 RCAA withdrawn pre-GPU — the design leaked the future token by construction |
+| 2026-10-11 | `2026-10-11.md` | X28: static and level replicate exactly (≤0.003 per checkpoint), dessert cost +0.0183, trend halves the drift; entity-decode triples retention (+0.061 over greedy) |
+| 2026-10-12 | `2026-10-12.md` | X29 arms 1–2: uniform < jata on val; second CPU-invisible device-contract bug found on GPU; retention probe self-check refuses the wrong instrument (+0.1107); X30 drafted |
+| 2026-10-13 | `2026-10-13.md` | X29 closed: monotone four-rung staircase on val and retention (krama −0.0007 completes it); registered verdict pending the second seed |
+| 2026-10-17 | `2026-10-17.md` | External artifact + token-exposure audit (nothing exposed); corpus disclosure shipped (D52); tooling hardening (ledger drift classes in CI, curve-parser fix, decay clamp); seed-1402 replicas launched |
 
