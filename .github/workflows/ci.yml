@@ -9,7 +9,13 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
+      # Full history: tools/verify_prereg_ledger.py hashes each pre-registration
+      # at the commit that introduced it. A depth-1 checkout makes every file
+      # look added at HEAD, which silently verifies unedited files against the
+      # wrong commit and misreports edited ones.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:

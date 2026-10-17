@@ -95,6 +95,14 @@ def classify_drift(registered: list[str], current: list[str]) -> tuple[str, int,
     return ("EDITED" if edited else "extended", inserted, deleted)
 
 
+def is_shallow() -> bool:
+    rc = subprocess.run(
+        ["git", "rev-parse", "--is-shallow-repository"],
+        capture_output=True, text=True, cwd=ROOT,
+    )
+    return rc.stdout.strip() == "true"
+
+
 def registration_commit(path: str) -> str | None:
     """The commit that added the file, i.e. the newest commit naming it as added."""
     rc = subprocess.run(
@@ -108,6 +116,15 @@ def registration_commit(path: str) -> str | None:
 
 
 def main() -> int:
+    if is_shallow():
+        print("SHALLOW CLONE: registration history is truncated, so a hash cannot be")
+        print("checked against the commit that introduced each file. In a depth-1")
+        print("checkout every file looks added at HEAD: unedited pre-registrations")
+        print("verify against the wrong commit and edited ones report as mismatches.")
+        print("Fetch full history (actions/checkout fetch-depth: 0, or")
+        print("`git fetch --unshallow`) and rerun.")
+        return 1
+
     rows = []
     for line in LEDGER.read_text().splitlines():
         m = ROW.match(line)
