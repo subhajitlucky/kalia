@@ -25,6 +25,7 @@ Run as a Kaggle CPU kernel: no GPU quota.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import Counter
 
@@ -59,19 +60,28 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rows", type=int, default=20000, help="files to sample")
     parser.add_argument("--out", type=str, default="/kaggle/working/licence_mix.json")
+    parser.add_argument(
+        "--revision",
+        default=None,
+        help="dataset revision/sha to pin; recorded in the report for reproducibility",
+    )
     args = parser.parse_args()
 
     from datasets import load_dataset
 
     counts: Counter[str] = Counter()
     chars = Counter()
+    fingerprint = hashlib.sha256()
     seen = 0
-    ds = load_dataset("codeparrot/codeparrot-clean", split="train", streaming=True)
+    ds = load_dataset(
+        "codeparrot/codeparrot-clean", split="train", streaming=True, revision=args.revision
+    )
     for row in ds:
         seen += 1
         lic = (row.get("license") or "<none>").strip().lower()
         counts[lic] += 1
         chars[lic] += len(row.get("content") or "")
+        fingerprint.update(f"{lic}\x1f{len(row.get('content') or '')}\n".encode())
         if seen >= args.rows:
             break
 
@@ -92,6 +102,10 @@ def main() -> None:
         return round(sum(chars[k] for k in d) / total_chars, 4) if total_chars else 0.0
 
     report = {
+        "dataset": "bigcode/codeparrot-clean",
+        "revision": args.revision,
+        "sampling": f"first {args.rows} streaming rows (not a random sample)",
+        "sample_fingerprint_sha256": fingerprint.hexdigest(),
         "sampled_files": total_files,
         "sampled_chars": total_chars,
         "permissive_licenses": sorted(PERMISSIVE_CODE_LICENSES),

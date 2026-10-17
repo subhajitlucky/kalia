@@ -15,15 +15,16 @@ answer rather than a question about prose.
 
 Two properties matter more than the parsing itself:
 
-1. **Provenance.** Every number carries the kernel and the log line it came
+1. **Provenance.** Every number carries the kernel and the log file it came
    from, so a reader can check a value without re-running anything. A number
-   with no source line is a number we typed, and those are marked ``source:
+   with no source is a number we typed, and those are marked ``source:
    "prereg"`` rather than pretending to be measured.
 
 2. **Not inventing data.** Where a log is truncated, this records the
    truncation instead of filling the hole. ``kaggle_live_log.py`` returns a
-   rolling window, so older arms fall out of it; that happened to X20 and X19,
-   where only the treatment arm survived. Those arms are ``truncated: true``.
+   rolling window, so older arms fall out of it; X18's window closed before its
+   ablation summary printed, and X19's/X20's controls were never in the
+   archived window at all. Those records are ``truncated: true``.
 
 Usage:
     python tools/collect_results.py --check     # verify committed data is current
@@ -63,7 +64,10 @@ KERNELS = {
     "x21": "subhajitlucky/kalia-x21-replication",
 }
 
-CURVE = re.compile(r"^(micro-[a-z0-9-]+)\s+((?:\d+=[0-9.]+\s*)+)")
+# ablate.py prints "<arm> <step>,<loss>" and "<arm>: <step>=<loss> ...". The
+# colon form (X19, X20) was missed by the first CURVE regex, which recorded
+# curves sitting in the archived logs as lost. Accept both.
+CURVE = re.compile(r"^(micro-[a-z0-9-]+):?\s+((?:\d+=[0-9.]+\s*)+)")
 SUMMARY = re.compile(r"^(micro-[a-z0-9-]+)\s+\d+,([0-9.]+)")
 
 # Arms whose numbers the archived logs do not contain. kaggle_live_log.py returns

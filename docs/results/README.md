@@ -36,8 +36,10 @@ the two cannot drift.
 | `prereg:<exp>` | transcribed from a pre-registration's prose — **not** parsed from a run |
 
 `val_curve: null` with `truncated: true` means the number is real but its curve
-was lost. `kaggle_live_log.py` returns a rolling window, so older arms fall out
-of it. Seven of the eleven arms are in that state.
+was lost or never in the archived window. `kaggle_live_log.py` returns a rolling
+window, so older arms fall out of it. Five of the eleven arms are in that state:
+X18's three (its window closed before the summary printed) and the X19/X20
+controls (never in their surviving windows).
 
 ## The results
 
@@ -46,15 +48,16 @@ of it. Seven of the eleven arms are in that state.
 | X18 | `micro-base` | 29,920,512 | 4.7662 | — | lost |
 | X18 | `micro-gated` | 30,072,768 | 4.7226 | −0.0436 | lost |
 | X18 | `micro-nope` | 29,920,512 | 4.7772 | +0.0110 | lost |
-| X19 | `micro-branchnorm` | 29,922,816 | 4.7680 | +0.0018 | lost |
-| X20 | `micro-staticgate` | 29,999,040 | 4.6304 | −0.1358 | lost |
+| X19 | `micro-branchnorm` | 29,922,816 | 4.7680 | +0.0018 | full |
+| X20 | `micro-staticgate` | 29,999,040 | 4.6304 | −0.1358 | full |
 | **X21** | `micro-base-s1338` | 29,920,512 | 4.8769 | — | **full** |
 | **X21** | `micro-staticgate-s1338` | 29,999,040 | 4.9623 | **+0.0854** | **full** |
 | **X21** | `micro-base-s1339` | 29,920,512 | 4.8908 | — | **full** |
 | **X21** | `micro-staticgate-s1339` | 29,999,040 | 4.9087 | **+0.0179** | **full** |
 
-Only X21 has complete curves, because it is the only run whose log was archived
-whole.
+X19, X20 and X21 have complete curves. The X19/X20 treatment curves were in the
+archived logs all along; the collector's first curve regex did not match their
+colon format and recorded them as lost until 2026-10-17.
 
 ## v0.3.0 Step 1 — the 58M control spread (2026-10-08)
 

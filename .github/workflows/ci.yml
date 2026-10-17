@@ -28,3 +28,6 @@ jobs:
 
       - name: Results data still matches its logs
         run: python tools/collect_results.py --check
+
+      - name: Pre-registration ledger verifies
+        run: python tools/verify_prereg_ledger.py
