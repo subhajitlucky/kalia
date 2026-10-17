@@ -6,7 +6,9 @@ replay shard is carved in-runner from ``train.bin`` (10%, 32 blocks, seed
 1337) — the same shard for every arm; only the presentation order differs.
 See ``docs/preregistrations/2026-10-11-X29-patha-replay.md``.
 
-Separate kernels per arm: a failed run publishes no outputs.
+``ARM`` and ``SEED`` are patched by ``tools/stage_x29_arm.py`` (a seed other
+than 1401 is the registered second-seed replication). Separate kernels per arm:
+a failed run publishes no outputs.
 """
 
 import glob
@@ -18,6 +20,7 @@ import sys
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 ARM = "uniform"  # uniform | krama | jata | ghana
+SEED = "1401"  # staging patches this for the seed-1402 replication
 
 work = "/kaggle/working/kalia"
 if not os.path.exists(work):
@@ -73,7 +76,7 @@ config["train"].update(
         "rewarm": True,
         "replay_prob": 0.10,
         "replay_pattern": ARM,
-        "seed": 1401,
+        "seed": int(SEED),
     }
 )
 cfg_path = f"/kaggle/working/x29-{ARM}.yaml"
@@ -86,7 +89,7 @@ cmd = [
     "--data-dir", data_dir,
     "--out-dir", out_dir,
     "--resume-from", resume_src,
-    "--seed", "1401",
+    "--seed", SEED,
     "--replay-bin", f"{replay_dir}/replay.bin",
 ]
 if torch.cuda.device_count() >= 2:

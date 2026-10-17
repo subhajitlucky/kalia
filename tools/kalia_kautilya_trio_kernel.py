@@ -4,8 +4,10 @@ One arm per kernel run; ``ARM`` is set below, and each arm resumes from v0.2.0
 at step 4770, seed 1401, `rewarm: true`, 1000 update steps. See
 ``docs/preregistrations/2026-10-09-X28-kautilya-trend.md``.
 
-Separate kernels per arm on purpose: a failed run publishes no outputs, and the
-X26 pilot lost a completed arm that way.
+``ARM`` and ``SEED`` are patched by ``tools/stage_x29_arm.py`` (a seed other
+than 1401 is the registered second-seed replication). Separate kernels per arm
+on purpose: a failed run publishes no outputs, and the X26 pilot lost a
+completed arm that way.
 """
 
 import glob
@@ -18,6 +20,7 @@ import sys
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 ARM = "static"  # static | level | trend
+SEED = "1401"  # staging patches this for the seed-1402 replication
 
 ARM_SETTINGS = {
     "static": {"adaptive_every": 0, "adaptive_trend_window": 1},
@@ -68,7 +71,7 @@ cfg_path = f"/kaggle/working/kautilya-{ARM}.yaml"
 config = yaml.safe_load(open("configs/kalia-kautilya.yaml"))
 config["train"].update(ARM_SETTINGS[ARM])
 config["train"]["rewarm"] = True
-config["train"]["seed"] = 1401
+config["train"]["seed"] = int(SEED)
 yaml.safe_dump(config, open(cfg_path, "w"))
 
 cmd = [
@@ -77,7 +80,7 @@ cmd = [
     "--data-dir", data_dir,
     "--out-dir", out_dir,
     "--resume-from", resume_src,
-    "--seed", "1401",
+    "--seed", SEED,
     "--sources", *NAMES,
     "--source-bins", *[shard_paths[n] for n in NAMES],
     "--source-weights", json.dumps(WEIGHTS),
