@@ -408,6 +408,16 @@ def per_source_loss(
     Each source is evaluated on its own shard only, so the numbers are comparable
     across sources even though absolute loss differs by domain.
 
+    Protocol note: this is not identical to the registered held-out metric. The
+    forward runs under the document mask (within-document attention), while
+    ``eval_val.py`` scores with plain causal attention; and the cross-entropy
+    here averages every position, while the model's own masked loss excludes
+    targets that open a new document. The Kautilya arms train without
+    ``--doc-mask``, so neither protocol is "the" training distribution exactly.
+    The policy reads these numbers as a *trend per source*, which is why the
+    recorded X26/X28 behaviour remains interpretable; it does not read them as
+    the registered 100-batch val loss, and neither should anything else.
+
     The forward is chunked into ``micro_batch`` rows because the full-batch
     logits are ~3 GiB at batch 16 x context 1024 (16,384 x 50,257 fp32) and the
     training process already holds most of the card. The first real run of the

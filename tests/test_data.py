@@ -77,3 +77,21 @@ def test_reversal_off_is_identity(tmp_path):
     x, y = ds.get_batch(4, torch.device("cpu"), torch.Generator().manual_seed(3))
     assert torch.equal(y, x + 1)
     assert torch.equal(y[:, :-1], x[:, 1:])
+
+
+def test_final_valid_window_is_reachable(tmp_path):
+    """The last valid start must be sampleable (off-by-one regression).
+
+    A file of context_len + 2 tokens has exactly two valid starts: 0 and 1.
+    The sampler used randint(max_start), whose exclusive high bound excluded 1
+    entirely, so the final window was never drawn.
+    """
+    ctx = 8
+    path = tmp_path / "tiny.bin"
+    _write_bin(path, list(range(ctx + 2)))  # tokens 0..9
+    ds = TokenDataset(path, context_len=ctx)
+    starts = set()
+    for seed in range(20):
+        x, _ = ds.get_batch(32, torch.device("cpu"), torch.Generator().manual_seed(seed))
+        starts.update(x[:, 0].tolist())
+    assert starts == {0, 1}, starts

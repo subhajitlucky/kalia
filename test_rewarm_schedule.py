@@ -67,13 +67,19 @@ def test_train_py_actually_rebases_the_schedule():
     assert "lr_origin" in src
 
 
-def test_rewarm_can_be_disabled_for_the_control_arm():
-    """Step 2's control arm is the same code with rewarm off."""
-    assert "rewarm" in src_check()
+def test_rewarm_can_be_disabled_for_the_control_arm(tmp_path):
+    """Step 2's control arm is the same code with rewarm off.
 
-
-def src_check() -> str:
-    return open("train.py").read()
+    The observable is the learning rate: with the origin unrebased the resumed
+    run continues the source schedule, which for a max_steps-10 config is
+    already the decayed floor at step 61. If this arm ever climbs, the control
+    is re-warming and Step 2 is comparing two treatments.
+    """
+    lrs, out = _run_pair(tmp_path, rewarm=False)
+    assert "continue the source run" in out
+    assert lrs, "the control trained no steps"
+    floor = CFG["learning_rate"] * CFG["min_lr_ratio"]
+    assert all(abs(v - floor) < 1e-12 for v in lrs), (max(lrs), floor)
 
 
 def test_schedule_stays_within_bounds():
@@ -98,12 +104,8 @@ def test_min_lr_ratio_is_not_zero_so_the_floor_is_meaningful():
 
 # --- integration: the two arms must actually differ, verified by running them ---
 
-def _run_pair(tmp_path, rewarm: bool, update_steps: int = 40):
-    """Train 60 steps, then resume for `update_steps` more. Returns the LRs."""
-    import csv
-    import subprocess
-    import sys
-
+def _micro_env(tmp_path):
+    """A toy corpus plus a config writer, shared by the integration tests."""
     import torch
 
     data = tmp_path / "data"
@@ -121,6 +123,17 @@ def _run_pair(tmp_path, rewarm: bool, update_steps: int = 40):
         c["train"].update(micro_batch_size=4, grad_accum_steps=2, sample_interval=0,
                           log_interval=1, checkpoint_interval_minutes=0.001, **over)
         path.write_text(yaml.safe_dump(c))
+
+    return data, write
+
+
+def _run_pair(tmp_path, rewarm: bool, update_steps: int = 40):
+    """Train 60 steps, then resume for `update_steps` more. Returns the LRs."""
+    import csv
+    import subprocess
+    import sys
+
+    data, write = _micro_env(tmp_path)
 
     out = tmp_path / ("r" if rewarm else "n")
     write(tmp_path / "a.yaml", max_steps=60, warmup_steps=10, eval_interval=20,
@@ -213,3 +226,43 @@ def test_update_budget_is_ignored_without_a_resume():
     """A fresh run must not get origin-relative arithmetic against origin 0."""
     src = open("train.py").read()
     assert "if update_budget and start_step:" in src
+
+
+def test_decay_after_target_stays_inside_the_runs_own_budget(tmp_path):
+    """Reaching the target on a continual run must decay, not stop on the spot.
+
+    The stop clamp used the config's *absolute* max_steps, which on a resumed
+    run sits behind start_step: reaching the target set hard_max_steps below the
+    current step and ended the run at the eval boundary instead of decaying
+    decay_steps_after_target more steps. The clamp must use this run's own
+    ceiling (start_step + update_budget).
+    """
+    import csv
+    import subprocess
+    import sys
+
+    data, write = _micro_env(tmp_path)
+    out = tmp_path / "d"
+    write(tmp_path / "a.yaml", max_steps=60, warmup_steps=10, eval_interval=20, eval_steps=2)
+    r = subprocess.run(
+        [sys.executable, "train.py", "--config", str(tmp_path / "a.yaml"),
+         "--data-dir", str(data), "--out-dir", str(out), "--max-steps", "60", "--seed", "5"],
+        capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0, r.stderr[-2000:]
+
+    write(tmp_path / "b.yaml", max_steps=10, warmup_steps=8, eval_interval=10, eval_steps=1,
+          update_budget=30, target_val_loss=1e9, decay_steps_after_target=10)
+    r2 = subprocess.run(
+        [sys.executable, "train.py", "--config", str(tmp_path / "b.yaml"),
+         "--data-dir", str(data), "--out-dir", str(out), "--resume", "--seed", "5"],
+        capture_output=True, text=True, timeout=600)
+    assert r2.returncode == 0, r2.stderr[-2000:]
+
+    steps = [int(row["step"]) for row in csv.DictReader((out / "train_log.csv").open())]
+    target_step = 70  # first eval boundary after the resume at 60
+    assert target_step in steps, (min(steps), max(steps))
+    assert max(steps) == target_step + 10, (
+        f"run ended at {max(steps)}; after the target at {target_step} it must "
+        "decay 10 more steps, not stop at the absolute ceiling"
+    )
+    assert "target reached: decaying 10 steps" in r2.stdout

@@ -113,8 +113,12 @@ class TokenDataset:
         generator: torch.Generator | None = None,
         return_masks: bool = False,
     ) -> tuple[torch.Tensor, ...]:
+        # max_start is the last start whose x and y windows both fit: y ends at
+        # i + 1 + context_len, so i == len - context_len - 1 is valid. randint's
+        # high bound is exclusive, so it must be max_start + 1; passing
+        # max_start made the final window unreachable.
         max_start = len(self.tokens) - self.context_len - 1
-        starts = torch.randint(max_start, (batch_size,), generator=generator)
+        starts = torch.randint(max_start + 1, (batch_size,), generator=generator)
         x = torch.stack(
             [torch.from_numpy(self.tokens[i : i + self.context_len].astype(np.int64)) for i in starts]
         )

@@ -691,7 +691,12 @@ def main(argv=None) -> None:
                 if target is not None and decay_start is not None and not decay_stop_scheduled:
                     decay_stop_scheduled = True
                     extra = int(train_cfg.get("decay_steps_after_target", 0))
-                    hard_max_steps = min(train_cfg["max_steps"], decay_start + extra)
+                    # Clamp against this run's own ceiling, not the config's
+                    # absolute max_steps. For a continual run (update_budget)
+                    # the absolute ceiling is already behind start_step, so
+                    # min(max_steps, ...) would end the run on the spot
+                    # instead of decaying.
+                    hard_max_steps = min(hard_max_steps, decay_start + extra)
                     if is_master:
                         print(f"target reached: decaying {extra} steps, then stopping")
 
