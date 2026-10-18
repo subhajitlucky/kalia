@@ -66,6 +66,14 @@ KERNELS = {
         "arms": {"docmask": None},
         "pins": (),
     },
+    # The 2x2 re-evaluation: scores the four archived X17 checkpoints under both
+    # evaluation settings, on CPU. Same shape as x17 -- one kernel, no per-arm
+    # seed -- so nothing to pin but the identity.
+    "x17eval": {
+        "runner": "kalia_x17_eval_kernel.py",
+        "arms": {"mask2x2": None},
+        "pins": (),
+    },
 }
 
 
