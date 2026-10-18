@@ -102,13 +102,18 @@ assert val_hits, "attach subhajitlucky/kalia-prep-v2b as a kernel source for val
 val_bin = val_hits[0]
 print("val shard:", val_bin)
 
-ckpt_root = None
-for hit in sorted(glob.glob("/kaggle/input/**/ckpt.pt", recursive=True)):
-    if "/x17" in hit:
-        ckpt_root = Path(hit).parent.parent
-        break
-assert ckpt_root, "attach subhajitlucky/kalia-x17-docmask as a kernel source"
-print("checkpoints:", ckpt_root)
+ckpt_hits = sorted(glob.glob("/kaggle/input/**/ckpt.pt", recursive=True))
+# The mount is /kaggle/input/notebooks/<owner>/kalia-x17-docmask/out/<arm>/ckpt.pt,
+# so the segment is "kalia-x17-docmask" and not "x17": a filter on "/x17" matched
+# nothing and the run died before touching a checkpoint. Matching the full slug and
+# asserting the count makes the next such mistake print everything it did see.
+x17_hits = [p for p in ckpt_hits if "kalia-x17-docmask" in p]
+assert len(x17_hits) == 4, (
+    f"expected four X17 checkpoints, found {len(x17_hits)}: {x17_hits}\n"
+    f"every ckpt.pt under /kaggle/input: {ckpt_hits}"
+)
+ckpt_root = Path(x17_hits[0]).parent.parent
+print("checkpoints:", ckpt_root, "|", len(x17_hits))
 
 
 @torch.no_grad()
