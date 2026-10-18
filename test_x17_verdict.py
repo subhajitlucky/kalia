@@ -31,22 +31,25 @@ V = _load("x17_verdict")
 STEPS = (100, 200, 300, 400, 500)
 
 
-def _archive(tmp_path: Path, *, control: dict, treatment: dict, tps: dict,
+def _archive(tmp_path: Path, *, control: dict, treatment: dict, sec_per_step: dict,
              engagement: float = 0.42) -> Path:
-    """Write a synthetic archive in the shape the run leaves behind."""
+    """Write a synthetic archive in the shape the run leaves behind.
+
+    No kernel log: DM-3 reads `elapsed_s` out of `train_log.csv`, which is exact
+    where the log is buffered text. Two earlier attempts at DM-3 parsed the log
+    and both were wrong for reasons unrelated to the experiment.
+    """
     for seed in V.SEEDS:
         for arm, curve in (("control", control), ("treatment", treatment)):
             rows = ["step,val_loss"] + [f"{s},{curve[seed][s]}" for s in STEPS]
             (tmp_path / f"val_log-{arm}-s{seed}.csv").write_text("\n".join(rows) + "\n")
 
-    lines = []
-    for seed in V.SEEDS:
-        for arm in ("control", "treatment"):
-            lines.append(f"ARM: {arm}-s{seed}")
-            rate = f"{tps[(arm, seed)]:,}"
-            lines += [f"step {s}/500 | loss 3.0000 | lr 6.00e-04 | {rate} tok/s"
-                      for s in STEPS]
-    (tmp_path / "kalia-x17-docmask.log").write_text("\n".join(lines) + "\n")
+            rate = sec_per_step[(arm, seed)]
+            elapsed, train = 0.0, ["step,loss,lr,tokens,elapsed_s"]
+            for i, s in enumerate(range(10, 501, 10), start=1):
+                elapsed += rate * 10
+                train.append(f"{s},3.0,6.0e-04,{65536 * i * 10},{elapsed:.1f}")
+            (tmp_path / f"train_log-{arm}-s{seed}.csv").write_text("\n".join(train) + "\n")
 
     (tmp_path / "run_manifest.json").write_text(
         json.dumps({"dm4_mask_engagement": engagement})
@@ -67,8 +70,8 @@ def _passing(tmp_path: Path) -> Path:
         tmp_path,
         control=_curve(3.9000, 3.9100),
         treatment=_curve(3.8700, 3.8800),   # deltas -0.030 both seeds
-        tps={("control", "1338"): 30000, ("treatment", "1338"): 28000,
-             ("control", "1339"): 30000, ("treatment", "1339"): 28500},
+        sec_per_step={("control", "1338"): 2.00, ("treatment", "1338"): 2.10,
+                   ("control", "1339"): 2.00, ("treatment", "1339"): 2.14},
     )
 
 
@@ -87,7 +90,7 @@ def test_a_mean_carried_by_one_seed_fails_dm1b(tmp_path):
         tmp_path,
         control=_curve(3.9000, 3.9100),
         treatment=_curve(3.8400, 3.9200),   # -0.060 then +0.010
-        tps={("control", s): 30000 for s in V.SEEDS} | {("treatment", s): 29000 for s in V.SEEDS},
+        sec_per_step={("control", s): 2.00 for s in V.SEEDS} | {("treatment", s): 2.10 for s in V.SEEDS},
     )
     v = V.compute(root)
     assert v["dm1_mean_delta"] == pytest.approx(-0.025)
@@ -101,7 +104,7 @@ def test_missing_the_bar_fails_dm1(tmp_path):
         tmp_path,
         control=_curve(3.9000, 3.9100),
         treatment=_curve(3.8950, 3.9050),   # -0.005 both seeds: concordant, too small
-        tps={("control", s): 30000 for s in V.SEEDS} | {("treatment", s): 29500 for s in V.SEEDS},
+        sec_per_step={("control", s): 2.00 for s in V.SEEDS} | {("treatment", s): 2.10 for s in V.SEEDS},
     )
     v = V.compute(root)
     assert v["dm1"] is False
@@ -116,12 +119,12 @@ def test_winning_by_being_slower_fails_dm3(tmp_path):
         tmp_path,
         control=_curve(3.9000, 3.9100),
         treatment=_curve(3.8700, 3.8800),
-        tps={("control", s): 30000 for s in V.SEEDS} | {("treatment", s): 21000 for s in V.SEEDS},
+        sec_per_step={("control", s): 2.00 for s in V.SEEDS} | {("treatment", s): 2.60 for s in V.SEEDS},
     )
     v = V.compute(root)
     assert v["dm1"] is True
     assert v["dm3"] is False
-    assert all(r == pytest.approx(30000 / 21000) for r in v["dm3_ratios"].values())
+    assert all(r["slowdown"] == pytest.approx(2.60 / 2.00) for r in v["per_seed"].values())
 
 
 def test_an_inert_mask_fails_dm4(tmp_path):
@@ -131,7 +134,7 @@ def test_an_inert_mask_fails_dm4(tmp_path):
         tmp_path,
         control=_flat(3.9000),
         treatment=_flat(3.8800),
-        tps={("control", s): 30000 for s in V.SEEDS} | {("treatment", s): 29500 for s in V.SEEDS},
+        sec_per_step={("control", s): 2.00 for s in V.SEEDS} | {("treatment", s): 2.10 for s in V.SEEDS},
         engagement=1.0,
     )
     v = V.compute(root)
@@ -149,7 +152,7 @@ def test_an_effect_that_only_appears_at_the_end_fails_dm2(tmp_path):
         tmp_path,
         control=control,
         treatment=treatment,
-        tps={("control", s): 30000 for s in V.SEEDS} | {("treatment", s): 29500 for s in V.SEEDS},
+        sec_per_step={("control", s): 2.00 for s in V.SEEDS} | {("treatment", s): 2.10 for s in V.SEEDS},
     )
     v = V.compute(root)
     assert v["dm1"] is True, "the final number clears the bar"
@@ -163,10 +166,12 @@ def test_a_missing_archive_says_so_instead_of_guessing(tmp_path):
         V.compute(tmp_path)
 
 
-def test_a_missing_log_is_reported_not_defaulted(tmp_path):
+def test_a_missing_train_log_is_reported_not_defaulted(tmp_path):
+    """DM-3 has no fallback: without elapsed_s there is no step time, and
+    guessing one from the kernel log is what made two earlier versions wrong."""
     root = _passing(tmp_path)
-    (root / "kalia-x17-docmask.log").unlink()
-    with pytest.raises(FileNotFoundError, match="DM-3 needs its throughput"):
+    (root / "train_log-treatment-s1339.csv").unlink()
+    with pytest.raises(FileNotFoundError, match="has the run been archived"):
         V.compute(root)
 
 
@@ -179,7 +184,7 @@ def test_the_exit_code_encodes_computability_not_outcome(tmp_path, capsys):
         tmp_path,
         control=_curve(3.9000, 3.9100),
         treatment=_curve(3.8950, 3.9050),
-        tps={("control", s): 30000 for s in V.SEEDS} | {("treatment", s): 29500 for s in V.SEEDS},
+        sec_per_step={("control", s): 2.00 for s in V.SEEDS} | {("treatment", s): 2.10 for s in V.SEEDS},
     )
     r = subprocess.run(
         [sys.executable, "tools/x17_verdict.py", "--dir", str(root)],

@@ -6,28 +6,31 @@ hand from its results file, and a verdict assembled by hand is one transcription
 away from being wrong — so this computes all five from the artefacts the run
 leaves behind, and prints them with the numbers that decided each.
 
-Both inputs are things the run already produces; nothing here is inferred:
+Every input is a CSV or a JSON the run already writes. Nothing is parsed out of
+the kernel log: DM-3 turns on step time, and `train_log.csv` records `elapsed_s`
+directly, which is exact where the log is a wall of buffered text. The first two
+attempts at DM-3 parsed throughput out of the kernel log and both were wrong for
+reasons that had nothing to do with the experiment — the log is JSON-framed, and
+`ablate.py`'s own prints are block-buffered while its subprocess writes directly,
+so the arm markers do not delimit the arms at all.
 
-  val_log-<arm>-s<seed>.csv   the per-arm validation curve (train.py writes it)
-  <run>.log                   the kernel log, for step throughput (DM-3)
-  run_manifest.json           for DM-4, the mask engagement measured before
-                              training
+  val_log-<arm>-s<seed>.csv     the validation curve       (DM-1, DM-1b, DM-2, DM-5)
+  train_log-<arm>-s<seed>.csv   step, loss, lr, tokens, elapsed_s   (DM-3)
+  run_manifest.json             mask engagement measured before training  (DM-4)
 
 Usage:
     python tools/x17_verdict.py                  # docs/results/x17
     python tools/x17_verdict.py --dir <path>
 
 Exit codes describe whether the verdict could be computed, never whether the
-experiment passed: a scientific outcome must not masquerade as a build failure.
-`0` computed, `2` inputs missing or unparseable.
+experiment passed: `0` computed, `2` inputs missing or unparseable. A scientific
+outcome must not masquerade as a build failure.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
-import re
-import statistics
 import sys
 from pathlib import Path
 
@@ -41,51 +44,59 @@ DM3_MAX_SLOWDOWN = 1.25   # treatment step time / control step time
 DM2_MIN_POINTS = 3
 DM2_MIN_TOTAL = 5
 
-TOKS = re.compile(r"step \d+/\d+ \| loss [\d.]+ \| lr [\deE.+-]+ \| ([\d,]+) tok/s")
-ARM_MARK = re.compile(r"^ARM: (\S+)", re.M)
+
+def _rows(path: Path) -> list[list[str]]:
+    rows = path.read_text().strip().splitlines()
+    if not rows:
+        raise ValueError(f"{path.name}: empty")
+    return [r.split(",") for r in rows]
 
 
 def read_curve(path: Path) -> dict[int, float]:
     """`step,val_loss[,bpb]` -> {step: val_loss}."""
-    rows = path.read_text().strip().splitlines()
-    assert rows and rows[0].startswith("step"), f"{path.name}: not a val log"
-    out = {}
-    for row in rows[1:]:
-        cells = row.split(",")
-        if len(cells) >= 2:
-            out[int(cells[0])] = float(cells[1])
-    return out
+    rows = _rows(path)
+    if not rows[0] or not rows[0][0].startswith("step"):
+        raise ValueError(f"{path.name}: not a val log")
+    return {int(r[0]): float(r[1]) for r in rows[1:] if len(r) >= 2}
 
 
-def throughput_by_arm(log_text: str) -> dict[str, float]:
-    """Median tok/s per arm, segmented by ablate.py's `ARM: <name>` markers."""
-    markers = list(ARM_MARK.finditer(log_text))
-    rates: dict[str, list[int]] = {}
-    for i, m in enumerate(markers):
-        end = markers[i + 1].start() if i + 1 < len(markers) else len(log_text)
-        chunk = log_text[m.end():end]
-        hits = [int(v.replace(",", "")) for v in TOKS.findall(chunk)]
-        if hits:
-            rates[m.group(1)] = hits
-    return {arm: statistics.median(v) for arm, v in rates.items()}
+def step_seconds(path: Path) -> float:
+    """Steady-state seconds per step, excluding the first interval.
+
+    `elapsed_s` is cumulative, so the difference between two rows over the steps
+    between them is the real cost — warmup and the first fused kernels included
+    in row one are excluded rather than averaged in, because they are not what
+    DM-3 is bounding.
+    """
+    rows = _rows(path)
+    if rows[0][:2] != ["step", "loss"] and "elapsed_s" not in rows[0]:
+        raise ValueError(f"{path.name}: no elapsed_s column")
+    body = rows[1:]
+    if len(body) < 2:
+        raise ValueError(f"{path.name}: too few rows to difference")
+    first, last = body[0], body[-1]
+    try:
+        d_steps = int(last[0]) - int(first[0])
+        d_time = float(last[4]) - float(first[4])
+    except (IndexError, ValueError) as exc:
+        raise ValueError(f"{path.name}: unreadable step/elapsed_s ({exc})") from exc
+    if d_steps <= 0:
+        raise ValueError(f"{path.name}: no step span to measure")
+    return d_time / d_steps
 
 
 def compute(directory: Path = ARCHIVE) -> dict:
     directory = Path(directory)
-    curves = {}
+    curves, costs = {}, {}
     for seed in SEEDS:
         for arm in (CONTROL, TREATMENT):
-            path = directory / f"val_log-{arm}-s{seed}.csv"
-            if not path.exists():
-                raise FileNotFoundError(f"{path} not found -- has the run been archived?")
-            curves[(arm, seed)] = read_curve(path)
-
-    logs = sorted(directory.glob("*.log"))
-    if not logs:
-        raise FileNotFoundError(f"no kernel log in {directory} -- DM-3 needs its throughput")
-    rates = throughput_by_arm(logs[0].read_text())
-    if not rates:
-        raise ValueError(f"{logs[0].name}: no `ARM:` markers with tok/s lines")
+            val = directory / f"val_log-{arm}-s{seed}.csv"
+            train = directory / f"train_log-{arm}-s{seed}.csv"
+            for path in (val, train):
+                if not path.exists():
+                    raise FileNotFoundError(f"{path} not found -- has the run been archived?")
+            curves[(arm, seed)] = read_curve(val)
+            costs[(arm, seed)] = step_seconds(train)
 
     manifest_path = directory / "run_manifest.json"
     if not manifest_path.exists():
@@ -94,39 +105,37 @@ def compute(directory: Path = ARCHIVE) -> dict:
 
     per_seed = {}
     for seed in SEEDS:
-        control = curves[(CONTROL, seed)]
-        treatment = curves[(TREATMENT, seed)]
+        control, treatment = curves[(CONTROL, seed)], curves[(TREATMENT, seed)]
         shared = sorted(set(control) & set(treatment))
-        ahead = sum(1 for s in shared if treatment[s] < control[s])
-        c_tps = rates.get(f"{CONTROL}-s{seed}")
-        t_tps = rates.get(f"{TREATMENT}-s{seed}")
         per_seed[seed] = {
             "control_final": control[max(control)],
             "treatment_final": treatment[max(treatment)],
             "delta": treatment[max(treatment)] - control[max(control)],
-            "points_ahead": ahead,
+            "points_ahead": sum(1 for s in shared if treatment[s] < control[s]),
             "points_total": len(shared),
-            # step time is inverse throughput, so this is the slowdown factor
-            "slowdown": (c_tps / t_tps) if (c_tps and t_tps) else None,
+            "control_s_per_step": costs[(CONTROL, seed)],
+            "treatment_s_per_step": costs[(TREATMENT, seed)],
+            "slowdown": costs[(TREATMENT, seed)] / costs[(CONTROL, seed)],
         }
 
     deltas = [v["delta"] for v in per_seed.values()]
     mean_delta = sum(deltas) / len(deltas)
+    dm1 = mean_delta <= DM1_BAR
+    dm1b = all(d < 0 for d in deltas)
+    dm2 = all(v["points_ahead"] >= DM2_MIN_POINTS for v in per_seed.values())
+    dm3 = all(v["slowdown"] <= DM3_MAX_SLOWDOWN for v in per_seed.values())
     return {
         "per_seed": per_seed,
         "dm1_mean_delta": mean_delta,
-        "dm1": mean_delta <= DM1_BAR,
-        "dm1b": all(d < 0 for d in deltas),
-        "dm2": all(v["points_ahead"] >= DM2_MIN_POINTS for v in per_seed.values()),
-        "dm3_ratios": {s: v["slowdown"] for s, v in per_seed.items()},
-        "dm3": all(r is not None and r <= DM3_MAX_SLOWDOWN for r in
-                   (v["slowdown"] for v in per_seed.values())),
+        "dm1": dm1,
+        "dm1b": dm1b,
+        "dm2": dm2,
+        "dm3": dm3,
         "dm4_engagement": engagement,
         "dm4": engagement < 1.0,
         "dm5_spread": max(deltas) - min(deltas),
         # The registered decision rule: DM-1 and DM-2 pass -> promote.
-        "promote": mean_delta <= DM1_BAR and all(d < 0 for d in deltas)
-        and all(v["points_ahead"] >= DM2_MIN_POINTS for v in per_seed.values()),
+        "promote": dm1 and dm1b and dm2,
     }
 
 
@@ -144,11 +153,12 @@ def main() -> int:
 
     print(f"X17 doc-mask — archive {args.dir}")
     for seed, row in v["per_seed"].items():
-        slow = f"{row['slowdown']:.3f}" if row["slowdown"] else "n/a"
         print(
             f"  seed {seed}: control {row['control_final']:.4f}  "
             f"treatment {row['treatment_final']:.4f}  delta {row['delta']:+.4f}  "
-            f"ahead {row['points_ahead']}/{row['points_total']}  slowdown {slow}"
+            f"ahead {row['points_ahead']}/{row['points_total']}  "
+            f"step {row['control_s_per_step']:.3f}s -> {row['treatment_s_per_step']:.3f}s "
+            f"(x{row['slowdown']:.3f})"
         )
     print()
     print(f"  DM-1   {'PASS' if v['dm1'] else 'FAIL'}  mean paired delta "
@@ -157,8 +167,7 @@ def main() -> int:
     print(f"  DM-2   {'PASS' if v['dm2'] else 'FAIL'}  treatment ahead at "
           f">={DM2_MIN_POINTS}/{DM2_MIN_TOTAL} points at both seeds")
     print(f"  DM-3   {'PASS' if v['dm3'] else 'FAIL'}  step-time slowdown "
-          f"{', '.join(f'{s}:{r:.3f}' for s, r in v['dm3_ratios'].items() if r)} "
-          f"(max {DM3_MAX_SLOWDOWN})")
+          f"{max(r['slowdown'] for r in v['per_seed'].values()):.3f} (max {DM3_MAX_SLOWDOWN})")
     print(f"  DM-4   {'PASS' if v['dm4'] else 'FAIL'}  mask engagement "
           f"{v['dm4_engagement']:.4f} < 1.0")
     print(f"  DM-5   spread {v['dm5_spread']:.4f} (reported, no threshold)")
