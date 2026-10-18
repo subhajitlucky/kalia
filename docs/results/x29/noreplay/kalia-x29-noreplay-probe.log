@@ -1,0 +1,31 @@
+[{"stream_name":"stdout","time":2.400980874,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":7.177357152,"data":"probe shard: hub pull kalia-lm/kalia-v020/corpus/probe_val.bin\n"}
+,{"stream_name":"stdout","time":7.185236311,"data":"probe sha256 ok (1664f71a4b5e...)\n"}
+,{"stream_name":"stdout","time":7.185626276,"data":"cohort: x29-noreplay -\u003e forgetting_x29_noreplay.jsonl\n"}
+,{"stream_name":"stdout","time":7.304884126,"data":"baseline: /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":7.304938956,"data":"  arm uniform-s1401: /kaggle/input/notebooks/subhajitlucky/kalia-x29-uniform/out/x29-uniform/ckpt.pt\n"}
+,{"stream_name":"stdout","time":7.304949088,"data":"  arm uniform-s1402: /kaggle/input/notebooks/subhajitlucky/kalia-x29-uniform-s1402/out/x29-uniform/ckpt.pt\n"}
+,{"stream_name":"stdout","time":7.304954179,"data":"  arm noreplay-s1401: /kaggle/input/notebooks/subhajitlucky/kalia-x29-noreplay/out/x29-noreplay/ckpt.pt\n"}
+,{"stream_name":"stdout","time":7.304958716,"data":"  arm noreplay-s1402: /kaggle/input/notebooks/subhajitlucky/kalia-x29-noreplay-s1402/out/x29-noreplay/ckpt.pt\n"}
+,{"stream_name":"stdout","time":406.673430598,"data":"\n"}
+,{"stream_name":"stdout","time":406.673508602,"data":"self-check: v0.2.0 re-scored 2.798875 vs recorded 2.798875 (delta 0.000000)\n"}
+,{"stream_name":"stdout","time":778.203834475,"data":"arm uniform-s1401: probe_loss 2.775169  drift -0.023706\n"}
+,{"stream_name":"stdout","time":1149.473782747,"data":"arm uniform-s1402: probe_loss 2.776687  drift +0.001518\n"}
+,{"stream_name":"stdout","time":1518.602606287,"data":"arm noreplay-s1401: probe_loss 2.769569  drift -0.005600\n"}
+,{"stream_name":"stdout","time":1887.424996119,"data":"arm noreplay-s1402: probe_loss 2.771140  drift +0.001571\n"}
+,{"stream_name":"stdout","time":1887.425322554,"data":"\n"}
+,{"stream_name":"stdout","time":1887.425349566,"data":"=== CL-0 ledger (x29-noreplay) ===\n"}
+,{"stream_name":"stdout","time":1887.42535575,"data":"drift is sequential (against the best row so far), so only probe_loss is comparable across arms; re-reference against the baseline row.\n"}
+,{"stream_name":"stdout","time":1887.425435903,"data":"  step  4770  probe_loss 2.798875  drift    baseline\n"}
+,{"stream_name":"stdout","time":1887.425462869,"data":"  step  5770  probe_loss 2.775169  drift -0.023706\n"}
+,{"stream_name":"stdout","time":1887.42550668,"data":"  step  5770  probe_loss 2.776687  drift +0.001518\n"}
+,{"stream_name":"stdout","time":1887.425521168,"data":"  step  5770  probe_loss 2.769569  drift -0.005600\n"}
+,{"stream_name":"stdout","time":1887.425552206,"data":"  step  5770  probe_loss 2.771140  drift +0.001571\n"}
+,{"stream_name":"stdout","time":1887.425573033,"data":"archived: /kaggle/working/forgetting_x29_noreplay.jsonl\n"}
+,{"stream_name":"stderr","time":1890.094590988,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1890.094632611,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1890.449229697,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1890.44926007,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1891.377958466,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1892.691400589,"data":"[NbConvertApp] Writing 315361 bytes to __results__.html\n"}
+]

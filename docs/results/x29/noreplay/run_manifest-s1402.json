@@ -1,0 +1,29 @@
+{
+  "arm": "noreplay",
+  "code_fingerprint": "c1b861d3a29121276f5dba802ecad9102df9e77202f3d47222109b35f656520a",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "kernel_id": "subhajitlucky/kalia-x29-noreplay-s1402",
+  "kernel_revision": "6f06390e59bd3a83ac6fc67d4ef14d003f19fdf6",
+  "recorded": "2026-10-18T06:12:14.289109+00:00",
+  "replay_bin": null,
+  "replay_pattern": "uniform",
+  "replay_prob": 0.0,
+  "resume_from": {
+    "bytes": 565895345,
+    "path": "/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt",
+    "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+  },
+  "seed": 1402,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "update_steps": 1000,
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

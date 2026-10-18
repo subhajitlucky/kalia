@@ -130,6 +130,43 @@ concluded: that replay harms retention.** See journal 2026-10-18. The M0 gate �
 "uniform 10% replay + rewarm beats no-replay beyond the spread", read on both
 instruments — is not passed.
 
+## The no-replay control: what that 0.09 actually was
+
+`x29-noreplay` (kernels `kalia-x29-noreplay`, `-s1402`, code `6f06390`) ran the
+X29 runner at `REPLAY = 0.00` — same runner, same 2.4B `train.bin`, same
+1,000-step budget as `uniform`, so replay is the only variable. Probe cohort
+`x29-noreplay` (kernel `kalia-x29-noreplay-probe`, code `64ee1cf`), ledger
+`noreplay/forgetting_x29_noreplay.jsonl`. Self-check 2.798875 vs recorded
+2.798875 at delta 0.000000; both uniform anchors reproduced exactly.
+
+| arm | replay | val @5700 (s1401 / s1402) | CL-0 probe_loss (s1401 / s1402) |
+|---|---|---|---|
+| uniform | 10% | 2.8076 / 2.8058 | 2.775169 / 2.776687 |
+| **noreplay** | **0%** | **2.8064 / 2.8078** | **2.769569 / 2.771140** |
+| static | 0% (shards) | 2.8201 / 2.8131 | 2.686720 / 2.682753 |
+
+The uniform→static gap decomposes almost entirely into something other than
+replay:
+
+| seed | uniform−static (CL-0) | replay's part | delivery path's part |
+|---|---|---|---|
+| 1401 | 0.088449 | **0.005600 (6.3%)** | 0.082849 (93.7%) |
+| 1402 | 0.093934 | **0.005547 (5.9%)** | 0.088387 (94.1%) |
+
+**Replay's own effect.** On CL-0 it is a small, reproducible *penalty*:
++0.005600 and +0.005547, same sign and near-identical size at both seeds, ~3.6×
+the measured seed spread (0.0015). On val it is undetectable: +0.0012 and
+−0.0020, sign-unstable and inside the 0.0018 spread.
+
+**Withdrawn.** The earlier line in this file — "the X28 no-replay static arm
+ended 2.8201, so shuffled replay helps" — stands on the confounded comparison
+and is retracted. The gap is the corpus and the passes over it. The val
+advantage of `uniform` over `static` (+0.0125 / +0.0073) is a delivery-path
+effect, not a replay effect.
+
+M0's gate is therefore not passed on either instrument.
+
+
 
 ## Incident record: the probe almost scored the wrong instrument (v1–v3)
 
