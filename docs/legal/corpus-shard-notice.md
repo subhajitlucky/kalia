@@ -6,13 +6,19 @@ documents. Each source's proportional validation head (6M/2M/1.5M/0.5M tokens)
 was skipped at build time, so the canonical held-out set cannot appear here.
 `manifest.json` records token counts, mixture ratios and each shard's SHA-256.
 
+`probe_val.bin` is not held-out data and is not the canonical validation set. It
+is the frozen first 1,000,000 tokens of the v0.2.0 *training* stream, taken
+deliberately: the CL-0 ledger exists to detect forgetting of what was learned,
+so its measuring set has to be data the model trained on. It is frozen once
+published, which is what makes drift comparable across updates.
+
 | File | Tokens | Source | Licence | Attribution |
 |---|---|---|---|---|
 | `fineweb.bin` | 124,500,691 | FineWeb-Edu dedup via `HuggingFaceTB/smollm-corpus` | ODC-By-1.0 | `HuggingFaceTB/smollm-corpus` |
 | `tinystories.bin` | 124,500,691 | `roneneldan/TinyStories` | CDLA-Sharing-1.0 | `roneneldan/TinyStories`; republished under the unmodified CDLA-Sharing-1.0 terms |
 | `cosmopedia.bin` | 124,500,691 | Cosmopedia v2 via `HuggingFaceTB/smollm-corpus` | Apache-2.0 (content card, `HuggingFaceTB/cosmopedia`); container tagged ODC-By | `HuggingFaceTB/cosmopedia` and `HuggingFaceTB/smollm-corpus` |
 | `python.bin` | 124,500,691 | `bigcode/codeparrot-clean`, per-file filtered | MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Unlicense, CC0-1.0 only | the respective per-file authors |
-| `probe_val.bin` | 1,000,000 | held-out windows from the sources above | as above, per source | as above |
+| `probe_val.bin` | 1,000,000 | the frozen first 1,000,000 tokens of the v0.2.0 training stream | as above, per source | as above |
 
 Licence references:
 

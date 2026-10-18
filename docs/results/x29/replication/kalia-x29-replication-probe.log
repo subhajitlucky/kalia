@@ -1,0 +1,32 @@
+[{"stream_name":"stdout","time":1.911843427,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stderr","time":3.574782424,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":4.37693192,"data":"probe shard: hub pull kalia-lm/kalia-v020/corpus/probe_val.bin\n"}
+,{"stream_name":"stdout","time":4.387170465,"data":"probe sha256 ok (1664f71a4b5e...)\n"}
+,{"stream_name":"stdout","time":4.387475307,"data":"cohort: x29-replication -\u003e forgetting_x29_replication.jsonl\n"}
+,{"stream_name":"stdout","time":4.491770295,"data":"baseline: /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":4.491810485,"data":"  arm uniform-s1401: /kaggle/input/notebooks/subhajitlucky/kalia-x29-uniform/out/x29-uniform/ckpt.pt\n"}
+,{"stream_name":"stdout","time":4.491816871,"data":"  arm static-s1401: /kaggle/input/notebooks/subhajitlucky/kalia-x28-static/out/kautilya-static/ckpt.pt\n"}
+,{"stream_name":"stdout","time":4.491822083,"data":"  arm uniform-s1402: /kaggle/input/notebooks/subhajitlucky/kalia-x29-uniform-s1402/out/x29-uniform/ckpt.pt\n"}
+,{"stream_name":"stdout","time":4.491826919,"data":"  arm static-s1402: /kaggle/input/notebooks/subhajitlucky/kalia-x28-static-s1402/out/kautilya-static/ckpt.pt\n"}
+,{"stream_name":"stdout","time":422.3720453,"data":"\n"}
+,{"stream_name":"stdout","time":422.37216394,"data":"self-check: v0.2.0 re-scored 2.798875 vs recorded 2.798875 (delta 0.000000)\n"}
+,{"stream_name":"stdout","time":834.429393888,"data":"arm uniform-s1401: probe_loss 2.775169  drift -0.023706\n"}
+,{"stream_name":"stdout","time":1249.72528411,"data":"arm static-s1401: probe_loss 2.686720  drift -0.088449\n"}
+,{"stream_name":"stdout","time":1663.178160997,"data":"arm uniform-s1402: probe_loss 2.776687  drift +0.089967\n"}
+,{"stream_name":"stdout","time":2076.85398711,"data":"arm static-s1402: probe_loss 2.682753  drift -0.003967\n"}
+,{"stream_name":"stdout","time":2076.854361356,"data":"\n"}
+,{"stream_name":"stdout","time":2076.854391162,"data":"=== CL-0 ledger (x29-replication) ===\n"}
+,{"stream_name":"stdout","time":2076.854398693,"data":"drift is sequential (against the best row so far), so only probe_loss is comparable across arms; re-reference against the baseline row.\n"}
+,{"stream_name":"stdout","time":2076.854521733,"data":"  step  4770  probe_loss 2.798875  drift    baseline\n"}
+,{"stream_name":"stdout","time":2076.854552086,"data":"  step  5770  probe_loss 2.775169  drift -0.023706\n"}
+,{"stream_name":"stdout","time":2076.854559578,"data":"  step  5770  probe_loss 2.686720  drift -0.088449\n"}
+,{"stream_name":"stdout","time":2076.854568096,"data":"  step  5770  probe_loss 2.776687  drift +0.089967\n"}
+,{"stream_name":"stdout","time":2076.854711073,"data":"  step  5770  probe_loss 2.682753  drift -0.003967\n"}
+,{"stream_name":"stdout","time":2076.854720633,"data":"archived: /kaggle/working/forgetting_x29_replication.jsonl\n"}
+,{"stream_name":"stderr","time":2079.792309679,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":2079.792340635,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":2080.176467721,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":2080.17650914,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":2081.219286248,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":2082.577782977,"data":"[NbConvertApp] Writing 313269 bytes to __results__.html\n"}
+]

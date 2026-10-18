@@ -88,6 +88,49 @@ evaluation sets and protocols. ghana's +0.0446 is the largest single CL-0
 drift this project has measured. No claim yet: n=1 per arm, and the
 pre-registration requires a second seed for any winner.
 
+## Second seed (1402): the replication, and the no-replay arm scored for the first time
+
+`tools/kalia_forget_probe_kernel.py` cohort `x29-replication`, kernel
+`subhajitlucky/kalia-x29-replication-probe`, code `fc19ecd`. The cohort carries
+the seed-1401 anchors as well as the seed-1402 pair, because the X28 static arm
+had never been scored on CL-0 at either seed — the path heuristic in the old
+probe could not name a checkpoint at `out/kautilya-static/`, so attaching it
+made the baseline assertion count two and the run refused to start.
+
+Self-check before any arm was believed: v0.2.0 re-scored **2.798875 vs recorded
+2.798875, delta 0.000000**. The `uniform-s1401` anchor reproduced the archived
+row exactly (2.775169, −0.023706). Probe sha `1664f71a…` asserted at run time.
+
+| arm | val @5700 | CL-0 probe_loss | drift vs baseline |
+|---|---|---|---|
+| uniform-s1401 (10% replay) | 2.8076 | 2.775169 | −0.023706 |
+| uniform-s1402 (10% replay) | 2.8058 | 2.776687 | −0.022188 |
+| static-s1401 (**no replay**) | 2.8201 | **2.686720** | **−0.112155** |
+| static-s1402 (**no replay**) | 2.8131 | **2.682753** | **−0.116122** |
+
+Ledger: `replication/forgetting_x29_replication.jsonl`. Its `drift_from_best`
+column is sequential against the best row so far and is **not** comparable
+across arms; the drifts above are re-referenced to the baseline row.
+
+Seed spreads: 0.0018 / 0.0070 on val (uniform / static) and 0.0015 / 0.0040 on
+CL-0 — far below the 58M pretraining control spread of 0.2892 (D48).
+
+**The two instruments reproduce across seeds and disagree with each other.**
+val favours replay by +0.0125 (s1401) and +0.0073 (s1402), the second inside the
+static arm's own seed spread. CL-0 favours no-replay by 0.0884 (s1401) and
+0.0939 (s1402) — 22× the largest seed spread in the cohort, same direction at
+both seeds.
+
+Two confounds, both recorded before the result was read: the arms also differ in
+delivery path and corpus passes (uniform ≈0.2 passes over 2.4B tokens, static
+≈1.05 over 4 × 124,500,691 equalised shards at 60/20/15/5 with
+`adaptive_every: 0`; both spend ~524M tokens), and `corpus/probe_val.bin` is a
+frozen prefix of the training stream rather than a held-out set. **Not
+concluded: that replay harms retention.** See journal 2026-10-18. The M0 gate —
+"uniform 10% replay + rewarm beats no-replay beyond the spread", read on both
+instruments — is not passed.
+
+
 ## Incident record: the probe almost scored the wrong instrument (v1–v3)
 
 The first three probe-kernel versions scored `data/probe/val_forget.bin` (the
