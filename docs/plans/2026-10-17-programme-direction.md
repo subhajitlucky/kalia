@@ -1,6 +1,10 @@
 # Programme direction — the goal, the four metrics, and the ladder
 
-**Status:** draft for approval, 2026-10-17
+**Status:** draft for approval, 2026-10-17. **Amended 2026-10-18** after M0's gate
+was read on a clean contrast: M0 is measured rather than projected, metric R's
+gate turned out to be green by construction, and the ladder's ordering is
+contested below with evidence. The goal, the four protocols and the non-goals are
+unchanged.
 **Supersedes:** nothing. Does not touch the v0.3.0 registration; its stopped
 steps stay stopped.
 
@@ -62,6 +66,17 @@ Any update cycle is scored on all four. A single number is not a result.
 - **Gate:** no update ships whose R drift exceeds the update's own measured
   spread (below), regardless of ΔA.
 
+  **Amended 2026-10-18 — as written this gate is green by construction whenever
+  nothing is forgetting, and that is exactly what happened.** In the
+  `x29-replication` cohort every arm *improved* on the probe: −0.0237, −0.0222,
+  −0.1122, −0.1161. A rule of the form "drift must not exceed the spread" passes
+  all four and discriminates nothing. R is a signed change in loss on a fixed
+  training slice; below zero it measures **how much extra fitting happened**, not
+  how much was retained. Read it as a comparative test — *any arm whose R is
+  worse than its paired control's by more than the spread is rejected* — and treat
+  "what a positive drift would mean" as open, because in this cohort no arm ever
+  produced one.
+
 ### C — Cost
 
 *What does a unit of knowledge cost?*
@@ -101,10 +116,69 @@ update budget.
 
 | Milestone | What | Gate |
 |---|---|---|
-| **M0 — v0.2.1 ships** (this window) | The seed-1402 replicas decide whether uniform 10% replay + rewarm beats no-replay beyond the spread. If yes: export, evaluate (benchmarks at `limit=2000` — CPU is quota-free), publish, card carries the 1402 outcome, the seed-1337 caveat, and the QK/soft-cap evidence note. | Replication reproduces direction on both instruments |
+| **M0 — v0.2.1** (read 2026-10-18) | **Gate not passed.** The seed-1402 pair plus a no-replay control ran. No export, no publish. Detail below. | Replication reproduces direction on both instruments — **it does not**: val and CL-0 disagree on the replay contrast |
 | **M1 — usage-loop v0: memory only** (1–2 weeks, ~0 GPU) | Retrieval + entity-consistent decoding around the frozen model. Users get a model that remembers across a session; no weights move. Measure entity/name retention vs greedy (the existing protocol). | Memory lift is real and costs ~0 GPU-h — this is the number C that weight updates must beat |
 | **M2 — usage-loop v1: gated weight updates** (2–6 weeks, ≤4 GPU-h/cycle) | Curated interactions → periodic continual update (rewarm + uniform replay, the v0.2.1 recipe) → scored on A, R, C, G with the ruler rule. Publish the first acquisition-vs-retention-vs-cost curves at sub-billion scale. | Three consecutive cycles with ΔA above spread and R within it; any G rejection triggers a rebuild, not a retry |
 | **M3 — the artifact** | The failure atlas (dessert, replay ladder, TTT null, wrong-instrument class) + the four curves + the harness and ledger format. A methodology reference for cheap continual learning that does not exist in this form. | Independent reproduction of one cycle from the repo alone |
+
+## M0 as measured (2026-10-18)
+
+The gate was written as *"uniform 10% replay + rewarm beats no-replay beyond the
+spread"*, to be read on both instruments. A clean contrast — same runner, same
+2.4B corpus, same budget, replay the only variable — gives:
+
+| instrument | replay vs no-replay | standing against the ruler |
+|---|---|---|
+| CL-0 retention | **+0.0056 / +0.0055 worse at two seeds** | 3.6× the measured 0.0015 spread |
+| canonical val | +0.0012 / −0.0020 | sign-unstable, inside the 0.0018 spread |
+
+And the gap the 1402 pair was originally read against — uniform minus the X28
+`static` arm, 0.0884 and 0.0939 on CL-0 — decomposes into **6% replay and 94%
+delivery path**. The path is the corpus and the number of passes over it (498M
+tokens ~1.05 times, against 2.4B ~0.2 times), not the replay.
+
+**So the gate fails, and it fails informatively.** Weight updates did not beat a
+no-update baseline on the instrument the registration named as primary; on the
+capability instrument the difference is not resolvable.
+
+### And the stop that preceded it used the wrong ruler
+
+v0.3.0's Steps 2–4 were cancelled on 2026-10-08 when Step 1 measured a **0.2892**
+seed spread against a registered 0.15 threshold. That measurement was of arms
+trained **from scratch**. The arms it stopped are **continual updates from a
+shared checkpoint**, whose spread this project measured for the first time on
+2026-10-18: **0.0015–0.0070**, some 40–200× smaller. The work then resumed under
+X26/X28/X29 registrations, which was the right instinct, but the false stop is
+recorded nowhere in the v0.3.0 registration.
+
+Both facts point the same way for this plan: **the ruler must match the regime
+being measured**, and a threshold inherited from a different one is the D45
+failure in a new costume.
+
+## Contested: the ladder's ordering
+
+Recorded rather than resolved, because it is a judgement about what to bet on and
+it is the owner's.
+
+The evidence to date is lopsided. Measured positive: a corpus change (**−0.2285
+nats**, the largest effect this project has ever produced) and entity-consistent
+decoding (**+0.061 retention, 3× greedy, 0 GPU-h**). Measured null or worse:
+test-time training (closed null across a 40× range), the adaptive mixture
+(+0.018 worse, and it ate dessert), the replay ladder (orderings that cost
+proportionally to their structure), reverse-aware attention (withdrawn pre-GPU),
+and now replay itself (6% of an effect that was 94% corpus).
+
+The ladder as drafted puts **M2 — gated weight updates** second, and that is the
+mechanism with the least evidence the project owns. **M1 — memory only** contains
+the one inference-time result that measured a win, at zero GPU cost, and the plan's
+own kill criterion says to prefer it if it matches weight updates on ΔA. That
+criterion can be satisfied by evidence this project already has, without waiting
+for M2.
+
+The suggested change is to promote the memory-only rung and demote weight updates
+to a rung that must beat a **zero-GPU-hour baseline** before it runs again. That
+is a reordering, not a new goal: the four metrics, the ruler rule and the
+falsification criteria all still apply.
 
 ## What changes immediately (from the 2026-10-17 review)
 
