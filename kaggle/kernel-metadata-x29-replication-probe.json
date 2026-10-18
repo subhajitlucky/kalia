@@ -1,0 +1,22 @@
+{
+  "id": "subhajitlucky/kalia-x29-replication-probe",
+  "title": "KALIA x29 replication probe",
+  "code_file": "kalia_forget_probe_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev",
+    "subhajitlucky/kalia-v020-ckpt"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-x29-uniform",
+    "subhajitlucky/kalia-x28-static",
+    "subhajitlucky/kalia-x29-uniform-s1402",
+    "subhajitlucky/kalia-x28-static-s1402"
+  ],
+  "model_sources": []
+}
