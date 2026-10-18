@@ -85,10 +85,60 @@ def setup_distributed():
     return 0, 1
 
 
+SCHEDULES = ("cosine", "wsd")
+DECAY_SHAPES = ("linear", "cosine", "inv_sqrt")
+
+
+def decay_factor(progress: float, shape: str = "linear") -> float:
+    """Decay multiplier: 1.0 where the decay starts, 0.0 where it ends."""
+    t = min(1.0, max(0.0, progress))
+    if shape == "linear":
+        return 1.0 - t
+    if shape == "cosine":
+        return 0.5 * (1.0 + math.cos(math.pi * t))
+    if shape == "inv_sqrt":
+        return 1.0 - math.sqrt(t)
+    raise ValueError(f"unknown decay shape {shape!r}; expected one of {DECAY_SHAPES}")
+
+
+def wsd_decay_steps(train_cfg: dict) -> int:
+    return max(1, int(round(float(train_cfg.get("wsd_decay_frac", 0.1)) * train_cfg["max_steps"])))
+
+
+def wsd_lr_scale(step: int, train_cfg: dict) -> float:
+    """Warmup-stable-decay: hold the peak, then anneal once, at the very end.
+
+    A cosine spends the whole run decaying, so every step it does not reach is
+    schedule already spent. v0.2.0's last 31% of steps were flat and cost 6.3
+    GPU-hours for no measurable val movement. WSD holds the peak and pays for
+    the anneal once, in a window that can be moved to wherever the run actually
+    ends -- `wsd_decay_frac` for the scheduled case, or the target-loss path's
+    `decay_start`, which composes with this unchanged. That movable anneal is
+    the "flexible decay timing" the 2026-09-23 backlog (E11, Kimi K2 / GLM-4.5
+    / IMU-1) asked for and never got.
+
+    The decay *shape* is a knob here, not a finding. `linear` is the default
+    because none of the three has been measured at 58M on this project; the
+    convex decay the WSD literature favours is available as `inv_sqrt`, and
+    should be selected by measurement rather than by inheritance.
+    """
+    max_steps = train_cfg["max_steps"]
+    warmup = train_cfg["warmup_steps"]
+    decay_start = max(warmup, max_steps - wsd_decay_steps(train_cfg))
+    if step < decay_start:
+        return 1.0
+    span = max(1, max_steps - decay_start)
+    progress = min(1.0, (step - decay_start) / span)
+    floor = train_cfg["min_lr_ratio"]
+    return floor + (1.0 - floor) * decay_factor(progress, train_cfg.get("decay_shape", "linear"))
+
+
 def base_lr_scale(step: int, train_cfg: dict) -> float:
-    """Cosine schedule multiplier in [min_lr_ratio, 1] (warmup + cosine)."""
+    """Schedule multiplier in [min_lr_ratio, 1] (warmup, then cosine or WSD)."""
     if step < train_cfg["warmup_steps"]:
         return (step + 1) / train_cfg["warmup_steps"]
+    if train_cfg.get("lr_schedule", "cosine") == "wsd":
+        return wsd_lr_scale(step, train_cfg)
     if step >= train_cfg["max_steps"]:
         return train_cfg["min_lr_ratio"]
     progress = (step - train_cfg["warmup_steps"]) / max(
@@ -99,14 +149,33 @@ def base_lr_scale(step: int, train_cfg: dict) -> float:
 
 
 def lr_scale(step: int, train_cfg: dict, decay_start: int | None = None) -> float:
-    """Schedule multiplier; after a target loss is reached, decay linearly and stop."""
+    """Schedule multiplier; after a target loss is reached, decay and stop."""
     if decay_start is None or step < decay_start:
         return base_lr_scale(step, train_cfg)
     decay_steps = max(1, int(train_cfg.get("decay_steps_after_target", 1)))
     progress = min(1.0, (step - decay_start) / decay_steps)
     start = base_lr_scale(decay_start, train_cfg)
     floor = train_cfg["min_lr_ratio"]
-    return start * (1 - progress) + floor * progress
+    return floor + (start - floor) * decay_factor(progress, train_cfg.get("decay_shape", "linear"))
+
+
+def validate_schedule(train_cfg: dict) -> None:
+    """Refuse a schedule the run cannot honour, before any GPU work is spent."""
+    schedule = train_cfg.get("lr_schedule", "cosine")
+    if schedule not in SCHEDULES:
+        raise SystemExit(f"lr_schedule must be one of {SCHEDULES}, not {schedule!r}")
+    shape = train_cfg.get("decay_shape", "linear")
+    if shape not in DECAY_SHAPES:
+        raise SystemExit(f"decay_shape must be one of {DECAY_SHAPES}, not {shape!r}")
+    if schedule == "wsd":
+        frac = float(train_cfg.get("wsd_decay_frac", 0.1))
+        if not 0.0 < frac <= 1.0:
+            raise SystemExit(f"wsd_decay_frac must be in (0, 1], not {frac}")
+        if train_cfg["warmup_steps"] >= train_cfg["max_steps"]:
+            raise SystemExit(
+                f"wsd needs a stable phase, but warmup_steps {train_cfg['warmup_steps']} "
+                f">= max_steps {train_cfg['max_steps']}"
+            )
 
 
 def build_optimizer(model, train_cfg: dict):
@@ -241,6 +310,7 @@ def main(argv=None) -> None:
     doc_mask = bool(args.doc_mask or train_cfg.get("doc_mask", False))
     if args.decay_steps_after_target is not None:
         train_cfg["decay_steps_after_target"] = args.decay_steps_after_target
+    validate_schedule(train_cfg)
 
     rank, world = setup_distributed()
     is_master = rank == 0
@@ -259,6 +329,15 @@ def main(argv=None) -> None:
     if is_master:
         print(f"KALIA params: {model.num_params():,} | device: {device} | world: {world}")
         print(f"doc_mask: {'on' if doc_mask else 'off'}")
+        schedule = train_cfg.get("lr_schedule", "cosine")
+        if schedule == "wsd":
+            print(
+                f"lr schedule: wsd | stable until step "
+                f"{max(train_cfg['warmup_steps'], train_cfg['max_steps'] - wsd_decay_steps(train_cfg)):,}"
+                f" of {train_cfg['max_steps']:,} | decay shape {train_cfg.get('decay_shape', 'linear')}"
+            )
+        else:
+            print(f"lr schedule: cosine to step {train_cfg['max_steps']:,}")
 
     optimizer = build_optimizer(model, train_cfg)
     scaler = torch.amp.GradScaler("cuda", enabled=is_cuda)

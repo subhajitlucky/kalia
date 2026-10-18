@@ -244,3 +244,52 @@ sound: shards hash-match their pins, all Kaggle kernels and datasets are private
 no copyleft bytes are published, and the only credential at rest is the
 `kalia-publish-aux` Kaggle dataset, which holds the publish token by design and
 must never be made public.
+
+## D53 — WSD lands as mechanism; the decay shape stays a knob, not a finding (2026-10-18)
+
+**Context.** E11 in the 2026-09-23 technique backlog — "WSD schedule +
+batch-size warmup", sourced to Kimi K2, GLM-4.5 and IMU-1, expected gain
+medium, risk low — was recommended and never landed. The bill came due:
+v0.2.0 finished its full 4,770-step cosine and **plateaued for its last 31%**,
+so roughly 6.3 GPU-hours bought no measurable val movement. A cosine spends its
+whole run decaying; WSD holds the peak and pays for the anneal once.
+
+**Evidence.** The plateau is in the record (journal 2026-09-28) and in v0.2.0's
+own val curve. The mechanism is a schedule shape, so it is verifiable without a
+GPU: the tests pin the cosine to a frozen reference implementation at eleven
+steps, assert WSD holds exactly 1.0 across the stable phase, assert it is
+monotone after warmup, assert it lands on `min_lr_ratio` at `max_steps`, and
+assert `wsd_lr_scale(step) >= cosine(step)` at every step of a 1,000-step run —
+with a margin > 0.3 in the region where the cosine has already given up. That
+last one is the actual claim: WSD cannot spend less of the budget than the
+cosine it replaces.
+
+**Decision.**
+1. `lr_schedule: wsd` is implemented in `train.py`, opt-in, and **enabled on no
+   registered arm**. Cosine remains the default and is bit-identical when the
+   key is absent — every recorded run in this project trained under it, and the
+   regression test says so rather than assuming it.
+2. The stable phase runs to `max_steps - wsd_decay_frac x max_steps`
+   (default 0.1), then anneals to `min_lr_ratio` once.
+3. `decay_shape` in {linear, cosine, inv_sqrt} exists because **the decay shape
+   is unmeasured at 58M here**, and the default is `linear`: the assumption-free
+   choice. The convex decay the WSD literature favours is available as
+   `inv_sqrt` and is deliberately not the default, because inheriting it would
+   be the same unmeasured claim D48 closed the architecture line over.
+4. The target-loss reactive decay composes with WSD unchanged, and that
+   composition — a run that hits its target at step 300 paying 100 steps of
+   anneal instead of the 700 the cosine had already scheduled — is the
+   "flexible decay timing" E11 actually asked for. It is tested on the WSD path
+   rather than inferred from the cosine path.
+5. `validate_schedule` refuses an unknown schedule, an unknown shape, a decay
+   fraction outside (0, 1], and a WSD config with no stable phase — before any
+   GPU work, not at the first learning-rate lookup.
+
+**Stated limit.** The three sources recorded for E11 are model reports. The
+primary literature on *decay shape* was not consulted for this landing — the
+research search endpoint returned an authentication failure, which is a tooling
+matter and is not worked around by guessing. So the mechanism is implemented on
+the backlog's authority and the shape is explicitly left for measurement; no
+claim is made that `linear` beats `inv_sqrt` at 58M. The first WSD run should
+treat the shape as an arm, not a constant.
+

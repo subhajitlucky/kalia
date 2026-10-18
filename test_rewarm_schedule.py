@@ -13,24 +13,14 @@ The weights resume; the clock does not.
 
 from __future__ import annotations
 
-import math
-
 import pytest
 import yaml
+
+from train import base_lr_scale
 
 CFG = yaml.safe_load(open("configs/kalia-v020.yaml"))["train"]
 UPDATE = {**CFG, "max_steps": 500, "warmup_steps": 50}
 ORIGIN = 4770  # where v0.2.0 ended
-
-
-def base_lr_scale(step: int, c: dict) -> float:
-    if step < c["warmup_steps"]:
-        return (step + 1) / c["warmup_steps"]
-    if step >= c["max_steps"]:
-        return c["min_lr_ratio"]
-    progress = (step - c["warmup_steps"]) / max(1, c["max_steps"] - c["warmup_steps"])
-    coeff = 0.5 * (1.0 + math.cos(math.pi * progress))
-    return c["min_lr_ratio"] + coeff * (1 - c["min_lr_ratio"])
 
 
 def test_unrebased_schedule_is_pinned_at_the_floor():
