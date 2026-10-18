@@ -193,7 +193,15 @@ pip install -r requirements.txt
 python -m pytest -q
 python tools/check_notebooks.py   # static-checks every notebook before spending quota
 python tools/collect_results.py --check   # results data still matches its logs
+python tools/audit_claims.py --check      # public documents still say what the record says
 ```
+
+CI runs all five of those on every push. The last one exists because the
+2026-10-18 audit found nine defects in the public documents — a card calling a
+training prefix "held-out", the README attributing X18 backwards, a licence
+matrix denying a redistribution it also records — and no two in the same place.
+Each rule in it names the defect it prevents; `--check` fails the build when a
+published claim and the record disagree.
 
 Two rules this repository learned the hard way, both enforced by tools rather than by
 convention:

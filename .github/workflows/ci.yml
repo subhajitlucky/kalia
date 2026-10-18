@@ -37,3 +37,13 @@ jobs:
 
       - name: Pre-registration ledger verifies
         run: python tools/verify_prereg_ledger.py
+
+      # Both of these existed and passed and were wired into nothing. A gate
+      # that nothing invokes is a convention with a script attached -- the
+      # 2026-10-18 audit found eight incidents in that class, and nine public
+      # claims that a checker would have caught.
+      - name: Notebooks are statically clean
+        run: python tools/check_notebooks.py
+
+      - name: Public documents agree with the record
+        run: python tools/audit_claims.py --check

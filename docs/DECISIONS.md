@@ -300,3 +300,51 @@ the backlog's authority and the shape is explicitly left for measurement; no
 claim is made that `linear` beats `inv_sqrt` at 58M. The first WSD run should
 treat the shape as an arm, not a constant.
 
+## D54 — The record is the product, so the record is now checked (2026-10-18)
+
+**Context.** A whole-record audit — six parallel reads of the journal, decisions,
+pre-registrations, results, research backlog and public documents, 72,000 lines —
+found that the project's most distinctive asset had drifted from its own
+evidence. The most-churned files in 214 commits are `DECISIONS.md` (36),
+`README.md` (25), the journal (25) and `LEDGER.md` (20), against `train.py` (18)
+and `model.py` (13). The apparatus that makes the work worth reading was the
+least-verified thing in it.
+
+**Evidence.** Nine public-claim defects, none in the same place as another: the
+v0.2.0 card called the released `corpus/probe_val.bin` "held-out windows" while
+the shard notice — corrected the same day — said otherwise; the root README
+called v0.2.0 "not yet public" while linking to it, and had X18's attribution
+*inverted* against D46; both cards omitted the code corpus from their HF
+`datasets:` and named it `bigcode/codeparrot-clean` where `prepare.py` loads
+`codeparrot/codeparrot-clean` — the mismatched name also sat in the licence
+audit's own provenance record; the licence matrix denied a redistribution two
+rows above its own entry recording it; and the accuracy framing claimed "three of
+five movements inside the noise" where only one is inside one standard error and
+none reaches two (D45's measured 1.99–2.24 pp).
+
+**Decision.**
+1. The nine are corrected, with the original wording left visible beside its
+   correction wherever the document is a record rather than a claim.
+2. `tools/audit_claims.py` checks the four invariants that would have caught
+   them, and CI runs it: dataset attribution complete against the shard notice,
+   `probe_val.bin` never described as held-out, every cited `D<n>` defined, and
+   the released val/bpB matching the artifact that was re-scored. Each rule names
+   the defect it prevents; a rule that cannot is not added.
+3. `tools/check_notebooks.py` is wired into CI. It existed, passed, and was
+   invoked by nothing but its own docstring — the anti-decorative-gate tool was
+   itself decorative, which is the eighth instance of a class the project keeps
+   re-finding.
+4. **Frozen documents are not corrected in place.** The same false accuracy
+   sentence stands in `2026-09-28-v020-final-evaluation.md`, which is
+   hash-anchored and read by the ledger as `extended: +78/-0`. Editing it would
+   flip that classification to `EDITED`, and spending the one signal that says
+   "registered text changed" on a wording fix is a bad trade. SYNTHESIS records
+   where the false sentence still lives instead.
+
+**Standing lesson.** Every root cause in this project's 24 incidents that has a
+*named tool* is closed; every one whose fix is a *convention* is open. This entry
+moves four conventions into tools. The three that remain open — pin the code
+bundle rather than fingerprint it, state a threshold above a measured error bar,
+never train on the measuring set — are named in the journal's Open list, and each
+is waiting for the same treatment.
+
