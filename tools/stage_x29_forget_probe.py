@@ -47,6 +47,10 @@ COHORT_META = {
         "kernel-metadata-x29-replication-probe.json",
         Path("/tmp/kalia-x29-replication-probe"),
     ),
+    "x29-noreplay": (
+        "kernel-metadata-x29-noreplay-probe.json",
+        Path("/tmp/kalia-x29-noreplay-probe"),
+    ),
 }
 
 BASELINE_DATASETS = {"subhajitlucky/kalia-code-dev", "subhajitlucky/kalia-v020-ckpt"}

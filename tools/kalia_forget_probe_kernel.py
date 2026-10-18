@@ -113,6 +113,22 @@ COHORTS = {
             ("static-s1402", "kalia-x28-static-s1402", "out/kautilya-static/ckpt.pt"),
         ],
     },
+    # The replay contrast with everything else held still: the same runner, the
+    # same 2.4B train.bin and the same 1000-step budget, at 10% replay and at
+    # zero. `x29-replication` could not attribute its 0.09-nat CL-0 gap because
+    # the arm it read against (X28 static) also differed in corpus and in
+    # passes over it; this pair removes both. The two uniform arms double as
+    # the within-session anchor again -- 2.775169 and 2.776687 were recorded on
+    # 2026-10-18, and either moving means the instrument moved, not the model.
+    "x29-noreplay": {
+        "ledger": "forgetting_x29_noreplay.jsonl",
+        "arms": [
+            ("uniform-s1401", "kalia-x29-uniform", "out/x29-uniform/ckpt.pt"),
+            ("uniform-s1402", "kalia-x29-uniform-s1402", "out/x29-uniform/ckpt.pt"),
+            ("noreplay-s1401", "kalia-x29-noreplay", "out/x29-noreplay/ckpt.pt"),
+            ("noreplay-s1402", "kalia-x29-noreplay-s1402", "out/x29-noreplay/ckpt.pt"),
+        ],
+    },
 }
 
 COHORT = "x29-1401"  # staging patches this
