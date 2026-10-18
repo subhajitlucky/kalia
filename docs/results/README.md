@@ -3,11 +3,22 @@
 Machine-readable record of every experiment in this project: what ran, on which
 kernel, how many parameters, and the validation loss with its full curve.
 
-**Regenerate with `python tools/collect_results.py`. Verify with `--check`.**
+**Regenerate `experiments.json` with `python tools/collect_results.py`. Verify with `--check`.**
 
-Generated from the raw logs archived in `logs/`. It is not hand-maintained —
-`test_results_record.py` fails if the committed file stops matching its logs, so
-the two cannot drift.
+`experiments.json` is generated from the raw logs archived in `logs/` and is not
+hand-maintained — `test_results_record.py` fails if the committed file stops
+matching its logs, so the two cannot drift. **This README is hand-written around
+it.** An earlier version of this paragraph claimed the generator produced both,
+which it never did: `collect_results.py` writes only the JSON.
+
+## The benchmark sample size
+
+Every zero-shot number in this directory was measured at **`limit=500`**, where
+lm-eval's standard error is **1.99–2.24 pp** (D45). Read them with that error bar
+attached — several do not resolve. From 2026-10-18 `eval_bench.py` defaults to
+**2,000** samples for new runs, which halves that error at zero GPU cost, and
+warns loudly below 1,000 rather than passing silently. The per-release numbers
+recorded here are left exactly as they ran.
 
 ## Reading it
 
