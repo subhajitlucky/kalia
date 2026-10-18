@@ -102,7 +102,7 @@ def main() -> None:
         return round(sum(chars[k] for k in d) / total_chars, 4) if total_chars else 0.0
 
     report = {
-        "dataset": "bigcode/codeparrot-clean",
+        "dataset": "codeparrot/codeparrot-clean",
         "revision": args.revision,
         "sampling": f"first {args.rows} streaming rows (not a random sample)",
         "sample_fingerprint_sha256": fingerprint.hexdigest(),

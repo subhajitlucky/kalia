@@ -11,7 +11,7 @@ fine-tuning, zero pretrained weights, and zero budget.
 | release | status | tokens | held-out loss | notes |
 |---|---|---|---|---|
 | [`kalia-v012`](https://huggingface.co/kalia-lm/kalia-v012) | released | 1.82B | 3.0533 | stopped at 73% of its schedule |
-| `kalia-v020` | experiment, not yet public | 2.50B | **2.8248** | full 4,770-step schedule, compliance-rebuilt corpus |
+| [`kalia-v020`](https://huggingface.co/kalia-lm/kalia-v020) | released as an experiment | 2.50B | **2.8248** | full 4,770-step schedule, compliance-rebuilt corpus; fails its own registered stability rule |
 
 Both figures are on the **same** held-out set (the compliance-rebuilt `kalia-prep-v2b`),
 scored by the same deterministic 100-batch protocol. The 2.4366 that appeared in earlier
@@ -106,7 +106,7 @@ it is the reason this repository is worth reading.
 | What | Result | What it taught |
 |---|---|---|
 | Reversal training (X16) | **Rejected.** Both pre-registered bars missed on both seeds — the entry-exit gap got *worse* | Reversing chunk order does not teach token-level entry. The gap is architectural, confirmed at 5.1 nats at 30M, not an undertraining artifact |
-| Gated residual (X18) | **Not attributable.** Best loss gain of any arm (4.4× bar) but the learned gate never opened — 0.0192 against a 0.05 bar, and only 5e-06 of variation in response to its input | The measured effect belonged to the branch normalisation, not to the data-dependent read the technique claims. Its documented init was also dead code, silently overwritten by the global re-init |
+| Gated residual (X18) | **Not attributable, and the attribution was backwards in an earlier draft of this file.** The gain is real (4.4× the bar) but the learned gate never opened — 0.0192 against a 0.05 bar, and only 5e-06 of variation in response to its input. Deleting the gate *destroys* the gain (D46: branch norm alone 4.7680 against control 4.7662), and deleting the input dependence entirely *beats* it (X20, −0.1358) | The effect is a learned **static** per-channel modulation, not the data-dependent read the technique claims. Its documented init was also dead code, silently overwritten by the global re-init. Superseded on 2026-09-29: X20's larger effect inverted under replication (X21), which closed the architecture line (D48) |
 | Document masking (X17) | Implemented and pre-registered, not yet run | — |
 | Licence audit (I16) | **41.7% of the code corpus is under non-permissive licences (39.5% GPL-family).** The filter existed and was tested — it landed 40 minutes *after* the corpus that needed it | A green test on a filter that ran on the wrong side of a timestamp reads exactly like safety |
 | Dataset publishing (I17) | The Kaggle publisher defaults to `--dir-mode skip`, so the code dataset shipped with no configs, no eval folder, and no JSON at all | Every upload reported success. Assert the interface, then trust it |
@@ -237,7 +237,10 @@ are scored against (~498M tokens) **are** published in the
 [`kalia-v020`](https://huggingface.co/kalia-lm/kalia-v020) repo, hash-pinned in
 `corpus/manifest.json`, with the sources' attribution; the v0.2.0 corpus is
 licence-clean by construction. The recipe, manifests and filter ship here too and
-reproduce the full corpus exactly, since every source is public. The v0.1.2 code
+regenerate the full corpus from the same upstream data, since every source is
+public — but **the recipe pins no upstream dataset revision** (`prepare.py`
+calls `load_dataset` unpinned), so a rebuild run later may not be byte-identical
+to v0.2.0's corpus. Recorded as open in the 2026-10-17 review. The v0.1.2 code
 slice is **never** released — it was built without a licence check and is 41.7%
 non-permissive (39.5% GPL-family). That is disclosed on the v0.1.2 card rather
 than quietly fixed.

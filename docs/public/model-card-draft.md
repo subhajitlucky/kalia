@@ -1,6 +1,21 @@
 # KALIA v0.1.2 — Model Card
 
-> Final numbers filled 2026-09-23. Publish with the repository milestone.
+> **SUPERSEDED — historical draft, not a published card.** The published v0.1.2
+> card is `docs/public/hf-model-card.md`. Two statements below are known false
+> and are noted here rather than silently edited, because this file was the
+> text a reader might still reach for:
+>
+> 1. "Planned for v0.2.0 (**not used by this model**): Cosmopedia v2 … and a
+>    permissively licensed Python subset" is **wrong**. v0.1.2's mixture was
+>    `tinystories:20, fineweb_edu:60, cosmopedia:15, stack_smol:5` — Cosmopedia
+>    and the Python slice were both used by this checkpoint (journal
+>    2026-09-27, I16), which is exactly why the copyleft disclosure exists.
+> 2. The attribution table lists only TinyStories and FineWeb-Edu; the Python
+>    slice came from `codeparrot/codeparrot-clean` **unfiltered** at that time
+>    and belongs in the table.
+>
+> Found by the 2026-10-18 whole-record audit. This draft is referenced by no
+> tooling; it is kept for provenance, not for use.
 
 ## Model description
 

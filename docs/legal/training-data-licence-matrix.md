@@ -142,6 +142,17 @@ unverified cell in this table. It should be resolved before any corpus
 redistribution, and it does not affect the v0.2.0 release, which redistributes
 nothing.
 
+**Correction, 2026-10-18.** Two things above are now false and are left visible
+rather than edited away. The cosmopedia-v2 cell was **resolved conservatively on
+2026-10-17** — Apache-2.0 content notice plus ODC-By container credit, both
+satisfied — and the shards were published on 2026-10-07 carrying that notice
+(`corpus/NOTICE.md`, and the row 2 of the table above). And the clause "it does
+not affect the v0.2.0 release, which redistributes nothing" is **wrong**: the
+v0.2.0 repository publishes four 124,500,691-token shards plus the probe shard,
+~498M tokens, which this same table records as "yes, conditional". The denial
+survived three weeks after the upload and was caught by the 2026-10-17 external
+audit — the same shape as D52, in a second document.
+
 ## v0.3.0 new artifacts (added 2026-10-05, pre-launch)
 
 The continual update introduces three new artifact classes. None redistributes

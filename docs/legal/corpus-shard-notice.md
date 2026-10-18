@@ -17,7 +17,7 @@ published, which is what makes drift comparable across updates.
 | `fineweb.bin` | 124,500,691 | FineWeb-Edu dedup via `HuggingFaceTB/smollm-corpus` | ODC-By-1.0 | `HuggingFaceTB/smollm-corpus` |
 | `tinystories.bin` | 124,500,691 | `roneneldan/TinyStories` | CDLA-Sharing-1.0 | `roneneldan/TinyStories`; republished under the unmodified CDLA-Sharing-1.0 terms |
 | `cosmopedia.bin` | 124,500,691 | Cosmopedia v2 via `HuggingFaceTB/smollm-corpus` | Apache-2.0 (content card, `HuggingFaceTB/cosmopedia`); container tagged ODC-By | `HuggingFaceTB/cosmopedia` and `HuggingFaceTB/smollm-corpus` |
-| `python.bin` | 124,500,691 | `bigcode/codeparrot-clean`, per-file filtered | MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Unlicense, CC0-1.0 only | the respective per-file authors |
+| `python.bin` | 124,500,691 | `codeparrot/codeparrot-clean`, per-file filtered | MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Unlicense, CC0-1.0 only | the respective per-file authors |
 | `probe_val.bin` | 1,000,000 | the frozen first 1,000,000 tokens of the v0.2.0 training stream | as above, per source | as above |
 
 Licence references:

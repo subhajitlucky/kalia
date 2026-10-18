@@ -14,6 +14,7 @@ datasets:
 - roneneldan/TinyStories
 - HuggingFaceTB/smollm-corpus
 - HuggingFaceTB/cosmopedia
+- codeparrot/codeparrot-clean
 pipeline_tag: text-generation
 model-index:
 - name: KALIA v0.2.0
@@ -193,10 +194,10 @@ equal-length shards, and each skips its source's proportional validation head
 | File | Tokens | Source | Licence and attribution |
 |---|---|---|---|
 | `corpus/fineweb.bin` | 124,500,691 | FineWeb-Edu dedup (SmolLM corpus) | ODC-By-1.0 — credit: `HuggingFaceTB/smollm-corpus` |
-| `corpus/tinystories.bin` | 124,500,691 | TinyStories | CDLA-Sharing-1.0 — republished unmodified; credit: `roneneldan/TinyStories` |
+| `corpus/tinystories.bin` | 124,500,691 | TinyStories | CDLA-Sharing-1.0 — the **licence terms** are unmodified; the bytes are tokenized uint16 with an EOS separator between documents, not the raw source text. Credit: `roneneldan/TinyStories` |
 | `corpus/cosmopedia.bin` | 124,500,691 | Cosmopedia v2 (via SmolLM corpus) | Apache-2.0 (content card) — notice retained; ODC-By container credited |
 | `corpus/python.bin` | 124,500,691 | Python, per-file filtered | 7 permissive licences (MIT, Apache-2.0, BSD-2/3, ISC, Unlicense, CC0); filter: `prepare.py::is_permissive_license` |
-| `corpus/probe_val.bin` | 1,000,000 | held-out windows from the sources above | per source, as above |
+| `corpus/probe_val.bin` | 1,000,000 | the frozen first 1,000,000 tokens of the v0.2.0 **training** stream — deliberately not held-out data, and not the canonical validation set | per source, as above |
 | `corpus/manifest.json` | — | source paths, ratios, per-shard SHA-256 | — |
 
 Per-file licences and attribution links are in

@@ -13,6 +13,8 @@ tags:
 datasets:
 - roneneldan/TinyStories
 - HuggingFaceTB/smollm-corpus
+- HuggingFaceTB/cosmopedia
+- codeparrot/codeparrot-clean
 pipeline_tag: text-generation
 model-index:
 - name: KALIA v0.1.2
@@ -84,7 +86,7 @@ GPUs. Every weight was learned by this project's own training run.
 | Vocabulary | 50,257 (GPT-2 BPE) |
 | Optimizer | Muon (Newton–Schulz) on hidden matrices; AdamW for embeddings/head/1D |
 | Precision | fp16 with gradient scaling, DDP across 2× NVIDIA T4 |
-| Training data | TinyStories (~500M tokens) + FineWeb-Edu dedup (~2B tokens) |
+| Training data | FineWeb-Edu dedup 60% + TinyStories 20% + Cosmopedia 15% + Python 5% (see "Training data attribution" below; this row previously listed only the first two) |
 | Tokens seen | 1.82B (3,478 of 4,770 planned steps — see "Stopping") |
 
 ## Usage
@@ -198,7 +200,7 @@ Cosmopedia 15%, code 5%, of 2.4B training tokens.
 | HuggingFaceTB/smollm-corpus (FineWeb-Edu dedup) | 60% | ODC-By-1.0 |
 | roneneldan/TinyStories | 20% | CDLA-Sharing-1.0 |
 | HuggingFaceTB/cosmopedia | 15% | Apache-2.0 |
-| bigcode/codeparrot-clean (Python) | 5% | **per-file, mixed — see below** |
+| codeparrot/codeparrot-clean (Python) | 5% | **per-file, mixed — see below** |
 | GPT-2 BPE tokenizer (openai/tiktoken) | — | MIT |
 
 ### Disclosure: the code slice of *this* checkpoint is not licence-clean
