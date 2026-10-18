@@ -44,6 +44,11 @@ KERNELS = {
             "ghana": "0.10",
             "noreplay": "0.00",
         },
+        # Constants this runner declares, beyond ARM/KERNEL_ID/KERNEL_REVISION
+        # which every runner has. Declared rather than assumed: pinning a name a
+        # runner does not define fails, and inventing a knob it lacks would be a
+        # lie about what the run can vary.
+        "pins": ("SEED", "REPLAY"),
     },
     # The Kautilya trio has no replay knob: it samples the four published
     # per-source shards and passes no --replay-bin, so replay_prob stays at its
@@ -51,6 +56,15 @@ KERNELS = {
     "x28": {
         "runner": "kalia_kautilya_trio_kernel.py",
         "arms": {"static": None, "level": None, "trend": None},
+        "pins": ("SEED",),
+    },
+    # X17 runs its whole registered experiment in one kernel -- four arms, two
+    # seeds -- so there is no per-arm SEED to stage. Its seed pair is a kernel
+    # constant under the amendment (1338/1339).
+    "x17": {
+        "runner": "kalia_x17_kernel.py",
+        "arms": {"docmask": None},
+        "pins": (),
     },
 }
 
@@ -106,12 +120,16 @@ def main() -> None:
 
     patched = (ROOT / rel).read_text()
     patched = pin(patched, "ARM", args.arm)
-    patched = pin(patched, "SEED", args.seed)
     patched = pin(patched, "KERNEL_ID", meta["id"])
     patched = pin(patched, "KERNEL_REVISION", revision)
+    expected = {"ARM": args.arm, "KERNEL_ID": meta["id"], "KERNEL_REVISION": revision}
+    if "SEED" in spec["pins"]:
+        patched = pin(patched, "SEED", args.seed)
+        expected["SEED"] = args.seed
     replay = spec["arms"][args.arm]
-    if replay is not None:
+    if "REPLAY" in spec["pins"] and replay is not None:
         patched = pin(patched, "REPLAY", replay)
+        expected["REPLAY"] = replay
 
     dest.mkdir(parents=True, exist_ok=True)
     (dest / spec["runner"]).write_text(patched)
@@ -120,16 +138,12 @@ def main() -> None:
     # Read the staged file back: a pin that silently did not land is the one
     # failure this script exists to make impossible.
     staged = (dest / spec["runner"]).read_text()
-    expect = {"ARM": args.arm, "SEED": args.seed, "KERNEL_ID": meta["id"],
-              "KERNEL_REVISION": revision}
-    if replay is not None:
-        expect["REPLAY"] = replay
-    for name, value in expect.items():
+    for name, value in expected.items():
         if f'{name} = "{value}"' not in staged:
             raise SystemExit(f"staged {name} is not {value!r} -- refusing to leave a silent mis-stage")
 
     print(f"staged {args.kernel} {args.arm} seed {args.seed} @ {revision[:12]} -> {dest}")
-    for name, value in expect.items():
+    for name, value in expected.items():
         print(f"  {name} = {value}")
     print(f"  metadata: {meta_name}")
     print(f"\n  kaggle kernels push -p {dest}")

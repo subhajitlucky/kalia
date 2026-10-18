@@ -1,0 +1,18 @@
+{
+  "id": "subhajitlucky/kalia-x17-docmask",
+  "title": "KALIA x17 docmask",
+  "code_file": "kalia_x17_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-prep-v2b"
+  ],
+  "model_sources": []
+}
