@@ -177,8 +177,10 @@ differences smaller than about 2 points are not real.
 - **Two of five zero-shot benchmarks regressed against v0.1.2** when the corpus
   was rebuilt for licence compliance: ARC-Easy 45.8 → 42.0 and LAMBADA 23.0 →
   20.8. Held-out loss over the same rebuild improved by 0.2285 nats, so loss and
-  accuracy moved in opposite directions. Three of the five tasks moved by less
-  than their own ~2 pp standard error and are not separable at all. Whether the
+  accuracy moved in opposite directions. Against the measured 1.99–2.24 pp
+  standard error (D45), **none of the five movements reaches 2σ** — the two
+  regressions are the largest movements in the table, but at this sample size
+  they are signals, not verdicts. Whether the
   code-share change caused the regression is not established; it is the open
   question the next version has to answer.
 - **Long-range recall is weak, and measurably so.** Only 17.7% of training tokens

@@ -113,20 +113,25 @@ hashed file before the run finished.
 
 **Zero-shot benchmarks** (lm-evaluation-harness 0.4.9, 0-shot, 500 samples):
 
-| task | v0.1.2 | v0.2.0 | Δ | σ | stability rule (≤1.0pp) |
-|---|---|---|---|---|---|
-| PIQA | 61.4 | 63.8 | +2.40 | 1.1 | pass |
-| HellaSwag | 36.8 | 39.8 | +3.00 | 1.5 | pass |
-| WinoGrande | 50.2 | 50.8 | +0.60 | — | pass (inside noise) |
-| LAMBADA | 23.0 | 20.8 | **−2.20** | 1.2 | **fail** |
-| ARC-Easy | 45.8 | 42.0 | **−3.80** | 1.7 | **fail** |
+| task | v0.1.2 | v0.2.0 | Δ | \|Δ\|/σ | stability rule (≤1.0pp) |
+|---|---|---|---|---|
+| PIQA | 61.4 | 63.8 | +2.40 | ~1.2 | pass |
+| HellaSwag | 36.8 | 39.8 | +3.00 | ~1.5 | pass |
+| WinoGrande | 50.2 | 50.8 | +0.60 | ~0.3 | pass |
+| LAMBADA | 23.0 | 20.8 | **−2.20** | ~1.1 | **fail** |
+| ARC-Easy | 45.8 | 42.0 | **−3.80** | ~1.9 | **fail** |
+
+`σ` is lm-eval's standard error at 500 samples, measured at **1.99–2.24 pp** across these
+five tasks (decision D45); the ratios use the lower bound, so they read a movement as noise
+as generously as the measurement allows.
 
 ### Read the error bars
 
-At 500 samples these benchmarks carry a standard error of roughly **2 points**. **Three of
-the five movements are smaller than that**, so they cannot be called improvements. The
-honest summary is *a clear improvement in held-out loss, no measurable change in most
-zero-shot accuracy, and a real but modest regression on the two tasks that require
+**None of the five movements reaches 2σ, so none is individually significant on this
+sample.** The two regressions are the largest movements in the table and point the same
+way, but at this sample size they are signals, not verdicts. The honest summary is *a clear
+improvement in held-out loss, no individually significant change in zero-shot accuracy, and
+the two largest movements on this sample being regressions, on the tasks that require
 knowledge breadth and long-range recall.*
 
 Two things follow, and they are both uncomfortable:

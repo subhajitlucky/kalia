@@ -50,22 +50,31 @@ Full per-source licensing analysis, including what may and may not be redistribu
 corpus changed: **3.0533 → 2.8248, a 0.2285-nat improvement**, 4.6× the pre-registered
 0.05-nat bar. 0.9992 → **0.9244** bits-per-byte.
 
-**Zero-shot accuracy** (lm-eval 0.4.9, 0-shot, 500 samples). Standard errors at this sample
-size are ~2 points, so the deltas are read with that attached:
+**Zero-shot accuracy** (lm-eval 0.4.9, 0-shot, 500 samples). `σ` is the standard error
+lm-eval reports at this sample size, measured at **1.99–2.24 pp** across these five tasks
+(D45); the ratios below use the lower bound, so they are the most generous reading of a
+movement as noise:
 
-| task | v0.1.2 | v0.2.0 | Δ | σ |
+| task | v0.1.2 | v0.2.0 | Δ | \|Δ\|/σ |
 |---|---|---|---|---|
-| PIQA | 61.4 | 63.8 | +2.40 | 1.1 |
-| HellaSwag | 36.8 | 39.8 | +3.00 | 1.5 |
-| WinoGrande | 50.2 | 50.8 | +0.60 | inside noise |
-| LAMBADA | 23.0 | 20.8 | **−2.20** | 1.2 |
-| ARC-Easy | 45.8 | 42.0 | **−3.80** | 1.7 |
+| PIQA | 61.4 | 63.8 | +2.40 | ~1.2 |
+| HellaSwag | 36.8 | 39.8 | +3.00 | ~1.5 |
+| WinoGrande | 50.2 | 50.8 | +0.60 | ~0.3 |
+| LAMBADA | 23.0 | 20.8 | **−2.20** | ~1.1 |
+| ARC-Easy | 45.8 | 42.0 | **−3.80** | ~1.9 |
 
-**Three of the five movements are smaller than the measurement's own noise and cannot be
-called improvements.** The pre-registered stability rule allows no task to regress by more
-than 1.0 point, and v0.2.0 **fails it on two** — which is why it is held as an experiment
-rather than promoted over v0.1.2. The thresholds were not moved after seeing the result,
-and the noise floor is published beside the verdict rather than used to rescue it (D45).
+**None of the five movements reaches 2σ, so none is individually significant on this
+sample.** The pre-registered stability rule allows no task to regress by more than 1.0
+point, and v0.2.0 **fails it on two** — which is why it is held as an experiment rather
+than promoted over v0.1.2. The two regressions are the largest movements in the table and
+point the same way, but at this sample size they are signals, not verdicts. The thresholds
+were not moved after seeing the result, and the noise floor is published beside the verdict
+rather than used to rescue it (D45).
+
+> An earlier version of this section claimed "three of the five movements are smaller than
+> the measurement's own noise", and carried per-task `σ` of 0.3–1.7 that matched neither the
+> sentence beside it nor D45's measurement. Corrected 2026-10-18 by a whole-record audit; the
+> registered verdict is unchanged.
 
 **What the loss/accuracy split means.** Changing the data moved loss by 0.2285 and
 still cost 3.8 points on ARC-Easy. When loss improves and accuracy does not follow,

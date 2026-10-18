@@ -67,13 +67,22 @@ That is **4.6× the pre-registered 0.05 nat bar** (P-B, passed).
 **Registered verdict: P-B PASS, S-A FAIL.**
 
 **Read the noise before the numbers.** Standard errors at `limit=500` are
-1.8–2.2 pp, so **three of the five tasks are not separable from v0.1.2 at all.**
-The two failures are ARC-Easy at ~1.7σ and LAMBADA at ~1.2σ — neither
-overwhelming alone, but pointing the same way. The honest summary is *a clear
-improvement in held-out loss, no measurable change in most zero-shot accuracy,
-and a modest real signal of regression on the two tasks that need knowledge
+**1.99–2.24 pp** (D45, measured), so **none of the five movements reaches 2σ and
+none is individually significant** — PIQA ~1.2σ, HellaSwag ~1.5σ, WinoGrande
+~0.3σ, LAMBADA ~1.1σ, ARC-Easy ~1.9σ. The two failures are the largest
+movements in the table and point the same way; neither is overwhelming on its
+own. The honest summary is *a clear improvement in held-out loss, no
+individually significant change in zero-shot accuracy, and the two largest
+movements on this sample being regressions on the tasks that need knowledge
 breadth and long-range recall.* The registered thresholds were not moved to
 escape this.
+
+> Corrected 2026-10-18: this section previously read "three of the five tasks are
+> not separable from v0.1.2 at all" against "1.8–2.2 pp". Only WinoGrande is
+> inside one standard error. The registered verdict (S-A FAIL) is unchanged, and
+> the same false sentence remains visible in
+> `docs/preregistrations/2026-09-28-v020-final-evaluation.md`, which is
+> hash-anchored and is not edited.
 
 **The interim measurement was actively misleading.** At step 3,470, four of five
 tasks were regressing. The final checkpoint reversed that on three. Conclusions
