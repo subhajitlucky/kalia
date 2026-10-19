@@ -180,7 +180,9 @@ kalia/
   docs/research/         # technique surveys with honest prior-art verdicts
   docs/preregistrations/ # hash-anchored pre-registrations + LEDGER
   docs/legal/            # training-data licence matrix
-  docs/public/           # model cards, publish checklist
+  docs/public/           # model cards, publish checklist,
+                         #   and portfolio-full-build-log.md — the whole story,
+                         #   chapter by chapter, from the first build to the audit
 ```
 
 ## Local quickstart

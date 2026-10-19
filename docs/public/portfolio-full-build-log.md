@@ -1,26 +1,26 @@
-# KALIA: a 58M language model trained from scratch on free GPUs — the complete build log
+# KALIA: a 58M language model trained from scratch on free GPUs — the build log
 
 > अथ शब्दानुशासनम् — *"Now begins the discipline of words."*
 
-In two days, using only free-tier Kaggle GPUs (30 hours/week, 2× NVIDIA T4), I
-trained a 58M-parameter language model from **random initialization** to
-coherent story generation — no pretrained weights, no distillation, no
-fine-tuning, zero dollars of compute. This is the complete record: every
-experiment, every number, every decision, every mistake.
+A 58M-parameter language model trained from **random initialization** on
+free-tier Kaggle GPUs (30 hours/week, 2× T4) — no pretrained weights, no
+distillation, no fine-tuning, zero dollars of compute. This is the record,
+organised by what was built rather than by calendar: every experiment, every
+number, every decision, every mistake, including the ones that took three weeks
+to surface.
 
 **Headline results**
 
-| | |
-|---|---|
-| Model | 57,856,256 params, 10 layers × 512 dim, ctx 1024, GPT-2 BPE |
-| Training | 1.82B tokens seen; stopped at step 3,478 of 4,770 (quota; plateau documented) |
-| Held-out loss | **2.4366** / **0.8184 bits-per-byte** (deterministic, 819k tokens) |
-| Zero-shot | PIQA **61.4%** · ARC-Easy 45.8% · HellaSwag 36.8% · WinoGrande 50.2% |
-| vs baseline | overtook the AdamW baseline's *final* loss with **~23% fewer tokens** |
-| Compute | ~20 GPU-hours total (free tier) |
+| | v0.1.2 | v0.2.0 |
+|---|---|---|
+| Params | 57,856,256 | same |
+| Tokens seen | 1.82B | 2.50B |
+| Held-out loss | 3.0533 / 0.9992 bpB | **2.8248 / 0.9244 bpB** |
+| Zero-shot | PIQA 61.4 · ARC-E 45.8 · HellaSwag 36.8 | PIQA 63.8 · ARC-E 42.0 · HellaSwag 39.8 |
+| Status | released | released as an experiment; fails its own stability rule on two benchmarks |
 
-- Code + full engineering journal: https://github.com/subhajitlucky/kalia
-- Weights + model card: https://huggingface.co/kalia-lm/kalia-v012
+- Code + engineering journal: https://github.com/subhajitlucky/kalia
+- Weights: https://huggingface.co/kalia-lm/kalia-v012 · `kalia-v020`
 
 ---
 
@@ -32,34 +32,32 @@ optimizer, the exact run. That costs capability — this is a storyteller, not a
 assistant — and buys an auditable artifact. Every weight in KALIA exists
 nowhere else.
 
-The constraint was equally deliberate: **free compute only**. Kaggle's free
-tier gives 30 GPU-hours per week on 2×T4 (32GB total), with background
-"commit" runs and persistent notebook output. The whole system had to survive
-that: 8.5-hour session caps, weekly quota, resumable checkpoints, and no
-secrets in API-triggered runs.
+The constraint was equally deliberate: **free compute only**. Kaggle's free tier
+gives 30 GPU-hours per week on 2×T4, with background runs and persistent
+notebook output. The whole system had to survive that: session caps, weekly
+quota, resumable checkpoints, no secrets in API-triggered runs.
 
 The second goal shaped everything: **make the process verifiable**. Every
-experiment was pre-registered before it ran, with a SHA-256 hash in a public
-ledger. Every decision is numbered. Every incident is written down, including
-the embarrassing ones.
+experiment pre-registered before it ran, with a SHA-256 hash in a public ledger.
+Every decision numbered. Every incident written down, including the
+embarrassing ones — and by the end, several of them were mine, in public.
 
-## 2. Day 1 — build the machine, then measure
+## 2. Building the machine
 
-**Platform decision, by evidence.** Kaggle over Colab/Lightning: documented
-30 h/week, 2×T4, commit runs, 20GB persistent output, no credit card. This
-decision was made once and never revisited.
+**Platform, by evidence.** Kaggle over Colab/Lightning: documented 30 h/week,
+2×T4, background runs, 20GB persistent output, no credit card. Decided once,
+never revisited.
 
-**The codebase** (13 tasks, test-driven, 20 tests at first green build):
-a decoder-only transformer (RMSNorm, SwiGLU, RoPE, weight tying), a
-memory-mapped token dataset, a resumable DDP trainer with HuggingFace
-checkpoint sync, a sampler, and the Kaggle notebooks.
+**The codebase**, test-driven from the first green build: a decoder-only
+transformer (RMSNorm, SwiGLU, RoPE, weight tying), a memory-mapped token
+dataset, a resumable DDP trainer with HuggingFace checkpoint sync, a sampler, and
+the Kaggle notebooks that run it.
 
-**The data** was tokenized on free CPU (no quota cost): TinyStories
-(474M tokens) + FineWeb-Edu (2.0B) = **2.46B train + 10M val tokens**, GPT-2
-BPE, uint16 shards.
+**The data**, tokenized on free CPU where quota costs nothing: TinyStories +
+FineWeb-Edu, GPT-2 BPE, uint16 shards.
 
-**Micro-ablations before any expensive run.** Each arm: 30M params, 50M
-tokens, identical seed, ~30 minutes. Step-700 validation loss:
+**Micro-ablations before any expensive run.** Each arm: 30M params, equal tokens,
+identical seed, ~30 minutes. Step-700 validation loss:
 
 | Arm | Val loss |
 |---|---|
@@ -67,161 +65,250 @@ tokens, identical seed, ~30 minutes. Step-700 validation loss:
 | Muon | 3.5937 (−0.21) |
 | Muon + QK-Norm + logit soft-cap | **3.5103** (−0.29) |
 
-The ordering held at every checkpoint — not noise. Only then did the two
-full-scale runs launch (58M params, 2.5B tokens planned). After Day 1:
-the AdamW baseline at 3.2702 (step 2,250) and the new recipe at 3.2214
-(step 1,738) — **already past the baseline's final loss with 23% fewer
-tokens**.
+The ordering held at every checkpoint. Only then did the full-scale runs launch.
 
-## 3. Day 2 — discipline under pressure
+## 3. The first recipe, and the discipline that rejected it
 
-**A promising result was rejected.** Muon+ (one post-polar normalization step)
-beat plain Muon on 7 of 7 checkpoints — but by −0.015 nats, below the 0.02
-promotion threshold we set in advance. It did not ship. The threshold exists
-to stop wishful promotion, and it was enforced against our own favorite.
+**A promising result was refused.** Muon+ (one post-polar normalization step)
+beat plain Muon on 7 of 7 checkpoints — by −0.015 nats, below the 0.02 promotion
+threshold set in advance. It did not ship. The threshold was set first and
+applied second, to our own favourite.
 
-**LR sweep:** 0.015 → 3.4943 · **0.02 → 3.4941** · 0.03 → 3.5027 ·
-0.06 → 3.5380. 0.02 confirmed; further tuning has no headroom.
+**The LR sweep closed the question:** 0.015 → 3.4943 · **0.02 → 3.4941** ·
+0.03 → 3.5027 · 0.06 → 3.5380.
 
-**Architecture ablation** (763 steps, same data/seed):
+**The architecture search returned nothing.** Looped depth and grouped-query
+attention were quality-neutral; thin-and-deep lost 0.2. We published the
+negatives. One finding survived: the looped model ran **1.35× slower per step,
+not 2×**, because reused weights stay cache-hot.
 
-| Arm | Params | Val @ 700 |
+**The run told an honest story.** Validation plateaued for 1,000 steps while
+training loss kept falling. The cosine decay bit at step 3,000. Then quota ran
+out at step 3,478 of 4,770. A deterministic high-precision eval settled what the
+noisy ones could not: **2.4366 / 0.8184 bpB** on the original held-out set — no
+regression, the swings were noise.
+
+## 4. The compliance rebuild — a licence bug found and disclosed
+
+A per-file audit of the 5% code slice measured **41.7% of characters under
+non-permissive licences, 39.5% GPL-family**. The licence filter existed, was
+tested, and was correct — it landed **40 minutes after** the corpus that needed
+it, and nothing tied a new filter to a rebuild of existing data. That gap had
+put ~50M copyleft tokens into v0.1.2.
+
+Two things followed, both deliberate:
+
+- The v0.1.2 card **discloses it** rather than quietly fixing it, and the code
+  slice is never released.
+- "Publish all training data" was redefined as "publish the filtered corpus plus
+  the filter" — redistributing copyleft text is what triggers the obligation,
+  and v2b is licence-clean by construction.
+
+The rebuilt corpus trained **v0.2.0**: 3.0533 → **2.8248** on the same yardstick,
+4.6× the pre-registered bar. And on accuracy it **failed its own stability rule**
+on ARC-Easy (−3.8) and LAMBADA (−2.2), which is why it ships as an experiment
+rather than a promotion.
+
+**The lesson that outlived the bug:** a green test on a filter that ran on the
+wrong side of a timestamp reads exactly like safety.
+
+## 5. The architecture line, and closing it
+
+Six arms, one after another, each looking like a result and none surviving:
+
+- **X16, reversal training** — both pre-registered bars missed on both seeds. The
+  entry-exit gap got *worse*. Reversing chunk order does not teach token-level
+  entry.
+- **X18, gated residual** — a real 0.0436-nat gain, but the learned gate never
+  opened (0.0192 against a 0.05 bar; 5e-06 of response to its input). Deleting
+  the gate destroys the gain; deleting the input dependence entirely *beats* it
+  (X20, −0.1358). The effect was a static per-channel modulation, not the
+  data-dependent read the technique claims.
+- **X20/X21** — the largest architecture effect this project ever measured,
+  −0.1358 nats. Replicated at fresh seeds it **inverted to +0.0516**.
+
+**D48 closed the line.** The reason wasn't the arms; it was that no arm had ever
+been read against a measured baseline. Two independent sessions at one seed
+agree to 0.0018 — but fresh seeds come in ~0.11 nats higher at 30M. Every
+single-seed delta in the project was being read against a ruler nobody had
+measured. They were all noise, and the ranking between them was an artefact of
+comparing noise to noise.
+
+## 6. The noise floor stops the programme
+
+The continual-update programme (v0.3.0) opened with a measurement, not an
+experiment: **how much does the 58M control vary by seed?** Three arms, two
+sessions.
+
+**0.2892 nats** — 2.5× the 30M ruler, and five times the pre-registered 0.15
+stop threshold. Two sessions reproduced it to 0.0020. Steps 2–4 were cancelled
+by the registration's own rule, after ~13 GPU-hours spent to learn that the
+instrument couldn't resolve what the programme wanted to measure.
+
+The pivot was to visible-gain work: inference-time levers and full-scale data
+changes only.
+
+*(Recorded later, 2026-10-18: the stop used the wrong ruler. Steps 2–4 measure
+continual updates from a shared checkpoint, whose seed spread turns out to be
+**0.0015–0.0070** — some 40–200× smaller. The from-scratch spread does not govern
+them. The work resumed under new registrations, which was the right instinct, but
+the false stop was never recorded. It is now.)*
+
+## 7. Continual learning: three failures and a ladder
+
+**Inference-time first.** A copy probe showed the model *can* use context: oracle
+top-1 **0.828** against 0.125 chance. But BM25 top-3 — which never missed the
+true passage — fell to **0.297**. The bottleneck is choosing among confusable
+passages, not finding them. The log-prob selector *hurt* (−0.281); scoring only
+the decision position removed the harm but never beat greedy. At 58M the model's
+own probabilities do not contain the information needed to pick better
+continuations. One inference-time lever did work: **entity-consistent decoding**,
++0.061 retention, 3× greedy.
+
+**Test-time training closed null.** Across a 40× strength range, in-place fast
+weights moved entity retention by +0.0000.
+
+**The adaptive mixture ate dessert.** Reweighting sources by their own loss drifts
+to the easiest data: FineWeb 60% → 22.7%, train loss down, val **+0.0177 worse**.
+An improvement-aware policy halved the drift without stopping it. The failure
+mode is self-reference — a policy reading a signal the model also optimises.
+
+**The replay ladder.** Four Vedic recitation orderings as replay schedules gave a
+monotone val staircase (uniform < krama < jata < ghana, ~0.02-nat rungs) and a
+retention ladder in the same order. Structure costs, in proportion to its depth.
+
+## 8. The audit: the record against itself
+
+An external audit of everything published, then a whole-record audit — six
+parallel reads of 72,000 lines of journal, decisions, registrations, results,
+research and public documents.
+
+The finding was not about the model. **The project's distinctive asset is its
+record, and the record was the least-verified thing it owned.** Nine published
+claims contradicted the internal evidence: a model card called a *training-stream
+prefix* "held-out data"; the README said the model wasn't public while linking to
+it; the README had one experiment's conclusion **backwards**; a licence matrix
+denied shipping data that sits two rows above it in the same table.
+
+And a structural pattern across 24 incidents: **every root cause with a named
+tool attached is closed; every one whose fix is "be careful" is open.** Stale code
+bundles (7), self-referential measurement (5), thresholds below the metric's own
+noise (7), claims outliving their evidence (7), checks that never ran (8), silent
+no-ops (7). One safety tool was invoked by nothing but its own documentation.
+
+**What was built in response** — the part worth showing:
+
+- a claims checker that verifies the public documents still agree with the
+  evidence, and fails CI when they don't, with every rule named after the defect
+  it prevents;
+- the decorative checks wired into CI, so convention became enforcement;
+- a **run manifest** on every training job: seed, code fingerprint, every input's
+  sha256 — so a run proves what it was instead of being reconstructed by hand;
+- verdicts **computed from the archived logs**, not transcribed.
+
+## 9. Two reversals, one pattern
+
+The day's two headline results both dissolved on inspection, and both for the
+same reason.
+
+**Replay.** The claim was that 10% replay + rewarm beats no-replay. With a clean
+control — same runner, same corpus, same budget, replay the only variable — the
+0.088–0.094 nat gap decomposed into **6% replay and 94% delivery path** (one arm
+sampled 498M tokens ~1.05 times, the other 2.4B ~0.2 times). Replay's own effect
+is a small, reproducible *penalty*.
+
+**Document masking.** A registered correctness fix, never run, with every shipped
+model trained across document boundaries. It measured **+0.0444 worse** — but
+both arms were *evaluated* without the mask, so the fixed model was tested in a
+regime it had never trained in. The registration had predicted exactly this, in
+its pass branch. Scoring all four combinations:
+
+| | eval unmasked | eval masked |
 |---|---|---|
-| control (Muon+QK-Norm) | 29,921,280 | **3.4924** |
-| looped depth (2× passes, shared weights) | 29,921,280 | 3.5012 |
-| thin & deep (10L × 320) | 28,787,840 | 3.6969 |
-| grouped-query attention | 28,741,632 | 3.5031 |
+| train unmasked | 4.8037 | 4.8122 |
+| train masked | 4.8484 | **4.7998** |
 
-Nothing beat control by the pre-set margin, so the architecture stayed.
-Depth-thinning hurt (−0.2); looping and GQA were quality-neutral — costs
-without benefits at this scale. One finding survived: the looped model ran
-**1.35× slower per step, not 2×**, because reused weights stay cache-hot.
+The penalty was **100% the mismatch**. Matched, masking is *better* by 0.0124,
+at both seeds.
 
-**The training run told an honest story.** Validation loss plateaued for
-1,000 steps (2.53–2.63) while training loss kept falling. Then the cosine
-decay bit: 2.3986 at step 3,000. Then the weekly quota ran out at step 3,478
-of 4,770 (73%). A deterministic high-precision eval (100 batches, 819,200
-tokens) settled the question the noisy evals couldn't: **2.4366 loss /
-0.8184 bpB** — no regression, the swings were noise. Under our pre-registered
-stopping rule, the plateau plus quota exhaustion made the stop final.
+**The pattern, twice in one day:** the thing everyone believed was caused by the
+thing being studied, and both times it was caused by something else that wasn't
+held steady. First the book, not the revision. Then the exam, not the fix.
 
-**Evaluation beyond loss.** A frozen 27-prompt probe suite, a held-out
-sentence set, and two custom metrics:
+## 10. Every decision (D1–D54)
 
-- Probe held-out loss **3.2303** / bpB 0.9415
-- **Abhimanyu gap: 6.06 nats** — reversed-text NLL (9.29) minus forward NLL
-  (3.23). The model can enter fluent text but cannot exit it. Random would be
-  ~10.8. This motivated a pre-registered experiment (chunk-preserving reversal
-  training, "X16") that runs next.
-- Zero-shot benchmarks via lm-evaluation-harness, 0-shot, 500 samples:
-  **PIQA 61.4%** · ARC-Easy 45.8% · HellaSwag 36.8% (norm) · WinoGrande 50.2%
-  · LAMBADA 23.0% acc / ppl 194. For context, third-party tables list
-  OPT-125M (2× the parameters, ~160× the training tokens) at PIQA 63.0 /
-  ARC-Easy 43.5 / HellaSwag 29.2 — a fair scale reference, not a head-to-head.
-
-**Compliance-clean data for v0.2.0.** The v2 corpus (2.4B tokens: FineWeb-Edu
-60 / TinyStories 20 / Cosmopedia 15 / permissively-licensed Python 5) was
-rebuilt with a per-file license filter after discovering the first build's code
-shard had no license metadata. Nothing unclear-licensed will ever train a
-public model.
-
-## 4. Every decision (D1–D41)
+Selected, with the full ledger in `docs/DECISIONS.md`.
 
 | # | Decision | Outcome |
 |---|---|---|
-| D1 | Kaggle as the platform (30 h/week, 2×T4) | held |
-| D2 | From-scratch only; no fine-tuning | held |
-| D3 | ~58M params, 10L×512d, ctx 1024 | held |
-| D4 | TinyStories + FineWeb-Edu corpus | held |
-| D5 | Incremental version ladder, one change per version | held |
-| D6 | Micro-ablation before every full run | held |
-| D7 | Pre-register experiments with hashed predictions | held |
-| D8 | Journal every session, 3-source research protocol | held |
-| D9 | micro-batch 8 × accum 32 (OOM fix at equal effective batch) | held |
-| D10 | Browser-started runs only (API runs can't read secrets) | held |
-| D11 | Freeze v0.1.0 after one session as the equal-token baseline | held |
-| D12 | Micro-ladder before full runs (30M/50M tokens ≈ 30 min/screen) | held |
-| D13 | Journal everything; three independent sources per claim | held |
-| D14 | Implement Muon+ (E1) | validated, below threshold |
-| D15 | E1 (−0.015) below 0.02 threshold → do not auto-promote; test LR interaction | enforced |
-| D16 | Fix resume race: single downloader + atomic swap + barrier | fixed |
-| D17 | Expert reprioritization: LR sweeps first, recipe lock, bpB, data mix | held |
-| D18 | Finish v0.1.2 instead of abandoning at 71% | held |
-| D19 | v2 mixture: 60/20/15/5 (FineWeb-Edu/TinyStories/Cosmopedia/code) | built |
-| D20 | "Punch above weight": token efficiency, data quality before scale | held |
-| D21 | **Distillation rejected** — KALIA stays pure from-scratch | closed |
-| D22 | Adopt test-time-training / self-teaching research track | queued |
-| D23 | Invention target: entity memory + in-place TTT at 58M | queued |
-| D24 | Looped depth promoted to front of queue | tested → rejected |
-| D25 | **RL self-play and DSA/MoE rejected at this scale, on evidence** | closed |
-| D26 | Continual-learning recipe for post-training stage | planned |
-| D27 | Publishing policy: minimum footprint, honest only, no data redistribution | enforced |
-| D28 | Rebuild v2 code shard with license filter (`prep-v2b`) | done |
-| D29 | Evaluation harness (probe set, bpB, comparison tool) | done |
-| D30 | Reasoning-model policy: public methods, our own weights, no RLVR yet | held |
-| D31 | Freeze Muon LR at 0.02; sweep complete | closed |
-| D32 | Three ancient-text-inspired designs (Kautilya mixture, Utsarga schedule, Apoha-ELECTRA) | queued |
-| D33 | Four more (Jata-patha reversal = X16, Samyama loop scaling, Rasa conditioning, Anekantavada soup) | queued |
-| D34 | Three Veda-derived designs (self-knowledge head, format conditioning, procedural subset) | queued |
-| D35 | Gita compilations; prior art cited (guna controller adapted, not invented) | queued |
-| D36 | Entity-consistency harness; **narrowed** the entity-memory novelty claim (prior art exists) | active |
-| D37 | Chakravyuha dismissal corrected; Abhimanyu-gap metric built; X16 redesigned | active |
-| D38 | Hash-anchored pre-registration (J1) and pre-registered stopping (J2) adopted | active |
-| D39 | Strategic audit: finish → X16 → publish → v0.2.0; freeze experiment queue | held |
-| D40 | Quota-exhaustion response: X16 deferred to reset; publish assets now | superseded |
-| D41 | **Stop v0.1.2 at step 3,478** (converged within noise; quota saved for v0.2.0) | done |
+| D1–D8 | Platform, from-scratch, scale, corpus, ladder, micro-ablations, pre-registration, journal | held |
+| D15 | Muon+ below threshold → not promoted | enforced |
+| D21 | Distillation rejected | closed |
+| D25 | RL self-play and MoE rejected at this scale | closed |
+| D41 | Stop v0.1.2 at step 3,478 | done |
+| D42 | Publish negative results as prominently as wins | **active — the project's spine** |
+| D43 | The corpus rebuild redefined the yardstick; re-baseline both sides | active |
+| D44 | Copyleft disclosure + "publish the filter, not the raw corpus" | active |
+| D45 | Thresholds must exceed the measured noise floor | active |
+| D46 | The gated-residual gain is real but is not a gate | closed |
+| D47 | X20 static gate: best effect ever, nothing promoted without replication | done |
+| D48 | **Architecture line closed; no more single-seed arms** | active |
+| D49 | A load-bearing citation was about the wrong paper; retracted | closed |
+| D50 | The replay default's justification was unlocatable; removed | closed |
+| D51 | `--resume` silently continued the source schedule | fixed |
+| D52 | The v0.2.0 card denied a redistribution the repo ships | fixed |
+| D53 | WSD lands as mechanism; the decay shape stays a knob | active |
+| D54 | The record is the product, so the record is now checked | active |
 
-## 5. Every incident (I1–I12)
+## 11. Every incident (I1–I24)
+
+Full table in `docs/journal/`. The ones worth reading:
 
 | # | Incident | Root cause → fix |
 |---|---|---|
-| I1 | API-run couldn't read secrets | Secrets are per-notebook UI only → browser-started runs + fail-fast test |
-| I2 | Config file missing in first GPU run | Dataset upload skips subdirectories → flatten configs, assert existence |
-| I3 | OOM at step 1 | fp32 logits > T4 memory → micro-batch 8×32 + expandable segments |
-| I4 | Failed subprocess marked COMPLETE | `!` doesn't fail cells → `subprocess.run` + assert returncode |
-| I5 | Repo hygiene (env-specific wording, mixed authorship) | Normalized docs and commit identity |
-| I6 | Resume crash (`EOFError`) | Both DDP ranks wrote/read the same file → single downloader, atomic swap, barrier |
-| I7 | Latent crash on older checkpoints | Optimizer `load_state_dict` dropped new keys → defaults restored + regression test |
-| I8 | Log history lost across sessions | Resume didn't pull logs → pull-and-append on resume |
-| I9 | Mix step failed after 2h tokenization | Relative paths after `cd` → absolute paths; mix-only kernel reuses shards |
-| I10 | Wrong dataset mount path + stale code | `/kaggle/input/datasets/<owner>/<slug>/` → corrected globs, re-versioned dataset |
-| I11 | Misreported a 44-min run as ">5h" | Wall-clock guessing instead of run-start times → use `lastRunTime`; correction published |
-| I12 | Weekly GPU quota exhausted before the planned experiment | Quota accounting; the UI's "24h remaining" was misleading → defer to reset, re-plan |
+| **I6** | Resume crash (`EOFError`) | Both DDP ranks wrote the same checkpoint → single downloader, atomic swap, barrier |
+| **I7** | Latent crash on older checkpoints | Optimizer `load_state_dict` dropped new keys, silently → defaults restored + regression test |
+| **I14** | Published log began at step 1,740 | Log-restore fix landed mid-run → resume restores logs; verify the first step |
+| **I15** | Training windows ignored document boundaries | No notion of a "document" anywhere → `document_mask()`, and X17 |
+| **I16** | 41.7% of the code corpus is copyleft | The filter landed 40 min after the corpus → disclosure, rebuild, rebuild rule |
+| **I17** | The dataset publisher dropped two directories | `--dir-mode skip` → round-trip verify |
+| **I18–I20** | Continual arms would train zero steps; the control re-warmed too | `update_budget`, gated on `rewarm` → three tests |
+| **I22** | Six runs died with blank errors | A notebook-format warning became fatal → cell ids, static check |
+| **I23** | Stale code bundle loaded from a wrong mount | Fallback to *any* `train.py` → assert files, prefer the code dataset |
+| **I24** | A contamination gate reported 63,491,977 hits | Every one was whitespace → `MIN_DISTINCT` |
 
-## 6. The mistakes that stayed in
+## 12. The mistakes that stayed in
 
-- **Muon+ not promoted** despite winning 7/7 checkpoints — the threshold was
-  set first, applied second.
-- **Architecture search returned nothing** — looped depth and GQA were
-  quality-neutral; we published the negatives instead of hiding them.
-- **A documentation error was caught late**: our own docs described v0.1.2 as
-  "Muon+" for hours; the config proved it was plain Muon. Every public text
-  was corrected, and the hashed v0.2.0 pre-registration got a registered
-  amendment rather than a silent edit.
-- **The plateau** — 1,000 steps of no movement, documented instead of
-  massaged, then resolved honestly by a deterministic eval.
+- **Muon+ not promoted** despite winning 7/7 checkpoints — threshold first, decision second.
+- **The architecture search returned nothing**, and the one large effect inverted under replication.
+- **A documentation error caught late**: our docs described v0.1.2 as "Muon+" for hours; the config proved otherwise. Corrected, and the hashed pre-registration got a registered amendment rather than a silent edit.
+- **The plateau**, documented instead of massaged, then resolved by a deterministic eval.
+- **A programme stopped on the wrong ruler** (0.2892 from-scratch applied to 0.0015 continual), unrecorded for ten days.
+- **Nine claims that drifted from the evidence** — caught by an external audit, then a whole-record one, then made impossible by a checker.
 
-## 7. What's next
+## 13. What's next
 
-- **X16** (pre-registered, hash-anchored): does chunk-preserving reversal
-  training close the 6-nat Abhimanyu gap without hurting forward loss?
-- **v0.2.0**: new data lineage (compliance-clean v2 corpus) plus only changes
-  that pass pre-registered promotion rules — the rules were hashed *before*
-  the results existed.
-- Post-training, quantization, and a local chat demo are on the roadmap.
+- **The memory-only rung**: retrieval as a *tool* plus entity-consistent decoding —
+  the one inference-time lever that measured a win, at zero GPU cost.
+- **Weight updates from use** must beat a **zero-GPU-hour baseline** before they
+  run again. The scoreboard so far: data 1, inference-time 1, weight updates 0.
+- **Pin the code bundle** rather than fingerprint it — the largest remaining
+  unengineered failure class.
+- **The benchmark sample size** raised from 500 to 2,000 for any future accuracy claim.
 
-## 8. Reproduce it
+## 14. Reproduce it
 
 ```bash
 git clone https://github.com/subhajitlucky/kalia && cd kalia
 python -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
-python -m pytest tests/ -v          # 64 tests
+python -m pytest -q                      # 522 tests
+python tools/audit_claims.py --check     # public documents still match the record
+python tools/verify_prereg_ledger.py     # every registered hash still verifies
 ```
 
-Data prep, training, and evaluation run on free Kaggle notebooks; the repo's
-`notebooks/` folder contains every one of them. Pre-registration hashes are in
-`docs/preregistrations/LEDGER.md`. The full journal, all 41 decisions, and all
-12 incidents are in `docs/`.
+Data prep, training and evaluation run on free Kaggle notebooks; `notebooks/`
+contains every one. Pre-registration hashes are in
+`docs/preregistrations/LEDGER.md`; every run's raw logs are in `docs/results/`.
 
 *KALIA is a personal research project. Not affiliated with any government
 scheme, company, or other project using a similar name.*
