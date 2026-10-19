@@ -69,6 +69,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      None, ["docs/results/x29/noreplay/*"]),
     ("X17", "Intra-document masking, two seeds; registered 2026-09-28, run 2026-10-18",
      "2026-09-28-X17-doc-mask.md", ["docs/results/x17/*"]),
+    ("X17 matched", "Rerun with the eval masking the run trained under; effect undetectable",
+     None, ["docs/results/x17-matched/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

@@ -93,8 +93,17 @@ Paired deltas, treatment − control:
 
 **X17's registered verdict stands as measured: DM-1 FAIL on the protocol as
 registered.** Nothing here rewrites it. What this establishes is that the number
-it failed on was the mismatch, and that under matched evaluation the contrast
-changes sign and would clear the −0.010 bar at −0.0124.
+it failed on was the mismatch.
+
+> **Corrected 2026-10-19.** This section originally continued "…and that under
+> matched evaluation the contrast changes sign and would clear the −0.010 bar at
+> −0.0124." That was premature. The 2×2 measured *final losses only* on a
+> non-registered protocol, and 0.0024 above a bar is not a pass. A rerun on the
+> registered protocol with the eval fixed (`docs/results/x17-matched/`) puts the
+> same contrast at **−0.0051, with the two seeds disagreeing in sign and a paired
+> spread of 0.0164** — three times the effect. Masking is **undetectable** at this
+> scale. The 2×2's real contribution is narrower than claimed: it showed the
+> first number was a mismatch artifact, not that masking helps.
 
 Caveats, before this is used for anything:
 

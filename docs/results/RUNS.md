@@ -28,6 +28,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X29 replication` | Second seed (1402) for uniform and static | — | 6 files |
 | `X29 noreplay` | The single-variable replay control at both seeds | — | 8 files |
 | `X17` | Intra-document masking, two seeds; registered 2026-09-28, run 2026-10-18 | yes | 13 files |
+| `X17 matched` | Rerun with the eval masking the run trained under; effect undetectable | — | 11 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `corpus gates` | Contamination gate for the rebuilt corpus | — | 1 file |
@@ -129,6 +130,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x17/train_log-control-s1338.csv`
 - `… 7 more`
 
+**X17 matched**
+- `docs/results/x17-matched/README.md`
+- `docs/results/x17-matched/kalia-x17-docmask.log`
+- `docs/results/x17-matched/run_manifest.json`
+- `docs/results/x17-matched/train_log-control-s1338.csv`
+- `docs/results/x17-matched/train_log-control-s1339.csv`
+- `docs/results/x17-matched/train_log-treatment-s1338.csv`
+- `… 5 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -140,4 +150,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-20 runs tracked, 81 files archived, 3 with no evidence.
+21 runs tracked, 92 files archived, 3 with no evidence.

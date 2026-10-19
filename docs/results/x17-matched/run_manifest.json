@@ -1,0 +1,48 @@
+{
+  "arms": {
+    "control-s1338": {
+      "config": "micro-base",
+      "doc_mask": false,
+      "seed": 1338
+    },
+    "control-s1339": {
+      "config": "micro-base",
+      "doc_mask": false,
+      "seed": 1339
+    },
+    "treatment-s1338": {
+      "config": "micro-docmask",
+      "doc_mask": true,
+      "seed": 1338
+    },
+    "treatment-s1339": {
+      "config": "micro-docmask",
+      "doc_mask": true,
+      "seed": 1339
+    }
+  },
+  "code_fingerprint": "0444c15d2c246ad2fa645dc3bb0d096d481931dce2af450a09d1170e7b2ea80d",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "dm1_bar": -0.01,
+  "dm4_mask_engagement": 0.806083,
+  "experiment": "docmask",
+  "kernel_id": "subhajitlucky/kalia-x17-docmask",
+  "kernel_revision": "e10564fa0c9093a4245c2362c048a951298c4981",
+  "recorded": "2026-10-19T07:41:06.549998+00:00",
+  "seeds": [
+    1338,
+    1339
+  ],
+  "steps": 500,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}
