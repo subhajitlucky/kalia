@@ -64,6 +64,23 @@ def sha256_file(path) -> str:
     return h.hexdigest()
 
 
+def code_fingerprint(root) -> str:
+    """Identical to the runners' implementation, deliberately.
+
+    The first version of this kernel grew its own cruder fingerprint (a hash of
+    the top-level *.py bytes). It produced a different value for the same code
+    bundle and so was not comparable with any other run's -- the two-files-one-
+    fact drift this project keeps paying for, committed here while writing a
+    tool whose whole purpose was to remove a confound.
+    """
+    h = hashlib.sha256()
+    for p in sorted(Path(root).rglob("*")):
+        if p.is_file() and p.suffix in (".py", ".yaml"):
+            h.update(str(p.relative_to(root)).encode())
+            h.update(hashlib.sha256(p.read_bytes()).digest())
+    return h.hexdigest()
+
+
 def write_run_manifest(out_path, **fields) -> dict:
     fields.update(
         kernel_id=KERNEL_ID,
@@ -162,9 +179,7 @@ def main() -> None:
         loss_mask="never (only attn_mask varies)",
         cells=cells,
         code_snapshot=code_root,
-        code_fingerprint=hashlib.sha256(
-            b"".join(sorted(p.read_bytes() for p in Path(code_root).glob("*.py")))
-        ).hexdigest(),
+        code_fingerprint=code_fingerprint(code_root),
         val_bin={"path": val_bin, "sha256": sha256_file(val_bin)},
         checkpoints={arm: sha256_file(ckpt_root / arm / "ckpt.pt") for arm in ARMS},
     )
@@ -178,7 +193,7 @@ def main() -> None:
         means = []
         for masked in (False, True):
             tag = "masked" if masked else "unmasked"
-            per_seed = [cells[f"{arm}-{s}|eval_{tag}"] for s in ("1338", "1339")]
+            per_seed = [cells[f"{arm}-s{s}|eval_{tag}"] for s in ("1338", "1339")]
             means.append(sum(per_seed) / len(per_seed))
         print(f"  {label:24s}{means[0]:16.4f}{means[1]:14.4f}")
 
@@ -186,8 +201,8 @@ def main() -> None:
     for seed in ("1338", "1339"):
         for masked, name in ((False, "eval unmasked"), (True, "eval masked")):
             tag = "masked" if masked else "unmasked"
-            c = cells[f"control-{seed}|eval_{tag}"]
-            t = cells[f"treatment-{seed}|eval_{tag}"]
+            c = cells[f"control-s{seed}|eval_{tag}"]
+            t = cells[f"treatment-s{seed}|eval_{tag}"]
             print(f"  seed {seed} {name:14s} control {c:.4f}  treatment {t:.4f}  delta {t - c:+.4f}")
 
     print("\nThe matched comparison is train-masked/eval-masked against")

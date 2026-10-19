@@ -60,6 +60,57 @@ That is the next step, and it should happen before this result is written up as 
 negative. Recording a confounded number as a mechanism finding is the defect this
 project has spent the day removing from its own record.
 
+## The 2x2, and the reversal
+
+`kalia-x17eval-mask2x2` (CPU) scored all four archived checkpoints under both
+evaluation settings — `tools/kalia_x17_eval_kernel.py`, manifest `mask2x2.json`.
+Identical windows (a fresh `torch.Generator` seeded 1234 per cell, where
+train.py's `evaluate()` draws from the global RNG) and identical loss tokens
+(`loss_mask` never passed, since a document mask also drops boundary positions
+from the loss and would make the columns incomparable). Only `attn_mask` varies.
+
+|  | eval unmasked | eval masked |
+|---|---|---|
+| **train unmasked** (control) | 4.8037 | 4.8122 |
+| **train masked** (treatment) | 4.8484 | **4.7998** |
+
+Paired deltas, treatment − control:
+
+| seed | eval unmasked | eval masked |
+|---|---|---|
+| 1338 | +0.0493 | −0.0088 |
+| 1339 | +0.0400 | −0.0160 |
+| **mean** | **+0.0446** | **−0.0124** |
+
+- The mismatched mean **+0.0446 reproduces X17's recorded +0.0444** under fixed
+  windows. The measurement was right; the reading of it was not.
+- Matched — the cell the registration was missing — the treatment is **better**
+  by 0.0124, negative at both seeds.
+- **Interaction −0.0570.** The train/eval mismatch was worth more than the effect
+  it was hiding.
+- The control's own shift under eval-masking is +0.0085: masking a model that
+  never trained with it costs it. That is the mechanism of the artifact.
+
+**X17's registered verdict stands as measured: DM-1 FAIL on the protocol as
+registered.** Nothing here rewrites it. What this establishes is that the number
+it failed on was the mismatch, and that under matched evaluation the contrast
+changes sign and would clear the −0.010 bar at −0.0124.
+
+Caveats, before this is used for anything:
+
+- **Different protocol.** 100 batches with a fixed seed, against the registered
+  20 drawn from the global RNG. A re-measurement, not the registered verdict.
+- **DM-2 is not testable here.** "Ahead at ≥3 of 5 eval points" needs the curve;
+  this scores final losses only.
+- **At the bar, and the seeds differ 2×** (−0.0088 against −0.0160). A 0.0124 mean
+  against a 0.010 bar is not comfortably above it.
+- **The manifest's `code_fingerprint` is not comparable with X17's**
+  (`c3eb9571…` against `c1b861d3…`): this kernel's first version grew its own
+  cruder fingerprint — a hash of top-level `*.py` bytes rather than the runners'
+  per-file, path-qualified digest — so it fingerprints the same bundle
+  differently. Fixed in the kernel; the archived value stands as wrong, and is
+  recorded rather than quietly regenerated.
+
 ## Artifacts
 
 - `val_log-<arm>-s<seed>.csv`, `train_log-<arm>-s<seed>.csv` — per arm
@@ -67,6 +118,8 @@ project has spent the day removing from its own record.
   no-replay runs, so code-identity is proven), `train.bin` `313fc7ba…`,
   `val.bin` `625f8e5f…` (matches `docs/legal/val-shard-hashes.json`), and DM-4's
   engagement measured **before** training
-- `kalia-x17-docmask.log` — the kernel log
+- `mask2x2.json` — the eight evaluation cells, checkpoint hashes, and the windows
+  and loss-token policy the comparison rests on
+- `kalia-x17-docmask.log`, `kalia-x17eval-mask2x2.log` — the kernel logs
 
-Reproduce the verdict with `python tools/x17_verdict.py`.
+Reproduce with `python tools/x17_verdict.py` and `python tools/x17_mask2x2.py`.

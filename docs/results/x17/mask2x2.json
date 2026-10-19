@@ -1,0 +1,32 @@
+{
+  "batch_size": 8,
+  "batches": 100,
+  "cells": {
+    "control-s1338|eval_masked": 4.818221297264099,
+    "control-s1338|eval_unmasked": 4.809421987533569,
+    "control-s1339|eval_masked": 4.8061893892288206,
+    "control-s1339|eval_unmasked": 4.798056640625,
+    "treatment-s1338|eval_masked": 4.809399650096894,
+    "treatment-s1338|eval_unmasked": 4.858675782680511,
+    "treatment-s1339|eval_masked": 4.790205085277558,
+    "treatment-s1339|eval_unmasked": 4.838086762428284
+  },
+  "checkpoints": {
+    "control-s1338": "37d71d0036f901571859b9ee5b0af3dfa91a6faf82fc64f70791b94a59869bc3",
+    "control-s1339": "0607f5aaf9e8c6d495e136ed37df63c740f447bd6df31bc3a3792c7c1f148700",
+    "treatment-s1338": "093424142be074e70d66474d6280c9a6a2b9d0990752da7a098ef989313d7452",
+    "treatment-s1339": "f9e856e9c320db6b29ef887670ae8f71a9efe42d3dc10ec30fa2ea9d7c5631b9"
+  },
+  "code_fingerprint": "c3eb957177b73c53e8a6411ef3d4a78c555ebb1e3ac1b5f45c6c1bd3a8676558",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "eval_seed": 1234,
+  "experiment": "mask2x2",
+  "kernel_id": "subhajitlucky/kalia-x17eval-mask2x2",
+  "kernel_revision": "0e849f1a28ae3f9f4903158bafcbdd35733cd45a",
+  "loss_mask": "never (only attn_mask varies)",
+  "recorded": "2026-10-18T18:04:34.039048+00:00",
+  "val_bin": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}
