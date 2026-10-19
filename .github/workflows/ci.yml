@@ -47,3 +47,10 @@ jobs:
 
       - name: Public documents agree with the record
         run: python tools/audit_claims.py --check
+
+      # The archive is uneven for historical reasons and nothing made that
+      # visible. This fails when the registry stops matching what is on disk, so
+      # a run whose evidence goes missing shows up as a diff rather than a
+      # silence.
+      - name: Every run's evidence is where the registry says it is
+        run: python tools/build_runs_registry.py --check
