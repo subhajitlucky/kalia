@@ -25,6 +25,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import shutil
 import subprocess
 import sys
@@ -59,6 +60,26 @@ REQUIRED = [
     "configs/micro-docmask.yaml",
     "configs/kalia-v020.yaml",
 ]
+
+
+def kaggle_cli() -> str:
+    """The CLI next to the interpreter running this, not whatever is on PATH.
+
+    A bare "kaggle" worked in the shell this was written in and failed under the
+    venv interpreter, which is how the dataset publish died on a FileNotFoundError
+    with the payload already staged. tools/collect_kaggle_state.py already
+    resolved it this way; this file did not.
+    """
+    candidate = Path(sys.executable).parent / "kaggle"
+    return str(candidate) if candidate.exists() else "kaggle"
+
+
+def sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for block in iter(lambda: fh.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
 
 
 def stage(dest: Path) -> list[str]:
@@ -113,11 +134,18 @@ def stage(dest: Path) -> list[str]:
     return copied
 
 
-def verify() -> bool:
-    """Download the published dataset and assert the payload is really there."""
+def verify(expect: dict[str, str] | None = None) -> bool:
+    """Download the published dataset and assert the payload is really there.
+
+    `expect` maps relative path -> sha256 of the staged local file. Presence alone
+    is not verification: the first publish of the doc-mask eval fix passed the
+    filename check while the content question -- is the *fix* actually on Kaggle? --
+    needed a separate download and grep. A round trip that does not compare bytes
+    cannot tell a republished dataset from a restaged one.
+    """
     with tempfile.TemporaryDirectory() as tmp:
         rc = subprocess.run(
-            ["kaggle", "datasets", "download", DATASET, "-p", tmp, "--force"],
+            [kaggle_cli(), "datasets", "download", DATASET, "-p", tmp, "--force"],
             capture_output=True,
             text=True,
         )
@@ -143,6 +171,21 @@ def verify() -> bool:
             print(f"  MISSING {len(missing)}: {missing}")
             return False
         print(f"  all {len(REQUIRED)} required files present")
+
+        if expect:
+            differing = []
+            for rel, want in sorted(expect.items()):
+                got = Path(tmp) / rel
+                if not got.exists():
+                    differing.append(f"{rel}: absent")
+                elif hashlib.sha256(got.read_bytes()).hexdigest() != want:
+                    differing.append(f"{rel}: content differs")
+            if differing:
+                print(f"  {len(differing)} file(s) do not match what was staged:")
+                for line in differing[:10]:
+                    print(f"    {line}")
+                return False
+            print(f"  all {len(expect)} staged files match byte-for-byte")
         return True
 
 
@@ -160,6 +203,15 @@ def main() -> None:
         dest = Path(tmp) / "kalia-code-dev"
         copied = stage(dest)
         print(f"staged {len(copied)} files -> {dest}")
+        # Digest what we are about to upload, so the round trip can compare bytes
+        # rather than filenames. The first publish of the doc-mask eval fix passed
+        # the filename check and still needed a manual download to answer "is the
+        # fix actually on Kaggle?".
+        digests = {
+            str(p.relative_to(dest)): sha256(p)
+            for p in sorted(dest.rglob("*"))
+            if p.is_file()
+        }
         missing = [f for f in REQUIRED if f not in copied]
         if missing:
             print(f"  STAGE INCOMPLETE, refusing to publish: {missing}")
@@ -168,7 +220,7 @@ def main() -> None:
         # -r zip is load-bearing: the default is --dir-mode skip, which drops
         # configs/ and eval/ entirely and fails without any error.
         rc = subprocess.run(
-            ["kaggle", "datasets", "version", "-p", str(dest), "-r", "zip", "-m", args.message],
+            [kaggle_cli(), "datasets", "version", "-p", str(dest), "-r", "zip", "-m", args.message],
             capture_output=True,
             text=True,
         )
@@ -177,7 +229,7 @@ def main() -> None:
             sys.exit(rc.returncode)
 
     print("verifying...")
-    sys.exit(0 if verify() else 1)
+    sys.exit(0 if verify(digests) else 1)
 
 
 if __name__ == "__main__":
