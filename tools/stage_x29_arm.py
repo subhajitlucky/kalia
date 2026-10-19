@@ -74,6 +74,13 @@ KERNELS = {
         "arms": {"mask2x2": None},
         "pins": (),
     },
+    # Entity decoding, tested on a held-out half of each continuation. Same
+    # shape again: one kernel, no per-arm seed.
+    "entity": {
+        "runner": "kalia_entity_holdout_kernel.py",
+        "arms": {"holdout": None},
+        "pins": (),
+    },
 }
 
 
