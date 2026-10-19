@@ -116,6 +116,17 @@ import tiktoken  # noqa: E402
 enc = tiktoken.get_encoding("gpt2")
 stories = json.loads(open("eval/ttt_probe_stories.json").read())
 
+# Fail fast on tokenizer API misuse, before an hour of measurement. The first
+# version of this kernel called .tolist() on encode_ordinary's return value --
+# it is a plain list, not a tensor -- and died after completing all of story 0's
+# work. One assertion costs nothing and catches the whole class.
+_probe = enc.encode_ordinary("Once upon a time there was a cat named Max.")
+assert isinstance(_probe, list) and len(_probe) > 2, "encode_ordinary is not returning a list"
+_half = len(_probe) // 2
+assert enc.decode(_probe[_half:]), "decoding a list slice of ids failed"
+assert enc.decode(torch.tensor(_probe)[_half:].tolist()), "decoding a tensor slice failed"
+print("tokenizer probe ok:", repr(enc.decode(_probe[_half:])))
+
 
 def sample_candidates(prompt_ids, n, seed, temperature, top_k):
     """n continuations, returned as token tensors so they can be split."""
@@ -174,8 +185,10 @@ for i, story in enumerate(stories):
 
     greedy_second = enc.decode(greedy_seq[half:].tolist())
     greedy_full = enc.decode(greedy_seq.tolist())
+    # encode_ordinary returns a python list, not a tensor: the first version of
+    # this line called .tolist() on it and died after doing all of story 0's work.
     ref_second = enc.decode(
-        enc.encode_ordinary(story["reference_continuation"])[half:].tolist()
+        enc.encode_ordinary(story["reference_continuation"])[half:]
     )
 
     by_half = max(range(N), key=lambda j: cand[j]["first_retention"])
@@ -205,6 +218,13 @@ for i, story in enumerate(stories):
           f"half_pick {rows[-1]['half_pick']['holdout']:.3f} | "
           f"oracle {rows[-1]['oracle']['holdout']:.3f} | "
           f"reference {rows[-1]['reference']['holdout']:.3f}")
+    # Written per story, not once at the end. The first run died on a one-line
+    # bug in the *last* computation of story 0 and threw away everything it had
+    # measured getting there -- the same shape as the 2x2 kernel, which failed
+    # while printing its summary with all eight cells already computed. A long
+    # measurement should not be able to lose itself to a typo in its own report.
+    with open("/kaggle/working/entity_holdout.partial.json", "w") as fh:
+        json.dump({"stories": rows}, fh, indent=2)
 
 names = ("greedy", "logprob_pick", "half_pick", "full_pick", "oracle", "reference")
 agg = {n: sum(r[n]["holdout"] for r in rows) / len(rows) for n in names}
@@ -230,6 +250,17 @@ print("\n== paired bootstrap, 95% CI over stories ==")
 for name, t in tests.items():
     verdict = "excludes zero" if t["excludes_zero"] else "INCLUDES ZERO"
     print(f"  {name}: {t['mean']:+.4f} [{t['lo']:+.4f}, {t['hi']:+.4f}]  {verdict}")
+
+# Invariants that a silent logic error would break. The oracle picks the best
+# held-out retention by construction, so anything scoring above it means the
+# selection or the splitting is wrong -- a wrong number rather than a crash,
+# which is the failure mode this project keeps finding.
+for r in rows:
+    assert r["oracle"]["holdout"] >= r["half_pick"]["holdout"] - 1e-12, r["id"]
+    assert r["oracle"]["holdout"] >= r["full_pick"]["holdout"] - 1e-12, r["id"]
+    assert r["oracle"]["holdout"] >= r["logprob_pick"]["holdout"] - 1e-12, r["id"]
+    assert 0.0 <= r["greedy"]["holdout"] <= 1.0 and 0.0 <= r["half_pick"]["holdout"] <= 1.0
+print(f"invariants ok on {len(rows)} stories (oracle bounds every selector)")
 
 report = {
     "prompt_tokens": PROMPT_TOKENS, "gen_tokens": GEN_TOKENS, "n": N,
