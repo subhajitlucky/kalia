@@ -253,13 +253,42 @@ def pull_from_hub(repo_id: str, path_in_repo: str, local_path: Path) -> bool:
 
 
 @torch.no_grad()
-def evaluate(model, dataset, eval_steps: int, bytes_per_token: float | None = None):
+def evaluate(
+    model,
+    dataset,
+    eval_steps: int,
+    bytes_per_token: float | None = None,
+    doc_mask: bool = False,
+):
+    """Held-out loss. With ``doc_mask``, attention is masked exactly as training masks it.
+
+    X17 measured intra-document masking at +0.0444 nats *worse*, and the number
+    was an artifact: the control trained and was tested matched, while the
+    treatment trained masked and was tested with full causal attention. The
+    registration had named this -- *"the eval must use the same masking as
+    training to be meaningful"* -- in its pass branch, and nothing implemented it.
+
+    **What is and is not matched.** Only ``attn_mask`` is applied. ``loss_mask``
+    is deliberately *not*: a document mask also drops boundary positions from the
+    loss, so applying it would average the treatment over a different set of
+    tokens than the control and make the two columns incomparable -- the problem
+    this fixes, not a second instance of it. Attention is what the mechanism
+    changes; the loss set is held constant.
+
+    With ``doc_mask`` false this is byte-identical to what every recorded run
+    used, which is asserted by a test rather than assumed.
+    """
     was_training = model.training
     model.eval()
+    device = next(model.parameters()).device
     total = 0.0
     for _ in range(eval_steps):
-        x, y = dataset.get_batch(8, next(model.parameters()).device)
-        _, loss = model(x, y)
+        if doc_mask:
+            x, y, attn_mask, _ = dataset.get_batch(8, device, return_masks=True)
+            _, loss = model(x, y, attn_mask=attn_mask)
+        else:
+            x, y = dataset.get_batch(8, device)
+            _, loss = model(x, y)
         total += loss.item()
     if was_training:
         model.train()
@@ -743,7 +772,8 @@ def main(argv=None) -> None:
                 target = train_cfg.get("target_val_loss")
                 if is_master:
                     val_loss, val_bpb = evaluate(
-                        model, val_ds, train_cfg["eval_steps"], bytes_per_token
+                        model, val_ds, train_cfg["eval_steps"], bytes_per_token,
+                        doc_mask=doc_mask,
                     )
                     msg = f"step {step} | val loss {val_loss:.4f}"
                     if val_bpb is not None:
@@ -807,7 +837,7 @@ def main(argv=None) -> None:
                 dtype = next(raw.parameters()).dtype
                 backup = {k: v.detach().clone() for k, v in raw.state_dict().items()}
                 raw.load_state_dict({k: v.to(dtype) for k, v in ema_state.items()})
-                ema_loss, ema_bpb = evaluate(model, val_ds, train_cfg["eval_steps"], bytes_per_token)
+                ema_loss, ema_bpb = evaluate(model, val_ds, train_cfg["eval_steps"], bytes_per_token, doc_mask=doc_mask)
                 msg = f"EMA val loss {ema_loss:.4f}"
                 if ema_bpb is not None:
                     msg += f" | bpB {ema_bpb:.4f}"
