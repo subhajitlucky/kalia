@@ -34,7 +34,11 @@ Reported for every story, so the comparison is paired:
     reference     the human continuation                             <- ceiling
     full_pick     the recorded selector, scored on the full text     <- the 3x
 
-CPU or GPU; it is a measurement, not a training run.
+CPU on purpose. It is a measurement, not a training run: it costs no GPU quota,
+and it does not compete for the two batch GPU sessions -- which were both held by
+stale scheduler entries when this was first pushed, and which queued an earlier
+X17 attempt for 25 minutes for the same reason. 20 stories x 8 samples x 256
+tokens is a few tens of minutes of CPU.
 """
 
 import glob
