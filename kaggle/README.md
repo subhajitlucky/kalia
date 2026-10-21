@@ -5,10 +5,19 @@ hand-edit; `--check` fails if this file stops matching Kaggle. Every KALIA kerne
 and dataset is private; exposure is checked separately by
 `tools/audit_public_state.py`.
 
-## Kernels (44)
+## Kernels (53)
 
 | ref | title | last run | recorded in repo |
 |---|---|---|---|
+| `subhajitlucky/kalia-bench-pair-2k` | KALIA bench pair 2k | 2026-10-21 | `kernel-metadata-bench-pair-2k.json` |
+| `subhajitlucky/kalia-entity-holdout` | KALIA entity holdout | 2026-10-21 | `kernel-metadata-entity-holdout.json` |
+| `subhajitlucky/kalia-x31-qk-isolation` | KALIA x31 qk isolation | 2026-10-21 | `kernel-metadata-x31-qk-isolation.json` |
+| `subhajitlucky/kalia-x17-docmask` | KALIA x17 docmask | 2026-10-19 | `kernel-metadata-x17-docmask.json` |
+| `subhajitlucky/kalia-x17eval-mask2x2` | KALIA x17eval mask2x2 | 2026-10-18 | `kernel-metadata-x17eval-mask2x2.json` |
+| `subhajitlucky/kalia-x29-noreplay-probe` | KALIA x29 noreplay probe | 2026-10-18 | `kernel-metadata-x29-noreplay-probe.json` |
+| `subhajitlucky/kalia-x29-noreplay-s1402` | KALIA x29 noreplay s1402 | 2026-10-18 | `kernel-metadata-x29-noreplay-s1402.json` |
+| `subhajitlucky/kalia-x29-noreplay` | KALIA x29 noreplay | 2026-10-18 | `kernel-metadata-x29-noreplay.json` |
+| `subhajitlucky/kalia-x29-replication-probe` | KALIA x29 replication probe | 2026-10-18 | `kernel-metadata-x29-replication-probe.json` |
 | `subhajitlucky/kalia-x28-static-s1402` | KALIA x28 static s1402 | 2026-10-17 | `kernel-metadata-x28-static-s1402.json` |
 | `subhajitlucky/kalia-x29-uniform-s1402` | KALIA x29 uniform s1402 | 2026-10-17 | `kernel-metadata-x29-uniform-s1402.json` |
 | `subhajitlucky/kalia-x29-forget-probe` | KALIA x29 forget probe | 2026-10-13 | `kernel-metadata-x29-forget-probe.json` |
@@ -58,7 +67,7 @@ and dataset is private; exposure is checked separately by
 
 | ref | title | size | last updated |
 |---|---|---|---|
-| `subhajitlucky/kalia-code-dev` | KALIA code dev | 0.4 MB | 2026-10-12 |
+| `subhajitlucky/kalia-code-dev` | KALIA code dev | 0.5 MB | 2026-10-19 |
 | `subhajitlucky/kalia-publish-aux` | KALIA publish aux | 0.0 MB | 2026-10-07 |
 | `subhajitlucky/kalia-v020-ckpt` | KALIA v020 checkpoint | 523.4 MB | 2026-10-05 |
 | `subhajitlucky/kalia-code` | KALIA code | 0.0 MB | 2026-09-22 |
