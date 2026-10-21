@@ -25,14 +25,12 @@ free Kaggle GPUs. No pretrained weights, no fine-tuning, no distillation, no
 budget.
 
 This is an **experiment release, not a promotion**. It improves held-out loss on
-its pre-registered primary metric, and it **fails its own pre-registered
-stability rule at the registered 500 samples on two of five benchmarks**. At the
-2026-10-21 2,000-sample re-measurement, only **LAMBADA** remains outside the 1.0
-percentage-point allowance (−1.25 points, z = −0.92). The ARC-Easy regression
-did not replicate (+0.45), and no movement reaches 2σ. The thresholds were not
-moved after the results existed. Under the registered rule, the previous
-release, [kalia-v012](https://huggingface.co/kalia-lm/kalia-v012), remains the
-recommended checkpoint.
+the pre-registered primary metric. The registered 500-sample stability rule
+fails on two benchmarks; at the 2026-10-21 **2,000-sample re-measurement**, only
+**LAMBADA** remains outside the 1.0-point allowance (−1.25 points, z = −0.92),
+ARC-Easy is **+0.45**, and no movement reaches 2σ. Under the registered rule,
+the previous release, [kalia-v012](https://huggingface.co/kalia-lm/kalia-v012),
+remains the recommended checkpoint.
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -94,18 +92,14 @@ Measured with lm-evaluation-harness 0.4.9, 0-shot, at **2,000 samples** on
 
 ![Zero-shot accuracy at 2,000 samples](charts/zero_shot_accuracy.png)
 
-**No movement reaches 2σ.** LAMBADA is the only task outside the registered 1.0
-percentage-point allowance, by 0.25 points, and its own z is −0.92. The honest
-summary is a clear improvement in held-out loss, no individually significant
-change in zero-shot accuracy, and one edge-of-the-rule regression on the task
-that needs long-range recall.
+**No movement reaches 2σ.** LAMBADA is the only task outside the registered
+1.0-point allowance, by 0.25 points (z = −0.92).
 
 ![Accuracy deltas with 95% confidence intervals](charts/accuracy_deltas.png)
 
 The original 500-sample evaluation remains in the record. Its ARC-Easy −3.80
-and HellaSwag +3.00 did not survive the larger sample; the 500-sample standard
-error was about 2 points (D45). The ARC-Easy point was a measurement artifact,
-not a property of the corpus.
+and HellaSwag +3.00 did not survive 2,000 samples; the 500-sample standard error
+was about 2 points (D45).
 
 ![The 500-sample deltas did not survive 2,000 samples](charts/correction_500_vs_2k.png)
 
@@ -117,7 +111,7 @@ long as the 1,024-token context**, and that TinyStories — a fifth of the mixtu
 — supplies **0.03%** of them. LAMBADA asks a model to hold a discourse and
 recall its final word, which is exactly what that corpus cannot teach. The probe
 also found a candidate replacement source at 99.3%. The mixture remains the open
-lever, but it is not an accuracy catastrophe.
+lever.
 
 ## Architecture
 
@@ -192,10 +186,8 @@ right to train outright.
 - **Small and domain-narrow.** Coherent short-form English; children's stories
   and educational text. Not a general assistant, and there is no instruction
   tuning yet.
-- **At 2,000 samples, one of five benchmarks is outside the 1.0-point
-  allowance:** LAMBADA, at −1.25 points (z = −0.92). Loss improved
-  substantially, and no movement reaches 2σ.
-- **Long-range recall is weak, and measurably so.** See the LAMBADA note above.
+- **Long-range recall is weak.** LAMBADA is the only task outside the
+  1.0-point allowance at 2,000 samples (−1.25, z = −0.92); see the note above.
 - **Training plateaus.** Validation loss is flat across the final 1,500 of 4,770
   steps (spread 0.065 nats over seven evaluations). The last 31% of training
   produced no measurable gain. Fixing that is the point of the next version.

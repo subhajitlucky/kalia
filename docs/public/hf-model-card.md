@@ -126,7 +126,7 @@ than resumed. The plateau is documented in the repository journal.
 
 ## Limitations
 
-Stated as measured, not as marketing. At 500 samples these benchmarks have
+Limitations are stated as measured. At 500 samples these benchmarks have
 standard errors of roughly 2.0–2.2 points.
 
 - **Small model.** Coherent short-form English, not a general assistant.
