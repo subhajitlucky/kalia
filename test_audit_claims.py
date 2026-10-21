@@ -71,8 +71,8 @@ def test_a_card_calling_the_probe_held_out_is_caught(tmp_path):
     _replace(
         root,
         audit.CARDS[1],
-        "deliberately not held-out data, and not the canonical validation set",
-        "held-out windows from the sources above",
+        "It is deliberately not held-out data and is not the canonical validation set.",
+        "held-out windows from the sources above.",
     )
     problems = audit.check_probe_role(root)
     assert problems and "held-out" in problems[0]
