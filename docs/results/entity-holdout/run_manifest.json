@@ -1,0 +1,17 @@
+{
+  "checkpoint": {
+    "path": "/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt",
+    "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+  },
+  "code_fingerprint": "0ed2891037a230ebfcadb8753e5147422e91e194de6d344b376c3b5e4ce0098f",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "device": "cuda",
+  "experiment": "holdout",
+  "holdout_split": 128,
+  "kernel_id": "subhajitlucky/kalia-entity-holdout",
+  "kernel_revision": "3b522eed89468f6c50f2ac4614fea97aa13e523b",
+  "recorded": "2026-10-21T06:54:55.532701+00:00",
+  "samples_per_story": 8,
+  "stories": 20,
+  "stories_sha256": "a94b15f677313b719d26baf59ced1be6ab1b242b988b4488417a6cd7186f7272"
+}

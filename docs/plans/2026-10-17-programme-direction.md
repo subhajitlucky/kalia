@@ -3,8 +3,10 @@
 **Status:** draft for approval, 2026-10-17. **Amended 2026-10-18** after M0's gate
 was read on a clean contrast: M0 is measured rather than projected, metric R's
 gate turned out to be green by construction, and the ladder's ordering is
-contested below with evidence. The goal, the four protocols and the non-goals are
-unchanged.
+contested below with evidence. **Amended 2026-10-21** after the entity-holdout
+test: the recorded +0.061 entity-decode win is circular, and the honest
+held-out-half result is +0.011 [−0.007, +0.032]. The goal, the four protocols
+and the non-goals are unchanged.
 **Supersedes:** nothing. Does not touch the v0.3.0 registration; its stopped
 steps stay stopped.
 
@@ -30,8 +32,10 @@ build:
   "learns from usage" system, demonstrated with a dose-response ladder;
 - the **replay ladder** (X29): plain shuffled replay helps retention, structure
   costs in proportion to depth — measured on two instruments;
-- the **TTT null** (X25) and the **entity-decode win** (+0.061 retention, 3×
-  greedy);
+- the **TTT null** (X25) and the **entity-decode coverage result** — the oracle
+  finds 0.0618 on a held-out half against greedy's 0.0170, so the right
+  continuation is in the pool; the recorded +0.061 full-text "3×" is circular
+  and did not survive the holdout test (`docs/results/entity-holdout/`);
 - the pre-registration + incident apparatus that makes every one of the above
   auditable.
 
@@ -121,6 +125,14 @@ update budget.
 | **M2 — usage-loop v1: gated weight updates** (2–6 weeks, ≤4 GPU-h/cycle) | Curated interactions → periodic continual update (rewarm + uniform replay, the v0.2.1 recipe) → scored on A, R, C, G with the ruler rule. Publish the first acquisition-vs-retention-vs-cost curves at sub-billion scale. | Three consecutive cycles with ΔA above spread and R within it; any G rejection triggers a rebuild, not a retry |
 | **M3 — the artifact** | The failure atlas (dessert, replay ladder, TTT null, wrong-instrument class) + the four curves + the harness and ledger format. A methodology reference for cheap continual learning that does not exist in this form. | Independent reproduction of one cycle from the repo alone |
 
+**M1's evidence changed on 2026-10-21.** The entity-decode +0.061 is circular;
+the held-out-half test is **+0.011 [−0.007, +0.032]**, not distinguishable from
+zero at 20 stories. The coverage result (oracle 0.0618 vs greedy 0.0170) still
+says the right continuation is in the pool, but the entity rule does not
+reliably retrieve it. M1 must be scoped as a **selector/coverage** problem, not
+a proven memory lift, and its 0-GPU-hour claim no longer holds for the completed
+measurement: the CPU protocol could not finish 20 stories.
+
 ## M0 as measured (2026-10-18)
 
 The gate was written as *"uniform 10% replay + rewarm beats no-replay beyond the
@@ -161,8 +173,10 @@ Recorded rather than resolved, because it is a judgement about what to bet on an
 it is the owner's.
 
 The evidence to date is lopsided. Measured positive: a corpus change (**−0.2285
-nats**, the largest effect this project has ever produced) and entity-consistent
-decoding (**+0.061 retention, 3× greedy, 0 GPU-h**). Measured null or worse:
+nats**, the largest effect this project has ever produced) and the entity-decode
+**coverage** result (the right continuation is in the pool). The recorded
+**+0.061 "3×" is circular**; the held-out-half test is **+0.011
+[−0.007, +0.032]**, so the rule is not the win. Measured null or worse:
 test-time training (closed null across a 40× range), the adaptive mixture
 (+0.018 worse, and it ate dessert), the replay ladder (orderings that cost
 proportionally to their structure), reverse-aware attention (withdrawn pre-GPU),

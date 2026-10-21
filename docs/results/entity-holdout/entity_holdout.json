@@ -1,0 +1,626 @@
+{
+  "prompt_tokens": 768,
+  "gen_tokens": 256,
+  "n": 8,
+  "holdout_split": 128,
+  "temperature": 0.8,
+  "top_k": 200,
+  "bootstrap_iters": 2000,
+  "holdout_aggregate": {
+    "greedy": 0.016956100837679785,
+    "logprob_pick": 0.010265010187610807,
+    "half_pick": 0.027718377079294844,
+    "full_pick": 0.039767409917801366,
+    "oracle": 0.061831525663982326,
+    "reference": 0.08033561360524126
+  },
+  "full_aggregate": {
+    "greedy": 0.029554636873715824,
+    "logprob_pick": 0.035272084793176124,
+    "half_pick": 0.08641690338080546,
+    "full_pick": 0.09074893608240339,
+    "reference": 0.09778475958379901
+  },
+  "tests": {
+    "half_pick_minus_greedy_holdout": {
+      "mean": 0.010762276241615057,
+      "lo": -0.007349792636170345,
+      "hi": 0.03178882954283629,
+      "excludes_zero": false
+    },
+    "half_pick_minus_logprob_holdout": {
+      "mean": 0.017453366891684037,
+      "lo": 0.0026671408250355617,
+      "hi": 0.03611764621927497,
+      "excludes_zero": true
+    },
+    "full_pick_minus_greedy_full": {
+      "mean": 0.06119429920868756,
+      "lo": 0.038855170413356725,
+      "hi": 0.08602980107651209,
+      "excludes_zero": true
+    }
+  },
+  "stories": [
+    {
+      "id": "gutenberg-00",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.029411764705882353,
+        "full": 0.029411764705882353
+      },
+      "half_pick": {
+        "holdout": 0.029411764705882353,
+        "full": 0.029411764705882353,
+        "index": 1
+      },
+      "full_pick": {
+        "holdout": 0.029411764705882353,
+        "full": 0.029411764705882353,
+        "index": 1
+      },
+      "oracle": {
+        "holdout": 0.029411764705882353
+      },
+      "reference": {
+        "holdout": 0.058823529411764705,
+        "full": 0.11764705882352941
+      },
+      "spread_of_holdout": 0.029411764705882353
+    },
+    {
+      "id": "gutenberg-01",
+      "greedy": {
+        "holdout": 0.1111111111111111,
+        "full": 0.1111111111111111
+      },
+      "logprob_pick": {
+        "holdout": 0.1111111111111111,
+        "full": 0.2222222222222222
+      },
+      "half_pick": {
+        "holdout": 0.1111111111111111,
+        "full": 0.2222222222222222,
+        "index": 7
+      },
+      "full_pick": {
+        "holdout": 0.1111111111111111,
+        "full": 0.2222222222222222,
+        "index": 7
+      },
+      "oracle": {
+        "holdout": 0.1111111111111111
+      },
+      "reference": {
+        "holdout": 0.2222222222222222,
+        "full": 0.2222222222222222
+      },
+      "spread_of_holdout": 0.1111111111111111
+    },
+    {
+      "id": "gutenberg-02",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.027777777777777776,
+        "index": 3
+      },
+      "full_pick": {
+        "holdout": 0.05555555555555555,
+        "full": 0.05555555555555555,
+        "index": 4
+      },
+      "oracle": {
+        "holdout": 0.05555555555555555
+      },
+      "reference": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "spread_of_holdout": 0.05555555555555555
+    },
+    {
+      "id": "gutenberg-03",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.058823529411764705
+      },
+      "half_pick": {
+        "holdout": 0.11764705882352941,
+        "full": 0.17647058823529413,
+        "index": 4
+      },
+      "full_pick": {
+        "holdout": 0.11764705882352941,
+        "full": 0.17647058823529413,
+        "index": 4
+      },
+      "oracle": {
+        "holdout": 0.11764705882352941
+      },
+      "reference": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "spread_of_holdout": 0.11764705882352941
+    },
+    {
+      "id": "gutenberg-04",
+      "greedy": {
+        "holdout": 0.10526315789473684,
+        "full": 0.10526315789473684
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.10526315789473684
+      },
+      "half_pick": {
+        "holdout": 0.05263157894736842,
+        "full": 0.15789473684210525,
+        "index": 7
+      },
+      "full_pick": {
+        "holdout": 0.15789473684210525,
+        "full": 0.15789473684210525,
+        "index": 1
+      },
+      "oracle": {
+        "holdout": 0.15789473684210525
+      },
+      "reference": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "spread_of_holdout": 0.15789473684210525
+    },
+    {
+      "id": "gutenberg-05",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.0,
+        "index": 0
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.0,
+        "index": 0
+      },
+      "oracle": {
+        "holdout": 0.0
+      },
+      "reference": {
+        "holdout": 0.0851063829787234,
+        "full": 0.0851063829787234
+      },
+      "spread_of_holdout": 0.0
+    },
+    {
+      "id": "gutenberg-06",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.038461538461538464,
+        "full": 0.038461538461538464
+      },
+      "half_pick": {
+        "holdout": 0.038461538461538464,
+        "full": 0.07692307692307693,
+        "index": 4
+      },
+      "full_pick": {
+        "holdout": 0.07692307692307693,
+        "full": 0.07692307692307693,
+        "index": 3
+      },
+      "oracle": {
+        "holdout": 0.07692307692307693
+      },
+      "reference": {
+        "holdout": 0.2692307692307692,
+        "full": 0.2692307692307692
+      },
+      "spread_of_holdout": 0.07692307692307693
+    },
+    {
+      "id": "gutenberg-07",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.015384615384615385,
+        "full": 0.015384615384615385,
+        "index": 0
+      },
+      "full_pick": {
+        "holdout": 0.03076923076923077,
+        "full": 0.03076923076923077,
+        "index": 7
+      },
+      "oracle": {
+        "holdout": 0.03076923076923077
+      },
+      "reference": {
+        "holdout": 0.09230769230769231,
+        "full": 0.1076923076923077
+      },
+      "spread_of_holdout": 0.03076923076923077
+    },
+    {
+      "id": "gutenberg-08",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.02631578947368421,
+        "full": 0.02631578947368421
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.02631578947368421,
+        "index": 6
+      },
+      "full_pick": {
+        "holdout": 0.02631578947368421,
+        "full": 0.02631578947368421,
+        "index": 2
+      },
+      "oracle": {
+        "holdout": 0.02631578947368421
+      },
+      "reference": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "spread_of_holdout": 0.02631578947368421
+    },
+    {
+      "id": "gutenberg-09",
+      "greedy": {
+        "holdout": 0.08108108108108109,
+        "full": 0.13513513513513514
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.02702702702702703
+      },
+      "half_pick": {
+        "holdout": 0.02702702702702703,
+        "full": 0.13513513513513514,
+        "index": 5
+      },
+      "full_pick": {
+        "holdout": 0.02702702702702703,
+        "full": 0.13513513513513514,
+        "index": 5
+      },
+      "oracle": {
+        "holdout": 0.08108108108108109
+      },
+      "reference": {
+        "holdout": 0.16216216216216217,
+        "full": 0.2702702702702703
+      },
+      "spread_of_holdout": 0.08108108108108109
+    },
+    {
+      "id": "gutenberg-10",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.08333333333333333,
+        "index": 2
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.08333333333333333,
+        "index": 2
+      },
+      "oracle": {
+        "holdout": 0.041666666666666664
+      },
+      "reference": {
+        "holdout": 0.08333333333333333,
+        "full": 0.16666666666666666
+      },
+      "spread_of_holdout": 0.041666666666666664
+    },
+    {
+      "id": "gutenberg-11",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.13043478260869565,
+        "index": 7
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.13043478260869565,
+        "index": 7
+      },
+      "oracle": {
+        "holdout": 0.043478260869565216
+      },
+      "reference": {
+        "holdout": 0.13043478260869565,
+        "full": 0.13043478260869565
+      },
+      "spread_of_holdout": 0.043478260869565216
+    },
+    {
+      "id": "gutenberg-12",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.03225806451612903,
+        "full": 0.06451612903225806,
+        "index": 1
+      },
+      "full_pick": {
+        "holdout": 0.03225806451612903,
+        "full": 0.06451612903225806,
+        "index": 1
+      },
+      "oracle": {
+        "holdout": 0.03225806451612903
+      },
+      "reference": {
+        "holdout": 0.03225806451612903,
+        "full": 0.03225806451612903
+      },
+      "spread_of_holdout": 0.03225806451612903
+    },
+    {
+      "id": "gutenberg-13",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.13043478260869565,
+        "full": 0.13043478260869565,
+        "index": 0
+      },
+      "full_pick": {
+        "holdout": 0.13043478260869565,
+        "full": 0.17391304347826086,
+        "index": 2
+      },
+      "oracle": {
+        "holdout": 0.13043478260869565
+      },
+      "reference": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "spread_of_holdout": 0.13043478260869565
+    },
+    {
+      "id": "gutenberg-14",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.16666666666666666
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.16666666666666666
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.16666666666666666,
+        "index": 0
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.16666666666666666,
+        "index": 0
+      },
+      "oracle": {
+        "holdout": 0.16666666666666666
+      },
+      "reference": {
+        "holdout": 0.16666666666666666,
+        "full": 0.16666666666666666
+      },
+      "spread_of_holdout": 0.16666666666666666
+    },
+    {
+      "id": "gutenberg-15",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.1,
+        "index": 1
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.1,
+        "index": 1
+      },
+      "oracle": {
+        "holdout": 0.0
+      },
+      "reference": {
+        "holdout": 0.1,
+        "full": 0.1
+      },
+      "spread_of_holdout": 0.0
+    },
+    {
+      "id": "gutenberg-16",
+      "greedy": {
+        "holdout": 0.041666666666666664,
+        "full": 0.041666666666666664
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.041666666666666664,
+        "index": 0
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.041666666666666664,
+        "index": 0
+      },
+      "oracle": {
+        "holdout": 0.041666666666666664
+      },
+      "reference": {
+        "holdout": 0.041666666666666664,
+        "full": 0.125
+      },
+      "spread_of_holdout": 0.041666666666666664
+    },
+    {
+      "id": "gutenberg-17",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.05,
+        "index": 2
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.05,
+        "index": 2
+      },
+      "oracle": {
+        "holdout": 0.0
+      },
+      "reference": {
+        "holdout": 0.1,
+        "full": 0.1
+      },
+      "spread_of_holdout": 0.0
+    },
+    {
+      "id": "gutenberg-18",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.03125
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.03125
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.03125,
+        "index": 0
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.03125,
+        "index": 0
+      },
+      "oracle": {
+        "holdout": 0.03125
+      },
+      "reference": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "spread_of_holdout": 0.03125
+    },
+    {
+      "id": "gutenberg-19",
+      "greedy": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "logprob_pick": {
+        "holdout": 0.0,
+        "full": 0.0
+      },
+      "half_pick": {
+        "holdout": 0.0,
+        "full": 0.0625,
+        "index": 0
+      },
+      "full_pick": {
+        "holdout": 0.0,
+        "full": 0.0625,
+        "index": 0
+      },
+      "oracle": {
+        "holdout": 0.0625
+      },
+      "reference": {
+        "holdout": 0.0625,
+        "full": 0.0625
+      },
+      "spread_of_holdout": 0.0625
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+[{"stream_name":"stdout","time":10.155280169,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":16.762214999,"data":"device: cuda\n"}
+,{"stream_name":"stdout","time":26.309625346,"data":"tokenizer probe ok: ' was a cat named Max.'\n"}
+,{"stream_name":"stdout","time":135.21901659,"data":"gutenberg-00: greedy 0.000 | half_pick 0.029 | oracle 0.029 | reference 0.059\n"}
+,{"stream_name":"stdout","time":246.151795784,"data":"gutenberg-01: greedy 0.111 | half_pick 0.111 | oracle 0.111 | reference 0.222\n"}
+,{"stream_name":"stdout","time":357.339140604,"data":"gutenberg-02: greedy 0.000 | half_pick 0.000 | oracle 0.056 | reference 0.000\n"}
+,{"stream_name":"stdout","time":468.970374447,"data":"gutenberg-03: greedy 0.000 | half_pick 0.118 | oracle 0.118 | reference 0.000\n"}
+,{"stream_name":"stdout","time":580.606462793,"data":"gutenberg-04: greedy 0.105 | half_pick 0.053 | oracle 0.158 | reference 0.000\n"}
+,{"stream_name":"stdout","time":691.794299854,"data":"gutenberg-05: greedy 0.000 | half_pick 0.000 | oracle 0.000 | reference 0.085\n"}
+,{"stream_name":"stdout","time":802.567254995,"data":"gutenberg-06: greedy 0.000 | half_pick 0.038 | oracle 0.077 | reference 0.269\n"}
+,{"stream_name":"stdout","time":913.806424066,"data":"gutenberg-07: greedy 0.000 | half_pick 0.015 | oracle 0.031 | reference 0.092\n"}
+,{"stream_name":"stdout","time":1025.159990313,"data":"gutenberg-08: greedy 0.000 | half_pick 0.000 | oracle 0.026 | reference 0.000\n"}
+,{"stream_name":"stdout","time":1136.257855669,"data":"gutenberg-09: greedy 0.081 | half_pick 0.027 | oracle 0.081 | reference 0.162\n"}
+,{"stream_name":"stdout","time":1247.908972218,"data":"gutenberg-10: greedy 0.000 | half_pick 0.000 | oracle 0.042 | reference 0.083\n"}
+,{"stream_name":"stdout","time":1359.161165035,"data":"gutenberg-11: greedy 0.000 | half_pick 0.000 | oracle 0.043 | reference 0.130\n"}
+,{"stream_name":"stdout","time":1470.286939176,"data":"gutenberg-12: greedy 0.000 | half_pick 0.032 | oracle 0.032 | reference 0.032\n"}
+,{"stream_name":"stdout","time":1582.165175374,"data":"gutenberg-13: greedy 0.000 | half_pick 0.130 | oracle 0.130 | reference 0.000\n"}
+,{"stream_name":"stdout","time":1693.794320692,"data":"gutenberg-14: greedy 0.000 | half_pick 0.000 | oracle 0.167 | reference 0.167\n"}
+,{"stream_name":"stdout","time":1805.03047942,"data":"gutenberg-15: greedy 0.000 | half_pick 0.000 | oracle 0.000 | reference 0.100\n"}
+,{"stream_name":"stdout","time":1916.041205757,"data":"gutenberg-16: greedy 0.042 | half_pick 0.000 | oracle 0.042 | reference 0.042\n"}
+,{"stream_name":"stdout","time":2027.563417623,"data":"gutenberg-17: greedy 0.000 | half_pick 0.000 | oracle 0.000 | reference 0.100\n"}
+,{"stream_name":"stdout","time":2138.952930225,"data":"gutenberg-18: greedy 0.000 | half_pick 0.000 | oracle 0.031 | reference 0.000\n"}
+,{"stream_name":"stdout","time":2250.408735585,"data":"gutenberg-19: greedy 0.000 | half_pick 0.000 | oracle 0.062 | reference 0.062\n"}
+,{"stream_name":"stdout","time":2250.409969378,"data":"\n"}
+,{"stream_name":"stdout","time":2250.409983025,"data":"== holdout retention (selector never saw this half), 20 stories ==\n"}
+,{"stream_name":"stdout","time":2250.409987893,"data":"         greedy: 0.0170\n"}
+,{"stream_name":"stdout","time":2250.409992245,"data":"   logprob_pick: 0.0103\n"}
+,{"stream_name":"stdout","time":2250.410001895,"data":"      half_pick: 0.0277\n"}
+,{"stream_name":"stdout","time":2250.410004859,"data":"      full_pick: 0.0398\n"}
+,{"stream_name":"stdout","time":2250.41000786,"data":"         oracle: 0.0618\n"}
+,{"stream_name":"stdout","time":2250.410010555,"data":"      reference: 0.0803\n"}
+,{"stream_name":"stdout","time":2250.41001324,"data":"\n"}
+,{"stream_name":"stdout","time":2250.410041466,"data":"== full-continuation retention (what the recorded run reported) ==\n"}
+,{"stream_name":"stdout","time":2250.410045926,"data":"         greedy: 0.0296\n"}
+,{"stream_name":"stdout","time":2250.410049825,"data":"   logprob_pick: 0.0353\n"}
+,{"stream_name":"stdout","time":2250.410053507,"data":"      half_pick: 0.0864\n"}
+,{"stream_name":"stdout","time":2250.410056749,"data":"      full_pick: 0.0907\n"}
+,{"stream_name":"stdout","time":2250.410060012,"data":"      reference: 0.0978\n"}
+,{"stream_name":"stdout","time":2250.459458303,"data":"\n"}
+,{"stream_name":"stdout","time":2250.459477693,"data":"== paired bootstrap, 95% CI over stories ==\n"}
+,{"stream_name":"stdout","time":2250.459482442,"data":"  half_pick_minus_greedy_holdout: +0.0108 [-0.0073, +0.0318]  INCLUDES ZERO\n"}
+,{"stream_name":"stdout","time":2250.459488091,"data":"  half_pick_minus_logprob_holdout: +0.0175 [+0.0027, +0.0361]  excludes zero\n"}
+,{"stream_name":"stdout","time":2250.459491769,"data":"  full_pick_minus_greedy_full: +0.0612 [+0.0389, +0.0860]  excludes zero\n"}
+,{"stream_name":"stdout","time":2250.459496291,"data":"invariants ok on 20 stories (oracle bounds every selector)\n"}
+,{"stream_name":"stdout","time":2252.059547376,"data":"run manifest: {\"checkpoint\": {\"path\": \"/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\", \"sha256\": \"924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718\"}, \"code_fingerprint\": \"0ed2891037a230ebfcadb8753e5147422e91e194de6d344b376c3b5e4ce0098f\", \"code_snapshot\": \"/kaggle/input/datasets/subhajitlucky/kalia-code-dev\", \"device\": \"cuda\", \"experiment\": \"holdout\", \"holdout_split\": 128, \"kernel_id\": \"subhajitlucky/kalia-entity-holdout\", \"kernel_revision\": \"3b522eed89468f6c50f2ac4614fea97aa13e523b\", \"recorded\": \"2026-10-21T06:54:55.532701+00:00\", \"samples_per_story\": 8, \"stories\": 20, \"stories_sha256\": \"a94b15f677313b719d26baf59ced1be6ab1b242b988b4488417a6cd7186f7272\"}\n"}
+,{"stream_name":"stdout","time":2252.059593382,"data":"wrote /kaggle/working/entity_holdout.json\n"}
+,{"stream_name":"stderr","time":2256.44351438,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":2256.443540981,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":2256.696857226,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":2256.696887762,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":2257.450757038,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":2258.401488326,"data":"[NbConvertApp] Writing 330719 bytes to __results__.html\n"}
+]

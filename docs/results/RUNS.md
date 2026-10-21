@@ -31,6 +31,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X17 matched` | Rerun with the eval masking the run trained under; effect undetectable | — | 11 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
+| `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
 | `corpus gates` | Contamination gate for the rebuilt corpus | — | 1 file |
 
 ## Gaps
@@ -145,9 +146,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 **entity decode**
 - `docs/results/entity-decode.json`
 
+**entity holdout**
+- `docs/results/entity-holdout/README.md`
+- `docs/results/entity-holdout/entity_holdout.json`
+- `docs/results/entity-holdout/kalia-entity-holdout.log`
+- `docs/results/entity-holdout/run_manifest.json`
+
 **corpus gates**
 - `docs/results/corpus-gates.json`
 
 ---
 
-21 runs tracked, 92 files archived, 3 with no evidence.
+22 runs tracked, 96 files archived, 3 with no evidence.

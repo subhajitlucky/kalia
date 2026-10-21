@@ -245,6 +245,18 @@ Two honest caveats, recorded with the result:
    prefers less-likely text; whether that costs story quality is unmeasured
    and is the next question.
 
+**Correction (2026-10-21).** The +0.061 above is circular: the selector
+maximises retention and the kernel reports retention. The holdout test in
+`docs/results/entity-holdout/` selects on the first half of each continuation
+and scores the second half the selector never saw. The honest advantage over
+greedy is **+0.0108, 95% CI [−0.0073, +0.0318] — not distinguishable from
+zero**. The full-text 0.0907 reproduces (the selector and metric see the same
+text), but it no longer supports a 3× claim or the memory-only rung. What
+survives is coverage: the oracle reaches 0.0618 on the held-out half against
+greedy's 0.0170, so the right continuation is in the pool; the rule is not
+finding it. The 2026-10-11 measurement stands as measured, with this correction
+attached.
+
 ## X28 — the Kautilya replication: the dessert is real, and the machine is exact (2026-10-11)
 
 Three arms, seed 1401, 1000 update steps. The static arm reran the X26 control;

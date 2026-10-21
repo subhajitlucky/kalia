@@ -75,6 +75,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",
      None, ["docs/results/entity-decode.json"]),
+    ("entity holdout", "Does the entity rule survive a half it never selected on? No; coverage survives",
+     None, ["docs/results/entity-holdout/*"]),
     ("corpus gates", "Contamination gate for the rebuilt corpus",
      None, ["docs/results/corpus-gates.json"]),
 ]
