@@ -29,15 +29,16 @@ GPUs. Every weight was learned by this project's own training run.
 
 ## Model
 
-The model has **57,856,256 parameters**. It is a pre-norm decoder-only
-transformer with RMSNorm, SwiGLU, RoPE, QK-Norm, a logit soft-cap at τ = 30, and
-tied embeddings. It has 10 layers, 8 heads, an embedding dimension of 512, a
-context length of 1,024 tokens, and a 50,257-token GPT-2 BPE vocabulary.
-
-Training used Muon (Newton–Schulz) on hidden matrices and AdamW on embeddings,
-head and one-dimensional parameters, in fp16 with gradient scaling and DDP
-across 2× NVIDIA T4. The model saw 1.82B tokens — 3,478 of 4,770 planned steps
-— and stopped on quota; see “Stopping”.
+| Field | Value |
+|---|---|
+| Parameters | 57,856,256 |
+| Architecture | Pre-norm decoder-only: RMSNorm, SwiGLU, RoPE, QK-Norm, logit soft-cap (τ = 30), tied embeddings |
+| Layers / heads / dim | 10 / 8 / 512 |
+| Context | 1,024 tokens |
+| Vocabulary | 50,257 (GPT-2 BPE) |
+| Optimizer | Muon (Newton–Schulz) on hidden matrices; AdamW on embeddings, head and 1D parameters |
+| Precision | fp16 with gradient scaling, DDP across 2× NVIDIA T4 |
+| Tokens seen | 1.82B — 3,478 of 4,770 planned steps (see “Stopping”) |
 
 ## Usage
 
@@ -64,17 +65,22 @@ It runs on CPU; the weights are about 230MB in fp16.
 The deterministic validation loss uses 100 batches × 8 sequences × 1,024 tokens
 = 819,200 tokens, seed 1234.
 
-On the **original** `kalia-prep` validation set, v0.1.2 scores **2.4366** val
-loss and **0.8184** bits-per-byte. On the compliance-rebuilt `kalia-prep-v2b`
-validation set, the same weights score **3.0533** and **0.9992**. The rebuild
-replaced a source slice and made the held-out set measurably harder: identical
-weights move by +0.62 nats across the two sets. Numbers from the two sets are
-not comparable, and the v2b figure is the reference for later versions. See
-decision D43.
+| Metric | Value |
+|---|---|
+| Validation loss — original `kalia-prep` val set | 2.4366 |
+| Bits per byte — original val set | 0.8184 |
+| Validation loss — `kalia-prep-v2b` val set (canonical) | 3.0533 |
+| Bits per byte — v2b val set | 0.9992 |
+| Probe held-out loss (20 sentences) | 3.2303 |
+| Bits per byte — probe | 0.9415 |
+| Abhimanyu gap (reverse − forward NLL) | 6.06 nats |
 
-The 20-sentence probe scores **3.2303** held-out loss and **0.9415**
-bits-per-byte. The Abhimanyu gap — reverse-token NLL minus forward NLL — is
-**6.06 nats** (forward 3.23, reverse 9.29; random is about 10.8).
+The two validation rows use the same weights and the same 819,200-token
+protocol on two different held-out sets. The corpus rebuild replaced a source
+slice and made the set measurably harder: identical weights move by +0.62 nats.
+Numbers from the two sets are not comparable, and the v2b figure is the
+reference for later versions (decision D43). The Abhimanyu gap uses forward
+3.23, reverse 9.29; random is about 10.8.
 
 ### Zero-shot accuracy
 
@@ -82,11 +88,13 @@ Measured at release with lm-evaluation-harness, 0-shot, at 500 samples. The
 standard error at this size is about 2 points (D45), so the scores below are
 estimates, not precise rankings.
 
-- **PIQA (acc):** 61.4% against 50% chance.
-- **ARC-Easy (acc):** 45.8% against 25% chance.
-- **HellaSwag (acc_norm):** 36.8% against 25% chance.
-- **WinoGrande (acc):** 50.2% against 50% chance.
-- **LAMBADA (acc / perplexity):** 23.0% / 193.6; no meaningful chance baseline.
+| Task | Score | Chance |
+|---|---|---|
+| PIQA (acc) | 61.4% | 50% |
+| ARC-Easy (acc) | 45.8% | 25% |
+| HellaSwag (acc_norm) | 36.8% | 25% |
+| WinoGrande (acc) | 50.2% | 50% |
+| LAMBADA (acc / perplexity) | 23.0% / 193.6 | — |
 
 ![v0.1.2 zero-shot accuracy against chance](charts/v012_zero_shot_vs_chance.png)
 
@@ -140,13 +148,13 @@ standard errors of roughly 2.0–2.2 points.
 The mixture weights as built (`kalia-prep-v2`) are FineWeb-Edu 60%, TinyStories
 20%, Cosmopedia 15% and code 5%, over 2.4B training tokens.
 
-- **FineWeb-Edu dedup** from `HuggingFaceTB/smollm-corpus`, 60%, under
-  ODC-By-1.0.
-- **TinyStories** from `roneneldan/TinyStories`, 20%, under CDLA-Sharing-1.0.
-- **Cosmopedia** from `HuggingFaceTB/cosmopedia`, 15%, under Apache-2.0.
-- **Python** from `codeparrot/codeparrot-clean`, 5%, per-file mixed licences —
-  see below.
-- **GPT-2 BPE tokenizer** from `openai/tiktoken`, MIT.
+| Source | Share | Licence |
+|---|---|---|
+| FineWeb-Edu dedup (`HuggingFaceTB/smollm-corpus`) | 60% | ODC-By-1.0 |
+| TinyStories (`roneneldan/TinyStories`) | 20% | CDLA-Sharing-1.0 |
+| Cosmopedia (`HuggingFaceTB/cosmopedia`) | 15% | Apache-2.0 |
+| Python (`codeparrot/codeparrot-clean`) | 5% | Per-file mixed — see below |
+| GPT-2 BPE tokenizer (`openai/tiktoken`) | — | MIT |
 
 ![Training mixture: 60 / 20 / 15 / 5](charts/v012_data_mixture.png)
 

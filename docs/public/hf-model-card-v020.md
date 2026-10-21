@@ -70,6 +70,11 @@ v0.1.2 scored **3.0533** val loss and **0.9992** bits-per-byte. v0.2.0 scored
 That is **0.2285 nats better — 4.6× the pre-registered 0.05-nat bar**. Both
 thresholds existed as a hashed file before the run finished.
 
+| Metric | v0.1.2 | v0.2.0 | Δ |
+|---|---|---|---|
+| Validation loss | 3.0533 | **2.8248** | −0.2285 |
+| Bits per byte | 0.9992 | **0.9244** | −0.0748 |
+
 ![Held-out loss comparison, v0.1.2 vs v0.2.0](charts/held_out_loss.png)
 
 ### Zero-shot accuracy
@@ -79,13 +84,13 @@ Measured with lm-evaluation-harness 0.4.9, 0-shot, at **2,000 samples** on
 1,838 validation items and WinoGrande its full 1,267; the other three tasks used
 2,000. Standard errors at this size are about 1.0–1.4 percentage points.
 
-v0.1.2 → v0.2.0:
-
-- **PIQA:** 59.63 → 61.37 (+1.74 points, z = 1.08)
-- **HellaSwag:** 35.60 → 35.60 (0.00, z = 0.00)
-- **WinoGrande:** 50.28 → 50.75 (+0.47, z = 0.24)
-- **LAMBADA:** 25.15 → 23.90 (**−1.25 points, z = −0.92**)
-- **ARC-Easy:** 45.95 → 46.40 (+0.45, z = 0.29)
+| Task | v0.1.2 | v0.2.0 | Δ (pp) | z | S-A (≤1.0 pp) |
+|---|---|---|---|---|---|
+| PIQA | 59.63 | 61.37 | +1.74 | 1.08 | pass |
+| HellaSwag | 35.60 | 35.60 | 0.00 | 0.00 | pass |
+| WinoGrande | 50.28 | 50.75 | +0.47 | 0.24 | pass |
+| LAMBADA | 25.15 | 23.90 | **−1.25** | −0.92 | **fail** |
+| ARC-Easy | 45.95 | 46.40 | +0.45 | 0.29 | pass |
 
 ![Zero-shot accuracy at 2,000 samples](charts/zero_shot_accuracy.png)
 
@@ -116,38 +121,36 @@ lever, but it is not an accuracy catastrophe.
 
 ## Architecture
 
-- **Parameters:** 57,856,256.
-- **Layers and heads:** 10 layers, 8 heads.
-- **Embedding dimension:** 512.
-- **Context length:** 1,024 tokens.
-- **Vocabulary:** 50,257 (GPT-2 BPE).
-- **Blocks:** pre-norm decoder-only, RMSNorm, SwiGLU, RoPE, QK-Norm, logit
-  soft-cap (τ = 30), tied embeddings, no biases.
-- **Optimizer:** Muon (Newton–Schulz) on hidden matrices, AdamW on embeddings,
-  head and norms.
-- **Schedule:** cosine, 500 warmup steps, 4,770 total steps.
-
-Training used 2,500,853,760 tokens, 6.35 hours in the final session, on 2×
-NVIDIA T4 via DDP, inside the free tier's roughly 30 GPU-hours per week.
+| Field | Value |
+|---|---|
+| Parameters | 57,856,256 |
+| Architecture | Pre-norm decoder-only: RMSNorm, SwiGLU, RoPE, QK-Norm, logit soft-cap (τ = 30), tied embeddings, no biases |
+| Layers / heads / dim | 10 / 8 / 512 |
+| Context | 1,024 tokens |
+| Vocabulary | 50,257 (GPT-2 BPE) |
+| Optimizer | Muon (Newton–Schulz) on hidden matrices; AdamW on embeddings, head and norms |
+| Schedule | Cosine, 500 warmup steps, 4,770 total steps |
+| Training | 2,500,853,760 tokens, 6.35h final session, 2× NVIDIA T4 via DDP, ~30 GPU-hours/week free quota |
 
 ## Training data
 
 The mixture is 2.4B training tokens plus 10M held out:
 
-- **60% FineWeb-Edu dedup** from `HuggingFaceTB/smollm-corpus`, under ODC-By-1.0.
-  26.2% of its documents are at least one context long.
-- **20% TinyStories** from `roneneldan/TinyStories`, under CDLA-Sharing-1.0.
-  0.03% of its documents are at least one context long.
-- **15% Cosmopedia v2** from `HuggingFaceTB/cosmopedia`, under Apache-2.0. 13.2%
-  of its documents are at least one context long.
-- **5% Python**, per-file filtered to seven permissive licences (MIT,
-  Apache-2.0, BSD-2/3, ISC, Unlicense, CC0).
+| Source | Share | v0.1.2 corpus | v0.2.0 corpus | Licence |
+|---|---|---|---|---|
+| FineWeb-Edu dedup (`HuggingFaceTB/smollm-corpus`) | 60% | `kalia-prep-v2` | `kalia-prep-v2b` | ODC-By-1.0 |
+| TinyStories (`roneneldan/TinyStories`) | 20% | `kalia-prep-v2` | `kalia-prep-v2b` | CDLA-Sharing-1.0 |
+| Cosmopedia v2 (`HuggingFaceTB/cosmopedia`) | 15% | `kalia-prep-v2` | `kalia-prep-v2b` | Apache-2.0 |
+| Python (`codeparrot/codeparrot-clean`) | 5% | `kalia-prep-v2`, unfiltered | `kalia-prep-v2b`, per-file permissive filter | Mixed; see below |
+| GPT-2 BPE tokenizer (`openai/tiktoken`) | — | same | same | MIT |
 
-This release's code slice is licence-clean by construction. The previous
-release's was not: it was built without a licence check, and a 20,000-file
-sample measured 41.7% of characters under copyleft licences. That is disclosed
-on the [v0.1.2 card](https://huggingface.co/kalia-lm/kalia-v012) rather than
-quietly fixed, and those bytes are never redistributed.
+The text sources are unchanged between the two corpora; the rebuild's material
+change is the Python slice. v0.1.2 trained without a licence filter; v0.2.0
+rebuilt that slice with a per-file permissive filter and is licence-clean by
+construction. The unfiltered bytes are disclosed on the
+[v0.1.2 card](https://huggingface.co/kalia-lm/kalia-v012), where a 20,000-file
+sample measured 41.7% of characters under copyleft licences, and they are never
+redistributed.
 
 ### Released corpus shards
 
