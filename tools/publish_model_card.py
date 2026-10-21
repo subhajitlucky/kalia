@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 import tempfile
 from pathlib import Path
@@ -55,16 +56,29 @@ def content_matches(repo: str, local: Path) -> bool:
         return Path(got).read_text(encoding="utf-8") == local.read_text(encoding="utf-8")
 
 
-def chart_paths() -> list[Path]:
-    paths = sorted(CHARTS.glob("*.png"))
+def chart_paths(card: Path) -> list[Path]:
+    """Only the charts this card actually references.
+
+    The v0.1.2 card is a historical release card and must not grow the v0.2.0
+    comparison charts just because they exist in the repository. The card is
+    the source of truth for what belongs on that model page.
+    """
+    refs = re.findall(r"\((charts/[^)]+\.png)\)", card.read_text())
+    paths: list[Path] = []
+    for ref in refs:
+        local = ROOT / "docs" / "public" / ref
+        if not local.exists():
+            raise SystemExit(f"{card.relative_to(ROOT)} references {ref}, which does not exist")
+        if local not in paths:
+            paths.append(local)
     if not paths:
-        raise SystemExit(f"no charts found in {CHARTS.relative_to(ROOT)}; run tools/make_model_card_charts.py")
+        raise SystemExit(f"{card.relative_to(ROOT)} references no charts; nothing to upload")
     return paths
 
 
-def charts_match(repo: str) -> tuple[bool, str | None]:
+def charts_match(repo: str, card: Path) -> tuple[bool, str | None]:
     with tempfile.TemporaryDirectory() as tmp:
-        for local in chart_paths():
+        for local in chart_paths(card):
             remote = f"{REMOTE_CHARTS}/{local.name}"
             try:
                 got = hf_hub_download(repo, remote, repo_type="model", local_dir=tmp, force_download=True)
@@ -73,6 +87,28 @@ def charts_match(repo: str) -> tuple[bool, str | None]:
             if Path(got).read_bytes() != local.read_bytes():
                 return False, local.name
     return True, None
+
+
+def clean_charts(api: HfApi, repo: str, card: Path) -> None:
+    """Remove charts on the model repo that this card does not reference.
+
+    The release pages are historical artifacts. The v0.1.2 page must not grow
+    the v0.2.0 comparison charts just because they exist in the repository.
+    """
+    keep = {path.name for path in chart_paths(card)}
+    for remote in api.list_repo_files(repo, repo_type="model"):
+        if not remote.startswith(f"{REMOTE_CHARTS}/"):
+            continue
+        name = remote.rsplit("/", 1)[-1]
+        if name in keep:
+            continue
+        api.delete_file(
+            path_in_repo=remote,
+            repo_id=repo,
+            repo_type="model",
+            commit_message=f"model card: remove unreferenced chart {name}",
+        )
+        print(f"  removed unreferenced chart: {remote}")
 
 
 def clean_strays(api: HfApi, repo: str) -> None:
@@ -107,7 +143,7 @@ def main() -> int:
             commit_message="model card: measured limitations, results and licence disclosure",
         )
         print("uploaded")
-        for chart in chart_paths():
+        for chart in chart_paths(local):
             api.upload_file(
                 path_or_fileobj=str(chart),
                 path_in_repo=f"{REMOTE_CHARTS}/{chart.name}",
@@ -116,6 +152,7 @@ def main() -> int:
                 commit_message="model card: add evaluation charts",
             )
             print(f"  uploaded chart: {REMOTE_CHARTS}/{chart.name}")
+        clean_charts(api, repo, local)
         clean_strays(api, repo)
 
     print("verifying by downloading the live card back...")
@@ -125,11 +162,11 @@ def main() -> int:
     print("  live card is byte-identical to the repo source")
 
     print("verifying the live charts...")
-    ok, bad = charts_match(repo)
+    ok, bad = charts_match(repo, local)
     if not ok:
         print(f"  MISMATCH: charts/{bad} does not match the source")
         return 1
-    print(f"  all {len(chart_paths())} charts are byte-identical")
+    print(f"  all {len(chart_paths(local))} referenced charts are byte-identical")
     return 0
 
 

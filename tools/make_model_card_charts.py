@@ -232,12 +232,83 @@ def correction_500_vs_2k():
     save(fig, "correction_500_vs_2k.png")
 
 
+def v012_zero_shot_vs_chance():
+    # The published v0.1.2 release numbers, at 500 samples. This card is the
+    # historical release card; the later 2,000-sample re-measurement belongs to
+    # the v0.2.0 comparison, not here.
+    values = [61.4, 45.8, 36.8, 50.2, 23.0]
+    chance = {"piqa": 50, "hellaswag": 25, "winogrande": 50,
+              "lambada_openai": None, "arc_easy": 25}
+    x = np.arange(len(TASKS))
+    fig, ax = plt.subplots(figsize=(11, 5.4))
+    bars = ax.bar(x, values, color=V020, width=0.58, zorder=3)
+    for i, task in enumerate(TASKS):
+        level = chance[task]
+        if level is not None:
+            ax.plot([i - 0.38, i + 0.38], [level, level], color=INK, lw=2.0,
+                    zorder=4)
+            ax.text(i + 0.40, level, f"{level}%", va="center", ha="left",
+                    fontsize=8.5, color=INK)
+        ax.text(i, values[i] + 2.2, f"{values[i]:.1f}%", ha="center",
+                va="bottom", fontsize=11, fontweight="bold", color=INK)
+    ax.set_xticks(x, [LABELS[t] for t in TASKS])
+    ax.set_ylim(0, 72)
+    ax.set_ylabel("accuracy (%)")
+    ax.set_title("v0.1.2 zero-shot accuracy at release (500 samples)", loc="left")
+    clean_axes(ax)
+    ax.legend(handles=[
+        Patch(facecolor=V020, label="v0.1.2 accuracy"),
+        plt.Line2D([], [], color=INK, lw=2, label="chance"),
+    ], frameon=False, loc="upper right", ncol=2)
+    fig.text(0.02, 0.93,
+             "Scores as published at the v0.1.2 release; standard error is "
+             "about 2 points at this sample size (D45). Black ticks mark "
+             "chance; LAMBADA has no chance baseline.",
+             ha="left", fontsize=9.5, color=MUTED)
+    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    save(fig, "v012_zero_shot_vs_chance.png")
+
+
+def v012_data_mixture():
+    sources = [
+        ("FineWeb-Edu dedup", 60, "ODC-By-1.0", "#0F766E"),
+        ("TinyStories", 20, "CDLA-Sharing-1.0", "#D97706"),
+        ("Cosmopedia v2", 15, "Apache-2.0", "#6366F1"),
+        ("Python (filtered)", 5, "per-file mixed", "#64748B"),
+    ]
+    fig, ax = plt.subplots(figsize=(10.5, 4.6))
+    labels = [s[0] for s in sources]
+    shares = [s[1] for s in sources]
+    bars = ax.barh(labels, shares, color=[s[3] for s in sources], height=0.58,
+                   zorder=3)
+    ax.invert_yaxis()
+    ax.set_xlim(0, 70)
+    ax.set_xlabel("share of the 2.4B-token training mixture (%)")
+    ax.set_title("Training mixture: 60 / 20 / 15 / 5", loc="left")
+    clean_axes(ax)
+    ax.grid(axis="x", color=GRID, linewidth=0.8, zorder=0)
+    ax.grid(axis="y", visible=False)
+    for bar, (_, share, licence, _) in zip(bars, sources):
+        ax.text(bar.get_width() + 1.0, bar.get_y() + bar.get_height() / 2,
+                f"{share}%  ·  {licence}", va="center", ha="left",
+                fontsize=9.5, color=INK)
+    fig.text(0.02, 0.93,
+             "2.4B training tokens. The tokenizer is GPT-2 BPE (MIT); it is not "
+             "a training source. The released continual-update shards are "
+             "equalised separately.",
+             ha="left", fontsize=9.5, color=MUTED)
+    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    save(fig, "v012_data_mixture.png")
+
+
 def main():
     style()
     held_out_loss()
     zero_shot()
     accuracy_deltas()
     correction_500_vs_2k()
+    v012_zero_shot_vs_chance()
+    v012_data_mixture()
 
 
 if __name__ == "__main__":

@@ -97,33 +97,22 @@ that needs long-range recall.
 
 ![Accuracy deltas with 95% confidence intervals](charts/accuracy_deltas.png)
 
-The original 500-sample numbers remain in the record with their roughly 2-point
-error. At that sample size ARC-Easy appeared to fall 3.80 points and HellaSwag
-appeared to gain 3.00. Neither survived the larger sample: the ARC-Easy
-regression became +0.45, and the HellaSwag gain became 0.00. The 500-sample ARC
-number was a measurement artifact, not a property of the corpus.
+The original 500-sample evaluation remains in the record. Its ARC-Easy −3.80
+and HellaSwag +3.00 did not survive the larger sample; the 500-sample standard
+error was about 2 points (D45). The ARC-Easy point was a measurement artifact,
+not a property of the corpus.
 
 ![The 500-sample deltas did not survive 2,000 samples](charts/correction_500_vs_2k.png)
 
-Two uncomfortable lessons follow. Our own accuracy thresholds were
-under-powered: an earlier pre-registered bar of 0.5 points sat about 4.5× below
-the measurement's standard error, so it passed on noise alone (decision D45).
-And the interim measurement was actively misleading: at step 3,470 four of five
-tasks appeared to regress, and three of those reversed by the final checkpoint.
-
-### Why LAMBADA moved down, and why that is not a mystery
+### Why LAMBADA moved down
 
 A document-length probe run on the real mixture before training finished
 measured that only **17.7% of training tokens sit inside a document at least as
 long as the 1,024-token context**, and that TinyStories — a fifth of the mixture
 — supplies **0.03%** of them. LAMBADA asks a model to hold a discourse and
 recall its final word, which is exactly what that corpus cannot teach. The probe
-also found a candidate replacement source at 99.3%.
-
-The 500-sample ARC-Easy regression (−3.80) did not replicate at 2,000 samples
-(+0.45), so the code-share explanation for it is no longer supported. The
-mixture is still the open lever — a 0.2285-nat loss gain produced no 2σ accuracy
-movement — but it is not the accuracy catastrophe the 500-sample run suggested.
+also found a candidate replacement source at 99.3%. The mixture remains the open
+lever, but it is not an accuracy catastrophe.
 
 ## Architecture
 
@@ -202,8 +191,7 @@ right to train outright.
   tuning yet.
 - **At 2,000 samples, one of five benchmarks is outside the 1.0-point
   allowance:** LAMBADA, at −1.25 points (z = −0.92). Loss improved
-  substantially. The earlier 500-sample ARC-Easy regression did not replicate
-  (+0.45), and no movement reaches 2σ.
+  substantially, and no movement reaches 2σ.
 - **Long-range recall is weak, and measurably so.** See the LAMBADA note above.
 - **Training plateaus.** Validation loss is flat across the final 1,500 of 4,770
   steps (spread 0.065 nats over seven evaluations). The last 31% of training
