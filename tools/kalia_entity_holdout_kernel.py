@@ -34,11 +34,15 @@ Reported for every story, so the comparison is paired:
     reference     the human continuation                             <- ceiling
     full_pick     the recorded selector, scored on the full text     <- the 3x
 
-CPU on purpose. It is a measurement, not a training run: it costs no GPU quota,
-and it does not compete for the two batch GPU sessions -- which were both held by
-stale scheduler entries when this was first pushed, and which queued an earlier
-X17 attempt for 25 minutes for the same reason. 20 stories x 8 samples x 256
-tokens is a few tens of minutes of CPU.
+**Device deviation, 2026-10-21.** The measurement was designed for CPU so it
+would cost no GPU quota. It does not fit there: the no-KV-cache generate loop
+re-runs the full 768-token context for every one of 256 tokens, and the first
+successful run was canceled at 11/20 stories after roughly an hour per story.
+Completing 20 stories on CPU would exceed the 12-hour session limit. This run
+uses the same prompts, N, 256 generated tokens and seeds on GPU. The device
+changes the sampled continuations, so `full_pick` is a re-measurement, not a
+reproduction of the 2026-10-11 CPU number; the paired holdout comparison
+(`half_pick` vs `greedy`) is unaffected.
 """
 
 import glob
@@ -100,6 +104,10 @@ for req in ("entity_decode.py", "eval_entities.py", "best_of_n.py", "model.py",
 print("code:", code_root)
 
 import torch  # noqa: E402
+
+# This is a measurement, not training. The generation loop runs 256 forwards per
+# continuation; without this the graph is built and kept for every token.
+torch.set_grad_enabled(False)
 
 from best_of_n import continuation_logprob  # noqa: E402
 from eval_entities import retention  # noqa: E402
@@ -275,6 +283,7 @@ with open("/kaggle/working/entity_holdout.json", "w") as fh:
 write_run_manifest(
     "/kaggle/working/run_manifest.json",
     experiment=ARM,
+    device=str(device),
     stories=len(rows),
     samples_per_story=N,
     holdout_split=GEN_TOKENS // 2,
