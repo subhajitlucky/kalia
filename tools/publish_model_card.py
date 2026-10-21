@@ -40,6 +40,8 @@ RELEASES = {
     },
 }
 REMOTE = "README.md"
+CHARTS = ROOT / "docs" / "public" / "charts"
+REMOTE_CHARTS = "charts"
 
 # Directories that should never exist in the model repo. Both were created by
 # the argument-order mistake, which uploads the local file to the *second*
@@ -51,6 +53,26 @@ def content_matches(repo: str, local: Path) -> bool:
     with tempfile.TemporaryDirectory() as tmp:
         got = hf_hub_download(repo, REMOTE, repo_type="model", local_dir=tmp, force_download=True)
         return Path(got).read_text(encoding="utf-8") == local.read_text(encoding="utf-8")
+
+
+def chart_paths() -> list[Path]:
+    paths = sorted(CHARTS.glob("*.png"))
+    if not paths:
+        raise SystemExit(f"no charts found in {CHARTS.relative_to(ROOT)}; run tools/make_model_card_charts.py")
+    return paths
+
+
+def charts_match(repo: str) -> tuple[bool, str | None]:
+    with tempfile.TemporaryDirectory() as tmp:
+        for local in chart_paths():
+            remote = f"{REMOTE_CHARTS}/{local.name}"
+            try:
+                got = hf_hub_download(repo, remote, repo_type="model", local_dir=tmp, force_download=True)
+            except Exception:
+                return False, local.name
+            if Path(got).read_bytes() != local.read_bytes():
+                return False, local.name
+    return True, None
 
 
 def clean_strays(api: HfApi, repo: str) -> None:
@@ -85,15 +107,30 @@ def main() -> int:
             commit_message="model card: measured limitations, results and licence disclosure",
         )
         print("uploaded")
+        for chart in chart_paths():
+            api.upload_file(
+                path_or_fileobj=str(chart),
+                path_in_repo=f"{REMOTE_CHARTS}/{chart.name}",
+                repo_id=repo,
+                repo_type="model",
+                commit_message="model card: add evaluation charts",
+            )
+            print(f"  uploaded chart: {REMOTE_CHARTS}/{chart.name}")
         clean_strays(api, repo)
 
     print("verifying by downloading the live card back...")
-    if content_matches(repo, local):
-        print("  live card is byte-identical to the repo source")
-        return 0
+    if not content_matches(repo, local):
+        print("  MISMATCH: the live card does not match the source")
+        return 1
+    print("  live card is byte-identical to the repo source")
 
-    print("  MISMATCH: the live card does not match the source")
-    return 1
+    print("verifying the live charts...")
+    ok, bad = charts_match(repo)
+    if not ok:
+        print(f"  MISMATCH: charts/{bad} does not match the source")
+        return 1
+    print(f"  all {len(chart_paths())} charts are byte-identical")
+    return 0
 
 
 if __name__ == "__main__":

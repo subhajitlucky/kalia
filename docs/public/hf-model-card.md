@@ -74,6 +74,8 @@ weights move by +0.62 nats across the two sets. Numbers from the two sets are
 not comparable, and the v2b figure is the reference for every later version. See
 decision D43.
 
+![Held-out loss comparison, v0.1.2 vs v0.2.0](charts/held_out_loss.png)
+
 The 20-sentence probe scores **3.2303** held-out loss and **0.9415**
 bits-per-byte. The Abhimanyu gap — reverse-token NLL minus forward NLL — is
 **6.06 nats** (forward 3.23, reverse 9.29; random is about 10.8).
@@ -90,11 +92,17 @@ Standard errors are about 1.0–1.4 percentage points at this size.
 - **WinoGrande (acc):** 50.3% against 50% chance.
 - **LAMBADA (acc / perplexity):** 25.2% / 168.2.
 
+![Zero-shot accuracy at 2,000 samples](charts/zero_shot_accuracy.png)
+
 For scale context, third-party leaderboard tables list OPT-125M — 125M
 parameters, 300B tokens — at PIQA 63.0, ARC-Easy 43.5 and HellaSwag 29.2.
 Harness versions differ, so treat that as context, not a head-to-head. KALIA is
 a storyteller, not a knowledge model; its LAMBADA weakness reflects a corpus
 without long-form narrative cloze.
+
+![Accuracy deltas with 95% confidence intervals](charts/accuracy_deltas.png)
+
+![The 500-sample deltas did not survive 2,000 samples](charts/correction_500_vs_2k.png)
 
 The micro-ablations at 30M parameters, equal tokens and seed 1337 were AdamW
 3.8041 → Muon 3.5937 → Muon + QK-Norm + soft-cap **3.5103**. X31 (2026-10-21)

@@ -70,6 +70,8 @@ v0.1.2 scored **3.0533** val loss and **0.9992** bits-per-byte. v0.2.0 scored
 That is **0.2285 nats better — 4.6× the pre-registered 0.05-nat bar**. Both
 thresholds existed as a hashed file before the run finished.
 
+![Held-out loss comparison, v0.1.2 vs v0.2.0](charts/held_out_loss.png)
+
 ### Zero-shot accuracy
 
 Measured with lm-evaluation-harness 0.4.9, 0-shot, at **2,000 samples** on
@@ -85,17 +87,23 @@ v0.1.2 → v0.2.0:
 - **LAMBADA:** 25.15 → 23.90 (**−1.25 points, z = −0.92**)
 - **ARC-Easy:** 45.95 → 46.40 (+0.45, z = 0.29)
 
+![Zero-shot accuracy at 2,000 samples](charts/zero_shot_accuracy.png)
+
 **No movement reaches 2σ.** LAMBADA is the only task outside the registered 1.0
 percentage-point allowance, by 0.25 points, and its own z is −0.92. The honest
 summary is a clear improvement in held-out loss, no individually significant
 change in zero-shot accuracy, and one edge-of-the-rule regression on the task
 that needs long-range recall.
 
+![Accuracy deltas with 95% confidence intervals](charts/accuracy_deltas.png)
+
 The original 500-sample numbers remain in the record with their roughly 2-point
 error. At that sample size ARC-Easy appeared to fall 3.80 points and HellaSwag
 appeared to gain 3.00. Neither survived the larger sample: the ARC-Easy
 regression became +0.45, and the HellaSwag gain became 0.00. The 500-sample ARC
 number was a measurement artifact, not a property of the corpus.
+
+![The 500-sample deltas did not survive 2,000 samples](charts/correction_500_vs_2k.png)
 
 Two uncomfortable lessons follow. Our own accuracy thresholds were
 under-powered: an earlier pre-registered bar of 0.5 points sat about 4.5× below
