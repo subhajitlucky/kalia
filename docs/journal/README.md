@@ -43,4 +43,5 @@ Every decision, result and incident is recorded here. No silent changes.
 | 2026-10-13 | `2026-10-13.md` | X29 closed: monotone four-rung staircase on val and retention (krama −0.0007 completes it); registered verdict pending the second seed |
 | 2026-10-17 | `2026-10-17.md` | External artifact + token-exposure audit (nothing exposed); corpus disclosure shipped (D52); tooling hardening (ledger drift classes in CI, curve-parser fix, decay clamp); seed-1402 replicas launched |
 | 2026-10-18 | `2026-10-18.md` | The second seed lands and the two instruments disagree: val favours 10% replay (+0.0125/+0.0073), CL-0 favours no-replay (+0.0884/+0.0939, 22× the seed spread); the probe kernel could not name the no-replay arm, so the static arm is scored on CL-0 here for the first time at either seed; M0's gate not passed; the shard notice's description of `probe_val.bin` corrected |
+| 2026-10-19 | `2026-10-19.md` | X17 matched rerun: the +0.0444 was an eval-mask artifact and the benefit is undetectable; entity decoding's 3× is circular, and the first holdout run is canceled at 11/20; run registry and publisher fixes; written 2026-10-21 from the commits |
 
