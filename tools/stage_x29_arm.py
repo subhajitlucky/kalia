@@ -88,6 +88,13 @@ KERNELS = {
         "arms": {"qk-isolation": None},
         "pins": (),
     },
+    # The 2,000-sample benchmark pair. CPU, so the arm name is just the
+    # resolution ("2k"), not a seed.
+    "bench-pair": {
+        "runner": "kalia_bench_pair_kernel.py",
+        "arms": {"2k": None},
+        "pins": (),
+    },
 }
 
 
