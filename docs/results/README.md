@@ -13,12 +13,20 @@ which it never did: `collect_results.py` writes only the JSON.
 
 ## The benchmark sample size
 
-Every zero-shot number in this directory was measured at **`limit=500`**, where
+The per-release numbers recorded here were measured at **`limit=500`**, where
 lm-eval's standard error is **1.99–2.24 pp** (D45). Read them with that error bar
-attached — several do not resolve. From 2026-10-18 `eval_bench.py` defaults to
-**2,000** samples for new runs, which halves that error at zero GPU cost, and
-warns loudly below 1,000 rather than passing silently. The per-release numbers
-recorded here are left exactly as they ran.
+attached — several do not resolve. They are left exactly as they ran.
+
+From 2026-10-18 `eval_bench.py` defaults to **2,000** samples for new runs, and
+warns loudly below 1,000 rather than passing silently. The first 2,000-sample
+release comparison ran on 2026-10-21: **v0.1.2 vs v0.2.0, both checkpoints, one
+CPU session**, in `docs/results/bench-pair-2k/` (narrative:
+`docs/eval/2026-10-21-v020-bench-pair-2k.md`). It changes two of the 500-sample
+readings: the ARC-Easy regression (−3.80) becomes **+0.45**, and the HellaSwag
+gain (+3.00) becomes **0.00**. LAMBADA remains the only task outside the 1.0 pp
+allowance at **−1.25**, and no movement reaches 2σ. The frozen 500-sample
+registration is not edited; the 2,000-sample result is the higher-resolution
+observation.
 
 ## Reading it
 

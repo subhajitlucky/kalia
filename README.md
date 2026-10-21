@@ -50,36 +50,37 @@ Full per-source licensing analysis, including what may and may not be redistribu
 corpus changed: **3.0533 → 2.8248, a 0.2285-nat improvement**, 4.6× the pre-registered
 0.05-nat bar. 0.9992 → **0.9244** bits-per-byte.
 
-**Zero-shot accuracy** (lm-eval 0.4.9, 0-shot, 500 samples). `σ` is the standard error
-lm-eval reports at this sample size, measured at **1.99–2.24 pp** across these five tasks
-(D45); the ratios below use the lower bound, so they are the most generous reading of a
-movement as noise:
+**Zero-shot accuracy** (lm-eval 0.4.9, 0-shot, **2,000 samples**; the 2026-10-21
+re-measurement of both checkpoints in one CPU session). `z` is the paired difference
+over its combined standard error; at this sample size ~1.0–1.4 pp is one standard
+error:
 
-| task | v0.1.2 | v0.2.0 | Δ | \|Δ\|/σ |
+| task | v0.1.2 | v0.2.0 | Δ (pp) | z |
 |---|---|---|---|---|
-| PIQA | 61.4 | 63.8 | +2.40 | ~1.2 |
-| HellaSwag | 36.8 | 39.8 | +3.00 | ~1.5 |
-| WinoGrande | 50.2 | 50.8 | +0.60 | ~0.3 |
-| LAMBADA | 23.0 | 20.8 | **−2.20** | ~1.1 |
-| ARC-Easy | 45.8 | 42.0 | **−3.80** | ~1.9 |
+| PIQA | 59.63 | 61.37 | +1.74 | 1.08 |
+| HellaSwag | 35.60 | 35.60 | 0.00 | 0.00 |
+| WinoGrande | 50.28 | 50.75 | +0.47 | 0.24 |
+| LAMBADA | 25.15 | 23.90 | **−1.25** | −0.92 |
+| ARC-Easy | 45.95 | 46.40 | **+0.45** | 0.29 |
 
-**None of the five movements reaches 2σ, so none is individually significant on this
-sample.** The pre-registered stability rule allows no task to regress by more than 1.0
-point, and v0.2.0 **fails it on two** — which is why it is held as an experiment rather
-than promoted over v0.1.2. The two regressions are the largest movements in the table and
-point the same way, but at this sample size they are signals, not verdicts. The thresholds
-were not moved after seeing the result, and the noise floor is published beside the verdict
-rather than used to rescue it (D45).
+**No movement reaches 2σ.** The registered 500-sample stability rule failed on both
+ARC-Easy and LAMBADA; at 2,000 samples the ARC-Easy regression did **not** replicate
+(+0.45, z=0.29), and only LAMBADA is outside the 1.0 pp allowance (−1.25, z=−0.92).
+v0.2.0 remains an experiment release, not a promotion, but the story is now **one
+edge-of-the-rule regression**, not two. The 500-sample numbers remain in the record
+with their ~2 pp error; the higher-resolution result is in
+`docs/eval/2026-10-21-v020-bench-pair-2k.md`.
 
 > An earlier version of this section claimed "three of the five movements are smaller than
 > the measurement's own noise", and carried per-task `σ` of 0.3–1.7 that matched neither the
-> sentence beside it nor D45's measurement. Corrected 2026-10-18 by a whole-record audit; the
-> registered verdict is unchanged.
+> sentence beside it nor D45's measurement. Corrected 2026-10-18 by a whole-record audit.
+> The 2026-10-21 2,000-sample run then showed that the 500-sample ARC-Easy −3.80 was noise.
 
-**What the loss/accuracy split means.** Changing the data moved loss by 0.2285 and
-still cost 3.8 points on ARC-Easy. When loss improves and accuracy does not follow,
-the problem is the data, not the capacity or the method. That is the project's main
-methodological finding and it is what the next version is built on.
+**What the loss/accuracy split means.** Changing the data moved loss by 0.2285 nats;
+at 2,000 samples it moved no task by more than +1.74 pp and regressed LAMBADA by
+−1.25, with no 2σ accuracy movement. When loss improves and accuracy does not follow,
+the problem is the data, not the capacity or the method. The earlier claim that the
+corpus cost 3.8 points on ARC-Easy is retracted — that was a 500-sample artifact.
 
 **The architecture ablations produced nothing (D48).** Seven micro-arms were run on a
 30M budget. The best of them — a static learned per-channel modulation, X20 — looked
@@ -235,9 +236,10 @@ caps a session but never the run.
 - **v0.1.2** — QK-Norm + logit soft-cap (τ=30). Micro-ablation 3.5103, 0.29 vs baseline.
   Stopped at step 3,478 of 4,770 on quota with the plateau documented. First public release.
 - **v0.2.0** — compliance-rebuilt corpus, same recipe, full 4,770 steps. Val 2.8248
-  (−0.2285 nats vs v0.1.2 on the same yardstick); three of five benchmarks move inside
-  their own noise, two regress beyond it. Held as an experiment: it fails its own
-  pre-registered stability rule on ARC-Easy and LAMBADA.
+  (−0.2285 nats vs v0.1.2 on the same yardstick). The registered 500-sample evaluation
+  failed stability on ARC-Easy and LAMBADA; at 2,000 samples only LAMBADA is outside
+  the 1.0 pp allowance (−1.25), no movement reaches 2σ, and the ARC-Easy regression
+  did not replicate (+0.45). Held as an experiment, not promoted.
 - **v0.3.0** — *not* a new base. The first **continual update** of v0.2.0: new corpus, the
   learning rate re-warmed and re-decayed, old data replayed, and no restart from scratch.
   With 30 GPU-hours a week, that is the only way this model improves at a rate worth

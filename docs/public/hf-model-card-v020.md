@@ -27,7 +27,7 @@ model-index:
     metrics:
     - name: Accuracy
       type: acc
-      value: 63.8
+      value: 61.4
   - task:
       type: text-generation
     dataset:
@@ -36,7 +36,7 @@ model-index:
     metrics:
     - name: Accuracy
       type: acc
-      value: 42.0
+      value: 46.4
   - task:
       type: text-generation
     dataset:
@@ -45,7 +45,7 @@ model-index:
     metrics:
     - name: Accuracy (normalized)
       type: acc_norm
-      value: 39.8
+      value: 35.6
   - task:
       type: text-generation
     dataset:
@@ -63,7 +63,7 @@ model-index:
     metrics:
     - name: Accuracy
       type: acc
-      value: 20.8
+      value: 23.9
 ---
 
 # KALIA v0.2.0
@@ -72,10 +72,13 @@ A 57,856,256-parameter language model trained from **random initialization** on 
 Kaggle GPUs. No pretrained weights, no fine-tuning, no distillation, no budget.
 
 **This is an experiment release, not a promotion.** It improves held-out loss on its
-pre-registered primary metric and it **fails its own pre-registered stability rule on two
-of five benchmarks**. The thresholds were not moved after the results existed. The previous
-release, [`kalia-v012`](https://huggingface.co/kalia-lm/kalia-v012), remains the recommended
-checkpoint.
+pre-registered primary metric and it **fails its own pre-registered stability rule at the
+registered 500 samples on two of five benchmarks**. At the 2026-10-21 2,000-sample
+re-measurement, only **LAMBADA** remains outside the 1.0 pp allowance (−1.25, z=−0.92),
+the ARC-Easy regression did not replicate (+0.45), and no movement reaches 2σ. The
+thresholds were not moved after the results existed. Under the registered rule, the
+previous release, [`kalia-v012`](https://huggingface.co/kalia-lm/kalia-v012), remains the
+recommended checkpoint.
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -111,34 +114,37 @@ seed 1234, the same call that produced v0.1.2's reference:
 **0.2285 nats better, 4.6× the pre-registered 0.05-nat bar.** Both thresholds existed as a
 hashed file before the run finished.
 
-**Zero-shot benchmarks** (lm-evaluation-harness 0.4.9, 0-shot, 500 samples):
+**Zero-shot benchmarks** (lm-evaluation-harness 0.4.9, 0-shot, **2,000 samples**;
+2026-10-21 re-measurement of both checkpoints in one CPU session):
 
-| task | v0.1.2 | v0.2.0 | Δ | \|Δ\|/σ | stability rule (≤1.0pp) |
+| task | v0.1.2 | v0.2.0 | Δ (pp) | z | stability rule (≤1.0pp) |
 |---|---|---|---|---|
-| PIQA | 61.4 | 63.8 | +2.40 | ~1.2 | pass |
-| HellaSwag | 36.8 | 39.8 | +3.00 | ~1.5 | pass |
-| WinoGrande | 50.2 | 50.8 | +0.60 | ~0.3 | pass |
-| LAMBADA | 23.0 | 20.8 | **−2.20** | ~1.1 | **fail** |
-| ARC-Easy | 45.8 | 42.0 | **−3.80** | ~1.9 | **fail** |
+| PIQA | 59.63 | 61.37 | +1.74 | 1.08 | pass |
+| HellaSwag | 35.60 | 35.60 | 0.00 | 0.00 | pass |
+| WinoGrande | 50.28 | 50.75 | +0.47 | 0.24 | pass |
+| LAMBADA | 25.15 | 23.90 | **−1.25** | −0.92 | **fail** |
+| ARC-Easy | 45.95 | 46.40 | **+0.45** | 0.29 | pass |
 
-`σ` is lm-eval's standard error at 500 samples, measured at **1.99–2.24 pp** across these
-five tasks (decision D45); the ratios use the lower bound, so they read a movement as noise
-as generously as the measurement allows.
+At this sample size the standard errors are ~1.0–1.4 pp; `z` is the difference over its
+combined standard error. PIQA used 1,838 validation items and WinoGrande 1,267 (their full
+sets); the other tasks used 2,000. The original 500-sample numbers remain in the record with
+their ~2 pp error.
 
 ### Read the error bars
 
-**None of the five movements reaches 2σ, so none is individually significant on this
-sample.** The two regressions are the largest movements in the table and point the same
-way, but at this sample size they are signals, not verdicts. The honest summary is *a clear
-improvement in held-out loss, no individually significant change in zero-shot accuracy, and
-the two largest movements on this sample being regressions, on the tasks that require
-knowledge breadth and long-range recall.*
+**None of the five movements reaches 2σ.** The registered 500-sample rule failed on both
+ARC-Easy and LAMBADA; at 2,000 samples the ARC-Easy regression did **not** replicate
+(+0.45) and the HellaSwag gain did not either (0.00). **LAMBADA is the only task outside
+the 1.0 pp allowance**, by 0.25 pp, and its z is −0.92. The honest summary is *a clear
+improvement in held-out loss, no individually significant change in zero-shot accuracy,
+and one edge-of-the-rule regression on the task that needs long-range recall.*
 
 Two things follow, and they are both uncomfortable:
 
 - **Our own accuracy thresholds were under-powered.** An earlier pre-registered bar of
   0.5 pp sat ~4.5× below the measurement's standard error, so it passed on noise alone
-  (decision D45). It is recorded rather than quietly corrected.
+  (decision D45). The 500-sample ARC-Easy −3.8 was the same failure in the other
+  direction: at 2,000 samples it is +0.45.
 - **The interim measurement was actively misleading.** At step 3,470 four of five tasks
   appeared to regress. Three of those reversed by the final checkpoint. Any conclusion about
   this corpus has to come from the final weights.
@@ -151,8 +157,10 @@ context**, and that TinyStories — a fifth of the mixture — supplies **0.03%*
 LAMBADA asks a model to hold a discourse and recall its final word, which is exactly what
 that corpus cannot teach. The probe also found a candidate replacement source at 99.3%.
 
-Whether the code-share change caused the ARC-Easy regression is **not established**. It is
-the open question the next version has to answer.
+The 500-sample ARC-Easy regression (−3.80) **did not replicate** at 2,000 samples (+0.45),
+so the code-share explanation for it is no longer supported. The mixture is still the open
+lever — a 0.2285-nat loss gain produced no 2σ accuracy movement — but it is not the
+accuracy catastrophe the 500-sample run suggested.
 
 ## Architecture
 
@@ -220,8 +228,9 @@ grants the right to train outright.
 
 - **Small and domain-narrow.** Coherent short-form English; children's stories and
   educational text. Not a general assistant, and there is no instruction tuning yet.
-- **Two of five benchmarks regressed against v0.1.2** (ARC-Easy, LAMBADA) while loss
-  improved. Cause not established.
+- **At 2,000 samples, one of five benchmarks is outside the 1.0 pp allowance**
+  (LAMBADA, −1.25, z=−0.92), while loss improved substantially. The earlier 500-sample
+  ARC-Easy regression did not replicate (+0.45), and no movement reaches 2σ.
 - **Long-range recall is weak, and measurably so** — see the LAMBADA note above.
 - **Training plateaus.** Validation loss is flat across the final 1,500 of 4,770 steps
   (spread 0.065 nats over 7 evals). The last 31% of training produced no measurable gain.
@@ -256,7 +265,7 @@ grants the right to train outright.
   author = {Subhajit Pradhan},
   title  = {KALIA v0.2.0: a 58M from-scratch language model, and the measurement errors that came with it},
   year   = {2026},
-  note   = {Held-out loss improves 0.2285 nats over v0.1.2; two of five zero-shot benchmarks regress. Pre-registered, and reported as measured.}
+  note   = {Held-out loss improves 0.2285 nats over v0.1.2. At 2,000 samples, one of five zero-shot benchmarks (LAMBADA) is outside the 1.0 pp allowance; the 500-sample ARC-Easy regression did not replicate and no movement reaches 2 sigma. Pre-registered, and reported as measured.}
 }
 ```
 

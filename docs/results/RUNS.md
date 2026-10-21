@@ -30,6 +30,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X17` | Intra-document masking, two seeds; registered 2026-09-28, run 2026-10-18 | yes | 13 files |
 | `X17 matched` | Rerun with the eval masking the run trained under; effect undetectable | — | 11 files |
 | `X31` | QK-Norm/soft-cap isolation at two seeds; QK-Norm carries the gain, soft-cap does not | yes | 20 files |
+| `bench pair 2k` | 2,000-sample benchmark pair; the 500-sample ARC-Easy regression was noise | — | 6 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -150,6 +151,14 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x31/train_log-cap-s1338.csv`
 - `… 14 more`
 
+**bench pair 2k**
+- `docs/results/bench-pair-2k/README.md`
+- `docs/results/bench-pair-2k/bench_pair_2k.json`
+- `docs/results/bench-pair-2k/bench_v012_2k.json`
+- `docs/results/bench-pair-2k/bench_v020_2k.json`
+- `docs/results/bench-pair-2k/kalia-bench-pair-2k.log`
+- `docs/results/bench-pair-2k/run_manifest.json`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -167,4 +176,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-23 runs tracked, 116 files archived, 3 with no evidence.
+24 runs tracked, 122 files archived, 3 with no evidence.

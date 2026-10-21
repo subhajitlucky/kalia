@@ -384,3 +384,46 @@ verdict is computed from the archived curves by `tools/x31_verdict.py`, not
 transcribed.
 
 **Status.** active.
+
+## D56 — The ARC-Easy regression was a 500-sample artifact (2026-10-21)
+
+**Context.** The v0.2.0 release verdict was measured at `limit=500`, where D45
+measured lm-eval's standard error at 1.99–2.24 pp. The 2026-10-17 review
+recommended 2,000 samples; `eval_bench.py` changed its default on 2026-10-18, but
+no 2,000-sample run was archived. The public cards still said the corpus change
+"cost 3.8 points on ARC-Easy" and that two benchmarks regressed.
+
+**Evidence.** `kalia-bench-pair-2k` scored both checkpoints in one CPU session at
+2,000 samples (PIQA 1,838 and WinoGrande 1,267 use their full sets):
+
+| task | v0.1.2 | v0.2.0 | Δ (pp) | z |
+|---|---|---|---|---|
+| PIQA | 59.63 | 61.37 | +1.74 | 1.08 |
+| HellaSwag | 35.60 | 35.60 | 0.00 | 0.00 |
+| WinoGrande | 50.28 | 50.75 | +0.47 | 0.24 |
+| LAMBADA | 25.15 | 23.90 | −1.25 | −0.92 |
+| ARC-Easy | 45.95 | 46.40 | **+0.45** | 0.29 |
+
+The 500-sample ARC-Easy −3.80 did not replicate; the 500-sample HellaSwag +3.00
+became 0.00. No movement reaches 2σ. LAMBADA is the only task outside the 1.0 pp
+allowance, by 0.25 pp.
+
+**Decision.**
+1. The **registered 500-sample verdict is not edited**: S-A FAIL on ARC-Easy and
+   LAMBADA remains what the frozen pre-registration produced at that sample size.
+2. Public cards, README and SYNTHESIS now report the **2,000-sample** comparison:
+   S-A fails on **LAMBADA only**; the ARC-Easy regression is retracted. The 500
+   numbers remain in the record with their ~2 pp error.
+3. v0.2.0 remains an **experiment release, not a promotion**: the registered
+   rule still fails at 2,000, even though the failure is one task at the edge of
+   the allowance and not statistically resolvable.
+4. The loss/accuracy lesson is restated: a 0.2285-nat loss gain produced no 2σ
+   accuracy movement and LAMBADA −1.25; it did **not** cost 3.8 points on
+   ARC-Easy. The mixture remains the open lever, but it is not the accuracy
+   catastrophe the 500-sample run suggested.
+
+**Cost.** ~3 h of CPU quota, no GPU. Artifacts:
+`docs/results/bench-pair-2k/`; narrative:
+`docs/eval/2026-10-21-v020-bench-pair-2k.md`.
+
+**Status.** active.

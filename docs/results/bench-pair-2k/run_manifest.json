@@ -1,0 +1,42 @@
+{
+  "checkpoints": {
+    "v012": {
+      "bytes": 565895345,
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-train-v012/out/ckpt.pt",
+      "sha256": "4ce4a71643b76fa5866755db0b61c1b4fbb2494b517ba296ff76de2da2ba9224"
+    },
+    "v020": {
+      "bytes": 565895345,
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-train-v020/out/ckpt.pt",
+      "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+    }
+  },
+  "code_fingerprint": "0444c15d2c246ad2fa645dc3bb0d096d481931dce2af450a09d1170e7b2ea80d",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "experiment": "2k",
+  "kernel_id": "subhajitlucky/kalia-bench-pair-2k",
+  "kernel_revision": "cdbcc3bddd198c3ef07a816b20bfa404740502ee",
+  "limit": 2000,
+  "metric": {
+    "arc_easy": "acc,none",
+    "hellaswag": "acc_norm,none",
+    "lambada_openai": "acc,none",
+    "piqa": "acc,none",
+    "winogrande": "acc,none"
+  },
+  "recorded": "2026-10-21T09:43:29.674849+00:00",
+  "stderr": {
+    "arc_easy": "acc_stderr,none",
+    "hellaswag": "acc_norm_stderr,none",
+    "lambada_openai": "acc_stderr,none",
+    "piqa": "acc_stderr,none",
+    "winogrande": "acc_stderr,none"
+  },
+  "tasks": [
+    "arc_easy",
+    "piqa",
+    "hellaswag",
+    "lambada_openai",
+    "winogrande"
+  ]
+}

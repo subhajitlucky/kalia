@@ -27,7 +27,7 @@ model-index:
     metrics:
     - name: Accuracy
       type: acc
-      value: 61.4
+      value: 59.6
   - task:
       type: text-generation
     dataset:
@@ -36,7 +36,7 @@ model-index:
     metrics:
     - name: Accuracy
       type: acc
-      value: 45.8
+      value: 46.0
   - task:
       type: text-generation
     dataset:
@@ -45,7 +45,7 @@ model-index:
     metrics:
     - name: Accuracy (normalized)
       type: acc_norm
-      value: 36.8
+      value: 35.6
   - task:
       type: text-generation
     dataset:
@@ -54,7 +54,7 @@ model-index:
     metrics:
     - name: Accuracy
       type: acc
-      value: 50.2
+      value: 50.3
   - task:
       type: text-generation
     dataset:
@@ -63,7 +63,7 @@ model-index:
     metrics:
     - name: Accuracy
       type: acc
-      value: 23.0
+      value: 25.2
 ---
 
 # KALIA v0.1.2
@@ -127,21 +127,23 @@ Runs on CPU (~230MB in fp16 weights).
 > weights). Numbers from the two sets are not comparable; the v2b row is the reference for
 > every later version. See decision D43.
 
-### Zero-shot benchmarks (lm-evaluation-harness, 0-shot, 500 samples)
+### Zero-shot benchmarks (lm-evaluation-harness, 0-shot, 2,000 samples)
+
+Re-measured 2026-10-21; the original 500-sample numbers remain in the record.
 
 | Task | Score | Chance |
 |---|---|---|
-| PIQA (acc) | **61.4%** | 50% |
-| ARC-Easy (acc) | **45.8%** | 25% |
-| HellaSwag (acc_norm) | 36.8% | 25% |
-| WinoGrande (acc) | 50.2% | 50% |
-| LAMBADA (acc / perplexity) | 23.0% / 193.6 | — |
+| PIQA (acc) | **59.6%** | 50% |
+| ARC-Easy (acc) | **46.0%** | 25% |
+| HellaSwag (acc_norm) | 35.6% | 25% |
+| WinoGrande (acc) | 50.3% | 50% |
+| LAMBADA (acc / perplexity) | 25.2% / 168.2 | — |
 
 For scale context: third-party leaderboard tables list OPT-125M (125M params, 300B
 tokens) at PIQA 63.0 / ARC-Easy 43.5 / HellaSwag 29.2; harness versions differ, so
 treat this as context, not a head-to-head. KALIA is a storyteller, not a knowledge
 model — its LAMBADA weakness reflects a corpus without long-form narrative cloze.
-Standard errors are ±2.2pp at this sample size.
+Standard errors are ~1.0–1.4 pp at 2,000 samples (1.99–2.24 pp at the original 500).
 
 Micro-ablations at 30M params / equal tokens / seed 1337: AdamW 3.8041 →
 Muon 3.5937 → Muon + QK-Norm + soft-cap **3.5103**. X31 (2026-10-21) isolated
@@ -168,29 +170,28 @@ rather than resumed. The plateau is documented in the repository journal.
 
 ## Limitations
 
-Stated as measured, not as marketing. The noise floor matters here: at 500
-samples these benchmarks have standard errors of roughly 2.0–2.2 points, so
-differences smaller than about 2 points are not real.
+Stated as measured, not as marketing. The noise floor matters here: at the
+original 500 samples these benchmarks had standard errors of roughly 2.0–2.2
+points; at 2,000 they are ~1.0–1.4 points.
 
 - **Small model.** Coherent short-form English, not a general assistant.
 - **Domain-narrow.** Children's stories and educational web text.
 - **Entity consistency degrades over long outputs** (names drift).
 - **No instruction following.** Post-training is a planned stage, not a
   completed one.
-- **Two of five zero-shot benchmarks regressed against v0.1.2** when the corpus
-  was rebuilt for licence compliance: ARC-Easy 45.8 → 42.0 and LAMBADA 23.0 →
-  20.8. Held-out loss over the same rebuild improved by 0.2285 nats, so loss and
-  accuracy moved in opposite directions. Against the measured 1.99–2.24 pp
-  standard error (D45), **none of the five movements reaches 2σ** — the two
-  regressions are the largest movements in the table, but at this sample size
-  they are signals, not verdicts. Whether the
-  code-share change caused the regression is not established; it is the open
-  question the next version has to answer.
+- **At 2,000 samples, only LAMBADA is outside the 1.0 pp allowance** when the
+  corpus was rebuilt for licence compliance (25.15 → 23.90, −1.25, z=−0.92).
+  The 500-sample ARC-Easy regression (45.8 → 42.0) did **not** replicate
+  (45.95 → 46.40, +0.45). Held-out loss over the same rebuild improved by
+  0.2285 nats; no accuracy movement reaches 2σ, so loss and accuracy still move
+  as separate instruments, but the earlier "two regressions" reading is
+  retracted.
 - **Long-range recall is weak, and measurably so.** Only 17.7% of training tokens
   sit inside a document at least as long as the 1,024-token context, and
   TinyStories — 20% of the mixture — supplies 0.01% of them. LAMBADA, which
   requires holding a discourse and recalling its end, is the task this corpus is
-  worst equipped for, and it is one of the two that regressed.
+  worst equipped for, and it is the one that remains outside the allowance at
+  2,000 samples.
 - **Training runs to a plateau.** Validation loss is flat across the final
   1,500 of 4,770 steps. The last 31% of training produced no measurable gain.
 - **May produce inaccurate or biased text.** Not for production decisions.

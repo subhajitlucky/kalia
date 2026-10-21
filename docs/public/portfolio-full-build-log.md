@@ -16,8 +16,8 @@ to surface.
 | Params | 57,856,256 | same |
 | Tokens seen | 1.82B | 2.50B |
 | Held-out loss | 3.0533 / 0.9992 bpB | **2.8248 / 0.9244 bpB** |
-| Zero-shot | PIQA 61.4 · ARC-E 45.8 · HellaSwag 36.8 | PIQA 63.8 · ARC-E 42.0 · HellaSwag 39.8 |
-| Status | released | released as an experiment; fails its own stability rule on two benchmarks |
+| Zero-shot (2,000 samples) | PIQA 59.6 · ARC-E 46.0 · HellaSwag 35.6 | PIQA 61.4 · ARC-E 46.4 · HellaSwag 35.6 |
+| Status | released | released as an experiment; the registered 500-sample rule fails on ARC-E and LAMBADA, but at 2,000 only LAMBADA is outside the 1.0 pp allowance (−1.25) |
 
 - Code + engineering journal: https://github.com/subhajitlucky/kalia
 - Weights: https://huggingface.co/kalia-lm/kalia-v012 · `kalia-v020`
@@ -108,9 +108,11 @@ Two things followed, both deliberate:
   and v2b is licence-clean by construction.
 
 The rebuilt corpus trained **v0.2.0**: 3.0533 → **2.8248** on the same yardstick,
-4.6× the pre-registered bar. And on accuracy it **failed its own stability rule**
-on ARC-Easy (−3.8) and LAMBADA (−2.2), which is why it ships as an experiment
-rather than a promotion.
+4.6× the pre-registered bar. Its registered 500-sample stability rule failed on
+ARC-Easy (−3.8) and LAMBADA (−2.2), which is why it ships as an experiment rather
+than a promotion. At the 2026-10-21 2,000-sample re-measurement, the ARC-Easy
+regression did not replicate (+0.45) and only LAMBADA remains outside the 1.0 pp
+allowance (−1.25, z=−0.92); no movement reaches 2σ.
 
 **The lesson that outlived the bug:** a green test on a filter that ran on the
 wrong side of a timestamp reads exactly like safety.

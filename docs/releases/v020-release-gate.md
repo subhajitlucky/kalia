@@ -70,3 +70,10 @@ just verified, so the file that is published is provably the file that scored
 release **fails its own pre-registered stability rule on two of five benchmarks**
 (ARC-Easy −3.80, LAMBADA −2.20) while improving held-out loss by 0.2285 nats, and
 that `kalia-v012` remains the recommended checkpoint.
+
+> **2026-10-21 correction.** The 2,000-sample re-measurement
+> (`docs/eval/2026-10-21-v020-bench-pair-2k.md`) found the ARC-Easy regression
+> was a 500-sample artifact: it is **+0.45** at 2,000. Only LAMBADA remains
+> outside the 1.0 pp allowance (−1.25, z=−0.92), and no movement reaches 2σ. The
+> frozen 500-sample verdict above is unchanged; the card now reports both and
+> says v0.2.0 still fails the registered rule on LAMBADA only.

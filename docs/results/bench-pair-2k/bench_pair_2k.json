@@ -1,0 +1,60 @@
+{
+  "comparison": {
+    "arc_easy": {
+      "delta_pp": 0.4500000000000004,
+      "metric": "acc,none",
+      "regression_over_1pp": false,
+      "v012": 0.4595,
+      "v012_stderr": 0.011146389370464277,
+      "v020": 0.464,
+      "v020_stderr": 0.01115411166805998,
+      "z": 0.2853729895183297
+    },
+    "hellaswag": {
+      "delta_pp": 0.0,
+      "metric": "acc_norm,none",
+      "regression_over_1pp": false,
+      "v012": 0.356,
+      "v012_stderr": 0.010709311120344584,
+      "v020": 0.356,
+      "v020_stderr": 0.010709311120344584,
+      "z": 0.0
+    },
+    "lambada_openai": {
+      "delta_pp": -1.250000000000001,
+      "metric": "acc,none",
+      "regression_over_1pp": true,
+      "v012": 0.2515,
+      "v012_stderr": 0.009704172323296826,
+      "v020": 0.239,
+      "v020_stderr": 0.009538605374804438,
+      "z": -0.9186311611733202
+    },
+    "piqa": {
+      "delta_pp": 1.7410228509249226,
+      "metric": "acc,none",
+      "regression_over_1pp": false,
+      "v012": 0.5963003264417845,
+      "v012_stderr": 0.011447407541749126,
+      "v020": 0.6137105549510338,
+      "v020_stderr": 0.011360138833823712,
+      "z": 1.0795374758447904
+    },
+    "winogrande": {
+      "delta_pp": 0.47355958958168465,
+      "metric": "acc,none",
+      "regression_over_1pp": false,
+      "v012": 0.5027624309392266,
+      "v012_stderr": 0.014052271211616401,
+      "v020": 0.5074980268350434,
+      "v020_stderr": 0.014050905521228646,
+      "z": 0.23830558365480564
+    }
+  },
+  "limit": 2000,
+  "note": "S-A uses the registered 1.0 pp allowance. z is descriptive: at 2,000 samples, |z| >= 2 is the point where a movement is resolvable at 2 sigma.",
+  "s_a_fails": [
+    "lambada_openai"
+  ],
+  "two_sigma_movements": []
+}

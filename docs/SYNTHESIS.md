@@ -54,28 +54,30 @@ The corpus was rebuilt for licence compliance, which redefined the held-out set
 
 That is **4.6× the pre-registered 0.05 nat bar** (P-B, passed).
 
-**Zero-shot benchmarks** (lm-eval, 0-shot, 500 samples):
+**Zero-shot benchmarks** (lm-eval, 0-shot, **2,000 samples**; the 2026-10-21
+re-measurement. The original 500-sample run remains in the record below.):
 
-| task | v0.1.2 | v0.2.0 | Δ | σ | S-A (≤1.0pp) |
+| task | v0.1.2 | v0.2.0 | Δ (pp) | z | S-A (≤1.0pp) |
 |---|---|---|---|---|---|
-| PIQA | 61.4 | 63.8 | +2.40 | 1.1 | ok |
-| HellaSwag | 36.8 | 39.8 | +3.00 | 1.5 | ok |
-| WinoGrande | 50.2 | 50.8 | +0.60 | 0.3 | ok |
-| LAMBADA | 23.0 | 20.8 | **−2.20** | 1.2 | **FAIL** |
-| ARC-Easy | 45.8 | 42.0 | **−3.80** | 1.7 | **FAIL** |
+| PIQA | 59.63 | 61.37 | +1.74 | 1.08 | ok |
+| HellaSwag | 35.60 | 35.60 | 0.00 | 0.00 | ok |
+| WinoGrande | 50.28 | 50.75 | +0.47 | 0.24 | ok |
+| LAMBADA | 25.15 | 23.90 | **−1.25** | −0.92 | **FAIL** |
+| ARC-Easy | 45.95 | 46.40 | **+0.45** | 0.29 | ok |
 
-**Registered verdict: P-B PASS, S-A FAIL.**
+**Registered verdict at 500 samples: P-B PASS, S-A FAIL on ARC-Easy and
+LAMBADA. At 2,000 samples: S-A fails on LAMBADA only.** v0.2.0 therefore remains
+an **experiment release, not a promotion** — it still trips the registered 1.0 pp
+rule on the higher-resolution measurement, but by 0.25 pp and at z=−0.92.
 
-**Read the noise before the numbers.** Standard errors at `limit=500` are
-**1.99–2.24 pp** (D45, measured), so **none of the five movements reaches 2σ and
-none is individually significant** — PIQA ~1.2σ, HellaSwag ~1.5σ, WinoGrande
-~0.3σ, LAMBADA ~1.1σ, ARC-Easy ~1.9σ. The two failures are the largest
-movements in the table and point the same way; neither is overwhelming on its
-own. The honest summary is *a clear improvement in held-out loss, no
-individually significant change in zero-shot accuracy, and the two largest
-movements on this sample being regressions on the tasks that need knowledge
-breadth and long-range recall.* The registered thresholds were not moved to
-escape this.
+**Read the noise before the numbers.** At 2,000 samples the standard errors are
+~1.0–1.4 pp, and **none of the five movements reaches 2σ** — the largest is PIQA
+at z=1.08. The 500-sample ARC-Easy −3.80 did not replicate (**+0.45** at 2,000),
+and the 500-sample HellaSwag +3.00 became **0.00**. The honest summary is *a
+clear improvement in held-out loss, no individually significant change in
+zero-shot accuracy, and one task — LAMBADA — outside the registered allowance by
+0.25 pp, not two regressions as the 500-sample run suggested.* The registered
+thresholds were not moved to escape this.
 
 > Corrected 2026-10-18: this section previously read "three of the five tasks are
 > not separable from v0.1.2 at all" against "1.8–2.2 pp". Only WinoGrande is
@@ -83,6 +85,12 @@ escape this.
 > the same false sentence remains visible in
 > `docs/preregistrations/2026-09-28-v020-final-evaluation.md`, which is
 > hash-anchored and is not edited.
+>
+> Re-measured 2026-10-21 at 2,000 samples: the ARC-Easy regression did not
+> replicate (+0.45) and the HellaSwag gain did not either (0.00). LAMBADA is the
+> only 2,000-sample task outside the 1.0 pp allowance (−1.25, z=−0.92). The
+> frozen 500-sample registration is not edited; the higher-resolution result is
+> in `docs/eval/2026-10-21-v020-bench-pair-2k.md`.
 
 **The interim measurement was actively misleading.** At step 3,470, four of five
 tasks were regressing. The final checkpoint reversed that on three. Conclusions
@@ -122,11 +130,12 @@ can check.
 
 ## 4. Weak points — stated plainly
 
-**One benchmark genuinely regressed.** ARC-Easy −3.80 against a 1.0 pp
-allowance. The registered rule is symmetric with the success criterion and is
-reported as it stands. A 5%→10% code share costing 3.8 points on ARC-Easy says
-the mixture is **far more sensitive than we have been treating it**, and that is
-the most important open question in the project.
+**At 2,000 samples, one benchmark is outside the allowance.** LAMBADA −1.25 pp
+against the 1.0 pp rule, at z=−0.92. The 500-sample ARC-Easy −3.80 did **not**
+replicate (+0.45 at 2,000), so the earlier "the corpus cost 3.8 points on
+ARC-Easy" reading is retracted. The mixture is still the most important open
+lever — a 0.2285-nat loss gain produced no 2σ accuracy movement — but it is not
+the accuracy catastrophe the 500-sample run suggested.
 
 **The last 31% of training bought nothing.** The val curve is flat from step
 3,250 — 2.874–2.940 across the final 1,500 steps. This is the same J2 plateau
@@ -198,9 +207,11 @@ The single most useful thing we learned is not about the model:
 > the other.**
 
 Six architecture ablations moved loss by 0.01–0.05 nats. A corpus change moved
-it by 0.2285 nats — and cost 3.8 points on ARC-Easy. Twice we measured both and
-got the same shape. When loss improves and accuracy does not follow, the problem
-is the data, not the capacity or the method.
+it by 0.2285 nats; at 2,000 samples it moved no task by more than +1.74 pp and
+regressed LAMBADA by −1.25, with no 2σ accuracy movement. Twice we measured
+both and got the same shape: loss improves without a proportional accuracy
+gain. The problem is the data, not the capacity or the method — but the 500-
+sample claim that ARC-Easy fell 3.8 points was noise.
 
 Which is why the next version is not a new architecture. It is a **continual
 update of this checkpoint** — new corpus, re-warm the learning rate, replay the

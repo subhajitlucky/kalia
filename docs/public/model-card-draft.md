@@ -72,19 +72,22 @@ threshold, so v0.1.2 ships plain Muon. Muon+ remains an optional flag.
 | bits-per-byte (probe) | — | **0.9415** |
 | Abhimanyu gap (reverse − forward NLL) | — | **6.057 nats** (forward 3.2303 vs reversed-text 9.2875; random ≈ 10.8) |
 
-### Zero-shot benchmarks (lm-evaluation-harness, 0-shot, 500 samples)
+### Zero-shot benchmarks (lm-evaluation-harness, 0-shot, 2,000 samples)
+
+Re-measured 2026-10-21; the original 500-sample numbers remain in the record.
 
 | Task | Score | Chance |
 |---|---|---|
-| PIQA (acc) | 61.4% | 50% |
-| ARC-Easy (acc) | 45.8% | 25% |
-| HellaSwag (acc_norm) | 36.8% | 25% |
-| WinoGrande (acc) | 50.2% | 50% |
-| LAMBADA (acc / perplexity) | 23.0% / 193.6 | — |
+| PIQA (acc) | 59.6% | 50% |
+| ARC-Easy (acc) | 46.0% | 25% |
+| HellaSwag (acc_norm) | 35.6% | 25% |
+| WinoGrande (acc) | 50.3% | 50% |
+| LAMBADA (acc / perplexity) | 25.2% / 168.2 | — |
 
 Context: third-party leaderboard tables list OPT-125M (125M params, 300B tokens)
 at PIQA 63.0 / ARC-Easy 43.5 / HellaSwag 29.2; harness versions differ, so treat
-this as context, not a head-to-head. Standard errors ±2.2pp at 500 samples.
+this as context, not a head-to-head. Standard errors are ~1.0–1.4 pp at 2,000
+samples (1.99–2.24 pp at 500).
 
 Ablations (30M-param micro-runs, equal tokens, seed 1337): AdamW 3.8041 →
 Muon 3.5937 → Muon + QK-Norm + soft-cap 3.5103. X31 (two fresh seeds) puts the

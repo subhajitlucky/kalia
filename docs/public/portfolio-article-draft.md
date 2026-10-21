@@ -53,7 +53,7 @@ Full-scale, equal-token comparison: the Muon-based model overtook the AdamW
 baseline's *final* loss with ~23% fewer tokens, and at equal steps kept a
 persistent ~0.15 nat advantage. Final numbers: 2.4366 held-out loss / 0.8184
 bits-per-byte (deterministic, 819k tokens), and zero-shot benchmarks put it near
-125M-class models on PIQA (61.4%) and ARC-Easy (45.8%) with 2× fewer parameters
+125M-class models on PIQA (59.6%) and ARC-Easy (46.0%) with 2× fewer parameters
 and ~160× fewer training tokens. The validation curve plateaued for 1,000 steps,
 then training was stopped at 73% of the schedule when the weekly quota ran out —
 the plateau is documented, not hidden.

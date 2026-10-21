@@ -9,7 +9,7 @@ Canonical piece: the dedicated paper page
 > GPUs, for $0.
 >
 > No pretrained weights, no distillation — my own data pipeline, training code,
-> and evaluation. It writes coherent stories and scores 61.4% on PIQA. Every
+> and evaluation. It writes coherent stories and scores 59.6% on PIQA. Every
 > experiment was pre-registered with a hash before it ran; one optimizer variant
 > won 7 of 7 checkpoints and still wasn't promoted, because it missed the
 > threshold set in advance.
@@ -26,7 +26,7 @@ Canonical piece: the dedicated paper page
 > I trained a 58M-parameter language model from scratch — random weights, my own
 > data pipeline, my own training code — in two days, on free Kaggle GPUs, for $0.
 >
-> It writes coherent stories, scores 61.4% on PIQA and 45.8% on ARC-Easy
+> It writes coherent stories, scores 59.6% on PIQA and 46.0% on ARC-Easy
 > (competitive with 125M-class models trained on ~160× more tokens), and it beats
 > the AdamW baseline's final loss with ~23% fewer tokens after switching to the
 > Muon optimizer with QK-Norm.
@@ -60,7 +60,7 @@ Posting notes:
 1/ I trained a 58M-parameter LM from scratch in 2 days on free Kaggle GPUs.
 $0 compute. Random init, own tokenizer pipeline, own trainer.
 Held-out: 2.44 loss / 0.82 bits-per-byte.
-PIQA 61.4% · ARC-Easy 45.8% · HellaSwag 36.8%.
+PIQA 59.6% · ARC-Easy 46.0% · HellaSwag 35.6%.
 🧵 what worked, what didn't, and the receipts
 
 2/ Constraint: free tier = 30 GPU-h/week on 2×T4, 8.5-h sessions. So the whole

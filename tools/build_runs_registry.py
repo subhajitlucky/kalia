@@ -73,6 +73,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      None, ["docs/results/x17-matched/*"]),
     ("X31", "QK-Norm/soft-cap isolation at two seeds; QK-Norm carries the gain, soft-cap does not",
      "2026-10-21-X31-qk-softcap-isolation.md", ["docs/results/x31/*"]),
+    ("bench pair 2k", "2,000-sample benchmark pair; the 500-sample ARC-Easy regression was noise",
+     None, ["docs/results/bench-pair-2k/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",
