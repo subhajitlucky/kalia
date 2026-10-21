@@ -18,7 +18,7 @@ The living record continues in [`journal/`](journal/) and
 | component | choice | why |
 |---|---|---|
 | optimizer | Muon on hidden weights, AdamW on embeddings/scalars | micro-ablation: −0.21 nats; Kimi K2 and GLM-4.5 use it |
-| attention | QK-Norm + logit soft-cap (τ=30) | micro-ablation: a further −0.08 nats |
+| attention | QK-Norm + logit soft-cap (τ=30) | X31 2-seed: QK-Norm carries **−0.084**; soft-cap **+0.010** and not additive |
 | tokenizer | GPT-2 BPE, 50,257 | off-the-shelf; training one was not worth the stage |
 | depth/width | 10 layers × 512 | thin-and-deep was tested and **lost** 0.2 nats |
 | precision | bf16, 2× T4 via DDP | 30 GPU-h/week is the entire compute budget |

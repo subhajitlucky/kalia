@@ -11,7 +11,7 @@ Every significant decision: what, alternatives, evidence, status. Newest last.
 | D5 | 2026-09-22 | TinyStories + FineWeb-Edu mixture | TinyStories only; FineWeb only | Fluency + facts; TinyStories proven at tiny scale | active |
 | D6 | 2026-09-22 | Resumable multi-session harness with HF checkpoints | Single long run | Free tier sessions are capped; resumability removes waste | active |
 | D7 | 2026-09-22 | Adopt Muon for hidden weights | AdamW only | Micro-ablation: −0.21 val loss; Kimi K2, GLM-4.5 use it | validated |
-| D8 | 2026-09-22 | Adopt QK-Norm + logit soft-cap | Soft-cap only; QK-Norm only | Micro-ablation: additional −0.08; GLM/speedrun practice | validated |
+| D8 | 2026-09-22 | Adopt QK-Norm + logit soft-cap | Soft-cap only; QK-Norm only | X31 (2026-10-21) at two fresh seeds: QK-Norm alone **−0.0844**, soft-cap alone **+0.0099** and not additive | QK-Norm validated; soft-cap not supported (D55) |
 | D9 | 2026-09-22 | Batch 8 × grad-accum 32 instead of 32 × 8 | Reduce context to 512; gradient checkpointing | OOM fix without changing effective batch size | active |
 | D10 | 2026-09-22 | Only browser-started Kaggle runs for training | API-triggered runs | API runs cannot read secrets (I1); fail-fast HF test added | active |
 | D11 | 2026-09-23 | Freeze v0.1.0 after its first session | Continue to full 4770 steps | Its curve is the equal-token baseline; quota is better spent on the winning recipe | active |
@@ -348,3 +348,39 @@ bundle rather than fingerprint it, state a threshold above a measured error bar,
 never train on the measuring set — are named in the journal's Open list, and each
 is waiting for the same treatment.
 
+
+## D55 — QK-Norm stays; the logit soft-cap does not (2026-10-21)
+
+**Context.** D8 adopted QK-Norm + logit soft-cap on one 30M run at seed 1337
+(Muon 3.5937 → 3.5103, a further −0.0834). It was never replicated and the two
+components were never isolated. The 2026-10-18 audit found the number below the
+cross-configuration 30M control spread (0.1139) and above the paired control
+spread (0.0139), and the cards still cited it.
+
+**Evidence.** X31 ran the 2×2 at seeds 1338/1339, 763 steps, one kernel:
+
+| contrast | seed 1338 | seed 1339 | mean |
+|---|---|---|---|
+| qk − control | −0.0921 | −0.0766 | **−0.0844** |
+| cap − control | +0.0129 | +0.0069 | **+0.0099** |
+| both − control | −0.0839 | −0.0743 | −0.0791 |
+
+Q-1, Q-1b, Q-2a and Q-3 pass; **Q-2b fails**: the soft-cap alone is slightly
+worse than control at both seeds. The bundle is QK-Norm, not an interaction.
+
+**Decision.**
+1. **QK-Norm is validated at two seeds** for the 30M micro-recipe; the shipped
+   claim is restated as QK-Norm's −0.084, not the bundle's −0.08.
+2. **The logit soft-cap is not supported.** Future configs keep `qk_norm` and
+   drop `logit_softcap`. The shipped v0.2.0 is not retro-changed; it was trained
+   with both, and the weights are what they are.
+3. The cards, SYNTHESIS and the X31 pre-registration carry the attribution.
+4. This is a 30M micro result. Whether the 58M model benefits from the soft-cap
+   is untested; with no positive evidence and a measured +0.010 cost, the
+   simpler recipe is the default for the next run.
+
+**Cost.** 3.8 GPU-h for eight arms, inside the 2026-10-21 quota window. The
+verdict is computed from the archived curves by `tools/x31_verdict.py`, not
+transcribed.
+
+**Status.** active.

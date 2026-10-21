@@ -29,6 +29,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X29 noreplay` | The single-variable replay control at both seeds | — | 8 files |
 | `X17` | Intra-document masking, two seeds; registered 2026-09-28, run 2026-10-18 | yes | 13 files |
 | `X17 matched` | Rerun with the eval masking the run trained under; effect undetectable | — | 11 files |
+| `X31` | QK-Norm/soft-cap isolation at two seeds; QK-Norm carries the gain, soft-cap does not | yes | 20 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -140,6 +141,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x17-matched/train_log-treatment-s1338.csv`
 - `… 5 more`
 
+**X31**
+- `docs/results/x31/README.md`
+- `docs/results/x31/kalia-x31-qk-isolation.log`
+- `docs/results/x31/run_manifest.json`
+- `docs/results/x31/train_log-both-s1338.csv`
+- `docs/results/x31/train_log-both-s1339.csv`
+- `docs/results/x31/train_log-cap-s1338.csv`
+- `… 14 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -157,4 +167,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-22 runs tracked, 96 files archived, 3 with no evidence.
+23 runs tracked, 116 files archived, 3 with no evidence.

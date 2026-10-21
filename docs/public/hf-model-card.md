@@ -143,9 +143,12 @@ treat this as context, not a head-to-head. KALIA is a storyteller, not a knowled
 model — its LAMBADA weakness reflects a corpus without long-form narrative cloze.
 Standard errors are ±2.2pp at this sample size.
 
-Micro-ablations at 30M params / equal tokens / same seed: AdamW 3.8041 →
-Muon 3.5937 → Muon + QK-Norm + soft-cap **3.5103**. The full-scale Muon model
-overtook the AdamW baseline's final loss with **~23% fewer tokens**.
+Micro-ablations at 30M params / equal tokens / seed 1337: AdamW 3.8041 →
+Muon 3.5937 → Muon + QK-Norm + soft-cap **3.5103**. X31 (2026-10-21) isolated
+the bundle at two fresh seeds: **QK-Norm alone reproduces the gain (−0.084
+nats)**; the logit soft-cap adds nothing (+0.010) and is not supported by the
+evidence. The full-scale Muon model overtook the AdamW baseline's final loss
+with **~23% fewer tokens**.
 
 The "Abhimanyu gap" is the project's entry–exit asymmetry metric: the model can
 enter fluent text but cannot exit it (process it in reverse). The pre-registered

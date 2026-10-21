@@ -70,7 +70,9 @@ by step counter, no secrets in API runs. ~20 GPU-h total.
 3/ Method: micro-ablations before full runs. 30M params, 50M tokens, 30 min per
 arm.
 AdamW 3.8041 → Muon 3.5937 → +QK-Norm/soft-cap 3.5103 (step-700 val).
-Order held at every checkpoint. Then the full run.
+X31 later isolated the bundle at two seeds: the gain is QK-Norm (−0.084); the
+soft-cap is +0.010 and not supported. Order held at every checkpoint. Then the
+full run.
 
 4/ The discipline part: Muon+ beat plain Muon on 7/7 checkpoints — by 0.015
 nats, under the 0.02 promotion threshold we'd set in advance. It didn't ship.

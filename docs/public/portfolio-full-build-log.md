@@ -66,6 +66,9 @@ identical seed, ~30 minutes. Step-700 validation loss:
 | Muon + QK-Norm + logit soft-cap | **3.5103** (−0.29) |
 
 The ordering held at every checkpoint. Only then did the full-scale runs launch.
+X31 (2026-10-21) later re-ran the last row as a 2×2 at two fresh seeds: the gain
+is QK-Norm alone (**−0.084**); the logit soft-cap is **+0.010** and not
+supported.
 
 ## 3. The first recipe, and the discipline that rejected it
 

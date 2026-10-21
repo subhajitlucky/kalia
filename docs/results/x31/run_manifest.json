@@ -1,0 +1,87 @@
+{
+  "arms": {
+    "both-s1338": {
+      "config": "micro-qkcap",
+      "logit_softcap": 30.0,
+      "qk_norm": true,
+      "seed": 1338,
+      "sha256": "cb153820a785e163550f511dc9c8b68bfc2c37e4719f127ad16f267d8a2dac25"
+    },
+    "both-s1339": {
+      "config": "micro-qkcap",
+      "logit_softcap": 30.0,
+      "qk_norm": true,
+      "seed": 1339,
+      "sha256": "8a0f98c87e93b49c5284eb546fc4484bc38f8b805f5845a831eb33b96c9ddc07"
+    },
+    "cap-s1338": {
+      "config": "micro-cap",
+      "logit_softcap": 30.0,
+      "qk_norm": false,
+      "seed": 1338,
+      "sha256": "15b11b158c1b1b39555b800e771778688e315465abf71c19cb884af971e24d0e"
+    },
+    "cap-s1339": {
+      "config": "micro-cap",
+      "logit_softcap": 30.0,
+      "qk_norm": false,
+      "seed": 1339,
+      "sha256": "80f025f362af7d75174ba073f17c622feab6080d2a1719525f95ac6dfd343cbf"
+    },
+    "control-s1338": {
+      "config": "micro-muon",
+      "logit_softcap": 0.0,
+      "qk_norm": false,
+      "seed": 1338,
+      "sha256": "e1d2791c719472b7a6265b752c1af58743d236e93275f4809b70ca49c0faef09"
+    },
+    "control-s1339": {
+      "config": "micro-muon",
+      "logit_softcap": 0.0,
+      "qk_norm": false,
+      "seed": 1339,
+      "sha256": "57df851c71e85ff4ea7dbe2fa86e64b9331d5f0db27a3f322a3ae3a7cef6a75d"
+    },
+    "qk-s1338": {
+      "config": "micro-qk",
+      "logit_softcap": 0.0,
+      "qk_norm": true,
+      "seed": 1338,
+      "sha256": "b93d1bebb2503f471308635de3c8a9cac8516b15398c02cac68fe94a86932b5b"
+    },
+    "qk-s1339": {
+      "config": "micro-qk",
+      "logit_softcap": 0.0,
+      "qk_norm": true,
+      "seed": 1339,
+      "sha256": "7d51c6180f469ba0f771118db026f4d25ebbfb89d8fbb19faffabf6b2eec5303"
+    }
+  },
+  "bars": {
+    "q1": -0.02,
+    "q2": -0.01,
+    "q3_margin": 0.01
+  },
+  "code_fingerprint": "0444c15d2c246ad2fa645dc3bb0d096d481931dce2af450a09d1170e7b2ea80d",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "experiment": "qk-isolation",
+  "kernel_id": "subhajitlucky/kalia-x31-qk-isolation",
+  "kernel_revision": "efe15c0567aaf777b887f643a96e200a480d1873",
+  "recorded": "2026-10-21T05:12:19.996015+00:00",
+  "seeds": [
+    1338,
+    1339
+  ],
+  "steps": 763,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

@@ -71,6 +71,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-09-28-X17-doc-mask.md", ["docs/results/x17/*"]),
     ("X17 matched", "Rerun with the eval masking the run trained under; effect undetectable",
      None, ["docs/results/x17-matched/*"]),
+    ("X31", "QK-Norm/soft-cap isolation at two seeds; QK-Norm carries the gain, soft-cap does not",
+     "2026-10-21-X31-qk-softcap-isolation.md", ["docs/results/x31/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

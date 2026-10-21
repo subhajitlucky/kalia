@@ -86,9 +86,11 @@ Context: third-party leaderboard tables list OPT-125M (125M params, 300B tokens)
 at PIQA 63.0 / ARC-Easy 43.5 / HellaSwag 29.2; harness versions differ, so treat
 this as context, not a head-to-head. Standard errors ±2.2pp at 500 samples.
 
-Ablations (30M-param micro-runs, equal tokens, same seed): AdamW 3.8041 →
-Muon 3.5937 → Muon + QK-Norm + soft-cap 3.5103. LR sweep: 0.02 optimal. Full
-logs, pre-registrations, and the incident journal are in the repository.
+Ablations (30M-param micro-runs, equal tokens, seed 1337): AdamW 3.8041 →
+Muon 3.5937 → Muon + QK-Norm + soft-cap 3.5103. X31 (two fresh seeds) puts the
+gain on QK-Norm (−0.084); the soft-cap is +0.010 and not supported. LR sweep:
+0.02 optimal. Full logs, pre-registrations, and the incident journal are in the
+repository.
 
 ## Usage
 

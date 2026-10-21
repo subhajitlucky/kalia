@@ -70,6 +70,25 @@ X19, X20 and X21 have complete curves. The X19/X20 treatment curves were in the
 archived logs all along; the collector's first curve regex did not match their
 colon format and recorded them as lost until 2026-10-17.
 
+## X31 — QK-Norm/soft-cap isolation (2026-10-21)
+
+D8's bundled −0.0834 (QK-Norm + logit soft-cap, seed 1337) re-tested as a 2×2
+at seeds 1338/1339, 763 steps, one kernel. Archive:
+`docs/results/x31/`; registration:
+`2026-10-21-X31-qk-softcap-isolation.md`.
+
+| condition | seed 1338 | seed 1339 | mean Δ vs control |
+|---|---|---|---|
+| control | 4.3356 | 4.3148 | — |
+| **qk** | **4.2435** | **4.2382** | **−0.0844** |
+| cap | 4.3485 | 4.3217 | **+0.0099** |
+| both | 4.2517 | 4.2405 | −0.0791 |
+
+**The gain is QK-Norm, not the bundle.** QK alone reproduces the original
+−0.0834 at both seeds; the soft-cap alone is +0.0099 (both seeds positive) and
+does not add to QK. Q-1, Q-1b, Q-2a and Q-3 pass; Q-2b fails. Future configs
+keep `qk_norm` and drop `logit_softcap`; v0.2.0 is not retro-changed. See D55.
+
 ## v0.3.0 Step 1 — the 58M control spread (2026-10-08)
 
 Not an experiment: a baseline measurement, run twice in two sessions. Three

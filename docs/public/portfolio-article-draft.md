@@ -40,6 +40,9 @@ Micro-ablations first (30M params, identical tokens, identical seed):
 | Muon | 3.5937 |
 | Muon + QK-Norm + soft-cap | **3.5103** |
 
+X31 (2 seeds) isolated the last row: **QK-Norm alone carries the −0.084**; the
+logit soft-cap is **+0.010** and not supported. The recipe can be simpler.
+
 Muon+ vs plain Muon at matched tokens: 3.4941 vs 3.5091 (better on 7 of 7
 checkpoints) — below the pre-set 0.02-nat promotion threshold, so the shipped
 model uses plain Muon; the threshold exists to stop wishful promotions, and it

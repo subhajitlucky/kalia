@@ -117,3 +117,37 @@ on CPU at the same time and does not compete for GPU quota.
 
 Any change to arms, seeds, steps, thresholds, or metrics after this commit
 requires a hash-registered amendment. Results are reported regardless of outcome.
+
+---
+
+## Result (appended 2026-10-21, after the run)
+
+Kernel `subhajitlucky/kalia-x31-qk-isolation`, COMPLETE, 3.8 GPU-h. All eight
+arms reached step 763; the eight val logs end at step 700, the last scheduled
+eval before the stop.
+
+| condition | seed 1338 | seed 1339 | mean Δ vs control |
+|---|---|---|---|
+| control | 4.3356 | 4.3148 | — |
+| **qk** | **4.2435** | **4.2382** | **−0.0844** |
+| cap | 4.3485 | 4.3217 | **+0.0099** |
+| both | 4.2517 | 4.2405 | −0.0791 |
+
+- **Q-1 PASS** — bundle mean −0.0791, bar −0.020.
+- **Q-1b PASS** — both seed deltas negative (−0.0839 / −0.0743).
+- **Q-2a PASS** — QK-Norm mean −0.0844, bar −0.010.
+- **Q-2b FAIL** — soft-cap mean +0.0099, and both seeds positive.
+- **Q-3 PASS** — bundle −0.0791 is within 0.005 of QK alone, inside the 0.010
+  interaction margin.
+- **Q-4** — paired spreads: qk 0.0155, cap 0.0060, both 0.0096. Control spread
+  at this step pair is 0.0208; the QK effect is ~4× it.
+
+**Decision.** The −0.08 is real and belongs to **QK-Norm**; the logit soft-cap
+adds nothing and is slightly worse than control. Future configs should keep
+`qk_norm` and drop `logit_softcap`. The shipped v0.2.0 is not retro-changed.
+The public claim changes from "QK-Norm + soft-cap: a further −0.08" to
+"QK-Norm: −0.084 at two seeds; soft-cap not supported (+0.010 measured)".
+
+Artifacts: `docs/results/x31/`. The computed verdict is in
+`docs/results/x31/x31_verdict.json` and is reproducible with
+`python tools/x31_verdict.py --dir docs/results/x31`.
