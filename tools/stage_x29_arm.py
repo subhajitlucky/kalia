@@ -81,6 +81,13 @@ KERNELS = {
         "arms": {"holdout": None},
         "pins": (),
     },
+    # X31 runs the whole 2x2 at two seeds in one kernel. There is no per-arm
+    # seed to stage; the seed pair is a kernel constant under the registration.
+    "x31": {
+        "runner": "kalia_x31_kernel.py",
+        "arms": {"qk-isolation": None},
+        "pins": (),
+    },
 }
 
 

@@ -28,3 +28,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-10-09 | X28-kautilya-trend | `docs/preregistrations/2026-10-09-X28-kautilya-trend.md` | `8e9fec68a29fe4cab64aa3e56c49108582394f8b849a9472672b65bf2bbc7d61` |
 | 2026-10-11 | X29-patha-replay | `docs/preregistrations/2026-10-11-X29-patha-replay.md` | `8a1bae467c33a0a4883e256bfbd7396448a3e465396d9f74154bd40fa9635b56` |
 | 2026-10-18 | X17-am1 | `docs/preregistrations/2026-10-18-X17-amendment-1.md` | `18a758fb317b63e63bb27663ff4b6bf2d011ff758c6a21fc9a8c7b0ef454098e` |
+| 2026-10-21 | X31-qk-isolation | `docs/preregistrations/2026-10-21-X31-qk-softcap-isolation.md` | `5080eaf75c5bc1c4b102dcd27926de214fbe9031f5da0fe2fadbd47ceeaac09a` |
