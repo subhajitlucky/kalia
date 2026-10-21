@@ -21,7 +21,7 @@ From 2026-10-18 `eval_bench.py` defaults to **2,000** samples for new runs, and
 warns loudly below 1,000 rather than passing silently. The first 2,000-sample
 release comparison ran on 2026-10-21: **v0.1.2 vs v0.2.0, both checkpoints, one
 CPU session**, in `docs/results/bench-pair-2k/` (narrative:
-`docs/eval/2026-10-21-v020-bench-pair-2k.md`). It changes two of the 500-sample
+`docs/eval/2026-10-21-v020-bench-pair-2k.md`). It changes the two headline
 readings: the ARC-Easy regression (−3.80) becomes **+0.45**, and the HellaSwag
 gain (+3.00) becomes **0.00**. LAMBADA remains the only task outside the 1.0 pp
 allowance at **−1.25**, and no movement reaches 2σ. The frozen 500-sample
