@@ -107,6 +107,13 @@ KERNELS = {
         "arms": {"linear-readout": None},
         "pins": (),
     },
+    # X34 replicates X33 with a fresh generation seed. The kernel constant is a
+    # string so the stager can pin it without touching the probe.
+    "x34": {
+        "runner": "kalia_x33_kernel.py",
+        "arms": {"seed": None},
+        "pins": ("SEED_BASE",),
+    },
 }
 
 

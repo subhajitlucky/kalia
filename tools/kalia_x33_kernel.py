@@ -34,6 +34,8 @@ TEMPERATURE = 0.8
 TOP_K = 200
 LAYER = 9
 ALPHA = 10.0
+# Pinned by the stager for replications; X33 ran with "7", X34 with "1007".
+SEED_BASE = "7"
 P1_BAR = 0.010
 P3_BAR = 0.010
 SHUFFLES = 20
@@ -194,7 +196,7 @@ for i, story in enumerate(stories):
     ids = enc.encode_ordinary(story["prompt"])[:PROMPT_TOKENS]
     prompt_text = enc.decode(ids)
     prompt_ids = torch.tensor(ids, dtype=torch.long, device=device)
-    cands = [greedy(prompt_ids)] + sample_candidates(prompt_ids, N_SAMPLES, 7 + i)
+    cands = [greedy(prompt_ids)] + sample_candidates(prompt_ids, N_SAMPLES, int(SEED_BASE) + i)
     # The first draw is greedy; the eight samples are the candidate pool.
     pool = cands[1:]
     feats = np.stack([midpoint_features(ids, c.tolist()) for c in pool])
