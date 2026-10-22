@@ -29,3 +29,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-10-11 | X29-patha-replay | `docs/preregistrations/2026-10-11-X29-patha-replay.md` | `8a1bae467c33a0a4883e256bfbd7396448a3e465396d9f74154bd40fa9635b56` |
 | 2026-10-18 | X17-am1 | `docs/preregistrations/2026-10-18-X17-amendment-1.md` | `18a758fb317b63e63bb27663ff4b6bf2d011ff758c6a21fc9a8c7b0ef454098e` |
 | 2026-10-21 | X31-qk-isolation | `docs/preregistrations/2026-10-21-X31-qk-softcap-isolation.md` | `5080eaf75c5bc1c4b102dcd27926de214fbe9031f5da0fe2fadbd47ceeaac09a` |
+| 2026-10-22 | X32-entity-circuit | `docs/preregistrations/2026-10-22-X32-entity-selection-circuit.md` | `c3a6a2f2e81c2771c9773c4e10124b1550686d60998d03fd6b1b40c02b80d012` |

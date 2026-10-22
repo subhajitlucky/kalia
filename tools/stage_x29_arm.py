@@ -95,6 +95,12 @@ KERNELS = {
         "arms": {"2k": None},
         "pins": (),
     },
+    # The mechanistic probe: one kernel, one arm, no per-arm seed.
+    "x32": {
+        "runner": "kalia_mech_kernel.py",
+        "arms": {"entity-circuit": None},
+        "pins": (),
+    },
 }
 
 
