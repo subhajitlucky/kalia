@@ -5,10 +5,11 @@ hand-edit; `--check` fails if this file stops matching Kaggle. Every KALIA kerne
 and dataset is private; exposure is checked separately by
 `tools/audit_public_state.py`.
 
-## Kernels (55)
+## Kernels (56)
 
 | ref | title | last run | recorded in repo |
 |---|---|---|---|
+| `subhajitlucky/kalia-x34-seed-s1007` | KALIA x34 seed s1007 | 2026-10-22 | `kernel-metadata-x34-seed-s1007.json` |
 | `subhajitlucky/kalia-x33-linear-readout` | KALIA x33 linear readout | 2026-10-22 | `kernel-metadata-x33-linear-readout.json` |
 | `subhajitlucky/kalia-x32-entity-circuit` | KALIA x32 entity circuit | 2026-10-22 | `kernel-metadata-x32-entity-circuit.json` |
 | `subhajitlucky/kalia-bench-pair-2k` | KALIA bench pair 2k | 2026-10-21 | `kernel-metadata-bench-pair-2k.json` |
