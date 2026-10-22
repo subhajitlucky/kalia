@@ -427,3 +427,36 @@ allowance, by 0.25 pp.
 `docs/eval/2026-10-21-v020-bench-pair-2k.md`.
 
 **Status.** active.
+
+## D57 — X32: the entity heads are necessary, not the switch (2026-10-22)
+
+**Context.** The entity holdout showed the candidate pool contains a better
+continuation than greedy (oracle 0.0618 vs 0.0170 on the unseen half), while every
+cheap selector fails. X32 tested the mechanistic version of that finding: is a
+specific attention head carrying the wrong-name signal, and does ablating it
+improve the continuation?
+
+**Evidence.** Entity attention is concentrated in layer 9: heads 3, 2 and 7 have
+**3.45×, 2.37× and 2.12×** uniform enrichment; no other head clears 2×. But
+ablating those heads changes second-half retention by **−0.0117**
+[−0.0263, +0.0000] against greedy — they are necessary, not harmful. The random
+three-head control is −0.0052 [−0.0291, +0.0199], and the reference NLL rises by
+**1.05%**, so the ablation did not destroy the model. H1, H3 and H4 pass; **H2
+fails**.
+
+**Decision.**
+1. **No more head ablation.** The single-switch hypothesis is closed at this
+   scale; repeating ablations until one improves retention would be the
+   threshold-below-noise failure in a new costume.
+2. **The selection failure is downstream at the readout or distributed.** The
+   next test is a **linear probe on layer-9 residual states**: can a simple
+   readout rank the candidates better than the model's own log-probabilities?
+   If yes, the information is linearly decodable and the problem is the output
+   path; if no, it is distributed or absent.
+3. Activation steering is the second test, only if the probe finds a direction.
+   A pass needs replication before any capability claim.
+
+**Cost.** One GPU session, twenty stories. Artifacts: `docs/results/x32/`;
+registration: `2026-10-22-X32-entity-selection-circuit.md`.
+
+**Status.** active.

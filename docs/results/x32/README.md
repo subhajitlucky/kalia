@@ -93,3 +93,4 @@ activation steering on layer-9 residual states, not more head ablation.
 
 Reproduce the verdict from the registered JSON; the decision rule is in the
 pre-registration.
+**Decision:** recorded as D57 — no further head ablation; next is a linear probe or steering on layer-9 states.
