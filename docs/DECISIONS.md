@@ -460,3 +460,45 @@ fails**.
 registration: `2026-10-22-X32-entity-selection-circuit.md`.
 
 **Status.** active.
+
+## D58 — X33: the midpoint state linearly knows whether the entity will survive (2026-10-22)
+
+**Context.** X32 found entity attention concentrated in layer-9 heads 3, 2 and 7,
+but ablating them reduced second-half retention. The heads are necessary, not the
+hiding switch. X33 tested the readout: show the model only the prompt plus the
+first 128 generated tokens, capture the layer-9 residual, and predict the
+candidate's second-half entity retention.
+
+**Evidence.** Leave-one-story-out ridge probe (α = 10) on 1,024 features
+(mean over the first half + last-token state), 20 stories, 8 candidates:
+
+| selector | mean second-half retention |
+|---|---|
+| greedy | 0.0170 |
+| log-probability | 0.0103 |
+| first-half entity pick | 0.0277 |
+| **linear probe** | **0.0324** |
+| oracle | 0.0618 |
+| shuffled-label probe | 0.0205 |
+
+Probe − greedy: **+0.0155**, 95% CI [+0.0005, +0.0321]. Probe − log-prob:
++0.0222 [+0.0041, +0.0443]. Probe − half: +0.0047 [−0.0106, +0.0217].
+Shuffled-label probe − greedy: +0.0036. The probe closes about **35% of the
+coverage gap** (0.0324 against greedy 0.0170, oracle 0.0618).
+
+**Decision.**
+1. **A linear midpoint signal exists.** The information about future entity
+   persistence is present before the second half, and a simple readout finds it.
+2. **Do not call it a selector yet.** It beats log-probability clearly, but the
+   +0.0047 advantage over the first-half rule includes zero at n=20. Replicate on
+   a second story set and a second generation seed before any capability claim.
+3. If both replications hold, train the probe on more stories and measure the
+   **selective-accuracy curve** with abstention. If they do not, close the linear
+   selector track and keep the readout result.
+4. No more head ablation. X32 closed the single-head hypothesis; X33 moves the
+   question to the readout.
+
+**Cost.** One GPU session, twenty stories. Artifacts: `docs/results/x33/`;
+registration: `2026-10-22-X33-linear-readout.md`.
+
+**Status.** active.

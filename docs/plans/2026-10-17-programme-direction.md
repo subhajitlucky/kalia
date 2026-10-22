@@ -139,6 +139,14 @@ by 1.17 points. The heads are necessary, not the hiding switch. The next selecto
 test is a linear probe or activation steering on layer-9 states, not another head
 ablation.
 
+**X33 (2026-10-22)** then found a **linear midpoint readout**: a ridge probe on
+layer-9 features from the first 128 generated tokens beats greedy by **+0.0155**
+[+0.0005, +0.0321] on a held-out story, beats log-probability by +0.0222, and
+closes about **35% of the coverage gap**. It is not a certified selector — the
+advantage over the first-half rule includes zero at 20 stories. Replicate on a
+second story set and generation seed before training a selector or measuring the
+selective-accuracy curve.
+
 ## M0 as measured (2026-10-18)
 
 The gate was written as *"uniform 10% replay + rewarm beats no-replay beyond the

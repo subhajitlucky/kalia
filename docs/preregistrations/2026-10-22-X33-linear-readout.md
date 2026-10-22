@@ -80,3 +80,32 @@ Twenty stories, 8 samples, one GPU session; generation dominates. Budget
 Any change to the layer, feature pooling, α, stories, metric or thresholds after
 this commit requires a hash-registered amendment. Results are reported regardless
 of outcome.
+
+---
+
+## Result (appended 2026-10-22, after the run)
+
+Kernel `subhajitlucky/kalia-x33-linear-readout`, COMPLETE, one GPU session.
+Twenty stories, 160 candidates, leave-one-story-out.
+
+| selector | mean second-half retention |
+|---|---|
+| greedy | 0.0170 |
+| log-probability | 0.0103 |
+| first-half entity pick | 0.0277 |
+| **linear probe** | **0.0324** |
+| oracle | 0.0618 |
+| shuffled-label probe | 0.0205 |
+
+- **P-1 PASS** — probe − greedy **+0.0155**, 95% CI [+0.0005, +0.0321].
+- **P-2 PASS** — probe 0.0324 against half 0.0277 and log-prob 0.0103. The
+  half-pick advantage is +0.0047 [−0.0106, +0.0217], not resolvable at n=20.
+- **P-3 PASS** — shuffled-label probe − greedy +0.0036, below the +0.010 bar.
+
+**Decision: a linear midpoint signal exists; replicate before a selector claim.**
+The probe closes about **35% of the coverage gap**. It is not yet a certified
+selector and not better than the half-pick beyond noise. Replicate on a second
+story set and a second generation seed before training a selector or claiming a
+capability.
+
+Artifacts: `docs/results/x33/`.

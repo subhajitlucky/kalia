@@ -77,6 +77,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      None, ["docs/results/bench-pair-2k/*"]),
     ("X32", "Entity-selection circuit probe; layer-9 heads carry entity mass but ablation hurts",
      "2026-10-22-X32-entity-selection-circuit.md", ["docs/results/x32/*"]),
+    ("X33", "Linear midpoint readout; probe beats greedy +0.0155, ~35% of the coverage gap",
+     "2026-10-22-X33-linear-readout.md", ["docs/results/x33/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

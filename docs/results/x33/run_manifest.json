@@ -1,0 +1,23 @@
+{
+  "alpha": 10.0,
+  "bars": {
+    "P1": 0.01,
+    "P3": 0.01
+  },
+  "checkpoint": {
+    "path": "/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt",
+    "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+  },
+  "code_fingerprint": "0444c15d2c246ad2fa645dc3bb0d096d481931dce2af450a09d1170e7b2ea80d",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "experiment": "linear-readout",
+  "gen_tokens": 256,
+  "half": 128,
+  "kernel_id": "subhajitlucky/kalia-x33-linear-readout",
+  "kernel_revision": "804bf5af5ae2097c0d352b40848cc4fe222aa3b7",
+  "layer": 9,
+  "prompt_tokens": 768,
+  "samples": 8,
+  "shuffles": 20,
+  "stories_sha256": "a94b15f677313b719d26baf59ced1be6ab1b242b988b4488417a6cd7186f7272"
+}

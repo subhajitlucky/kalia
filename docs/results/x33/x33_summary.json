@@ -1,0 +1,261 @@
+{
+  "alpha": 10.0,
+  "candidates_per_story": 8,
+  "experiment": "linear-readout",
+  "features": "mean(first-half) + last-token, 2*d",
+  "layer": 9,
+  "rows": [
+    {
+      "greedy": 0.0,
+      "half": 0.029411764705882353,
+      "half_index": 1,
+      "id": "gutenberg-00",
+      "logprob": 0.029411764705882353,
+      "logprob_index": 6,
+      "oracle": 0.029411764705882353,
+      "probe": 0.0,
+      "probe_index": 2
+    },
+    {
+      "greedy": 0.1111111111111111,
+      "half": 0.1111111111111111,
+      "half_index": 7,
+      "id": "gutenberg-01",
+      "logprob": 0.1111111111111111,
+      "logprob_index": 7,
+      "oracle": 0.1111111111111111,
+      "probe": 0.1111111111111111,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 3,
+      "id": "gutenberg-02",
+      "logprob": 0.0,
+      "logprob_index": 5,
+      "oracle": 0.05555555555555555,
+      "probe": 0.05555555555555555,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.11764705882352941,
+      "half_index": 4,
+      "id": "gutenberg-03",
+      "logprob": 0.0,
+      "logprob_index": 3,
+      "oracle": 0.11764705882352941,
+      "probe": 0.11764705882352941,
+      "probe_index": 1
+    },
+    {
+      "greedy": 0.10526315789473684,
+      "half": 0.05263157894736842,
+      "half_index": 7,
+      "id": "gutenberg-04",
+      "logprob": 0.0,
+      "logprob_index": 4,
+      "oracle": 0.15789473684210525,
+      "probe": 0.15789473684210525,
+      "probe_index": 1
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-05",
+      "logprob": 0.0,
+      "logprob_index": 4,
+      "oracle": 0.0,
+      "probe": 0.0,
+      "probe_index": 7
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.038461538461538464,
+      "half_index": 4,
+      "id": "gutenberg-06",
+      "logprob": 0.038461538461538464,
+      "logprob_index": 1,
+      "oracle": 0.07692307692307693,
+      "probe": 0.07692307692307693,
+      "probe_index": 3
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.015384615384615385,
+      "half_index": 0,
+      "id": "gutenberg-07",
+      "logprob": 0.0,
+      "logprob_index": 2,
+      "oracle": 0.03076923076923077,
+      "probe": 0.0,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 6,
+      "id": "gutenberg-08",
+      "logprob": 0.02631578947368421,
+      "logprob_index": 2,
+      "oracle": 0.02631578947368421,
+      "probe": 0.0,
+      "probe_index": 6
+    },
+    {
+      "greedy": 0.08108108108108109,
+      "half": 0.02702702702702703,
+      "half_index": 5,
+      "id": "gutenberg-09",
+      "logprob": 0.0,
+      "logprob_index": 1,
+      "oracle": 0.08108108108108109,
+      "probe": 0.05405405405405406,
+      "probe_index": 2
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 2,
+      "id": "gutenberg-10",
+      "logprob": 0.0,
+      "logprob_index": 4,
+      "oracle": 0.041666666666666664,
+      "probe": 0.0,
+      "probe_index": 1
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 7,
+      "id": "gutenberg-11",
+      "logprob": 0.0,
+      "logprob_index": 1,
+      "oracle": 0.043478260869565216,
+      "probe": 0.0,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.03225806451612903,
+      "half_index": 1,
+      "id": "gutenberg-12",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.03225806451612903,
+      "probe": 0.03225806451612903,
+      "probe_index": 1
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.13043478260869565,
+      "half_index": 0,
+      "id": "gutenberg-13",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.13043478260869565,
+      "probe": 0.043478260869565216,
+      "probe_index": 5
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-14",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.16666666666666666,
+      "probe": 0.0,
+      "probe_index": 0
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 1,
+      "id": "gutenberg-15",
+      "logprob": 0.0,
+      "logprob_index": 5,
+      "oracle": 0.0,
+      "probe": 0.0,
+      "probe_index": 5
+    },
+    {
+      "greedy": 0.041666666666666664,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-16",
+      "logprob": 0.0,
+      "logprob_index": 2,
+      "oracle": 0.041666666666666664,
+      "probe": 0.0,
+      "probe_index": 0
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 2,
+      "id": "gutenberg-17",
+      "logprob": 0.0,
+      "logprob_index": 1,
+      "oracle": 0.0,
+      "probe": 0.0,
+      "probe_index": 3
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-18",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.03125,
+      "probe": 0.0,
+      "probe_index": 1
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-19",
+      "logprob": 0.0,
+      "logprob_index": 5,
+      "oracle": 0.0625,
+      "probe": 0.0,
+      "probe_index": 6
+    }
+  ],
+  "stories": 20,
+  "verdict": {
+    "P1": true,
+    "P2": true,
+    "P3": true,
+    "decision": "linear midpoint signal; replicate before a selector claim",
+    "greedy_mean": 0.016956100837679785,
+    "half_mean": 0.027718377079294844,
+    "logprob_mean": 0.010265010187610807,
+    "oracle_mean": 0.06183152566398233,
+    "probe_mean": 0.03244609593475632,
+    "probe_minus_greedy": {
+      "excludes_zero": true,
+      "hi": 0.03205741200956117,
+      "lo": 0.0005231037489102003,
+      "mean": 0.015489995097076542
+    },
+    "probe_minus_half": {
+      "excludes_zero": false,
+      "hi": 0.02167828104360612,
+      "lo": -0.010550855793822546,
+      "mean": 0.004727718855461485
+    },
+    "probe_minus_logprob": {
+      "excludes_zero": true,
+      "hi": 0.044314000991515876,
+      "lo": 0.004087813861303977,
+      "mean": 0.022181085747145522
+    },
+    "shuffled_mean": 0.020536064493281055,
+    "shuffled_minus_greedy": 0.0035799636556012697
+  }
+}
