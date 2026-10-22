@@ -502,3 +502,9 @@ coverage gap** (0.0324 against greedy 0.0170, oracle 0.0618).
 registration: `2026-10-22-X33-linear-readout.md`.
 
 **Status.** active.
+
+**Update 2026-10-22.** X34 v1 was invalid: the stager silently left
+`SEED_BASE = "7"`, so it reran X33's sampling seed. The stager now pins and
+reads back `SEED_BASE` with a test. X34 v2 is staged at `1007` but blocked by the
+weekly GPU quota; no replication result exists yet. X33 remains a readout
+result, not a selector.

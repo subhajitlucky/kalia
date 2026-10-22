@@ -50,3 +50,17 @@ One GPU session, twenty stories. **1.5–2 GPU-hours**.
 Any change to the seed, stories, layer, features, α or thresholds after this
 commit requires a hash-registered amendment. Results are reported regardless of
 outcome.
+
+---
+
+## Run status (appended 2026-10-22, before the registered run)
+
+**v1 is not a result.** The first X34 launch reran generation seed **7**, not
+1007: the stager's `pins` tuple only acted on `SEED` and `REPLAY`; `SEED_BASE`
+was listed but never patched. The tell was exact equality with X33's numbers.
+The stager now supports `--seed-base`, patches and reads back the value, and has a
+test that asserts the runner consumes it.
+
+**v2 is staged with `SEED_BASE = "1007"` but is blocked by the weekly GPU quota**
+(30.00 hours reached). It will run after the reset. No v1 output is archived as
+a replication.
