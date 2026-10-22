@@ -167,8 +167,10 @@ true passage — fell to **0.297**. The bottleneck is choosing among confusable
 passages, not finding them. The log-prob selector *hurt* (−0.281); scoring only
 the decision position removed the harm but never beat greedy. At 58M the model's
 own probabilities do not contain the information needed to pick better
-continuations. One inference-time lever did work: **entity-consistent decoding**,
-+0.061 retention, 3× greedy.
+continuations. The one inference-time result that looked like a win —
+**entity-consistent decoding**, +0.061 retention, 3× greedy — did not survive a
+held-out-half test: **+0.011 [−0.007, +0.032]**. Coverage survives; the selector
+does not.
 
 **Test-time training closed null.** Across a 40× strength range, in-place fast
 weights moved entity retention by +0.0000.

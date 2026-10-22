@@ -67,9 +67,10 @@ just verified, so the file that is published is provably the file that scored
 2.8248 rather than a copy that travelled through a laptop.
 
 `docs/public/hf-model-card-v020.md` is written and states plainly that this
-release **fails its own pre-registered stability rule on two of five benchmarks**
-(ARC-Easy −3.80, LAMBADA −2.20) while improving held-out loss by 0.2285 nats, and
-that `kalia-v012` remains the recommended checkpoint.
+release, **at the registered 500 samples, fails its own pre-registered stability
+rule on two of five benchmarks** (ARC-Easy −3.80, LAMBADA −2.20) while improving
+held-out loss by 0.2285 nats, and that `kalia-v012` remains the recommended
+checkpoint.
 
 > **2026-10-21 correction.** The 2,000-sample re-measurement
 > (`docs/eval/2026-10-21-v020-bench-pair-2k.md`) found the ARC-Easy regression

@@ -137,8 +137,9 @@ journal. In brief:
 - **Recitation orders (X28–X29):** four Vedic pāṭha schedules as replay orders gave a clean
   val staircase (uniform < krama < jata < ghana, ~0.02-nat rungs) and a monotone retention
   ladder — structure costs, in proportion to its depth.
-- **Test-time training (X25)** closed as a null; **an entity-consistency decoder** triples
-  character retention over greedy (+0.061).
+- **Test-time training (X25)** closed as a null. The entity-consistency **holdout** found the
+  recorded +0.061 was circular: the honest held-out half is **+0.011 [−0.007, +0.032]**, while
+  coverage survives (oracle 0.0618 against greedy's 0.0170).
 - **The 58M measurement floor:** the control's own seed spread (0.2892 nats, 2.5× the 30M
   spread) stopped micro-scale architecture and data claims; the programme pivoted to
   inference-time levers and full-scale data changes.

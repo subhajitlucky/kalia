@@ -38,7 +38,7 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      None, []),
     ("v0.1.2", "QK-Norm + soft-cap; stopped at step 3,478 of 4,770 on quota",
      None, ["docs/curves/v012_*.csv", "docs/eval/*v012*"]),
-    ("v0.2.0", "Compliance-rebuilt corpus, full 4,770 steps; S-A fails on two benchmarks",
+    ("v0.2.0", "Compliance-rebuilt corpus, full 4,770 steps; at 2,000 samples only LAMBADA fails S-A",
      None, ["docs/releases/v020-release-gate.md", "docs/eval/*v2b*"]),
     ("X16", "Chunk-preserving reversal training; rejected on both bars, both seeds",
      "2026-09-23-X16-chakravyuha-reversal.md", []),

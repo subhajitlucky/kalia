@@ -14,7 +14,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `v0.1.0` | AdamW baseline; stopped at step 2,250 | — | **GAP** — nothing archived |
 | `v0.1.1` | Muon for hidden matrices; micro-ablation 3.5937 vs 3.8041 | — | **GAP** — nothing archived |
 | `v0.1.2` | QK-Norm + soft-cap; stopped at step 3,478 of 4,770 on quota | — | 9 files |
-| `v0.2.0` | Compliance-rebuilt corpus, full 4,770 steps; S-A fails on two benchmarks | — | 3 files |
+| `v0.2.0` | Compliance-rebuilt corpus, full 4,770 steps; at 2,000 samples only LAMBADA fails S-A | — | 3 files |
 | `X16` | Chunk-preserving reversal training; rejected on both bars, both seeds | yes | **GAP** — nothing archived |
 | `X18` | NoPE + gated residual; gate measured inert | yes | 1 file |
 | `X19` | Branch-norm isolation; the gain lives in the gate | yes | 1 file |
