@@ -73,3 +73,32 @@ attention passes and ablations are short. Budget **1.5–2 GPU-hours**.
 
 Any change to the heads, stories, metric, thresholds or ablation after this commit
 requires a hash-registered amendment. Results are reported regardless of outcome.
+
+---
+
+## Result (appended 2026-10-22, after the run)
+
+Kernel `subhajitlucky/kalia-x32-entity-circuit`, COMPLETE, one GPU session.
+Twenty stories, 180 prompt + candidate passes, 20 greedy ablations.
+
+**H1 PASS.** Entity attention is concentrated in layer 9: heads 3, 2 and 7 have
+enrichment **3.45×, 2.37× and 2.12×** uniform; no other head clears 2×.
+
+| arm | mean second-half retention | Δ vs greedy | 95% CI |
+|---|---|---|---|
+| top three heads ablated | — | **−0.0117** | [−0.0263, +0.0000] |
+| random three heads ablated | — | −0.0052 | [−0.0291, +0.0199] |
+
+Top minus random: −0.0065 [−0.0284, +0.0124]. Reference NLL: 3.7182 → 3.7574,
+**+1.05%**.
+
+- **H2 FAIL** — the top-three ablation lowers retention; they are necessary, not
+  the hiding switch.
+- **H3 PASS** — the random control does not improve by the H2 bar.
+- **H4 PASS** — the ablation does not destroy the model.
+
+**Decision: no single-head intervention. Report the null.** The next test is a
+linear probe or activation steering on layer-9 residual states; more head
+ablation is not justified by this result.
+
+Artifacts: `docs/results/x32/`.

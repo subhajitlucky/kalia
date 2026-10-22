@@ -75,6 +75,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-10-21-X31-qk-softcap-isolation.md", ["docs/results/x31/*"]),
     ("bench pair 2k", "2,000-sample benchmark pair; the 500-sample ARC-Easy regression was noise",
      None, ["docs/results/bench-pair-2k/*"]),
+    ("X32", "Entity-selection circuit probe; layer-9 heads carry entity mass but ablation hurts",
+     "2026-10-22-X32-entity-selection-circuit.md", ["docs/results/x32/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

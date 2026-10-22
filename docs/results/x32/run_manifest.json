@@ -1,0 +1,22 @@
+{
+  "bars": {
+    "H1": 3.0,
+    "H1_top3": 2.0,
+    "H2": 0.01,
+    "H4_nll_ratio": 0.05
+  },
+  "checkpoint": {
+    "path": "/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt",
+    "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+  },
+  "code_fingerprint": "0444c15d2c246ad2fa645dc3bb0d096d481931dce2af450a09d1170e7b2ea80d",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "experiment": "entity-circuit",
+  "gen_tokens": 256,
+  "kernel_id": "subhajitlucky/kalia-x32-entity-circuit",
+  "kernel_revision": "06b1bb2750c27492d30afbda2cf76b82e7bae64e",
+  "prompt_tokens": 768,
+  "samples": 8,
+  "stories_sha256": "a94b15f677313b719d26baf59ced1be6ab1b242b988b4488417a6cd7186f7272",
+  "top_heads": 3
+}

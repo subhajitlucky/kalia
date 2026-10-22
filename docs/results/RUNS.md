@@ -31,6 +31,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X17 matched` | Rerun with the eval masking the run trained under; effect undetectable | — | 11 files |
 | `X31` | QK-Norm/soft-cap isolation at two seeds; QK-Norm carries the gain, soft-cap does not | yes | 20 files |
 | `bench pair 2k` | 2,000-sample benchmark pair; the 500-sample ARC-Easy regression was noise | — | 6 files |
+| `X32` | Entity-selection circuit probe; layer-9 heads carry entity mass but ablation hurts | yes | 5 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -159,6 +160,13 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/bench-pair-2k/kalia-bench-pair-2k.log`
 - `docs/results/bench-pair-2k/run_manifest.json`
 
+**X32**
+- `docs/results/x32/README.md`
+- `docs/results/x32/kalia-x32-entity-circuit.log`
+- `docs/results/x32/run_manifest.json`
+- `docs/results/x32/x32_heads.json`
+- `docs/results/x32/x32_summary.json`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -176,4 +184,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-24 runs tracked, 122 files archived, 3 with no evidence.
+25 runs tracked, 127 files archived, 3 with no evidence.

@@ -133,6 +133,12 @@ reliably retrieve it. M1 must be scoped as a **selector/coverage** problem, not
 a proven memory lift, and its 0-GPU-hour claim no longer holds for the completed
 measurement: the CPU protocol could not finish 20 stories.
 
+**X32 (2026-10-22)** found the entity information concentrated in layer-9 heads
+(3.45×/2.37×/2.12× uniform), but ablating them **reduced** second-half retention
+by 1.17 points. The heads are necessary, not the hiding switch. The next selector
+test is a linear probe or activation steering on layer-9 states, not another head
+ablation.
+
 ## M0 as measured (2026-10-18)
 
 The gate was written as *"uniform 10% replay + rewarm beats no-replay beyond the

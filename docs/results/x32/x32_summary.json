@@ -1,0 +1,323 @@
+{
+  "attention_passes": 180,
+  "candidates_per_story": 8,
+  "experiment": "entity-circuit",
+  "random_three": [
+    [
+      4,
+      5
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      8,
+      6
+    ]
+  ],
+  "rows": [
+    {
+      "base_nll": 4.066458225250244,
+      "greedy": 0.0,
+      "id": "gutenberg-00",
+      "random": 0.029411764705882353,
+      "top": 0.0,
+      "top_nll": 4.158883571624756
+    },
+    {
+      "base_nll": 3.662517786026001,
+      "greedy": 0.1111111111111111,
+      "id": "gutenberg-01",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 3.691157817840576
+    },
+    {
+      "base_nll": 3.796527862548828,
+      "greedy": 0.0,
+      "id": "gutenberg-02",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 3.8422751426696777
+    },
+    {
+      "base_nll": 3.9789154529571533,
+      "greedy": 0.0,
+      "id": "gutenberg-03",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 3.9949450492858887
+    },
+    {
+      "base_nll": 3.762920379638672,
+      "greedy": 0.10526315789473684,
+      "id": "gutenberg-04",
+      "random": 0.0,
+      "top": 0.10526315789473684,
+      "top_nll": 3.7819840908050537
+    },
+    {
+      "base_nll": 4.03104305267334,
+      "greedy": 0.0,
+      "id": "gutenberg-05",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 4.0242085456848145
+    },
+    {
+      "base_nll": 4.396193027496338,
+      "greedy": 0.0,
+      "id": "gutenberg-06",
+      "random": 0.038461538461538464,
+      "top": 0.0,
+      "top_nll": 4.432466506958008
+    },
+    {
+      "base_nll": 3.3037266731262207,
+      "greedy": 0.0,
+      "id": "gutenberg-07",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 3.3520519733428955
+    },
+    {
+      "base_nll": 3.312077045440674,
+      "greedy": 0.0,
+      "id": "gutenberg-08",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 3.3391687870025635
+    },
+    {
+      "base_nll": 2.6892192363739014,
+      "greedy": 0.08108108108108109,
+      "id": "gutenberg-09",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 2.7349424362182617
+    },
+    {
+      "base_nll": 4.042053699493408,
+      "greedy": 0.0,
+      "id": "gutenberg-10",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 4.061280250549316
+    },
+    {
+      "base_nll": 2.917738676071167,
+      "greedy": 0.0,
+      "id": "gutenberg-11",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 2.9739959239959717
+    },
+    {
+      "base_nll": 3.5262067317962646,
+      "greedy": 0.0,
+      "id": "gutenberg-12",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 3.5676252841949463
+    },
+    {
+      "base_nll": 4.00791072845459,
+      "greedy": 0.0,
+      "id": "gutenberg-13",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 4.040093421936035
+    },
+    {
+      "base_nll": 3.5084731578826904,
+      "greedy": 0.0,
+      "id": "gutenberg-14",
+      "random": 0.16666666666666666,
+      "top": 0.0,
+      "top_nll": 3.6288881301879883
+    },
+    {
+      "base_nll": 3.3601577281951904,
+      "greedy": 0.0,
+      "id": "gutenberg-15",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 3.399942398071289
+    },
+    {
+      "base_nll": 4.4312825202941895,
+      "greedy": 0.041666666666666664,
+      "id": "gutenberg-16",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 4.438545227050781
+    },
+    {
+      "base_nll": 3.3559350967407227,
+      "greedy": 0.0,
+      "id": "gutenberg-17",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 3.406982183456421
+    },
+    {
+      "base_nll": 4.006899356842041,
+      "greedy": 0.0,
+      "id": "gutenberg-18",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 4.051218032836914
+    },
+    {
+      "base_nll": 4.207366466522217,
+      "greedy": 0.0,
+      "id": "gutenberg-19",
+      "random": 0.0,
+      "top": 0.0,
+      "top_nll": 4.227081775665283
+    }
+  ],
+  "stories": 20,
+  "top_heads": [
+    {
+      "enrichment": 3.4460794925689697,
+      "entity_mass": 0.01201416365802288,
+      "entropy": 0.41289347410202026,
+      "head": 3,
+      "layer": 9,
+      "recent_mass": 0.007134790066629648,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 2.3692469596862793,
+      "entity_mass": 0.008259972557425499,
+      "entropy": 0.48456472158432007,
+      "head": 2,
+      "layer": 9,
+      "recent_mass": 0.006541568320244551,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 2.1245474815368652,
+      "entity_mass": 0.007406869903206825,
+      "entropy": 0.42516931891441345,
+      "head": 7,
+      "layer": 9,
+      "recent_mass": 0.00657115550711751,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 1.9350101947784424,
+      "entity_mass": 0.0067460802383720875,
+      "entropy": 0.4611389935016632,
+      "head": 6,
+      "layer": 8,
+      "recent_mass": 0.0065194484777748585,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 1.6576611995697021,
+      "entity_mass": 0.005779150873422623,
+      "entropy": 0.46538400650024414,
+      "head": 4,
+      "layer": 9,
+      "recent_mass": 0.007285905536264181,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 1.6127864122390747,
+      "entity_mass": 0.0056227026507258415,
+      "entropy": 0.4477657079696655,
+      "head": 3,
+      "layer": 8,
+      "recent_mass": 0.007896832190454006,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 1.279996633529663,
+      "entity_mass": 0.004462487995624542,
+      "entropy": 0.4532480239868164,
+      "head": 1,
+      "layer": 6,
+      "recent_mass": 0.00538796279579401,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 0.8460354804992676,
+      "entity_mass": 0.0029495572671294212,
+      "entropy": 0.46195274591445923,
+      "head": 5,
+      "layer": 5,
+      "recent_mass": 0.007859236560761929,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 0.8210950493812561,
+      "entity_mass": 0.0028626066632568836,
+      "entropy": 0.40874946117401123,
+      "head": 4,
+      "layer": 6,
+      "recent_mass": 0.004471662919968367,
+      "uniform_mass": 0.0034863280598074198
+    },
+    {
+      "enrichment": 0.7435632944107056,
+      "entity_mass": 0.002592305652797222,
+      "entropy": 0.4559503495693207,
+      "head": 2,
+      "layer": 7,
+      "recent_mass": 0.00543017266318202,
+      "uniform_mass": 0.0034863280598074198
+    }
+  ],
+  "top_three": [
+    [
+      9,
+      3
+    ],
+    [
+      9,
+      2
+    ],
+    [
+      9,
+      7
+    ]
+  ],
+  "verdict": {
+    "H1": true,
+    "H1_top3_enrichment": [
+      3.4460794925689697,
+      2.3692469596862793,
+      2.1245474815368652
+    ],
+    "H1_top_enrichment": 3.4460794925689697,
+    "H2": false,
+    "H2_top_minus_greedy": {
+      "excludes_zero": false,
+      "hi": 0.0,
+      "lo": -0.026276276276276277,
+      "mean": -0.011692942942942942
+    },
+    "H2_top_minus_random": {
+      "excludes_zero": false,
+      "hi": 0.012395808525839484,
+      "lo": -0.02839366515837104,
+      "mean": -0.006463840596967532
+    },
+    "H3": true,
+    "H3_random_minus_greedy": {
+      "excludes_zero": false,
+      "hi": 0.019900075414781296,
+      "lo": -0.029144174538911376,
+      "mean": -0.005229102345975411
+    },
+    "H4": true,
+    "H4_nll_base": 3.718181145191193,
+    "H4_nll_delta": 0.03920568227767944,
+    "H4_nll_ratio": 0.010544317435524864,
+    "H4_nll_top": 3.757386827468872,
+    "decision": "no single-head intervention; report the null"
+  }
+}

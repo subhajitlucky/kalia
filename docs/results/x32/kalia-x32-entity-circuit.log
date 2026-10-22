@@ -1,0 +1,65 @@
+[{"stream_name":"stdout","time":27.440081023,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":27.891124632,"data":"checkpoint: /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":28.188862046,"data":"device: cuda\n"}
+,{"stream_name":"stdout","time":43.910922548,"data":"stories: 20\n"}
+,{"stream_name":"stdout","time":149.347008466,"data":"generated gutenberg-00 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":268.903174415,"data":"generated gutenberg-01 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":386.724734829,"data":"generated gutenberg-02 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":504.951511914,"data":"generated gutenberg-03 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":623.141024046,"data":"generated gutenberg-04 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":741.335573182,"data":"generated gutenberg-05 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":859.433275211,"data":"generated gutenberg-06 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":977.245009929,"data":"generated gutenberg-07 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":1095.10964143,"data":"generated gutenberg-08 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":1212.990589869,"data":"generated gutenberg-09 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":1330.784025071,"data":"generated gutenberg-10 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":1448.509764918,"data":"generated gutenberg-11 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":1566.399873937,"data":"generated gutenberg-12 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":1684.234684454,"data":"generated gutenberg-13 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":1802.061459492,"data":"generated gutenberg-14 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":1919.860507354,"data":"generated gutenberg-15 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":2037.643001545,"data":"generated gutenberg-16 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":2155.367969677,"data":"generated gutenberg-17 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":2273.104942067,"data":"generated gutenberg-18 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":2390.970162057,"data":"generated gutenberg-19 (768 prompt tokens)\n"}
+,{"stream_name":"stdout","time":2404.794797496,"data":"top heads: [{'layer': 9, 'head': 3, 'entity_mass': 0.01201416365802288, 'uniform_mass': 0.0034863280598074198, 'enrichment': 3.4460794925689697, 'recent_mass': 0.007134790066629648, 'entropy': 0.41289347410202026}, {'layer': 9, 'head': 2, 'entity_mass': 0.008259972557425499, 'uniform_mass': 0.0034863280598074198, 'enrichment': 2.3692469596862793, 'recent_mass': 0.006541568320244551, 'entropy': 0.48456472158432007}, {'layer': 9, 'head': 7, 'entity_mass': 0.007406869903206825, 'uniform_mass': 0.0034863280598074198, 'enrichment': 2.1245474815368652, 'recent_mass': 0.00657115550711751, 'entropy': 0.42516931891441345}]\n"}
+,{"stream_name":"stdout","time":2404.794842584,"data":"random control: [(4, 5), (0, 6), (8, 6)]\n"}
+,{"stream_name":"stdout","time":2438.290156664,"data":"gutenberg-00: greedy 0.000 top 0.000 random 0.029\n"}
+,{"stream_name":"stdout","time":2471.795323022,"data":"gutenberg-01: greedy 0.111 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2505.303028025,"data":"gutenberg-02: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2538.826244313,"data":"gutenberg-03: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2572.359538285,"data":"gutenberg-04: greedy 0.105 top 0.105 random 0.000\n"}
+,{"stream_name":"stdout","time":2606.00204736,"data":"gutenberg-05: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2639.641820317,"data":"gutenberg-06: greedy 0.000 top 0.000 random 0.038\n"}
+,{"stream_name":"stdout","time":2673.144660381,"data":"gutenberg-07: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2706.619002433,"data":"gutenberg-08: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2740.119923829,"data":"gutenberg-09: greedy 0.081 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2773.70032938,"data":"gutenberg-10: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2807.219590084,"data":"gutenberg-11: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2840.767808546,"data":"gutenberg-12: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2874.370681169,"data":"gutenberg-13: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2907.967746454,"data":"gutenberg-14: greedy 0.000 top 0.000 random 0.167\n"}
+,{"stream_name":"stdout","time":2941.484132504,"data":"gutenberg-15: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":2975.036914084,"data":"gutenberg-16: greedy 0.042 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":3008.577205691,"data":"gutenberg-17: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":3042.208398616,"data":"gutenberg-18: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":3075.751415391,"data":"gutenberg-19: greedy 0.000 top 0.000 random 0.000\n"}
+,{"stream_name":"stdout","time":3075.875955826,"data":"\n"}
+,{"stream_name":"stdout","time":3075.876005245,"data":"X32 VERDICT\n"}
+,{"stream_name":"stdout","time":3075.876020406,"data":"  H1: PASS\n"}
+,{"stream_name":"stdout","time":3075.876025953,"data":"  H2: FAIL\n"}
+,{"stream_name":"stdout","time":3075.876030288,"data":"  H3: PASS\n"}
+,{"stream_name":"stdout","time":3075.876034388,"data":"  H4: PASS\n"}
+,{"stream_name":"stdout","time":3075.876038469,"data":"  top enrichment: 3.45x  top3: [3.45, 2.37, 2.12]\n"}
+,{"stream_name":"stdout","time":3075.876042787,"data":"  top - greedy: -0.0117 [-0.0263, +0.0000]\n"}
+,{"stream_name":"stdout","time":3075.876047252,"data":"  random - greedy: -0.0052 [-0.0291, +0.0199]\n"}
+,{"stream_name":"stdout","time":3075.876052072,"data":"  NLL ratio: +1.054%\n"}
+,{"stream_name":"stdout","time":3075.876056682,"data":"  decision: no single-head intervention; report the null\n"}
+,{"stream_name":"stdout","time":3077.526182237,"data":"wrote x32_summary.json, x32_heads.json, run_manifest.json\n"}
+,{"stream_name":"stderr","time":3083.670610948,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":3083.670652144,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":3084.028058912,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":3084.028086074,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":3084.917729082,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":3086.164557362,"data":"[NbConvertApp] Writing 363977 bytes to __results__.html\n"}
+]
