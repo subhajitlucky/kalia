@@ -101,6 +101,12 @@ KERNELS = {
         "arms": {"entity-circuit": None},
         "pins": (),
     },
+    # The linear-readout probe: one kernel, one arm, no per-arm seed.
+    "x33": {
+        "runner": "kalia_x33_kernel.py",
+        "arms": {"linear-readout": None},
+        "pins": (),
+    },
 }
 
 

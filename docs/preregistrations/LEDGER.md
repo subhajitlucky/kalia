@@ -30,3 +30,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-10-18 | X17-am1 | `docs/preregistrations/2026-10-18-X17-amendment-1.md` | `18a758fb317b63e63bb27663ff4b6bf2d011ff758c6a21fc9a8c7b0ef454098e` |
 | 2026-10-21 | X31-qk-isolation | `docs/preregistrations/2026-10-21-X31-qk-softcap-isolation.md` | `5080eaf75c5bc1c4b102dcd27926de214fbe9031f5da0fe2fadbd47ceeaac09a` |
 | 2026-10-22 | X32-entity-circuit | `docs/preregistrations/2026-10-22-X32-entity-selection-circuit.md` | `c3a6a2f2e81c2771c9773c4e10124b1550686d60998d03fd6b1b40c02b80d012` |
+| 2026-10-22 | X33-linear-readout | `docs/preregistrations/2026-10-22-X33-linear-readout.md` | `1deb9d28867d1b174d25f82b3b3fb728342ebbfeb9ba49acd3e9998488dd251a` |
