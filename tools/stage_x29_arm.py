@@ -136,6 +136,8 @@ def main() -> None:
     parser.add_argument("arm")
     parser.add_argument("--kernel", choices=sorted(KERNELS), default="x29")
     parser.add_argument("--seed", default="1401", help="1401 is the original; 1402 is the registered replication")
+    parser.add_argument("--seed-base", default="7",
+                        help="value for SEED_BASE when the kernel spec pins it (X34 uses 1007)")
     parser.add_argument("--dest", type=Path, default=None, help="override the /tmp staging directory")
     parser.add_argument("--allow-dirty", action="store_true",
                         help="stage despite an uncommitted runner (revision is stamped +dirty)")
@@ -174,6 +176,9 @@ def main() -> None:
     if "SEED" in spec["pins"]:
         patched = pin(patched, "SEED", args.seed)
         expected["SEED"] = args.seed
+    if "SEED_BASE" in spec["pins"]:
+        patched = pin(patched, "SEED_BASE", args.seed_base)
+        expected["SEED_BASE"] = args.seed_base
     replay = spec["arms"][args.arm]
     if "REPLAY" in spec["pins"] and replay is not None:
         patched = pin(patched, "REPLAY", replay)

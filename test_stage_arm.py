@@ -120,6 +120,20 @@ def test_kernel_revision_and_id_are_stamped_from_real_sources(tmp_path):
     assert _pinned(src, "KERNEL_ID") == "subhajitlucky/kalia-x29-noreplay"
 
 
+def test_seed_base_is_actually_pinned(tmp_path):
+    """X34 v1 reran seed 7 because the stager silently ignored SEED_BASE.
+    The constant is now pinned, read back, and asserted."""
+    r = _stage(tmp_path, "seed", "--kernel", "x34", "--seed", "1007",
+               "--seed-base", "1007")
+    assert r.returncode == 0, r.stderr
+    src = (tmp_path / "kalia_x33_kernel.py").read_text()
+    assert _pinned(src, "ARM") == "seed"
+    assert _pinned(src, "SEED_BASE") == "1007"
+    assert "int(SEED_BASE)" in src, "the runner must consume the pinned seed"
+    meta = json.loads((tmp_path / "kernel-metadata.json").read_text())
+    assert meta["id"] == "subhajitlucky/kalia-x34-seed-s1007"
+
+
 def test_arm_not_in_the_selected_kernel_is_rejected(tmp_path):
     r = _stage(tmp_path, "static")  # static belongs to x28, not x29
     assert r.returncode != 0
@@ -129,8 +143,11 @@ def test_arm_not_in_the_selected_kernel_is_rejected(tmp_path):
 def test_every_registered_arm_has_committed_metadata():
     for kernel, spec in KERNELS.items():
         for arm in spec["arms"]:
-            path = ROOT / "kaggle" / f"kernel-metadata-{kernel}-{arm}.json"
-            assert path.exists(), f"{kernel} {arm} is stageable in the script but has no {path.name}"
+            paths = sorted((ROOT / "kaggle").glob(f"kernel-metadata-{kernel}-{arm}*.json"))
+            assert paths, (
+                f"{kernel} {arm} is stageable in the script but has no "
+                f"kernel-metadata-{kernel}-{arm}*.json"
+            )
 
 
 def _stageable_cases() -> list[tuple[str, str, str]]:
