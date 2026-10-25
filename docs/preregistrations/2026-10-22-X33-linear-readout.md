@@ -109,3 +109,14 @@ story set and a second generation seed before training a selector or claiming a
 capability.
 
 Artifacts: `docs/results/x33/`.
+
+---
+
+## Replication (appended 2026-10-25)
+
+X34 repeated the protocol on generation seed 1007, changing nothing else.
+Probe − greedy was **+0.0129** [−0.0048, +0.0343]; **R-1 failed** because the
+interval includes zero. The first-half pick rose to **0.0401** and beat the probe
+(0.0299) by −0.0103. The registered verdict is a null and the linear-selector
+track is closed (D59). This registration's result is a single-seed observation,
+not a selector. Archive: `docs/results/x34/`.

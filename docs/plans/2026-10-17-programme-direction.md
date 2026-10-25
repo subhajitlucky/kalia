@@ -147,6 +147,14 @@ advantage over the first-half rule includes zero at 20 stories. Replicate on a
 second story set and generation seed before training a selector or measuring the
 selective-accuracy curve.
 
+**X34 (2026-10-25)** ran the generation-seed replication at 1007. Probe − greedy
+was **+0.0129** [−0.0048, +0.0343]; R-1 failed because the interval includes
+zero. The point estimate is close to X33's, so the effect did not collapse, but
+the first-half pick rose to **0.0401** and beat the probe by −0.0103. The
+registered null closes the linear-selector track; X35 (fresh stories) does not
+run. The coverage/selection gap remains open, and the half-pick is the cheap
+baseline any future selector must beat (D59).
+
 ## M0 as measured (2026-10-18)
 
 The gate was written as *"uniform 10% replay + rewarm beats no-replay beyond the

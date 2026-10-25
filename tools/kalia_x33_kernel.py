@@ -346,6 +346,7 @@ write_json("/kaggle/working/run_manifest.json", {
     "gen_tokens": GEN_TOKENS,
     "half": HALF,
     "samples": N_SAMPLES,
+    "seed_base": SEED_BASE,
     "layer": LAYER,
     "alpha": ALPHA,
     "shuffles": SHUFFLES,

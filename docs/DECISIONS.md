@@ -501,10 +501,74 @@ coverage gap** (0.0324 against greedy 0.0170, oracle 0.0618).
 **Cost.** One GPU session, twenty stories. Artifacts: `docs/results/x33/`;
 registration: `2026-10-22-X33-linear-readout.md`.
 
-**Status.** active.
+**Status.** closed — X34 did not replicate (D59).
 
 **Update 2026-10-22.** X34 v1 was invalid: the stager silently left
 `SEED_BASE = "7"`, so it reran X33's sampling seed. The stager now pins and
 reads back `SEED_BASE` with a test. X34 v2 is staged at `1007` but blocked by the
 weekly GPU quota; no replication result exists yet. X33 remains a readout
 result, not a selector.
+
+**Update 2026-10-25.** X34 v2 completed on generation seed 1007, 0.64 GPU-h.
+Probe − greedy was **+0.0129** [−0.0048, +0.0343], so R-1 failed; the point
+estimate is close to X33's +0.0155, but the first-half pick rose to 0.0401 and
+beat the probe by −0.0103. The registered null closes the linear-selector track
+(D59). X33 remains a single-seed observation, not a selector.
+
+## D59 — X34: the midpoint readout did not replicate, and the linear-selector track closes (2026-10-25)
+
+**Context.** X33 measured a linear midpoint readout at **+0.0155** [+0.0005,
++0.0321] over greedy on 20 stories, with a lower bound barely above zero. D58
+made the first replication test the sampling draw: repeat the identical protocol
+on generation seed 1007, changing nothing else.
+
+**Evidence.** X34 v2 ran on kernel version 2, revision `7381818`, 0.64 GPU-h.
+Code fingerprint, checkpoint hash and stories hash are identical to X33; the
+only moved variable is the seed, verified in the pushed source.
+
+| selector | X33 (seed 7) | X34 (seed 1007) |
+|---|---|---|
+| greedy | 0.0170 | 0.0170 |
+| log-probability | 0.0103 | 0.0114 |
+| first-half pick | 0.0277 | **0.0401** |
+| **linear probe** | **0.0324** | **0.0299** |
+| oracle | 0.0618 | 0.0794 |
+| shuffled-label probe | 0.0205 | 0.0238 |
+
+| contrast | X33 | X34 |
+|---|---|---|
+| probe − greedy | +0.0155 [+0.0005, +0.0321] | **+0.0129 [−0.0048, +0.0343]** |
+| probe − first-half | +0.0047 [−0.0106, +0.0217] | **−0.0103 [−0.0350, +0.0100]** |
+| probe − log-probability | +0.0222 [+0.0041, +0.0443] | +0.0185 [−0.0129, +0.0476] |
+| shuffled − greedy | +0.0036 | +0.0069 |
+
+R-1 fails: the mean clears +0.010 but the CI includes zero. R-2 passes as
+registered (probe − log-probability +0.0185 ≥ 0); R-3 passes (+0.0069 < +0.010).
+The runner's inherited `P2` also requires the probe to beat the half-pick, so it
+prints FAIL; that is X33's stricter bar, not X34's R-2.
+
+**Decision.**
+1. **The registered verdict is a null; no selector claim.** R-1 failed, so the
+   decision rule is "report a null; do not proceed to a selector."
+2. **Close the linear-selector track.** X35 (a fresh story set) and the
+   selective-accuracy curve were contingent on R-1; neither runs. Another
+   20-story pilot would not resolve a ~0.013 effect with this variance.
+3. **Report the nuance, not the label.** The point estimate moved by only
+   −0.0026 from X33, so this is not evidence that the signal vanished. It is
+   evidence that the effect is not resolvable on a second seed and that the
+   first-half rule — now 0.0401 — is the stronger cheap baseline. The
+   pre-registration's "seed artifact" wording is one explanation; "failed the
+   registered replication" is the one the data support.
+4. **Keep the readout result honest.** X33 stays in the record as a single-seed
+   observation with this null attached. It is not a capability.
+5. **Provenance follow-up.** The shared X33 runner's manifest did not record
+   `SEED_BASE`, the one variable X34 moved. This run is covered by
+   `docs/results/x34/provenance.json` and the pulled kernel source. The runner
+   now writes `seed_base`; the archived manifest is unchanged and honest about
+   what it was written by.
+
+**Cost.** 0.64 GPU-h. Artifacts: `docs/results/x34/`; registration:
+`2026-10-22-X34-seed-replication.md`.
+
+**Status.** closed — the linear-selector track is closed. The coverage/selection
+gap remains open and is the next question, not this probe.

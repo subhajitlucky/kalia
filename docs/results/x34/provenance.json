@@ -1,0 +1,15 @@
+{
+  "kernel_id": "subhajitlucky/kalia-x34-seed-s1007",
+  "kernel_version": 2,
+  "kernel_revision": "738181827211811914fece1cd725e71205e5db0d",
+  "arm": "seed",
+  "seed_base": "1007",
+  "seed_schedule": "1007 + story_index",
+  "source": {
+    "file": "kalia-x34-seed-s1007.py",
+    "sha256": "73f2182681136522fab8c9c2a4b7643bfa1bfa01bfece12b897309e4af59cd24",
+    "verified": "2026-10-25",
+    "method": "kaggle kernels pull subhajitlucky/kalia-x34-seed-s1007 -p /tmp/kalia-x34-pulled -m"
+  },
+  "manifest_note": "run_manifest.json was written by the shared X33 runner at revision 7381818, which did not include SEED_BASE. This sidecar records the seed verified in the pushed kernel source; the archived source is the pulled version 2. The runner now writes seed_base as well (provenance-only change after this run)."
+}

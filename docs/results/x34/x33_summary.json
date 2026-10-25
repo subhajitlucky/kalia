@@ -1,0 +1,261 @@
+{
+  "alpha": 10.0,
+  "candidates_per_story": 8,
+  "experiment": "seed",
+  "features": "mean(first-half) + last-token, 2*d",
+  "layer": 9,
+  "rows": [
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 1,
+      "id": "gutenberg-00",
+      "logprob": 0.0,
+      "logprob_index": 7,
+      "oracle": 0.0,
+      "probe": 0.0,
+      "probe_index": 5
+    },
+    {
+      "greedy": 0.1111111111111111,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-01",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.1111111111111111,
+      "probe": 0.1111111111111111,
+      "probe_index": 7
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.027777777777777776,
+      "half_index": 1,
+      "id": "gutenberg-02",
+      "logprob": 0.027777777777777776,
+      "logprob_index": 4,
+      "oracle": 0.027777777777777776,
+      "probe": 0.027777777777777776,
+      "probe_index": 3
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-03",
+      "logprob": 0.0,
+      "logprob_index": 0,
+      "oracle": 0.058823529411764705,
+      "probe": 0.0,
+      "probe_index": 0
+    },
+    {
+      "greedy": 0.10526315789473684,
+      "half": 0.10526315789473684,
+      "half_index": 0,
+      "id": "gutenberg-04",
+      "logprob": 0.0,
+      "logprob_index": 7,
+      "oracle": 0.10526315789473684,
+      "probe": 0.10526315789473684,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 3,
+      "id": "gutenberg-05",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.02127659574468085,
+      "probe": 0.0,
+      "probe_index": 0
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.038461538461538464,
+      "half_index": 6,
+      "id": "gutenberg-06",
+      "logprob": 0.0,
+      "logprob_index": 0,
+      "oracle": 0.038461538461538464,
+      "probe": 0.038461538461538464,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 2,
+      "id": "gutenberg-07",
+      "logprob": 0.0,
+      "logprob_index": 5,
+      "oracle": 0.03076923076923077,
+      "probe": 0.0,
+      "probe_index": 6
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-08",
+      "logprob": 0.0,
+      "logprob_index": 5,
+      "oracle": 0.0,
+      "probe": 0.0,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.08108108108108109,
+      "half": 0.0,
+      "half_index": 4,
+      "id": "gutenberg-09",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.05405405405405406,
+      "probe": 0.0,
+      "probe_index": 0
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.041666666666666664,
+      "half_index": 0,
+      "id": "gutenberg-10",
+      "logprob": 0.0,
+      "logprob_index": 7,
+      "oracle": 0.041666666666666664,
+      "probe": 0.041666666666666664,
+      "probe_index": 2
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 4,
+      "id": "gutenberg-11",
+      "logprob": 0.0,
+      "logprob_index": 2,
+      "oracle": 0.08695652173913043,
+      "probe": 0.0,
+      "probe_index": 1
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.06451612903225806,
+      "half_index": 0,
+      "id": "gutenberg-12",
+      "logprob": 0.0,
+      "logprob_index": 5,
+      "oracle": 0.22580645161290322,
+      "probe": 0.06451612903225806,
+      "probe_index": 0
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.043478260869565216,
+      "half_index": 2,
+      "id": "gutenberg-13",
+      "logprob": 0.0,
+      "logprob_index": 0,
+      "oracle": 0.13043478260869565,
+      "probe": 0.0,
+      "probe_index": 7
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.16666666666666666,
+      "half_index": 1,
+      "id": "gutenberg-14",
+      "logprob": 0.0,
+      "logprob_index": 4,
+      "oracle": 0.16666666666666666,
+      "probe": 0.16666666666666666,
+      "probe_index": 3
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.2,
+      "half_index": 4,
+      "id": "gutenberg-15",
+      "logprob": 0.2,
+      "logprob_index": 4,
+      "oracle": 0.2,
+      "probe": 0.0,
+      "probe_index": 3
+    },
+    {
+      "greedy": 0.041666666666666664,
+      "half": 0.08333333333333333,
+      "half_index": 2,
+      "id": "gutenberg-16",
+      "logprob": 0.0,
+      "logprob_index": 5,
+      "oracle": 0.08333333333333333,
+      "probe": 0.041666666666666664,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-17",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.05,
+      "probe": 0.0,
+      "probe_index": 4
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.03125,
+      "half_index": 2,
+      "id": "gutenberg-18",
+      "logprob": 0.0,
+      "logprob_index": 5,
+      "oracle": 0.03125,
+      "probe": 0.0,
+      "probe_index": 7
+    },
+    {
+      "greedy": 0.0,
+      "half": 0.0,
+      "half_index": 0,
+      "id": "gutenberg-19",
+      "logprob": 0.0,
+      "logprob_index": 6,
+      "oracle": 0.125,
+      "probe": 0.0,
+      "probe_index": 1
+    }
+  ],
+  "stories": 20,
+  "verdict": {
+    "P1": false,
+    "P2": false,
+    "P3": true,
+    "decision": "no linear midpoint signal; close the linear-selector track",
+    "greedy_mean": 0.016956100837679785,
+    "half_mean": 0.04012067653512715,
+    "logprob_mean": 0.01138888888888889,
+    "oracle_mean": 0.07943257089261453,
+    "probe_mean": 0.02985648571387111,
+    "probe_minus_greedy": {
+      "excludes_zero": false,
+      "hi": 0.03431555004135649,
+      "lo": -0.0047696890438825934,
+      "mean": 0.012900384876191325
+    },
+    "probe_minus_half": {
+      "excludes_zero": false,
+      "hi": 0.010048309178743959,
+      "lo": -0.035042270531400965,
+      "mean": -0.010264190821256038
+    },
+    "probe_minus_logprob": {
+      "excludes_zero": false,
+      "hi": 0.04761964360860795,
+      "lo": -0.012928039702233251,
+      "mean": 0.01846759682498222
+    },
+    "shuffled_mean": 0.023815764178192693,
+    "shuffled_minus_greedy": 0.006859663340512908
+  }
+}

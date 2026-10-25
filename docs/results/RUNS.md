@@ -33,6 +33,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `bench pair 2k` | 2,000-sample benchmark pair; the 500-sample ARC-Easy regression was noise | — | 6 files |
 | `X32` | Entity-selection circuit probe; layer-9 heads carry entity mass but ablation hurts | yes | 5 files |
 | `X33` | Linear midpoint readout; probe beats greedy +0.0155, ~35% of the coverage gap | yes | 5 files |
+| `X34` | Seed-1007 replication of X33; the midpoint readout does not clear the registered bar | yes | 7 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -175,6 +176,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x33/x33_features.npz`
 - `docs/results/x33/x33_summary.json`
 
+**X34**
+- `docs/results/x34/README.md`
+- `docs/results/x34/kalia-x34-seed-s1007.log`
+- `docs/results/x34/kalia-x34-seed-s1007.py`
+- `docs/results/x34/provenance.json`
+- `docs/results/x34/run_manifest.json`
+- `docs/results/x34/x33_features.npz`
+- `… 1 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -192,4 +202,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-26 runs tracked, 132 files archived, 3 with no evidence.
+27 runs tracked, 139 files archived, 3 with no evidence.

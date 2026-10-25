@@ -136,3 +136,11 @@ def test_kernel_guard_rejects_a_contradictory_pairing(arm, replay):
     none, is a mislabeled run; the kernel refuses it as well as the stager."""
     with pytest.raises(AssertionError):
         _derive_kernel_constants(arm, replay)
+
+
+def test_x33_runner_records_the_sampling_seed_in_its_manifest():
+    """X34 moved only SEED_BASE, and its manifest did not name it; the seed had
+    to be verified by pulling the kernel source. The shared X33/X34 runner must
+    record it before reuse (D59)."""
+    src = (ROOT / "tools" / "kalia_x33_kernel.py").read_text()
+    assert '"seed_base": SEED_BASE' in src

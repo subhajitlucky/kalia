@@ -64,3 +64,43 @@ test that asserts the runner consumes it.
 **v2 is staged with `SEED_BASE = "1007"` but is blocked by the weekly GPU quota**
 (30.00 hours reached). It will run after the reset. No v1 output is archived as
 a replication.
+
+---
+
+## Result (appended 2026-10-25, after the registered run)
+
+Kernel `subhajitlucky/kalia-x34-seed-s1007`, version 2, COMPLETE, **0.64 GPU-h**.
+Twenty stories, 160 candidates, leave-one-story-out, generation seed **1007**
+(verified in the pushed kernel source; `docs/results/x34/provenance.json`).
+Code fingerprint, checkpoint hash and stories hash are identical to X33.
+
+| selector | mean second-half retention |
+|---|---|
+| greedy | 0.0170 |
+| log-probability | 0.0114 |
+| first-half entity pick | 0.0401 |
+| **linear probe** | **0.0299** |
+| oracle | 0.0794 |
+| shuffled-label probe | 0.0238 |
+
+| contrast | mean | 95% CI |
+|---|---|---|
+| probe − greedy | **+0.0129** | **[−0.0048, +0.0343]** |
+| probe − first-half | −0.0103 | [−0.0350, +0.0100] |
+| probe − log-probability | +0.0185 | [−0.0129, +0.0476] |
+| shuffled probe − greedy | +0.0069 | — |
+
+- **R-1 FAIL** — +0.0129 clears the +0.010 mean bar, but the paired 95% CI
+  includes zero.
+- **R-2 PASS** — probe − log-probability +0.0185 ≥ 0. (The runner's inherited
+  `P2` also requires the probe to beat the half-pick; it fails because the
+  half-pick is 0.0401. The registered R-2 names only log-probability.)
+- **R-3 PASS** — shuffled-label probe − greedy +0.0069, below the +0.010 bar.
+
+**Registered verdict: R-1 fails. Report a null; do not proceed to a selector.**
+The linear-selector track is closed. The point estimate is close to X33's
+(+0.0155, a move of −0.0026), so the effect did not collapse; it is not
+resolvable on a second seed at 20 stories. The first-half rule rose from 0.0277
+to 0.0401 and now beats the probe by −0.0103, reversing X33's +0.0047. X35 (a
+fresh story set) is not run; it was contingent on R-1. Artifacts:
+`docs/results/x34/`; decision: D59.

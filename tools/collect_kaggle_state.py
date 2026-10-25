@@ -42,7 +42,13 @@ def fetch(kind: str) -> list[dict]:
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode != 0:
         raise SystemExit(f"kaggle {kind} list failed: {r.stderr[-300:]}")
-    rows = json.loads(r.stdout or "[]")
+    out = r.stdout
+    # Kaggle CLI 2.2.4 prepends its "outdated version" warning to stdout even
+    # when --format json is requested, so the payload does not start at byte 0.
+    start = out.find("[")
+    if start > 0:
+        out = out[start:]
+    rows = json.loads(out or "[]")
     if not rows:
         raise SystemExit(f"kaggle {kind} list returned nothing -- is the CLI authenticated?")
     return rows

@@ -102,3 +102,12 @@ selector.
 
 Reproduce the verdict from the registered JSON; the decision rule is in the
 pre-registration.
+
+## Replication (2026-10-25)
+
+X34 repeated this protocol on generation seed 1007, changing nothing else. The
+probe − greedy contrast was **+0.0129** [−0.0048, +0.0343]; R-1 failed because
+the interval includes zero, and the first-half pick (0.0401) beat the probe
+(0.0299) by −0.0103. The registered verdict is a null and the linear-selector
+track is closed (D59). This page remains the single-seed X33 result; it is not a
+selector and does not replicate. Archive: `docs/results/x34/`.

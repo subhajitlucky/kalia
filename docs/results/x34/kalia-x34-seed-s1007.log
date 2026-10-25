@@ -1,0 +1,62 @@
+[{"stream_name":"stdout","time":28.753323671,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":29.162057578,"data":"checkpoint: /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":29.450709644,"data":"device: cuda\n"}
+,{"stream_name":"stdout","time":48.975284411,"data":"stories: 20\n"}
+,{"stream_name":"stdout","time":147.177268056,"data":"gutenberg-00: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":253.651288811,"data":"gutenberg-01: pool built ((8, 1024)); greedy 0.111\n"}
+,{"stream_name":"stdout","time":366.645405574,"data":"gutenberg-02: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":480.509261982,"data":"gutenberg-03: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":593.922245533,"data":"gutenberg-04: pool built ((8, 1024)); greedy 0.105\n"}
+,{"stream_name":"stdout","time":707.063660805,"data":"gutenberg-05: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":819.980163536,"data":"gutenberg-06: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":932.577392692,"data":"gutenberg-07: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":1044.919908657,"data":"gutenberg-08: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":1157.405077034,"data":"gutenberg-09: pool built ((8, 1024)); greedy 0.081\n"}
+,{"stream_name":"stdout","time":1269.896833533,"data":"gutenberg-10: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":1382.282116973,"data":"gutenberg-11: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":1495.201825616,"data":"gutenberg-12: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":1608.222845042,"data":"gutenberg-13: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":1721.155690545,"data":"gutenberg-14: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":1833.899139299,"data":"gutenberg-15: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":1946.815044561,"data":"gutenberg-16: pool built ((8, 1024)); greedy 0.042\n"}
+,{"stream_name":"stdout","time":2059.499343188,"data":"gutenberg-17: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":2172.24886645,"data":"gutenberg-18: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":2284.950055158,"data":"gutenberg-19: pool built ((8, 1024)); greedy 0.000\n"}
+,{"stream_name":"stdout","time":2285.050800161,"data":"gutenberg-00: probe 0.000 greedy 0.000 half 0.000 logp 0.000 oracle 0.000\n"}
+,{"stream_name":"stdout","time":2285.112054417,"data":"gutenberg-01: probe 0.111 greedy 0.111 half 0.000 logp 0.000 oracle 0.111\n"}
+,{"stream_name":"stdout","time":2285.176354643,"data":"gutenberg-02: probe 0.028 greedy 0.000 half 0.028 logp 0.028 oracle 0.028\n"}
+,{"stream_name":"stdout","time":2285.236943019,"data":"gutenberg-03: probe 0.000 greedy 0.000 half 0.000 logp 0.000 oracle 0.059\n"}
+,{"stream_name":"stdout","time":2285.297731872,"data":"gutenberg-04: probe 0.105 greedy 0.105 half 0.105 logp 0.000 oracle 0.105\n"}
+,{"stream_name":"stdout","time":2285.359926344,"data":"gutenberg-05: probe 0.000 greedy 0.000 half 0.000 logp 0.000 oracle 0.021\n"}
+,{"stream_name":"stdout","time":2285.420844875,"data":"gutenberg-06: probe 0.038 greedy 0.000 half 0.038 logp 0.000 oracle 0.038\n"}
+,{"stream_name":"stdout","time":2285.47931069,"data":"gutenberg-07: probe 0.000 greedy 0.000 half 0.000 logp 0.000 oracle 0.031\n"}
+,{"stream_name":"stdout","time":2285.539773169,"data":"gutenberg-08: probe 0.000 greedy 0.000 half 0.000 logp 0.000 oracle 0.000\n"}
+,{"stream_name":"stdout","time":2285.598053434,"data":"gutenberg-09: probe 0.000 greedy 0.081 half 0.000 logp 0.000 oracle 0.054\n"}
+,{"stream_name":"stdout","time":2285.658187434,"data":"gutenberg-10: probe 0.042 greedy 0.000 half 0.042 logp 0.000 oracle 0.042\n"}
+,{"stream_name":"stdout","time":2285.717412483,"data":"gutenberg-11: probe 0.000 greedy 0.000 half 0.000 logp 0.000 oracle 0.087\n"}
+,{"stream_name":"stdout","time":2285.775078938,"data":"gutenberg-12: probe 0.065 greedy 0.000 half 0.065 logp 0.000 oracle 0.226\n"}
+,{"stream_name":"stdout","time":2285.8342441,"data":"gutenberg-13: probe 0.000 greedy 0.000 half 0.043 logp 0.000 oracle 0.130\n"}
+,{"stream_name":"stdout","time":2285.893268021,"data":"gutenberg-14: probe 0.167 greedy 0.000 half 0.167 logp 0.000 oracle 0.167\n"}
+,{"stream_name":"stdout","time":2285.954472406,"data":"gutenberg-15: probe 0.000 greedy 0.000 half 0.200 logp 0.200 oracle 0.200\n"}
+,{"stream_name":"stdout","time":2286.012934678,"data":"gutenberg-16: probe 0.042 greedy 0.042 half 0.083 logp 0.000 oracle 0.083\n"}
+,{"stream_name":"stdout","time":2286.074781781,"data":"gutenberg-17: probe 0.000 greedy 0.000 half 0.000 logp 0.000 oracle 0.050\n"}
+,{"stream_name":"stdout","time":2286.136126729,"data":"gutenberg-18: probe 0.000 greedy 0.000 half 0.031 logp 0.000 oracle 0.031\n"}
+,{"stream_name":"stdout","time":2286.195939613,"data":"gutenberg-19: probe 0.000 greedy 0.000 half 0.000 logp 0.000 oracle 0.125\n"}
+,{"stream_name":"stdout","time":2310.398584341,"data":"\n"}
+,{"stream_name":"stdout","time":2310.39862756,"data":"X33 VERDICT\n"}
+,{"stream_name":"stdout","time":2310.398667493,"data":"  P1: FAIL\n"}
+,{"stream_name":"stdout","time":2310.398671819,"data":"  P2: FAIL\n"}
+,{"stream_name":"stdout","time":2310.398675188,"data":"  P3: PASS\n"}
+,{"stream_name":"stdout","time":2310.398678999,"data":"  probe 0.0299 | greedy 0.0170 | half 0.0401 | logp 0.0114 | oracle 0.0794\n"}
+,{"stream_name":"stdout","time":2310.398682814,"data":"  probe - greedy: +0.0129 [-0.0048, +0.0343]\n"}
+,{"stream_name":"stdout","time":2310.398686364,"data":"  probe - half: -0.0103; probe - logp: +0.0185\n"}
+,{"stream_name":"stdout","time":2310.398689843,"data":"  shuffled - greedy: +0.0069\n"}
+,{"stream_name":"stdout","time":2310.398693485,"data":"  decision: no linear midpoint signal; close the linear-selector track\n"}
+,{"stream_name":"stdout","time":2312.100315792,"data":"wrote x33_summary.json, x33_features.npz, run_manifest.json\n"}
+,{"stream_name":"stderr","time":2317.061840589,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":2317.061873747,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":2317.358690411,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":2317.358714876,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":2318.186604116,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":2319.207897069,"data":"[NbConvertApp] Writing 347957 bytes to __results__.html\n"}
+]
