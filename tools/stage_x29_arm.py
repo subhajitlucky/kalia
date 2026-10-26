@@ -114,6 +114,13 @@ KERNELS = {
         "arms": {"seed": None},
         "pins": ("SEED_BASE",),
     },
+    # X35 is a two-stage static-mixture screen: the stage name selects the seed
+    # and the arm set, so there is no per-arm SEED constant to pin.
+    "x35": {
+        "runner": "kalia_x35_mix_kernel.py",
+        "arms": {"mix-screen": None, "mix-replicate": None},
+        "pins": (),
+    },
 }
 
 

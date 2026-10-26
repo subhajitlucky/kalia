@@ -129,3 +129,16 @@ are reported regardless of outcome.
 - `tools/kalia_x35_mix_kernel.py` — the screen/replicate runner.
 - `kaggle/kernel-metadata-x35-mix-screen.json`,
   `kaggle/kernel-metadata-x35-mix-replicate.json`.
+
+---
+
+## Amendment 1 (2026-10-26, before any GPU time)
+
+**The primary metric is the last logged val point, not step 5,270.** The base
+config logs at `eval_interval: 100`, so a 500-step arm logs 4,800…5,200; the
+final step 5,270 is not an eval boundary and `train.py` does not force a final
+eval. The primary is therefore the **step-5,200** val loss, the last point both
+arms log. The control sanity anchor is the X28 static step-5,200 value
+(**2.8040**), not a 5,270 interpolation. No arm, weight, seed, bar or decision
+rule changes.
+
