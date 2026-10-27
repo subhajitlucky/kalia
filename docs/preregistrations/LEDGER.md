@@ -33,3 +33,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-10-22 | X33-linear-readout | `docs/preregistrations/2026-10-22-X33-linear-readout.md` | `1deb9d28867d1b174d25f82b3b3fb728342ebbfeb9ba49acd3e9998488dd251a` |
 | 2026-10-22 | X34-seed-replication | `docs/preregistrations/2026-10-22-X34-seed-replication.md` | `bb52e5f315b30afe4d681b1a141c0112ad54677776a299b7747bce62bbaa30f2` |
 | 2026-10-26 | X35-static-mixture-screen | `docs/preregistrations/2026-10-26-X35-static-mixture-screen.md` | `bbbb3414f59ef04f8284c6d759eabf35579cb56fbf8aae3be9e5ca758d4abb82` |
+| 2026-10-27 | v030-second-epoch | `docs/preregistrations/2026-10-27-v030-second-epoch.md` | `7375a595c2dff5b4a914873e8d3cc78170d226c41ce18fca12ee861b64abcefc` |
