@@ -572,3 +572,53 @@ prints FAIL; that is X33's stricter bar, not X34's R-2.
 
 **Status.** closed — the linear-selector track is closed. The coverage/selection
 gap remains open and is the next question, not this probe.
+
+## D60 — X35: the static code mixture does not move the 58M update (2026-10-27)
+
+**Context.** Data is the only large positive in the record (0.169 nats at
+matched tokens), and D19's 55/20/15/10 mixture had never been run. X26/X28 showed
+the adaptive policy drifts to easy sources and costs +0.0183; X29's 94% delivery
+path effect was confounded with corpus passes. X35 held the four published 498M
+shards, the 500-step schedule, the seed and the token budget fixed, and moved
+only the static source weights: control 60/20/15/5, code10 55/20/15/10, code25
+40/20/15/25.
+
+**Evidence.** Kernel `kalia-x35-mix-screen`, version 1, 7.71 GPU-h, seed 1401.
+
+| arm | val @ 5,200 | val − control | train @ 5,200 | train − control |
+|---|---|---|---|---|
+| control | **2.7903** | — | 2.7511 | — |
+| code10 | 2.7896 | **−0.0007** | 2.6502 | −0.1009 |
+| code25 | 2.7961 | **+0.0058** | 2.2515 | **−0.4996** |
+
+The val curves are flat across arms at every checkpoint (≤0.010 at the worst
+point). **S-1 fails** (−0.0007, bar −0.010); S-2 and S-4 were contingent and did
+not run; S-3 is within its +0.050 boundary; S-5 is **not measured** because the
+static path writes no `per_source_log.csv`.
+
+The code25 arm's training loss is 0.50 nats lower while its val is 0.0058 worse.
+That is the X26/X28 dessert signature in aggregate: more code makes the training
+mixture easier to fit, not the held-out distribution better.
+
+**Decision.**
+1. **The registered verdict is a null; no Stage 2.** Close the static-mixture
+   track at the 500-step budget. Do not tune the weights until something passes;
+   that is searching for a result.
+2. **Do not cite this as evidence against the 0.169-nat corpus effect.** It tests
+   a 5-point code shift on the equalised shards at 500 steps, not the full corpus
+   change at full scale. The corpus effect remains the only large positive, and
+   the next data bet must be long-form or full-scale, with a new registration.
+3. **Record the dessert signal.** A lower training loss on the reweighted mixture
+   is not a data win. Any future mixture arm reports train and val together.
+4. **Fix the S-5 instrumentation before the next static arm.** The static path
+   writes no per-source log; a standalone per-source eval at the end is the
+   minimum needed for the gaming check, and claiming S-5 without it would be a
+   green check that did not run.
+5. **Do not spend the remaining 22.29h on a failed screen.** The next data
+   question is long-form (LAMBADA/story structure) or a full-scale v0.4, not
+   another code-share arm.
+
+**Cost.** 7.71 GPU-h. Artifacts: `docs/results/x35/`; registration:
+`2026-10-26-X35-static-mixture-screen.md`.
+
+**Status.** closed — the static-mixture screen is closed; Stage 2 was not run.

@@ -155,6 +155,14 @@ registered null closes the linear-selector track; X35 (fresh stories) does not
 run. The coverage/selection gap remains open, and the half-pick is the cheap
 baseline any future selector must beat (D59).
 
+**X35 (2026-10-27)** screened static code mixtures in the tight continual-update
+regime: control 60/20/15/5, code10 55/20/15/10, code25 40/20/15/25, 500 steps,
+seed 1401. Code10 moved val by **−0.0007** and code25 by **+0.0058**, both under
+the −0.010 bar; S-1 failed and Stage 2 did not run. Code25's training loss was
+**0.50 nats lower** with no val gain — the dessert signature in aggregate. The
+static-mixture track is closed at this budget; the next data bet is long-form or
+a full-scale v0.4, not another code-share arm (D60).
+
 ## M0 as measured (2026-10-18)
 
 The gate was written as *"uniform 10% replay + rewarm beats no-replay beyond the

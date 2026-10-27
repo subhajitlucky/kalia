@@ -1,0 +1,70 @@
+{
+  "arms": {
+    "code10": {
+      "cosmopedia": 0.15,
+      "fineweb": 0.55,
+      "python": 0.1,
+      "tinystories": 0.2
+    },
+    "code25": {
+      "cosmopedia": 0.15,
+      "fineweb": 0.4,
+      "python": 0.25,
+      "tinystories": 0.2
+    },
+    "control": {
+      "cosmopedia": 0.15,
+      "fineweb": 0.6,
+      "python": 0.05,
+      "tinystories": 0.2
+    }
+  },
+  "bars": {
+    "S1": -0.01,
+    "S3_collapse": 0.05
+  },
+  "base_config": "configs/v030-rewarm-s1401.yaml",
+  "base_config_sha256": "72a0c1ffa1eb66f4638ba48105958677eec8aa7cc2c81843871767a138fb5482",
+  "code_fingerprint": "0444c15d2c246ad2fa645dc3bb0d096d481931dce2af450a09d1170e7b2ea80d",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "experiment": "mix-screen",
+  "kernel_id": "subhajitlucky/kalia-x35-mix-screen",
+  "kernel_revision": "8cd8c794fcbc7e71dd901fc7bd26951b7715b887",
+  "recorded": "2026-10-26T13:19:29.588712+00:00",
+  "replay_bin": null,
+  "resume_from": {
+    "bytes": 565895345,
+    "path": "/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt",
+    "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+  },
+  "seed": 1401,
+  "source_bins": {
+    "cosmopedia": {
+      "bytes": 249001382,
+      "path": "/root/.cache/huggingface/hub/models--kalia-lm--kalia-v020/snapshots/8f8b115c5a52deb1deb1a24a1a0f6bb3fa827aa6/corpus/cosmopedia.bin",
+      "sha256": "bde9f790fa3f1d6a9a0c82dc6abd75d3c577c41ded3151693816d8ecfdbfbfd3"
+    },
+    "fineweb": {
+      "bytes": 249001382,
+      "path": "/root/.cache/huggingface/hub/models--kalia-lm--kalia-v020/snapshots/8f8b115c5a52deb1deb1a24a1a0f6bb3fa827aa6/corpus/fineweb.bin",
+      "sha256": "ee38e52a23874bf0cbe691deb4c98f112c4f581a952cb482a26fb867378011dc"
+    },
+    "python": {
+      "bytes": 249001382,
+      "path": "/root/.cache/huggingface/hub/models--kalia-lm--kalia-v020/snapshots/8f8b115c5a52deb1deb1a24a1a0f6bb3fa827aa6/corpus/python.bin",
+      "sha256": "169b22d47270249f838f190faeb95ceeba35763f5eefbaf8c2766c4f1d71bb32"
+    },
+    "tinystories": {
+      "bytes": 249001382,
+      "path": "/root/.cache/huggingface/hub/models--kalia-lm--kalia-v020/snapshots/8f8b115c5a52deb1deb1a24a1a0f6bb3fa827aa6/corpus/tinystories.bin",
+      "sha256": "05b4d90c1c0719afc6ad6219a2e59a1ac5e355f69d7a44d3383b65bdebcfe1a3"
+    }
+  },
+  "steps": 500,
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

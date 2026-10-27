@@ -142,3 +142,34 @@ arms log. The control sanity anchor is the X28 static step-5,200 value
 (**2.8040**), not a 5,270 interpolation. No arm, weight, seed, bar or decision
 rule changes.
 
+---
+
+## Result (appended 2026-10-27, after the registered screen)
+
+Kernel `subhajitlucky/kalia-x35-mix-screen`, version 1, COMPLETE, **7.71 GPU-h**.
+Stage 1 only; S-1 failed, so Stage 2 was not run.
+
+| arm | val @ 5,200 | val − control | train @ 5,200 | train − control |
+|---|---|---|---|---|
+| `control` | **2.7903** | — | 2.7511 | — |
+| `code10` | 2.7896 | **−0.0007** | 2.6502 | −0.1009 |
+| `code25` | 2.7961 | **+0.0058** | 2.2515 | **−0.4996** |
+
+- **S-1 FAIL** — code10 − control is −0.0007, not ≤ −0.010.
+- **S-2 not run** — contingent on S-1.
+- **S-3 within boundary** — code25 − control is +0.0058, below the +0.050
+  collapse boundary.
+- **S-4 not run** — no Stage 2, so no CL-0.
+- **S-5 not measured** — the static path (`adaptive_every: 0`) writes no
+  `per_source_log.csv`; the per-source gaming table is unavailable. The aggregate
+  train/val divergence is reported instead.
+
+**Registered verdict: S-1 fails. Do not run Stage 2; close the static-mixture
+track at this budget.** The control's step-5,200 val is 0.0137 below the archived
+X28 static anchor (2.8040), inside the 0.02 sanity bound.
+
+The code25 arm's training loss is **0.50 nats lower** than control at the same
+step while its val is 0.0058 worse — the X26/X28 dessert signature in aggregate.
+More code makes the training mixture easier to fit, not the held-out
+distribution better. No data win. Artifacts: `docs/results/x35/`; decision: D60.
+

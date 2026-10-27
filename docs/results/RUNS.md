@@ -34,6 +34,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X32` | Entity-selection circuit probe; layer-9 heads carry entity mass but ablation hurts | yes | 5 files |
 | `X33` | Linear midpoint readout; probe beats greedy +0.0155, ~35% of the coverage gap | yes | 5 files |
 | `X34` | Seed-1007 replication of X33; the midpoint readout does not clear the registered bar | yes | 7 files |
+| `X35` | Static code-mixture screen; code10 −0.0007, code25 +0.0058; S-1 fails, Stage 2 not run | yes | 13 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -185,6 +186,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x34/x33_features.npz`
 - `… 1 more`
 
+**X35**
+- `docs/results/x35/README.md`
+- `docs/results/x35/configs/x35-code10-s1401.yaml`
+- `docs/results/x35/configs/x35-code25-s1401.yaml`
+- `docs/results/x35/configs/x35-control-s1401.yaml`
+- `docs/results/x35/kalia-x35-mix-screen.log`
+- `docs/results/x35/out/code10-s1401/train_log.csv`
+- `… 7 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -202,4 +212,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-27 runs tracked, 139 files archived, 3 with no evidence.
+28 runs tracked, 152 files archived, 3 with no evidence.

@@ -107,7 +107,7 @@ def render(kernels: list[dict], datasets: list[dict], recorded: dict[str, str]) 
     lines += ["", "## Repo metadata files without a live kernel", ""]
     if stale:
         for ref in stale:
-            lines.append(f"- `{ref}` (`{recorded[ref]}`) — renamed or removed on Kaggle")
+            lines.append(f"- `{ref}` (`{recorded[ref]}`) — no live kernel (never run, renamed, or removed)")
     else:
         lines.append("None.")
     lines.append("")

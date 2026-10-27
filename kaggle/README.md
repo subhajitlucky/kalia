@@ -5,10 +5,11 @@ hand-edit; `--check` fails if this file stops matching Kaggle. Every KALIA kerne
 and dataset is private; exposure is checked separately by
 `tools/audit_public_state.py`.
 
-## Kernels (56)
+## Kernels (57)
 
 | ref | title | last run | recorded in repo |
 |---|---|---|---|
+| `subhajitlucky/kalia-x35-mix-screen` | KALIA x35 mix screen | 2026-10-26 | `kernel-metadata-x35-mix-screen.json` |
 | `subhajitlucky/kalia-x34-seed-s1007` | KALIA x34 seed s1007 | 2026-10-25 | `kernel-metadata-x34-seed-s1007.json` |
 | `subhajitlucky/kalia-x33-linear-readout` | KALIA x33 linear readout | 2026-10-22 | `kernel-metadata-x33-linear-readout.json` |
 | `subhajitlucky/kalia-x32-entity-circuit` | KALIA x32 entity circuit | 2026-10-22 | `kernel-metadata-x32-entity-circuit.json` |
@@ -77,6 +78,7 @@ and dataset is private; exposure is checked separately by
 
 ## Repo metadata files without a live kernel
 
-- `subhajitlucky/kalia-licence` (`kernel-metadata-licence.json`) — renamed or removed on Kaggle
-- `subhajitlucky/kalia-replay` (`kernel-metadata-replay.json`) — renamed or removed on Kaggle
-- `subhajitlucky/kalia-x18` (`kernel-metadata-x18.json`) — renamed or removed on Kaggle
+- `subhajitlucky/kalia-licence` (`kernel-metadata-licence.json`) — no live kernel (never run, renamed, or removed)
+- `subhajitlucky/kalia-replay` (`kernel-metadata-replay.json`) — no live kernel (never run, renamed, or removed)
+- `subhajitlucky/kalia-x18` (`kernel-metadata-x18.json`) — no live kernel (never run, renamed, or removed)
+- `subhajitlucky/kalia-x35-mix-replicate` (`kernel-metadata-x35-mix-replicate.json`) — no live kernel (never run, renamed, or removed)

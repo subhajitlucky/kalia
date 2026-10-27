@@ -1,0 +1,42 @@
+{
+  "S1": false,
+  "S3_within_boundary": true,
+  "advance": false,
+  "bars": {
+    "S1": -0.01,
+    "S3_collapse": 0.05
+  },
+  "deltas": {
+    "code10": -0.0006999999999997009,
+    "code25": 0.005800000000000249
+  },
+  "experiment": "x35-screen",
+  "run_manifest": "/kaggle/working/run_manifest.json",
+  "seed": 1401,
+  "steps": 500,
+  "vals": {
+    "code10": 2.7896,
+    "code25": 2.7961,
+    "control": 2.7903
+  },
+  "weights": {
+    "code10": {
+      "cosmopedia": 0.15,
+      "fineweb": 0.55,
+      "python": 0.1,
+      "tinystories": 0.2
+    },
+    "code25": {
+      "cosmopedia": 0.15,
+      "fineweb": 0.4,
+      "python": 0.25,
+      "tinystories": 0.2
+    },
+    "control": {
+      "cosmopedia": 0.15,
+      "fineweb": 0.6,
+      "python": 0.05,
+      "tinystories": 0.2
+    }
+  }
+}
