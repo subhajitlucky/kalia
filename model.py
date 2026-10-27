@@ -71,6 +71,48 @@ class GPTConfig:
     recurrence_min_id: int = 1000
     """Skip the most frequent token ids in the recurrence loss (content mask)."""
 
+    sutra: bool = False
+    """X37: replace each block MLP with the SUTRA rule grammar."""
+
+    sutra_rules: int = 64
+    """Number of reusable low-rank rules (sutras) per block."""
+
+    sutra_rank: int = 8
+    """Rank of each rule transformation."""
+
+    sutra_top_k: int = 1
+    """Rules selected per token. The first implementation is top-1."""
+
+    sutra_general_hidden: int = 1024
+    """Hidden width of the always-on general path."""
+
+    sutra_chunk: int = 64
+    """Tokens per adhikara scope / anuvritti carry update."""
+
+    sutra_carry_dim: int = 64
+    """Width of the anuvritti carry state."""
+
+    sutra_carry: bool = True
+    """Enable the anuvritti carry."""
+
+    sutra_scope: bool = True
+    """Enable the adhikara scope."""
+
+    sutra_exception: bool = False
+    """Enable the utsarga/apavada exception path."""
+
+    sutra_balance: float = 0.01
+    """Weight of the Switch-style load-balancing loss."""
+
+    sutra_exc_sparsity: float = 0.01
+    """Weight of the exception-sparsity penalty."""
+
+    sutra_control: bool = False
+    """X37 control: a parameter-matched wider SwiGLU, no rules."""
+
+    sutra_control_hidden: int = 1408
+    """Hidden width that matches the SUTRA block's parameter count."""
+
 
 class RMSNorm(nn.Module):
     """Root-mean-square layer norm (no mean subtraction, no bias)."""
@@ -109,9 +151,9 @@ def apply_rope(x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor) -> torch.T
 class SwiGLU(nn.Module):
     """Gated feed-forward network: down(silu(gate(x)) * up(x))."""
 
-    def __init__(self, config: GPTConfig):
+    def __init__(self, config: GPTConfig, hidden: int | None = None):
         super().__init__()
-        hidden = int(8 * config.n_embd / 3)
+        hidden = int(8 * config.n_embd / 3) if hidden is None else int(hidden)
         hidden = 64 * ((hidden + 63) // 64)
         self.gate = nn.Linear(config.n_embd, hidden, bias=False)
         self.up = nn.Linear(config.n_embd, hidden, bias=False)
@@ -455,6 +497,107 @@ class RecurrenceHead(nn.Module):
         return self.proj(h).squeeze(-1)
 
 
+class SutraMLP(nn.Module):
+    """X37: a Pāṇinian rule grammar in place of the block MLP.
+
+    The always-on general path is a small SwiGLU. A router selects one of R
+    low-rank rules per token; the rule output is added to the general output.
+    The router sees the token, an **anuvritti** carry from the previous chunk and
+    an **adhikara** scope vector (the previous chunk's mean). A Switch-style
+    load-balancing loss keeps the codebook alive. An optional exception path
+    (utsarga/apavada) can override the general rule when a conflict detector
+    fires.
+
+    The carry and scope are updated only at chunk ends and only for the *next*
+    chunk, so a token can never see a future token through the grammar.
+    """
+
+    def __init__(self, config: GPTConfig):
+        super().__init__()
+        assert config.sutra_top_k == 1, "the first SUTRA implementation is top-1"
+        self.dim = config.n_embd
+        self.rules = config.sutra_rules
+        self.rank = config.sutra_rank
+        self.chunk = config.sutra_chunk
+        self.carry_dim = config.sutra_carry_dim
+        self.carry_on = config.sutra_carry
+        self.scope_on = config.sutra_scope
+        self.exception = config.sutra_exception
+        self.balance = config.sutra_balance
+        self.exc_sparsity = config.sutra_exc_sparsity
+        self.general = SwiGLU(config, hidden=config.sutra_general_hidden)
+        self.rules_A = nn.Parameter(torch.randn(self.rules, self.rank, self.dim) * 0.02)
+        self.rules_B = nn.Parameter(torch.randn(self.rules, self.dim, self.rank) * 0.02)
+        self.rule_emb = nn.Parameter(torch.randn(self.rules, self.carry_dim) * 0.02)
+        self.router = nn.Linear(2 * self.dim + self.carry_dim, self.rules)
+        self.carry_gate = nn.Linear(self.dim + self.carry_dim, 1)
+        if self.exception:
+            self.exc_A = nn.Parameter(torch.randn(4, self.dim) * 0.02)
+            self.exc_B = nn.Parameter(torch.randn(self.dim, 4) * 0.02)
+            self.exc_gate = nn.Linear(2 * self.dim + self.carry_dim, 1)
+            nn.init.constant_(self.exc_gate.bias, -4.0)
+        self.aux_loss = None
+        self.last_usage = None
+        self.last_probs = None
+        self.last_exc = None
+
+    def _rule(self, x: torch.Tensor, topi: torch.Tensor) -> torch.Tensor:
+        A = self.rules_A[topi]  # B, T, rank, dim
+        B = self.rules_B[topi]  # B, T, dim, rank
+        z = torch.einsum("btrd,btd->btr", A, x)
+        return torch.einsum("btdr,btr->btd", B, z)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        b, t, d = x.shape
+        out = x.new_zeros(b, t, d)
+        carry = x.new_zeros(b, self.carry_dim)
+        scope = x.new_zeros(b, d)
+        usage = x.new_zeros(self.rules, device=x.device)
+        prob_sum = x.new_zeros(self.rules, device=x.device)
+        aux = x.new_zeros((), device=x.device)
+        exc_sum = x.new_zeros((), device=x.device)
+        n_chunks = 0
+        for start in range(0, t, self.chunk):
+            end = min(start + self.chunk, t)
+            xc = x[:, start:end]
+            n = end - start
+            ctx = torch.cat(
+                [
+                    xc,
+                    carry.unsqueeze(1).expand(-1, n, -1),
+                    scope.unsqueeze(1).expand(-1, n, -1),
+                ],
+                dim=-1,
+            )
+            probs = F.softmax(self.router(ctx), dim=-1)
+            topv, topi = probs.max(dim=-1)
+            y = self.general(xc) + self._rule(xc, topi) * topv.unsqueeze(-1)
+            if self.exception:
+                c = torch.sigmoid(self.exc_gate(ctx))
+                e = torch.einsum("btd,rd->btr", xc, self.exc_A)
+                e = torch.einsum("btr,dr->btd", e, self.exc_B)
+                y = y + c * e
+                aux = aux + self.exc_sparsity * c.mean()
+                exc_sum = exc_sum + c.mean()
+            out[:, start:end] = y
+            f = F.one_hot(topi, self.rules).float().mean(dim=(0, 1))
+            p = probs.mean(dim=(0, 1))
+            aux = aux + self.balance * self.rules * (f * p).sum()
+            usage = usage + f
+            prob_sum = prob_sum + p
+            n_chunks += 1
+            if self.carry_on:
+                gate = torch.sigmoid(self.carry_gate(torch.cat([scope, carry], dim=-1)))
+                carry = gate * carry + (1.0 - gate) * (probs.mean(dim=1) @ self.rule_emb)
+            if self.scope_on:
+                scope = xc.mean(dim=1)
+        self.aux_loss = aux
+        self.last_usage = (usage / max(1, n_chunks)).detach()
+        self.last_probs = (prob_sum / max(1, n_chunks)).detach()
+        self.last_exc = (exc_sum / max(1, n_chunks)).detach() if self.exception else None
+        return out
+
+
 class Block(nn.Module):
     def __init__(self, config: GPTConfig, layer_index: int = 0):
         super().__init__()
@@ -475,7 +618,12 @@ class Block(nn.Module):
             )
         self.attn = CausalSelfAttention(config, use_rope=use_rope)
         self.norm2 = RMSNorm(config.n_embd)
-        self.mlp = SwiGLU(config)
+        if config.sutra:
+            self.mlp = SutraMLP(config)
+        elif config.sutra_control:
+            self.mlp = SwiGLU(config, hidden=config.sutra_control_hidden)
+        else:
+            self.mlp = SwiGLU(config)
         self.gated = GatedResidual(config.n_embd) if config.gated_residual else None
         # X19: the same branch structure with the gate removed. Mutually
         # exclusive with gated_residual so an arm cannot accidentally carry both.
@@ -513,6 +661,15 @@ class GPT(nn.Module):
     def __init__(self, config: GPTConfig):
         super().__init__()
         self.cfg = config
+        assert not (config.sutra and config.sutra_control), (
+            "sutra and sutra_control are separate arms"
+        )
+        assert not ((config.sutra or config.sutra_control)
+                    and (config.memory_slots > 0 or config.memory_copy
+                         or config.memory_control)), (
+            "SUTRA and the X36 memory are separate arms; do not combine them in "
+            "one experiment"
+        )
         self.tok_emb = nn.Embedding(config.vocab_size, config.n_embd)
         self.blocks = nn.ModuleList(
             [Block(config, layer_index=i) for i in range(config.n_layer)]
@@ -687,7 +844,14 @@ class GPT(nn.Module):
         logits = self.lm_head(h)
         if self.copy is not None:
             logits = self.copy(h, logits, h, idx, 0)
-        return self._finish(logits, targets, loss_mask)
+        logits, loss = self._finish(logits, targets, loss_mask)
+        if self.cfg.sutra and self.training and loss is not None:
+            aux = torch.zeros((), device=idx.device)
+            for block in self.blocks:
+                if getattr(block.mlp, "aux_loss", None) is not None:
+                    aux = aux + block.mlp.aux_loss
+            loss = loss + aux
+        return logits, loss
 
     @torch.no_grad()
     def generate(

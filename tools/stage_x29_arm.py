@@ -136,6 +136,12 @@ KERNELS = {
         "arms": {"memory": None},
         "pins": (),
     },
+    # X37 SUTRA rule grammar: one kernel runs the ten arms.
+    "x37": {
+        "runner": "kalia_x37_sutra_kernel.py",
+        "arms": {"sutra": None},
+        "pins": (),
+    },
 }
 
 
