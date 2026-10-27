@@ -121,6 +121,14 @@ KERNELS = {
         "arms": {"mix-screen": None, "mix-replicate": None},
         "pins": (),
     },
+    # v0.3.0 second epoch: a single training run, not a staged arm pair. The
+    # stage name is `epoch2`; the budget and schedule are kernel constants fixed
+    # by the registration.
+    "v030": {
+        "runner": "kalia_v030_epoch2_kernel.py",
+        "arms": {"epoch2": None},
+        "pins": (),
+    },
 }
 
 

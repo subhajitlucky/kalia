@@ -1,0 +1,45 @@
+# v0.3.0 second epoch — continue v0.2.0 for 2,000 steps with a fresh cosine.
+#
+# Registered as docs/preregistrations/2026-10-27-v030-second-epoch.md. The model
+# block is byte-identical to v0.2.0; the only train changes are the budget, the
+# re-warm cosine and the evaluation cadence. This is a model-improvement run,
+# not an architecture or data-mixture experiment.
+model:
+  vocab_size: 50257
+  n_layer: 10
+  n_head: 8
+  n_embd: 512
+  context_len: 1024
+  dropout: 0.0
+  qk_norm: true
+  logit_softcap: 30.0
+train:
+  optimizer: muon
+  muon_learning_rate: 0.02
+  muon_momentum: 0.95
+  muon_weight_decay: 0.0
+  ns_steps: 5
+  micro_batch_size: 8
+  grad_accum_steps: 32
+  # The update is 2,000 steps counted from the resume point, not an absolute
+  # ceiling. max_steps is the length of the re-warm cosine over the update.
+  max_steps: 2000
+  update_budget: 2000
+  learning_rate: 6.0e-4
+  min_lr_ratio: 0.1
+  warmup_steps: 200
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  eval_interval: 100
+  # The canonical protocol is 100 batches (819,200 tokens), not the 20-batch
+  # screen cadence; the final checkpoint is re-scored separately with 100.
+  eval_steps: 100
+  sample_interval: 0
+  sample_tokens: 80
+  checkpoint_interval_minutes: 30
+  log_interval: 10
+  # Fresh seed for the data order; the weights are fixed by the resume.
+  seed: 1401
+  rewarm: true
