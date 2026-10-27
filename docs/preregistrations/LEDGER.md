@@ -35,3 +35,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-10-26 | X35-static-mixture-screen | `docs/preregistrations/2026-10-26-X35-static-mixture-screen.md` | `bbbb3414f59ef04f8284c6d759eabf35579cb56fbf8aae3be9e5ca758d4abb82` |
 | 2026-10-27 | v030-second-epoch | `docs/preregistrations/2026-10-27-v030-second-epoch.md` | `7375a595c2dff5b4a914873e8d3cc78170d226c41ce18fca12ee861b64abcefc` |
 | 2026-10-27 | X36-entity-memory-micro | `docs/preregistrations/2026-10-27-X36-entity-memory-micro.md` | `ea7cb66c108e047ecee2aaf91c11679b5405788179d7dffff6041a90867fc7f7` |
+| 2026-10-27 | X37-sutra-micro | `docs/preregistrations/2026-10-27-X37-sutra-micro.md` | `108ad5fefb896f55a9ba53b92a451e6fdd0e6f7877683d5adb8ca8c9d3c49dcd` |
