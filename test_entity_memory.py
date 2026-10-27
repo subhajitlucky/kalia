@@ -13,6 +13,8 @@ These tests pin both, plus the recurrence labels and the copy scatter.
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import yaml
 
 import torch
@@ -135,3 +137,12 @@ def test_memory_starts_near_its_control():
     la = torch.log_softmax(a, dim=-1)
     lb = torch.log_softmax(b, dim=-1)
     assert (la - lb).abs().max() < 0.5, (la - lb).abs().max()
+
+
+def test_micro_kernel_does_not_double_prefix_the_base_config():
+    """The first launch asserted on configs/configs/micro-muon.yaml because the
+    required-file list prefixed a path that already carried configs/. Pin the
+    exact failure so a relaunch cannot repeat it."""
+    src = (Path("tools") / "kalia_x36_memory_kernel.py").read_text()
+    assert '"configs/" + BASE_CONFIG' not in src
+    assert 'BASE_CONFIG = "configs/micro-muon.yaml"' in src

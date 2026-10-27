@@ -123,7 +123,7 @@ if not os.path.exists(work):
     shutil.copytree(code_root, work)
 os.chdir(work)
 sys.path.insert(0, work)
-for req in ("train.py", "ablate.py", "data.py", "model.py", "configs/" + BASE_CONFIG,
+for req in ("train.py", "ablate.py", "data.py", "model.py", BASE_CONFIG,
             "eval/ttt_probe_stories.json"):
     assert os.path.exists(req), f"{req} missing from the copied code snapshot"
 print("code:", code_root, "| arm:", ARM)
