@@ -161,7 +161,7 @@ write_run_manifest(
 
 # --- train -------------------------------------------------------------------
 cmd = [
-    sys.executable, "train.py",
+    "train.py",
     "--config", cfg_path,
     "--data-dir", data_dir,
     "--out-dir", "/kaggle/working/out",
@@ -172,5 +172,8 @@ cmd = [
 if torch.cuda.device_count() >= 2:
     cmd = [sys.executable, "-m", "torch.distributed.run",
            "--nproc_per_node", str(torch.cuda.device_count())] + cmd
+else:
+    cmd = [sys.executable] + cmd
+
 print("running:", " ".join(cmd))
 sys.exit(subprocess.run(cmd).returncode)

@@ -9,8 +9,11 @@ the same one X18 forced us to write.
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import yaml
 
+ROOT = Path(__file__).resolve().parent
 V020 = yaml.safe_load(open("configs/kalia-v020.yaml"))
 EPOCH2 = yaml.safe_load(open("configs/v030-epoch2.yaml"))
 
@@ -67,3 +70,13 @@ def test_schedule_is_cosine_not_the_unmeasured_wsd():
     """WSD is implemented but has never been run at 58M; the model run uses the
     proven re-warm cosine, not an unmeasured schedule change."""
     assert EPOCH2["train"].get("lr_schedule", "cosine") == "cosine"
+
+
+def test_torchrun_entrypoint_is_train_py_not_the_interpreter():
+    """The first v0.3.0 launch passed `sys.executable` as torchrun's entrypoint,
+    so the launcher ran `/usr/bin/python3` as a script and died on null bytes.
+    The base command must start at train.py; the interpreter belongs only in
+    front of `-m torch.distributed.run`."""
+    src = (ROOT / "tools" / "kalia_v030_epoch2_kernel.py").read_text()
+    assert 'cmd = [\n    "train.py",' in src
+    assert 'cmd = [sys.executable, "train.py",' not in src
