@@ -40,6 +40,37 @@ class GPTConfig:
     static_gate: bool = False
     """Branch norm with a learned per-channel gate that never reads its input (X20)."""
 
+    memory_slots: int = 0
+    """X36: self-supervised entity workspace. 0 = off."""
+
+    memory_chunk: int = 64
+    """Tokens per workspace write. The workspace is updated at chunk ends."""
+
+    memory_copy: bool = False
+    """X36: copy head over the input prefix, gated per token."""
+
+    memory_control: bool = False
+    """X36: parameter-matched output adapter control (no memory, no copy)."""
+
+    memory_control_hidden: int = 1024
+    """Hidden width of the control adapter; chosen to match the memory params."""
+
+    memory_gate_init: float = -4.0
+    """Write-gate bias. -4 keeps the workspace closed at initialisation."""
+
+    copy_gate_init: float = -4.0
+    """Copy-gate bias. -4 keeps the copy head closed at initialisation; it opens
+    only if copying reduces the language loss."""
+
+    recurrence_weight: float = 0.1
+    """Weight of the self-supervised recurrence loss during training."""
+
+    recurrence_window: int = 64
+    """A token is labelled recurring if it appears again within this many tokens."""
+
+    recurrence_min_id: int = 1000
+    """Skip the most frequent token ids in the recurrence loss (content mask)."""
+
 
 class RMSNorm(nn.Module):
     """Root-mean-square layer norm (no mean subtraction, no bias)."""
@@ -274,6 +305,156 @@ class GatedResidual(nn.Module):
         return torch.cat(gated, dim=-1)
 
 
+class EntityWorkspace(nn.Module):
+    """X36: a small set of entity slots written from the trunk's final states.
+
+    The workspace is updated at chunk boundaries. A write gate sees the chunk's
+    mean hidden state, the mean recurrence probability, and the mean surprise
+    (the model's own NLL on the chunk), and decides per slot whether to accept
+    the new content. The read is a cross-attention from the current chunk to the
+    slot values, with a zero-initialised output projection, so the model starts
+    as its control and has to learn to use the memory.
+
+    Slots are per sequence; the keys and the initial values are shared learned
+    parameters. The workspace is a bottleneck (32 slots by default), not a
+    second KV cache: the model must abstract what is worth keeping.
+    """
+
+    def __init__(self, dim: int, slots: int, gate_init: float = -4.0):
+        super().__init__()
+        self.slots = slots
+        self.slot_keys = nn.Parameter(torch.randn(slots, dim) * 0.02)
+        self.slot_values_init = nn.Parameter(torch.zeros(slots, dim))
+        self.read_q = nn.Linear(dim, dim, bias=False)
+        self.read_o = nn.Linear(dim, dim, bias=False)
+        nn.init.zeros_(self.read_o.weight)
+        self.write_gate = nn.Sequential(
+            nn.Linear(dim + 2, dim),
+            nn.SiLU(),
+            nn.Linear(dim, slots),
+        )
+        nn.init.constant_(self.write_gate[-1].bias, gate_init)
+
+    def initial(self, batch: int, device: torch.device) -> torch.Tensor:
+        return self.slot_values_init.unsqueeze(0).expand(batch, -1, -1).to(device)
+
+    def read(self, h: torch.Tensor, values: torch.Tensor) -> torch.Tensor:
+        q = self.read_q(h)
+        scores = q @ self.slot_keys.t() / math.sqrt(h.size(-1))
+        attn = F.softmax(scores, dim=-1)
+        return self.read_o(attn @ values)
+
+    def write(
+        self,
+        h: torch.Tensor,
+        recurrence: torch.Tensor,
+        surprise: torch.Tensor,
+        values: torch.Tensor,
+    ) -> torch.Tensor:
+        pooled = torch.cat(
+            [h.mean(dim=1), recurrence.mean(dim=1, keepdim=True),
+             surprise.mean(dim=1, keepdim=True)],
+            dim=-1,
+        )
+        gate = torch.sigmoid(self.write_gate(pooled))  # B, slots
+        scores = h @ self.slot_keys.t() / math.sqrt(h.size(-1))
+        assign = F.softmax(scores, dim=-1)  # B, T, slots
+        mass = assign.sum(dim=1).clamp_min(1e-6)  # B, slots
+        new = torch.einsum("btm,btd->bmd", assign, h) / mass.unsqueeze(-1)
+        return gate.unsqueeze(-1) * new + (1.0 - gate.unsqueeze(-1)) * values
+
+
+class OutputAdapter(nn.Module):
+    """X36 control: a parameter-matched residual MLP at the output.
+
+    The memory arm adds a workspace read, a copy head and a recurrence head.
+    This adapter gives the control the same number of trainable parameters and a
+    comparable per-token compute path, without any memory or copy mechanism. It
+    is zero-initialised, so both arms start at the same function.
+    """
+
+    def __init__(self, dim: int, hidden: int):
+        super().__init__()
+        self.up = nn.Linear(dim, hidden, bias=False)
+        self.down = nn.Linear(hidden, dim, bias=False)
+        nn.init.zeros_(self.down.weight)
+
+    def forward(self, h: torch.Tensor) -> torch.Tensor:
+        return h + self.down(F.silu(self.up(h)))
+
+
+class CopyHead(nn.Module):
+    """X36: copy distribution over the input prefix, gated per token.
+
+    The copy logits are a causal attention from the current hidden state to the
+    input-prefix hidden states. They are scattered onto the vocabulary ids of
+    the prefix tokens and added to the LM logits through a learned gate. A name
+    the model has already seen can be copied instead of regenerated.
+    """
+
+    def __init__(self, dim: int, vocab: int, gate_init: float = -4.0):
+        super().__init__()
+        self.vocab = vocab
+        self.q = nn.Linear(dim, dim, bias=False)
+        self.k = nn.Linear(dim, dim, bias=False)
+        self.gate = nn.Linear(dim, 1)
+        nn.init.constant_(self.gate.bias, gate_init)
+
+    def distribution(
+        self,
+        h_q: torch.Tensor,
+        h_k: torch.Tensor,
+        idx_k: torch.Tensor,
+        q_start: int,
+    ) -> torch.Tensor:
+        """Copy mass over the vocabulary, scattered from the causal prefix."""
+        b, tq, d = h_q.shape
+        tk = h_k.size(1)
+        q = self.q(h_q)
+        k = self.k(h_k)
+        scores = q @ k.transpose(1, 2) / math.sqrt(d)
+        q_pos = torch.arange(q_start, q_start + tq, device=h_q.device).unsqueeze(1)
+        k_pos = torch.arange(tk, device=h_q.device).unsqueeze(0)
+        allowed = k_pos <= q_pos
+        scores = scores.masked_fill(~allowed.unsqueeze(0), float("-inf"))
+        pos = F.softmax(scores, dim=-1)
+        copy = torch.zeros(b, tq, self.vocab, device=h_q.device)
+        copy.scatter_add_(
+            2,
+            idx_k.unsqueeze(1).expand(-1, tq, -1),
+            pos,
+        )
+        return copy
+
+    def forward(
+        self,
+        h_q: torch.Tensor,
+        logits_q: torch.Tensor,
+        h_k: torch.Tensor,
+        idx_k: torch.Tensor,
+        q_start: int,
+    ) -> torch.Tensor:
+        copy = self.distribution(h_q, h_k, idx_k, q_start)
+        gate = torch.sigmoid(self.gate(h_q))
+        return logits_q + gate * torch.log(copy + 1e-6)
+
+
+class RecurrenceHead(nn.Module):
+    """X36: predicts whether a token/name will appear again in the next window.
+
+    The label is self-supervised: a token is positive if the same id appears in
+    the next `recurrence_window` tokens. The head is trained jointly with the LM
+    and its output gates the workspace write, so the model learns what to keep.
+    """
+
+    def __init__(self, dim: int):
+        super().__init__()
+        self.proj = nn.Linear(dim, 1)
+
+    def forward(self, h: torch.Tensor) -> torch.Tensor:
+        return self.proj(h).squeeze(-1)
+
+
 class Block(nn.Module):
     def __init__(self, config: GPTConfig, layer_index: int = 0):
         super().__init__()
@@ -339,11 +520,48 @@ class GPT(nn.Module):
         self.norm_f = RMSNorm(config.n_embd)
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
         self.tok_emb.weight = self.lm_head.weight  # weight tying
+        # Initialise the base first, before any optional module is constructed.
+        # The base weights must be identical across the control/treatment arms;
+        # constructing the extra modules before self.apply would shift the RNG
+        # stream and silently give the arms different starting models.
         self.apply(self._init_weights)
         # Scaled init for residual output projections (GPT-2 style)
         for name, p in self.named_parameters():
             if name.endswith(("proj.weight", "down.weight")):
                 nn.init.normal_(p, mean=0.0, std=0.02 / math.sqrt(2 * config.n_layer))
+        # X36: output-level entity memory, copy head and control adapter. They
+        # are built after the base initialisation; their own init is applied
+        # only to them, then the zeros/gates are re-asserted (the global re-init
+        # is exactly what silently killed the X18 gate).
+        if config.memory_control:
+            assert config.memory_slots == 0 and not config.memory_copy, (
+                "memory_control is the no-memory control; it cannot also carry "
+                "the workspace or the copy head"
+            )
+            self.adapter = OutputAdapter(config.n_embd, config.memory_control_hidden)
+        else:
+            self.adapter = None
+        self.memory = (
+            EntityWorkspace(config.n_embd, config.memory_slots, config.memory_gate_init)
+            if config.memory_slots > 0
+            else None
+        )
+        self.recurrence = RecurrenceHead(config.n_embd) if self.memory is not None else None
+        self.copy = (
+            CopyHead(config.n_embd, config.vocab_size, config.copy_gate_init)
+            if config.memory_copy
+            else None
+        )
+        for module in (self.adapter, self.memory, self.recurrence, self.copy):
+            if module is not None:
+                module.apply(self._init_weights)
+        if self.adapter is not None:
+            nn.init.zeros_(self.adapter.down.weight)
+        if self.memory is not None:
+            nn.init.zeros_(self.memory.read_o.weight)
+            nn.init.constant_(self.memory.write_gate[-1].bias, config.memory_gate_init)
+        if self.copy is not None:
+            nn.init.constant_(self.copy.gate.bias, config.copy_gate_init)
 
     @staticmethod
     def _init_weights(module: nn.Module) -> None:
@@ -354,6 +572,101 @@ class GPT(nn.Module):
 
     def num_params(self) -> int:
         return sum(p.numel() for p in self.parameters())
+
+    def _recurrence_labels(self, idx: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        """Self-supervised recurrence labels and the content-token mask.
+
+        A token is positive if the same id appears again within
+        ``recurrence_window`` positions. The most frequent token ids are
+        excluded from the loss (the content mask); the head still runs on every
+        token, because the write gate uses its output everywhere.
+        """
+        b, t = idx.shape
+        labels = torch.zeros_like(idx, dtype=torch.bool)
+        for d in range(1, self.cfg.recurrence_window + 1):
+            if d >= t:
+                break
+            labels[:, : t - d] |= idx[:, : t - d] == idx[:, d:]
+        mask = (idx > self.cfg.recurrence_min_id) & (idx != 50256)
+        return labels, mask
+
+    def _finish(self, logits, targets, loss_mask):
+        if self.cfg.logit_softcap > 0:
+            cap = self.cfg.logit_softcap
+            logits = cap * torch.tanh(logits / cap)
+        loss = None
+        if targets is not None:
+            if loss_mask is None:
+                loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1))
+            else:
+                per_token = F.cross_entropy(
+                    logits.view(-1, logits.size(-1)),
+                    targets.view(-1),
+                    reduction="none",
+                ).view_as(targets)
+                kept = per_token[loss_mask]
+                loss = kept.mean() if kept.numel() else per_token.mean()
+        return logits, loss
+
+    def _forward_memory(self, h, idx, targets, loss_mask):
+        """X36: chunked workspace read/write, copy head and recurrence loss.
+
+        The trunk has already run causally over the full sequence. The workspace
+        is updated at chunk ends; chunk c reads the values written by chunks
+        < c, so no token can influence an earlier token. The output read has a
+        zero-initialised projection; the model starts as its control.
+        """
+        b, t, _ = h.shape
+        values = self.memory.initial(b, h.device)
+        chunk = self.cfg.memory_chunk
+        rec_labels, rec_mask = self._recurrence_labels(idx)
+        logits_chunks = []
+        lm_losses = []
+        rec_losses = []
+        for start in range(0, t, chunk):
+            end = min(start + chunk, t)
+            hc = h[:, start:end]
+            hc = hc + self.memory.read(hc, values)
+            logits_c = self.lm_head(hc)
+            if self.copy is not None:
+                logits_c = self.copy(hc, logits_c, h[:, :end], idx[:, :end], start)
+            if self.cfg.logit_softcap > 0:
+                cap = self.cfg.logit_softcap
+                logits_c = cap * torch.tanh(logits_c / cap)
+            logits_chunks.append(logits_c)
+            r_logits = self.recurrence(hc)
+            r = torch.sigmoid(r_logits)
+            if targets is not None:
+                per_token = F.cross_entropy(
+                    logits_c.view(-1, logits_c.size(-1)),
+                    targets[:, start:end].reshape(-1),
+                    reduction="none",
+                ).view(b, end - start)
+                if loss_mask is None:
+                    lm_losses.append(per_token.mean())
+                else:
+                    keep = loss_mask[:, start:end]
+                    lm_losses.append(per_token[keep].mean() if keep.any() else per_token.mean())
+                surprise = per_token.detach()
+            else:
+                surprise = torch.zeros(b, end - start, device=h.device)
+            values = self.memory.write(hc, r, surprise, values)
+            if targets is not None and self.training and self.cfg.recurrence_weight > 0:
+                keep = rec_mask[:, start:end]
+                if keep.any():
+                    rec_losses.append(
+                        F.binary_cross_entropy_with_logits(
+                            r_logits[keep],
+                            rec_labels[:, start:end][keep].float(),
+                        )
+                    )
+        logits = torch.cat(logits_chunks, dim=1)
+        if targets is None:
+            return logits, None
+        loss = torch.stack(lm_losses).mean()
+        if rec_losses:
+            loss = loss + self.cfg.recurrence_weight * torch.stack(rec_losses).mean()
+        return logits, loss
 
     def forward(
         self,
@@ -366,26 +679,15 @@ class GPT(nn.Module):
         for _ in range(self.cfg.n_loops):
             for block in self.blocks:
                 x = block(x, attn_mask)
-        x = self.norm_f(x)
-        logits = self.lm_head(x)
-        if self.cfg.logit_softcap > 0:
-            cap = self.cfg.logit_softcap
-            logits = cap * torch.tanh(logits / cap)
-        loss = None
-        if targets is not None:
-            if loss_mask is None:
-                loss = F.cross_entropy(logits.view(-1, logits.size(-1)), targets.view(-1))
-            else:
-                # Drop positions whose target opens a new document, so the model
-                # is not trained to predict across a document boundary.
-                per_token = F.cross_entropy(
-                    logits.view(-1, logits.size(-1)),
-                    targets.view(-1),
-                    reduction="none",
-                ).view_as(targets)
-                kept = per_token[loss_mask]
-                loss = kept.mean() if kept.numel() else per_token.mean()
-        return logits, loss
+        h = self.norm_f(x)
+        if self.adapter is not None:
+            h = self.adapter(h)
+        if self.memory is not None:
+            return self._forward_memory(h, idx, targets, loss_mask)
+        logits = self.lm_head(h)
+        if self.copy is not None:
+            logits = self.copy(h, logits, h, idx, 0)
+        return self._finish(logits, targets, loss_mask)
 
     @torch.no_grad()
     def generate(

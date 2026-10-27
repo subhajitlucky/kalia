@@ -129,6 +129,13 @@ KERNELS = {
         "arms": {"epoch2": None},
         "pins": (),
     },
+    # X36 entity-memory micro: one kernel runs all eight arms (base/control/
+    # copy/memory x two seeds); the entity probe is a separate kernel.
+    "x36": {
+        "runner": "kalia_x36_memory_kernel.py",
+        "arms": {"memory": None},
+        "pins": (),
+    },
 }
 
 
