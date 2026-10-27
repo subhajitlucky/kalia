@@ -119,3 +119,14 @@ def test_sutra_and_memory_do_not_combine():
     with pytest.raises(AssertionError):
         tiny(sutra=True, sutra_rules=4, sutra_rank=2, sutra_general_hidden=64,
              sutra_chunk=4, sutra_carry_dim=8, memory_slots=4)
+
+
+def test_sutra_3d_rules_are_not_sent_to_muon():
+    """Newton-Schulz asserts 2D; the rule codebooks are 3D. The first X37
+    launch died on exactly this, after base/control had trained (~1.8 GPU-h)."""
+    from optim import split_muon_params
+
+    m = sutra()
+    hidden, other = split_muon_params(m)
+    assert all(p.ndim == 2 for p in hidden)
+    assert any(p.ndim == 3 for p in other), "no 3D rule tensor reached AdamW"

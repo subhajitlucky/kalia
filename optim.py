@@ -112,7 +112,9 @@ def split_muon_params(model) -> tuple[list, list]:
             continue
         seen.add(id(p))
         is_embed_or_head = name.startswith("tok_emb") or name.startswith("lm_head")
-        if p.ndim >= 2 and not is_embed_or_head:
+        # Only true 2D matrices: Newton-Schulz asserts 2D. The SUTRA rule
+        # codebooks are 3D and must go to AdamW, not Muon (X37).
+        if p.ndim == 2 and not is_embed_or_head:
             hidden.append(p)
         else:
             other.append(p)

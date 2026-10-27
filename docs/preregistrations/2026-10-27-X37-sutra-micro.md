@@ -126,3 +126,15 @@ tune the eval.
   run manifests.
 - `tools/kalia_x37_sutra_kernel.py`.
 - `kaggle/kernel-metadata-x37-sutra.json`.
+
+---
+
+## Amendment 1 (2026-10-27, after X37 v1, before the rerun)
+
+X37 v1 completed **base and control**, then failed all six rule arms at step 0:
+Muon's split treated every parameter with `ndim >= 2` as a hidden matrix and
+sent the 3D rule codebooks to Newton–Schulz, which asserts 2D. The split is now
+`ndim == 2`; 3D rule tensors go to AdamW. Base/control have no 3D parameters,
+so their v1 values are valid and are reused from the archived v1 log; the six
+rule arms are rerun with the fix. No arm, seed, threshold or decision rule
+changes. The v1 log is archived at `docs/results/x37/kalia-x37-sutra-v1.log`.

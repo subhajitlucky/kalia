@@ -32,7 +32,20 @@ KERNEL_REVISION = "unknown"  # staging pins, from git HEAD
 
 SEEDS = ("1338", "1339")
 ARMS = ("base", "control", "rules", "full", "exception")
+RUN_ARMS = ("rules", "full", "exception")
 STEPS = 763
+# The v1 launch completed base/control before the 3D-rule optimizer bug. They
+# have no 3D parameters, so the `ndim == 2` fix cannot change them. Their val
+# and swap values are reused from the archived v1 log; the six rule arms rerun.
+V1_VALS = {
+    "base": {"1338": 4.2413, "1339": 4.2371},
+    "control": {"1338": 4.0692, "1339": 4.2290},
+}
+V1_SWAP = {
+    "base": {"1338": 0.0019744873046875, "1339": 0.0020452380180358888},
+    "control": {"1338": 0.004343163967132568, "1339": 0.0017855048179626464},
+}
+V1_PARAMS = {"base": 29921280, "control": 32575488}
 BASE_CONFIG = "configs/micro-muon.yaml"
 PROMPT_TOKENS = 384
 CONT_TOKENS = 128
@@ -145,7 +158,7 @@ assert base["train"]["eval_interval"] == 100
 
 built = {}
 for seed in SEEDS:
-    for arm in ARMS:
+    for arm in RUN_ARMS:
         cfg = deepcopy(base)
         cfg["train"]["seed"] = int(seed)
         cfg["model"].update(FLAGS[arm])
@@ -163,7 +176,7 @@ for seed in SEEDS:
         }
         print(f"built {name}: {params:,} params")
 
-control_params = built["x37-control-s1338"]["params"]
+control_params = V1_PARAMS["control"]
 full_params = built["x37-full-s1338"]["params"]
 assert abs(control_params - full_params) / control_params < 0.01, (
     control_params, full_params
@@ -178,6 +191,13 @@ write_run_manifest(
     base_config=BASE_CONFIG,
     base_config_sha256=sha256_file(BASE_CONFIG),
     arms=built,
+    v1_base_control={
+        "vals": V1_VALS,
+        "swap": V1_SWAP,
+        "params": V1_PARAMS,
+        "source": "kalia-x37-sutra version 1 log; base/control have no 3D params "
+                  "and are unaffected by the ndim==2 Muon fix",
+    },
     bars={"S1_allowance": S1_ALLOWANCE, "S2_floor": S2_FLOOR,
           "S3_entropy": S3_ENTROPY, "S3_max_share": S3_MAX_SHARE,
           "S3_effective": S3_EFFECTIVE},
@@ -191,8 +211,8 @@ write_run_manifest(
              "sha256": sha256_file(os.path.join(data_dir, "val.bin"))},
 )
 
-# --- train the ten arms ------------------------------------------------------
-order = ",".join(f"x37-{arm}-s{seed}" for seed in SEEDS for arm in ARMS)
+# --- train the six rule arms; base/control are reused from v1 ---------------
+order = ",".join(f"x37-{arm}-s{seed}" for seed in SEEDS for arm in RUN_ARMS)
 print(f"\n===== X37 ({ARM}) — arms in order: {order} =====")
 proc = subprocess.run(
     [sys.executable, "ablate.py", "--arms", order, "--steps", str(STEPS),
@@ -203,9 +223,13 @@ if proc.returncode != 0:
 
 
 # --- val, swap sensitivity, rule usage --------------------------------------
-def run_final_val(run: str) -> float:
+def run_final_val(run: str):
     path = Path("/kaggle/working/out") / run / "val_log.csv"
+    if not path.exists():
+        return None
     rows = path.read_text().strip().splitlines()[1:]
+    if not rows:
+        return None
     return float(rows[-1].split(",")[1])
 
 
@@ -246,7 +270,7 @@ def swap_text(prompt: str) -> str:
 
 swap_rows = {}
 for seed in SEEDS:
-    for arm in ARMS:
+    for arm in RUN_ARMS:
         run = f"x37-{arm}-s{seed}"
         ckpt = Path("/kaggle/working/out") / run / "ckpt.pt"
         if not ckpt.exists():
@@ -268,6 +292,11 @@ for seed in SEEDS:
                 vals.append(swap - orig)
         swap_rows[run] = sum(vals) / len(vals) if vals else None
         print(f"{run}: swap sensitivity {swap_rows[run]} on {len(vals)} stories")
+
+for arm in ("base", "control"):
+    for seed in SEEDS:
+        swap_rows[f"x37-{arm}-s{seed}"] = V1_SWAP[arm][seed]
+print("base/control swap sensitivities reused from the v1 log")
 
 usage_rows = {}
 val_ds = TokenDataset(os.path.join(data_dir, "val.bin"), base["model"]["context_len"])
@@ -297,7 +326,23 @@ for seed in SEEDS:
               f"effective {math.exp(ent):.1f} exception {usage_rows[run]['exception']}")
 
 vals = {f"x37-{arm}-s{seed}": run_final_val(f"x37-{arm}-s{seed}")
-        for seed in SEEDS for arm in ARMS}
+        for seed in SEEDS for arm in RUN_ARMS}
+for arm in ("base", "control"):
+    for seed in SEEDS:
+        vals[f"x37-{arm}-s{seed}"] = V1_VALS[arm][seed]
+missing = [name for name, value in vals.items() if value is None]
+if missing:
+    write_json("/kaggle/working/x37_summary.json", {
+        "experiment": ARM,
+        "seeds": [int(s) for s in SEEDS],
+        "steps": STEPS,
+        "vals": vals,
+        "swap": swap_rows,
+        "usage": usage_rows,
+        "error": f"missing val logs: {missing}",
+    })
+    print(f"X37 INCOMPLETE: missing val logs for {missing}; no verdict")
+    sys.exit(1)
 control_val = sum(vals[f"x37-control-s{s}"] for s in SEEDS) / len(SEEDS)
 full_val = sum(vals[f"x37-full-s{s}"] for s in SEEDS) / len(SEEDS)
 rules_val = sum(vals[f"x37-rules-s{s}"] for s in SEEDS) / len(SEEDS)
@@ -338,6 +383,18 @@ summary = {
     "vals": vals,
     "swap": swap_rows,
     "usage": usage_rows,
+    "params": {
+        **{f"x37-{arm}-s{s}": V1_PARAMS[arm]
+           for arm in ("base", "control") for s in SEEDS},
+        **{name: b["params"] for name, b in built.items()},
+    },
+    "v1_base_control": {
+        "source": "kalia-x37-sutra version 1 log; base/control have no 3D "
+                  "parameters and are unaffected by the ndim==2 Muon fix",
+        "vals": V1_VALS,
+        "swap": V1_SWAP,
+        "params": V1_PARAMS,
+    },
     "bars": {"S1_allowance": S1_ALLOWANCE, "S2_floor": S2_FLOOR,
              "S3_entropy": S3_ENTROPY, "S3_max_share": S3_MAX_SHARE,
              "S3_effective": S3_EFFECTIVE},
