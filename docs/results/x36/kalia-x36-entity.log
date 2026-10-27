@@ -1,0 +1,33 @@
+[{"stream_name":"stdout","time":43.605187165,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":44.807155017,"data":"train summary: /kaggle/input/notebooks/subhajitlucky/kalia-x36-memory/x36_train.json\n"}
+,{"stream_name":"stdout","time":46.683910783,"data":"device: cuda | stories: 20\n"}
+,{"stream_name":"stdout","time":310.599141963,"data":"x36-base-s1338: greedy 0.0000 | half 0.0056 | oracle 0.0101 | distinct2 0.1419\n"}
+,{"stream_name":"stdout","time":581.160766361,"data":"x36-control-s1338: greedy 0.0000 | half 0.0077 | oracle 0.0191 | distinct2 0.1670\n"}
+,{"stream_name":"stdout","time":931.890531672,"data":"x36-copy-s1338: greedy 0.0075 | half 0.0662 | oracle 0.1093 | distinct2 0.0738\n"}
+,{"stream_name":"stdout","time":1424.672409162,"data":"x36-memory-s1338: greedy 0.0106 | half 0.0737 | oracle 0.1418 | distinct2 0.1195\n"}
+,{"stream_name":"stdout","time":1689.048937322,"data":"x36-base-s1339: greedy 0.0020 | half 0.0000 | oracle 0.0084 | distinct2 0.0983\n"}
+,{"stream_name":"stdout","time":1959.803541513,"data":"x36-control-s1339: greedy 0.0000 | half 0.0071 | oracle 0.0335 | distinct2 0.1303\n"}
+,{"stream_name":"stdout","time":2311.299379079,"data":"x36-copy-s1339: greedy 0.0126 | half 0.0408 | oracle 0.1163 | distinct2 0.1629\n"}
+,{"stream_name":"stdout","time":2806.38791228,"data":"x36-memory-s1339: greedy 0.0162 | half 0.0904 | oracle 0.1737 | distinct2 0.1349\n"}
+,{"stream_name":"stdout","time":2806.392430843,"data":"\n"}
+,{"stream_name":"stdout","time":2806.39244549,"data":"X36 VERDICT\n"}
+,{"stream_name":"stdout","time":2806.392450403,"data":"  M1: True\n"}
+,{"stream_name":"stdout","time":2806.392457114,"data":"  M1b: True\n"}
+,{"stream_name":"stdout","time":2806.392467394,"data":"  M2: False\n"}
+,{"stream_name":"stdout","time":2806.392471464,"data":"  M3: True\n"}
+,{"stream_name":"stdout","time":2806.392487734,"data":"  M4: True\n"}
+,{"stream_name":"stdout","time":2806.392492797,"data":"  advance: False\n"}
+,{"stream_name":"stdout","time":2806.392497759,"data":"  control spread: +0.0000 | m1 bar: +0.0050\n"}
+,{"stream_name":"stdout","time":2806.392514591,"data":"  greedy deltas: {'1338': 0.010555555555555556, '1339': 0.016234392847296074}\n"}
+,{"stream_name":"stdout","time":2806.392519482,"data":"  val: memory 3.9033 control 3.8274 delta +0.0759\n"}
+,{"stream_name":"stdout","time":2806.392523998,"data":"  recurrence AUC: [0.8233745694160461, 0.8240388035774231]\n"}
+,{"stream_name":"stdout","time":2806.392528459,"data":"  distinct2: base 0.120 copy 0.118 memory 0.127\n"}
+,{"stream_name":"stdout","time":2806.392534667,"data":"  verdict written to /kaggle/working/x36_verdict.json\n"}
+,{"stream_name":"stdout","time":2806.502335913,"data":"run manifest: {\"code_fingerprint\": \"9f3d1729f1db6072db341fd7168a5b70c1b62f11f86640d77bcfa015e91ab07e\", \"code_snapshot\": \"/kaggle/input/datasets/subhajitlucky/kalia-code-dev\", \"experiment\": \"x36-entity\", \"gen_tokens\": 128, \"half\": 64, \"kernel_id\": \"subhajitlucky/kalia-x36-entity\", \"kernel_revision\": \"14e23435a87bcf6b2822c8eb89df4456a210bafc\", \"prompt_tokens\": 384, \"recorded\": \"2026-10-27T12:35:21.011507+00:00\", \"samples\": 8, \"seeds\": [1338, 1339], \"stories_sha256\": \"a94b15f677313b719d26baf59ced1be6ab1b242b988b4488417a6cd7186f7272\", \"train_summary\": {\"path\": \"/kaggle/input/notebooks/subhajitlucky/kalia-x36-memory/x36_train.json\", \"sha256\": \"c6dfd1f2706775c1b4e52bf9c03c7a6e5d9a783f83439dd48d4747fb2d14a060\"}}\n"}
+,{"stream_name":"stderr","time":2816.208251892,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":2816.208286738,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":2816.782988943,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":2816.783015109,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":2817.894794003,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":2819.498022982,"data":"[NbConvertApp] Writing 322387 bytes to __results__.html\n"}
+]

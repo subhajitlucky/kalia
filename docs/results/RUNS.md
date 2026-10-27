@@ -35,6 +35,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X33` | Linear midpoint readout; probe beats greedy +0.0155, ~35% of the coverage gap | yes | 5 files |
 | `X34` | Seed-1007 replication of X33; the midpoint readout does not clear the registered bar | yes | 7 files |
 | `X35` | Static code-mixture screen; code10 −0.0007, code25 +0.0058; S-1 fails, Stage 2 not run | yes | 13 files |
+| `X36` | Entity-memory micro; retention passes, val +0.076 vs matched control fails M-2; no scale | yes | 24 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -195,6 +196,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x35/out/code10-s1401/train_log.csv`
 - `… 7 more`
 
+**X36**
+- `docs/results/x36/README.md`
+- `docs/results/x36/configs/x36-base-s1338.yaml`
+- `docs/results/x36/configs/x36-base-s1339.yaml`
+- `docs/results/x36/configs/x36-control-s1338.yaml`
+- `docs/results/x36/configs/x36-control-s1339.yaml`
+- `docs/results/x36/configs/x36-copy-s1338.yaml`
+- `… 18 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -212,4 +222,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-28 runs tracked, 152 files archived, 3 with no evidence.
+29 runs tracked, 176 files archived, 3 with no evidence.

@@ -83,6 +83,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-10-22-X34-seed-replication.md", ["docs/results/x34/*"]),
     ("X35", "Static code-mixture screen; code10 −0.0007, code25 +0.0058; S-1 fails, Stage 2 not run",
      "2026-10-26-X35-static-mixture-screen.md", ["docs/results/x35/**/*"]),
+    ("X36", "Entity-memory micro; retention passes, val +0.076 vs matched control fails M-2; no scale",
+     "2026-10-27-X36-entity-memory-micro.md", ["docs/results/x36/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

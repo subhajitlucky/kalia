@@ -167,3 +167,37 @@ arm the same way. The arm is the same 6-layer × 384-dim × 6-head QK model, wit
 the same parameter counts; only the config source file differs. No arm, flag,
 seed, bar or decision rule changes.
 
+---
+
+## Result (appended 2026-10-27, after the registered runs)
+
+Kernels `kalia-x36-memory` and `kalia-x36-entity`, COMPLETE, **~5.4 GPU-h**
+(4.6h training + 0.8h probe).
+
+Training:
+
+| arm | val s1338 | val s1339 | mean |
+|---|---:|---:|---:|
+| base | 4.2393 | 4.2389 | 4.2391 |
+| **control** | 3.7707 | 3.8840 | **3.8274** |
+| copy | 3.9899 | 4.1831 | 4.0865 |
+| **memory** | 3.9378 | 3.8688 | **3.9033** |
+
+Entity (384 prompt / 128 generated / 64 half):
+
+| arm | greedy | half-pick | oracle |
+|---|---:|---:|---:|
+| control | 0.000 / 0.000 | 0.008 / 0.007 | 0.019 / 0.033 |
+| copy | 0.008 / 0.013 | 0.066 / 0.041 | 0.109 / 0.116 |
+| **memory** | **0.011 / 0.016** | **0.074 / 0.090** | **0.142 / 0.174** |
+
+- **M-1 PASS** — +0.0106 / +0.0162, bar 0.005; control spread 0.0.
+- **M-1b PASS** — oracle far above control.
+- **M-2 FAIL** — memory − control **+0.0760**, allowance +0.010.
+- **M-3 PASS** — recurrence AUC 0.823 / 0.824.
+- **M-4 PASS** — distinct-2 memory 0.127 vs base 0.120.
+
+**`advance = false`.** Per the decision rule for "M-1 passes, M-2 fails", the
+memory buys retention at a language cost; report the trade-off, **no scale**.
+Artifacts: `docs/results/x36/`; decision: D61.
+

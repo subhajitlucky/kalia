@@ -1,0 +1,44 @@
+{
+  "bars": {
+    "M1_floor": 0.005,
+    "M2_allowance": 0.01,
+    "M3_auc": 0.6
+  },
+  "copy_accuracy": {
+    "x36-copy-s1338": 0.03213980202859587,
+    "x36-copy-s1339": 0.035561530001222044,
+    "x36-memory-s1338": 0.024468215910488134,
+    "x36-memory-s1339": 0.024099348333948112
+  },
+  "experiment": "memory",
+  "note": "entity retention is measured by kalia-x36-entity; this summary is training + aux",
+  "params": {
+    "x36-base-s1338": 29921280,
+    "x36-base-s1339": 29921280,
+    "x36-control-s1338": 30707712,
+    "x36-control-s1339": 30707712,
+    "x36-copy-s1338": 30216577,
+    "x36-copy-s1339": 30216577,
+    "x36-memory-s1338": 30697378,
+    "x36-memory-s1339": 30697378
+  },
+  "recurrence_auc": {
+    "x36-memory-s1338": 0.8233745694160461,
+    "x36-memory-s1339": 0.8240388035774231
+  },
+  "seeds": [
+    1338,
+    1339
+  ],
+  "steps": 763,
+  "vals": {
+    "x36-base-s1338": 4.2393,
+    "x36-base-s1339": 4.2389,
+    "x36-control-s1338": 3.7707,
+    "x36-control-s1339": 3.884,
+    "x36-copy-s1338": 3.9899,
+    "x36-copy-s1339": 4.1831,
+    "x36-memory-s1338": 3.9378,
+    "x36-memory-s1339": 3.8688
+  }
+}

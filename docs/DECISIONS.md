@@ -622,3 +622,49 @@ mixture easier to fit, not the held-out distribution better.
 `2026-10-26-X35-static-mixture-screen.md`.
 
 **Status.** closed — the static-mixture screen is closed; Stage 2 was not run.
+
+## D61 — X36: the entity memory keeps names but costs language quality (2026-10-27)
+
+**Context.** Every cheap selector failed. X33 found a midpoint signal, X34 did
+not replicate it, and the linear-selector track closed. X36 tested the
+architectural version: a self-supervised 32-slot entity workspace written from
+the model's final states, read at the output, with a copy head and a recurrence
+head, against a **parameter-matched adapter control** at 30M.
+
+**Evidence.** Eight arms, seeds 1338/1339, 763 steps, ~5.4 GPU-h.
+
+| arm | val mean | greedy entity | half-pick | oracle |
+|---|---:|---:|---:|---:|
+| control | **3.8274** | 0.000 / 0.000 | 0.008 / 0.007 | 0.019 / 0.033 |
+| copy | 4.0865 | 0.008 / 0.013 | 0.066 / 0.041 | 0.109 / 0.116 |
+| **memory** | 3.9033 | **0.011 / 0.016** | **0.074 / 0.090** | **0.142 / 0.174** |
+
+- **M-1 PASS** — greedy memory − control +0.0106 / +0.0162, both seeds, bar
+  0.005 (control spread 0.0).
+- **M-1b PASS** — oracle far above control.
+- **M-2 FAIL** — **+0.0760 nats** worse than control, allowance +0.010.
+- **M-3 PASS** — recurrence AUC 0.823 / 0.824.
+- **M-4 PASS** — distinct-2 memory 0.127 vs base 0.120.
+
+**Decision.**
+1. **The memory mechanism works for retention, but the registered language
+   cost fails.** The pre-registered rule for "M-1 passes, M-2 fails" is: report
+   the trade-off, **no scale**. No 58M run is registered from this result.
+2. **The control is a strong baseline.** A parameter-matched wider MLP is 0.076
+   nats better than the memory model. Capacity alone buys language quality; the
+   memory spends its capacity on the workspace.
+3. **The copy head alone has a retention signal** (oracle 0.109/0.116), but its
+   copy accuracy is 2–3.5% and its val is worse. The workspace + recurrence adds
+   the larger half/oracle gain; the greedy continuation is still 1–2%, so the
+   selector problem remains.
+4. **A val-preserving memory is a new registration, not a tune of this one.**
+   Candidates: a much smaller workspace, a memory-only-on-entity gate, an
+   auxiliary LM-preservation loss, or a calibrated copy head.
+5. **Record the trade-off.** This is a component result, not a model win; the
+   pre-registration's decision is binding.
+
+**Cost.** ~5.4 GPU-h. Artifacts: `docs/results/x36/`; registration:
+`2026-10-27-X36-entity-memory-micro.md`.
+
+**Status.** closed — no scale; the memory mechanism is a component candidate,
+not a model improvement.

@@ -5,10 +5,14 @@ hand-edit; `--check` fails if this file stops matching Kaggle. Every KALIA kerne
 and dataset is private; exposure is checked separately by
 `tools/audit_public_state.py`.
 
-## Kernels (57)
+## Kernels (61)
 
 | ref | title | last run | recorded in repo |
 |---|---|---|---|
+| `subhajitlucky/kalia-x37-sutra` | KALIA x37 sutra | 2026-10-27 | `kernel-metadata-x37-sutra.json` |
+| `subhajitlucky/kalia-x36-entity` | KALIA x36 entity | 2026-10-27 | `kernel-metadata-x36-entity.json` |
+| `subhajitlucky/kalia-x36-memory` | KALIA x36 memory | 2026-10-27 | `kernel-metadata-x36-memory.json` |
+| `subhajitlucky/kalia-v030-epoch2` | KALIA v030 epoch2 | 2026-10-27 | `kernel-metadata-v030-epoch2.json` |
 | `subhajitlucky/kalia-x35-mix-screen` | KALIA x35 mix screen | 2026-10-26 | `kernel-metadata-x35-mix-screen.json` |
 | `subhajitlucky/kalia-x34-seed-s1007` | KALIA x34 seed s1007 | 2026-10-25 | `kernel-metadata-x34-seed-s1007.json` |
 | `subhajitlucky/kalia-x33-linear-readout` | KALIA x33 linear readout | 2026-10-22 | `kernel-metadata-x33-linear-readout.json` |
@@ -71,7 +75,7 @@ and dataset is private; exposure is checked separately by
 
 | ref | title | size | last updated |
 |---|---|---|---|
-| `subhajitlucky/kalia-code-dev` | KALIA code dev | 0.5 MB | 2026-10-19 |
+| `subhajitlucky/kalia-code-dev` | KALIA code dev | 0.5 MB | 2026-10-27 |
 | `subhajitlucky/kalia-publish-aux` | KALIA publish aux | 0.0 MB | 2026-10-07 |
 | `subhajitlucky/kalia-v020-ckpt` | KALIA v020 checkpoint | 523.4 MB | 2026-10-05 |
 | `subhajitlucky/kalia-code` | KALIA code | 0.0 MB | 2026-09-22 |

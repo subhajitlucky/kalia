@@ -1,0 +1,109 @@
+{
+  "arms": {
+    "x36-base-s1338": {
+      "arm": "base",
+      "config_sha256": "b93d1bebb2503f471308635de3c8a9cac8516b15398c02cac68fe94a86932b5b",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1338
+    },
+    "x36-base-s1339": {
+      "arm": "base",
+      "config_sha256": "7d51c6180f469ba0f771118db026f4d25ebbfb89d8fbb19faffabf6b2eec5303",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1339
+    },
+    "x36-control-s1338": {
+      "arm": "control",
+      "config_sha256": "4f3960490a48d40cbdc2ef374b69a32af0c623bf7c351147316bbaecf532b1b1",
+      "flags": {
+        "memory_control": true,
+        "memory_control_hidden": 1024
+      },
+      "params": 30707712,
+      "seed": 1338
+    },
+    "x36-control-s1339": {
+      "arm": "control",
+      "config_sha256": "efe840c2080634a81cb56efcd83ecf6f3136afb110125ddc1502291a88750c3f",
+      "flags": {
+        "memory_control": true,
+        "memory_control_hidden": 1024
+      },
+      "params": 30707712,
+      "seed": 1339
+    },
+    "x36-copy-s1338": {
+      "arm": "copy",
+      "config_sha256": "8f6c978f68c4cb58e814a72fffcad8651cdf0c262251ae6b4a4a2e8d98ffb581",
+      "flags": {
+        "memory_copy": true
+      },
+      "params": 30216577,
+      "seed": 1338
+    },
+    "x36-copy-s1339": {
+      "arm": "copy",
+      "config_sha256": "13a5de47074cca242091df630e31e62141a558ed7a9bdbd0fe50f1d9ee9315f1",
+      "flags": {
+        "memory_copy": true
+      },
+      "params": 30216577,
+      "seed": 1339
+    },
+    "x36-memory-s1338": {
+      "arm": "memory",
+      "config_sha256": "b355a1653259897bc8c7ab8b3eb87f8a332dc9486560121801809a2e81690f85",
+      "flags": {
+        "memory_chunk": 64,
+        "memory_copy": true,
+        "memory_slots": 32,
+        "recurrence_weight": 0.1
+      },
+      "params": 30697378,
+      "seed": 1338
+    },
+    "x36-memory-s1339": {
+      "arm": "memory",
+      "config_sha256": "cb5e693d45e252bc5afb52783265d1426d4146891610853e78fe4575d7f89ba8",
+      "flags": {
+        "memory_chunk": 64,
+        "memory_copy": true,
+        "memory_slots": 32,
+        "recurrence_weight": 0.1
+      },
+      "params": 30697378,
+      "seed": 1339
+    }
+  },
+  "bars": {
+    "M1_floor": 0.005,
+    "M2_allowance": 0.01,
+    "M3_auc": 0.6
+  },
+  "base_config": "configs/micro-muon.yaml",
+  "base_config_sha256": "f62adb02dc5343ca57bff20d47cc914b959f29b5915fe53fc2161e7bf5300322",
+  "code_fingerprint": "1c429c5b2db6dfee58301e4f719da15091c83f489f19cc0e98be93a802aa576e",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "experiment": "memory",
+  "kernel_id": "subhajitlucky/kalia-x36-memory",
+  "kernel_revision": "9dfc6aea84734b7103d71f70206dc6cfb34db228",
+  "recorded": "2026-10-27T06:45:46.565000+00:00",
+  "seeds": [
+    1338,
+    1339
+  ],
+  "steps": 763,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

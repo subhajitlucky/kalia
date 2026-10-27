@@ -1,0 +1,21 @@
+{
+  "code_fingerprint": "9f3d1729f1db6072db341fd7168a5b70c1b62f11f86640d77bcfa015e91ab07e",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "experiment": "x36-entity",
+  "gen_tokens": 128,
+  "half": 64,
+  "kernel_id": "subhajitlucky/kalia-x36-entity",
+  "kernel_revision": "14e23435a87bcf6b2822c8eb89df4456a210bafc",
+  "prompt_tokens": 384,
+  "recorded": "2026-10-27T12:35:21.011507+00:00",
+  "samples": 8,
+  "seeds": [
+    1338,
+    1339
+  ],
+  "stories_sha256": "a94b15f677313b719d26baf59ced1be6ab1b242b988b4488417a6cd7186f7272",
+  "train_summary": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-x36-memory/x36_train.json",
+    "sha256": "c6dfd1f2706775c1b4e52bf9c03c7a6e5d9a783f83439dd48d4747fb2d14a060"
+  }
+}
