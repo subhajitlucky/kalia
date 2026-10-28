@@ -87,3 +87,4 @@ and dataset is private; exposure is checked separately by
 - `subhajitlucky/kalia-replay` (`kernel-metadata-replay.json`) — no live kernel (never run, renamed, or removed)
 - `subhajitlucky/kalia-x18` (`kernel-metadata-x18.json`) — no live kernel (never run, renamed, or removed)
 - `subhajitlucky/kalia-x35-mix-replicate` (`kernel-metadata-x35-mix-replicate.json`) — no live kernel (never run, renamed, or removed)
+- `subhajitlucky/kalia-x38-crb` (`kernel-metadata-x38-crb.json`) — no live kernel (never run, renamed, or removed)

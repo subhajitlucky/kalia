@@ -113,6 +113,14 @@ class GPTConfig:
     sutra_control_hidden: int = 1408
     """Hidden width that matches the SUTRA block's parameter count."""
 
+    crb: bool = False
+    """X38: decompose each block's residual delta into a stable low-rank stream
+    and a volatile complement. The total delta is preserved, so the language
+    path is invariant to the decomposition by construction."""
+
+    crb_stable_dim: int = 64
+    """Rank of the stable residual stream. Must be smaller than n_embd."""
+
 
 class RMSNorm(nn.Module):
     """Root-mean-square layer norm (no mean subtraction, no bias)."""
@@ -125,6 +133,36 @@ class RMSNorm(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = x * torch.rsqrt(x.pow(2).mean(dim=-1, keepdim=True) + self.eps)
         return self.weight * x
+
+
+class CRBDecomposition(nn.Module):
+    """X38: low-rank decomposition of a residual delta.
+
+    ``stable + volatile == delta`` exactly. The sum is what the next block
+    reads, so the language path is invariant to the decomposition; only the
+    counterfactual loss trains ``down``/``up``. The stable stream is a
+    low-rank causal summary, the volatile stream carries the complement.
+    """
+
+    def __init__(self, dim: int, rank: int):
+        super().__init__()
+        if not 0 < rank < dim:
+            raise ValueError(f"crb_stable_dim must be in (0, {dim}), got {rank}")
+        self.down = nn.Linear(dim, rank, bias=False)
+        self.up = nn.Linear(rank, dim, bias=False)
+        # Start as a random orthonormal rank-r projection, not a tiny product
+        # of two 0.02 matrices. A product leaves the stable stream at ~1e-4
+        # and the counterfactual gradient too small to train; a projection is
+        # a meaningful low-rank view of the residual at step 0. The sum is
+        # still exact because volatile = delta - stable.
+        q, _ = torch.linalg.qr(torch.randn(dim, rank))
+        with torch.no_grad():
+            self.down.weight.copy_(q.t())
+            self.up.weight.copy_(q)
+
+    def forward(self, delta: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        stable = self.up(self.down(delta))
+        return stable, delta - stable
 
 
 def rope_tables(head_dim: int, max_seq_len: int) -> tuple[torch.Tensor, torch.Tensor]:
@@ -643,16 +681,19 @@ class Block(nn.Module):
             else None
         )
 
-    def forward(self, x: torch.Tensor, attn_mask: torch.Tensor | None = None) -> torch.Tensor:
+    def forward_delta(self, x: torch.Tensor, attn_mask: torch.Tensor | None = None) -> torch.Tensor:
         # Gated Residual transforms the stream *before* the pre-norm, as in
         # Qwen3.8: widen and gate the residual path, then run the sublayers at
         # full width on the merged result.
         pre = x if self.gated is None and self.branch is None else (
             self.gated(x) if self.gated is not None else self.branch(x)
         )
-        x = x + self.attn(self.norm1(pre), attn_mask)
-        x = x + self.mlp(self.norm2(x))
-        return x
+        attn = self.attn(self.norm1(pre), attn_mask)
+        mlp = self.mlp(self.norm2(x + attn))
+        return attn + mlp
+
+    def forward(self, x: torch.Tensor, attn_mask: torch.Tensor | None = None) -> torch.Tensor:
+        return x + self.forward_delta(x, attn_mask)
 
 
 class GPT(nn.Module):
@@ -669,6 +710,14 @@ class GPT(nn.Module):
                          or config.memory_control)), (
             "SUTRA and the X36 memory are separate arms; do not combine them in "
             "one experiment"
+        )
+        assert not (config.crb and (
+            config.memory_slots > 0 or config.memory_copy or config.memory_control
+            or config.sutra or config.sutra_control
+            or config.gated_residual or config.branch_norm
+        )), (
+            "CRB is a separate arm; do not combine it with memory, SUTRA or the "
+            "gated/branch residual variants"
         )
         self.tok_emb = nn.Embedding(config.vocab_size, config.n_embd)
         self.blocks = nn.ModuleList(
@@ -719,6 +768,14 @@ class GPT(nn.Module):
             nn.init.constant_(self.memory.write_gate[-1].bias, config.memory_gate_init)
         if self.copy is not None:
             nn.init.constant_(self.copy.gate.bias, config.copy_gate_init)
+        # X38: shared low-rank decomposition of every block's residual delta.
+        # Constructed after the base init so the base weights keep the same RNG
+        # stream; the decomposition has its own init.
+        self.crb = (
+            CRBDecomposition(config.n_embd, config.crb_stable_dim)
+            if config.crb
+            else None
+        )
 
     @staticmethod
     def _init_weights(module: nn.Module) -> None:
@@ -746,6 +803,117 @@ class GPT(nn.Module):
             labels[:, : t - d] |= idx[:, : t - d] == idx[:, d:]
         mask = (idx > self.cfg.recurrence_min_id) & (idx != 50256)
         return labels, mask
+
+    def _pool(self, x: torch.Tensor, loss_mask: torch.Tensor | None = None) -> torch.Tensor:
+        """Mean over real tokens. Padded positions are excluded when masked."""
+        if loss_mask is None:
+            return x.mean(dim=1)
+        mask = loss_mask.unsqueeze(-1).to(x.dtype)
+        return (x * mask).sum(dim=1) / mask.sum(dim=1).clamp(min=1.0)
+
+    def _run_trunk(
+        self,
+        idx: torch.Tensor,
+        attn_mask: torch.Tensor | None = None,
+        track_stable: bool = False,
+    ) -> tuple[torch.Tensor, torch.Tensor | None]:
+        """Run the blocks; optionally return the accumulated stable stream.
+
+        With ``track_stable`` the residual delta of each block is split into a
+        stable low-rank component and a volatile complement. Their sum is the
+        standard residual, so the hidden state and every LM logit are
+        unchanged by the split.
+        """
+        if track_stable and self.crb is None:
+            raise ValueError("track_stable requires config.crb")
+        x = self.tok_emb(idx)
+        if not track_stable:
+            for _ in range(self.cfg.n_loops):
+                for block in self.blocks:
+                    x = block(x, attn_mask)
+            return self.norm_f(x), None
+        stable = torch.zeros_like(x)
+        volatile = x
+        for _ in range(self.cfg.n_loops):
+            for block in self.blocks:
+                delta = block.forward_delta(x, attn_mask)
+                ds, dv = self.crb(delta)
+                stable = stable + ds
+                volatile = volatile + dv
+                x = stable + volatile
+        return self.norm_f(x), stable
+
+    def stable_state(
+        self,
+        idx: torch.Tensor,
+        loss_mask: torch.Tensor | None = None,
+        attn_mask: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        """Pooled representation the counterfactual loss acts on.
+
+        CRB: the normalised low-rank stable stream. Without CRB (the loss-only
+        ablation): the pooled final hidden state.
+        """
+        if self.crb is None:
+            h, _ = self._run_trunk(idx, attn_mask, track_stable=False)
+            return self._pool(h, loss_mask)
+        _, stable = self._run_trunk(idx, attn_mask, track_stable=True)
+        z = self._pool(stable, loss_mask)
+        # Fixed RMS norm: no learned scale, so the split's parameter count is
+        # exactly down + up (the registered 49,152) and the loss compares
+        # directions rather than magnitudes.
+        return z * torch.rsqrt(z.pow(2).mean(dim=-1, keepdim=True) + 1e-6)
+
+    def pooled_hidden(
+        self,
+        idx: torch.Tensor,
+        loss_mask: torch.Tensor | None = None,
+        attn_mask: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        """Pooled final hidden state: the behavioural readout for every arm."""
+        h, _ = self._run_trunk(idx, attn_mask, track_stable=False)
+        return self._pool(h, loss_mask)
+
+    def counterfactual_loss(
+        self,
+        orig: torch.Tensor,
+        edit: torch.Tensor,
+        edit_types: torch.Tensor,
+        orig_mask: torch.Tensor | None = None,
+        edit_mask: torch.Tensor | None = None,
+        margin: float = 0.5,
+    ) -> torch.Tensor:
+        """Invariant pairs are pulled together; sensitive pairs are pushed apart."""
+        z0 = self.stable_state(orig, orig_mask)
+        z1 = self.stable_state(edit, edit_mask)
+        distance = ((z0 - z1) ** 2).mean(dim=1)
+        invariant = edit_types == 0
+        sensitive = edit_types == 1
+        loss = distance.new_zeros(())
+        if invariant.any():
+            loss = loss + distance[invariant].mean()
+        if sensitive.any():
+            loss = loss + F.relu(margin - distance[sensitive]).mean()
+        return loss
+
+    @torch.no_grad()
+    def stable_stats(
+        self,
+        idx: torch.Tensor,
+        loss_mask: torch.Tensor | None = None,
+    ) -> dict[str, float]:
+        """Effective rank and norm of the pooled stable stream."""
+        if self.crb is None:
+            return {}
+        _, stable = self._run_trunk(idx, track_stable=True)
+        z = self._pool(stable, loss_mask).float()
+        sv = torch.linalg.svdvals(z)
+        p = sv / sv.sum().clamp(min=1e-9)
+        effective = torch.exp(-(p * (p + 1e-9).log()).sum())
+        return {
+            "stable_norm": float(z.norm(dim=1).mean()),
+            "effective_rank": float(effective),
+        }
 
     def _finish(self, logits, targets, loss_mask):
         if self.cfg.logit_softcap > 0:
@@ -832,6 +1000,11 @@ class GPT(nn.Module):
         attn_mask: torch.Tensor | None = None,
         loss_mask: torch.Tensor | None = None,
     ):
+        if self.crb is not None:
+            h, _ = self._run_trunk(idx, attn_mask, track_stable=True)
+            logits = self.lm_head(h)
+            logits, loss = self._finish(logits, targets, loss_mask)
+            return logits, loss
         x = self.tok_emb(idx)
         for _ in range(self.cfg.n_loops):
             for block in self.blocks:

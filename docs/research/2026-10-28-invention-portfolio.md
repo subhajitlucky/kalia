@@ -180,3 +180,11 @@ C-2, move to RAA; if RAA is too costly, PCD.
 Do not run another 30M rule-grammar or generic memory micro before CRB. The
 portfolio exists to stop us from tuning the last idea instead of testing a new
 one.
+
+## Update 2026-10-28
+
+The user approved the CRB first bet. It is registered as X38
+(`docs/preregistrations/2026-10-28-X38-crb-micro.md`, sha `a28329ed…`), with
+`crb_pairs.py`, the `crb` flags in `model.py`, the `train.py --cf-pairs` hook,
+the C-1..C-6 tests and `tools/kalia_x38_crb_kernel.py`. No GPU time has been
+spent; the 30M screen waits for the 2026-10-31 window.

@@ -755,3 +755,34 @@ allowance.
 
 **Cost.** ~10 GPU-h training + CPU final eval. Artifacts:
 `docs/results/v030-epoch2/`; registration: `2026-10-27-v030-second-epoch.md`.
+
+## D64 — X38: the counterfactual residual bottleneck is the next architecture test (2026-10-28)
+
+**Context.** The goal is a mechanism that makes the 58M model interesting
+enough for a paper, not a frontier model. X36's memory kept names but cost
+**+0.076 nats**; X37's rule grammar stayed alive but used all 64 rules
+**uniformly**. Both are failures at the output of an unchanged residual stream.
+
+**Decision.** Register X38, the **Counterfactual Residual Bottleneck (CRB)**:
+
+- Each block's residual delta is decomposed into a low-rank stable component
+  and a volatile complement. The sum is the standard residual, so the language
+  path is invariant to the split by construction.
+- A paired counterfactual loss trains the stable stream to be invariant to
+  consistent renames/synonyms and sensitive to role swaps, negation, number
+  and spatial changes.
+- Arms: `control`, `split` (same decomposition, no CF loss), `loss` (CF loss on
+  the full hidden state), `crb`; 30M, 763 steps, seeds 1338/1339.
+- Bars C-1..C-6 are fixed in
+  `docs/preregistrations/2026-10-28-X38-crb-micro.md` (sha `a28329ed…`).
+- The 58M confirmation is conditional on C-1/C-2/C-3/C-5 and waits for quota.
+
+**Why CRB before X11.** X11's simple 6 × 2 vs 6 × 1 arm already ran on
+2026-09-23 and was neutral (3.5012 vs 3.4924, +0.009). The untested X11 claim
+is parameter efficiency at equal effective depth, which needs a ~60M dense
+control. CRB is cheaper, targets two measured failures, and has a held-out
+behavioural probe. X11 remains queued.
+
+**Status.** Registered and implemented; code, tests and the kernel are
+committed; **no GPU spent**. The current window has 0.87 GPU-h; the 30M screen
+waits for the 2026-10-31 reset.

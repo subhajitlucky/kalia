@@ -1,0 +1,18 @@
+{
+  "id": "subhajitlucky/kalia-x38-crb",
+  "title": "KALIA x38 crb",
+  "code_file": "kalia_x38_crb_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-prep-v2b"
+  ],
+  "model_sources": []
+}

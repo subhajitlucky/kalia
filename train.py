@@ -14,6 +14,7 @@ from torch.optim import AdamW
 import json
 
 from data import MixtureDataset, TokenDataset
+from crb_pairs import CounterfactualPairDataset
 from mixture import SourceMixtureDataset, per_source_loss, strategy_counts
 from model import GPT, GPTConfig
 from optim import MuonWithAuxAdam, split_muon_params
@@ -34,6 +35,10 @@ def parse_args(argv=None):
     p.add_argument("--max-minutes", type=float, default=None, help="stop after this many minutes")
     p.add_argument("--target-val-loss", type=float, default=None, help="decay and stop once reached")
     p.add_argument("--decay-steps-after-target", type=int, default=None)
+    p.add_argument("--cf-pairs", type=Path, default=None,
+                   help="X38 counterfactual pair JSONL; enables the CRB auxiliary loss")
+    p.add_argument("--crb-weight", type=float, default=None,
+                   help="override train.crb_weight for one-off runs")
     p.add_argument("--seed", type=int, default=None)
     p.add_argument(
         "--doc-mask",
@@ -339,6 +344,24 @@ def main(argv=None) -> None:
     doc_mask = bool(args.doc_mask or train_cfg.get("doc_mask", False))
     if args.decay_steps_after_target is not None:
         train_cfg["decay_steps_after_target"] = args.decay_steps_after_target
+    crb_weight = (
+        args.crb_weight
+        if args.crb_weight is not None
+        else float(train_cfg.get("crb_weight", 0.0))
+    )
+    crb_margin = float(train_cfg.get("crb_margin", 0.5))
+    crb_batch_size = int(train_cfg.get("crb_batch_size", 8))
+    crb_every = int(train_cfg.get("crb_every", 1))
+    if crb_weight > 0 and args.cf_pairs is None:
+        raise ValueError("crb_weight > 0 requires --cf-pairs")
+    cf_ds = (
+        CounterfactualPairDataset(
+            args.cf_pairs,
+            max_len=int(train_cfg.get("crb_max_len", 128)),
+        )
+        if args.cf_pairs is not None
+        else None
+    )
     validate_schedule(train_cfg)
 
     rank, world = setup_distributed()
@@ -354,10 +377,19 @@ def main(argv=None) -> None:
     device_type = "cuda" if torch.cuda.is_available() else "cpu"
 
     model_cfg = GPTConfig(**config["model"])
+    if cf_ds is not None and cf_ds.max_len > model_cfg.context_len:
+        raise ValueError(
+            f"crb_max_len {cf_ds.max_len} exceeds model context {model_cfg.context_len}"
+        )
     model = GPT(model_cfg).to(device)
     if is_master:
         print(f"KALIA params: {model.num_params():,} | device: {device} | world: {world}")
         print(f"doc_mask: {'on' if doc_mask else 'off'}")
+        if crb_weight > 0 and cf_ds is not None:
+            print(
+                f"crb: weight {crb_weight} | margin {crb_margin} | "
+                f"batch {crb_batch_size} | every {crb_every} | pairs {len(cf_ds)}"
+            )
         schedule = train_cfg.get("lr_schedule", "cosine")
         if schedule == "wsd":
             print(
@@ -659,6 +691,8 @@ def main(argv=None) -> None:
 
             optimizer.zero_grad(set_to_none=True)
             loss_total = 0.0
+            cf_total = 0.0
+            cf_batches = 0
             t0 = time.time()
             for _ in range(train_cfg["grad_accum_steps"]):
                 batch = train_ds.get_batch(
@@ -674,6 +708,20 @@ def main(argv=None) -> None:
                     attn_mask = loss_mask = None
                 with torch.autocast(device_type=device_type, dtype=torch.float16, enabled=is_cuda):
                     _, loss = model(x, y, attn_mask=attn_mask, loss_mask=loss_mask)
+                    if cf_ds is not None and crb_weight > 0 and step % crb_every == 0:
+                        cf = cf_ds.get_batch(crb_batch_size, device, generator)
+                        cf_model = model.module if hasattr(model, "module") else model
+                        cf_loss = cf_model.counterfactual_loss(
+                            cf.orig,
+                            cf.edit,
+                            cf.types,
+                            cf.orig_mask,
+                            cf.edit_mask,
+                            margin=crb_margin,
+                        )
+                        loss = loss + crb_weight * cf_loss
+                        cf_total += cf_loss.item()
+                        cf_batches += 1
                     loss = loss / train_cfg["grad_accum_steps"]
                 scaler.scale(loss).backward()
                 loss_total += loss.item()
@@ -697,10 +745,13 @@ def main(argv=None) -> None:
             if is_master and step % train_cfg["log_interval"] == 0:
                 elapsed = time.time() - t0
                 tok_per_s = tokens_per_step / elapsed
-                print(
+                msg = (
                     f"step {step}/{train_cfg['max_steps']} | loss {loss_total:.4f} | "
                     f"lr {lr:.2e} | {tok_per_s:,.0f} tok/s"
                 )
+                if cf_batches:
+                    msg += f" | cf {cf_total / cf_batches:.4f}"
+                print(msg)
                 with open(log_path, "a", newline="") as fh:
                     csv.writer(fh).writerow(
                         [step, f"{loss_total:.4f}", f"{lr:.6e}", tokens_seen, f"{time.time() - start_time:.1f}"]
