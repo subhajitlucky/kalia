@@ -1,0 +1,63 @@
+{
+  "E1": true,
+  "E2": true,
+  "E3": true,
+  "bars": {
+    "E1": 2.8048,
+    "E2": "no task regresses by >2 sigma",
+    "E3": 0.007
+  },
+  "benchmark": {
+    "arc_easy": {
+      "delta_pp": 1.1499999999999955,
+      "regression_2sigma": false,
+      "v020": 46.400000000000006,
+      "v030": 47.55,
+      "z": 0.7285247855545534
+    },
+    "hellaswag": {
+      "delta_pp": 1.6000000000000014,
+      "regression_2sigma": false,
+      "v020": 35.6,
+      "v030": 37.2,
+      "z": 1.0514585856210343
+    },
+    "lambada_openai": {
+      "delta_pp": 2.400000000000002,
+      "regression_2sigma": false,
+      "v020": 23.9,
+      "v030": 26.3,
+      "z": 1.7506174836572388
+    },
+    "piqa": {
+      "delta_pp": 0.21762785636560977,
+      "regression_2sigma": false,
+      "v020": 61.37105549510338,
+      "v030": 61.58868335146899,
+      "z": 0.13553292362816027
+    },
+    "winogrande": {
+      "delta_pp": 0.5524861878453025,
+      "regression_2sigma": false,
+      "v020": 50.74980268350434,
+      "v030": 51.302288871349646,
+      "z": 0.2780682275423091
+    }
+  },
+  "checkpoint": "/kaggle/input/notebooks/subhajitlucky/kalia-v030-epoch2/out/ckpt.pt",
+  "cl0": {
+    "allowance": 0.007,
+    "drift": -0.04222699999999957,
+    "probe_loss": 2.756648,
+    "v020": 2.798875
+  },
+  "experiment": "v030-final",
+  "note": "the v0.2.0 2k baseline is the archived bench_v020_2k.json; the registered 500-sample verdict is not rewritten",
+  "release_candidate": true,
+  "val": {
+    "bar": 2.8048,
+    "bpb": 0.907,
+    "loss": 2.7743,
+    "v020": 2.8248
+  }
+}

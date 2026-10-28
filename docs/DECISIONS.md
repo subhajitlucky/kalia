@@ -715,3 +715,43 @@ on val (+0.0335) and slightly better on swap (+0.0026/+0.0020).
 
 **Status.** closed — no scale. The rule-grammar line is parked until a targeted
 SUTRA-v2 registration exists.
+
+## D63 — v0.3.0 clears all three final bars and becomes the release candidate (2026-10-28)
+
+**Context.** The second-epoch re-warm completed 2,000 steps and the final
+checkpoint (step 6,770) was evaluated on CPU at zero GPU quota. The first
+final-eval launch printed the canonical val then died on a markdown parse bug;
+the fixed launch produced E-2/E-3 without changing any number.
+
+**Evidence.**
+
+| bar | required | measured | verdict |
+|---|---|---|---|
+| E-1 canonical val | ≤ 2.8048 | **2.7743** (bpB 0.9070) | PASS |
+| E-2 2k benchmark | no task worse than −2σ | all five tasks improved | PASS |
+| E-3 CL-0 | ≤ 2.805875 | **2.756648** (drift −0.042227) | PASS |
+
+E-1 is 0.0505 nats better than v0.2.0's 2.8248. E-2 deltas: ARC-Easy +1.15 pp,
+HellaSwag +1.60, LAMBADA +2.40, PIQA +0.22, WinoGrande +0.55; every z is
+positive. E-3 is 0.0422 lower than the v0.2.0 probe, not merely inside the
+allowance.
+
+**Decision.**
+1. **v0.3.0 is the release candidate.** All three registered bars pass; the
+   flag `release_candidate` is true in `v030_final.json`.
+2. **This is a model win from data/schedule, not a new architecture.** The
+   architecture is unchanged. The next-gen architecture search must beat this
+   checkpoint, not v0.2.0, from now on.
+3. **The 500-sample benchmark verdict is not rewritten.** The 2,000-sample
+   comparison is a new observation against the archived v0.2.0 2k baseline.
+4. **Promotion is still a separate gate.** Release candidate is not a release;
+   the model card, license and release checklist still have to pass.
+5. **The next architecture test is the untested half of X11.** A simple
+   6-layer × 2-loop arm was already run on 2026-09-23 and was quality-neutral
+   (3.5012 vs 3.4924, +0.009, one seed). The missing claim is parameter
+   efficiency: 6 × 2 loops at 30M versus 12 unique layers at ~60M, equal
+   effective depth. That comparison is the next registration, not a rerun of
+   the neutral arm.
+
+**Cost.** ~10 GPU-h training + CPU final eval. Artifacts:
+`docs/results/v030-epoch2/`; registration: `2026-10-27-v030-second-epoch.md`.

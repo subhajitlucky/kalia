@@ -63,3 +63,12 @@ expect overthinking if looping far beyond trained depth.
    at this size.
 2. DSA and MoE add complexity that cannot pay off at 1K context / 58M
    parameters. Rejected on evidence, not on taste.
+
+## Update 2026-10-28
+
+The simple looped arm was run on 2026-09-23: 6 layers × 2 loops, 29,921,280
+params, val **3.5012** vs control **3.4924** at step 700, **+0.009**, one
+seed. It was quality-neutral and did not enter v0.2.0. The stronger X11
+comparison in this memo — equal effective depth at half the parameters
+(6 × 2 at 30M vs 12 × 1 at ~60M) — was never run. See
+`docs/research/2026-10-28-looping-parameter-efficiency.md`.

@@ -1,6 +1,7 @@
 # Citation verification record
 
-Every arXiv ID in `docs/research/` was checked against arxiv.org on **2026-09-29**.
+Every arXiv ID in `docs/research/` was checked against arxiv.org on **2026-09-29**,
+with one addition on **2026-10-28** (2502.05171, title only).
 This file records what was confirmed, what was wrong, and what remains unverified.
 
 Machine-readable form and the test that enforces it: `test_citations.py`.
@@ -72,6 +73,7 @@ verified covers 58M, so no ratio can be adopted — only measured.
 | 2510.25741 | Scaling Latent Reasoning via Looped Language Models | title only |
 | 2510.26692 | Kimi Linear: An Expressive, Efficient Attention Architecture | title only |
 | 2604.07822 | Loop, Think, & Generalize: Implicit Reasoning in Recurrent-Depth Transformers | title only |
+| 2502.05171 | Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach | title only |
 | 2609.06986 | Continual Learning Mechanisms Compose for Long-Horizon Memorization | title only |
 | 2604.04937 | Pramana: Fine-Tuning Large Language Models for Epistemic Reasoning through Navya-Nyaya | title only |
 | 2410.09817 | Reverse Modeling in Large Language Models | title only |
@@ -84,8 +86,8 @@ verified covers 58M, so no ratio can be adopted — only measured.
 | 2606.00371 | How Much Orthogonalization Does Muon Need? | title only |
 
 **"Title only" means exactly that: HTTP 200 plus the `citation_title` metadata
-field.** The numeric claims attributed to these thirteen in the 2026-09-23 docs
-were not re-read from their abstracts. That distinction is not pedantry — MIITA
+field.** The numeric claims attributed to these title-only entries in the
+2026-09-23 docs were not re-read from their abstracts. That distinction is not pedantry — MIITA
 resolved and still was not the paper we said it was. A test
 (`test_id_verified_entries_are_a_weaker_claim_than_the_rest`) keeps the two
 levels from being conflated.

@@ -1,0 +1,29 @@
+{
+  "bars": {
+    "E1": 2.8048,
+    "E3": 0.007,
+    "limit": 2000
+  },
+  "baseline": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-bench-pair-2k/bench_v020_2k.json",
+    "sha256": "ea3246e686678181d8a0b5d975efafe72707deb5ad321b1b94657576fcf3752f"
+  },
+  "checkpoint": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-v030-epoch2/out/ckpt.pt",
+    "sha256": "80b064f9a99e6ed5372e7fa46021574a9b21298b822fd2c581357831cc77537e"
+  },
+  "code_fingerprint": "5b5bd794d8fba918c0ae2e00b27f8a5b04e3ac28c14f55e93f2145b24a38a5ee",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "experiment": "v030-final",
+  "kernel_id": "subhajitlucky/kalia-v030-final-eval",
+  "kernel_revision": "0f1a370e1fbe8522817afbd389b8ae43bf9d6852",
+  "probe": {
+    "path": "/root/.cache/huggingface/hub/models--kalia-lm--kalia-v020/snapshots/8f8b115c5a52deb1deb1a24a1a0f6bb3fa827aa6/corpus/probe_val.bin",
+    "sha256": "1664f71a4b5e96d28d20c7b531fdaf36409a25cd243dd73de0dee26bfd8fa795"
+  },
+  "recorded": "2026-10-28T04:38:18.248288+00:00",
+  "val_bin": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

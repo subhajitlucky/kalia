@@ -53,7 +53,7 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
     ("v0.3.0 Step 1", "58M control seed spread, 0.2892; tripped the programme stop",
      "2026-09-29-v030-continual-update.md",
      ["docs/results/step1_spread*.json", "docs/results/logs/v030-baseline*"]),
-    ("v0.3.0 epoch2", "Second epoch, 2,000-step re-warm; canonical val 2.7743, E-1 pass; final eval in progress",
+    ("v0.3.0 epoch2", "Second epoch, 2,000-step re-warm; E-1/E-2/E-3 pass, release candidate (val 2.7743, all 2k tasks improved)",
      "2026-10-27-v030-second-epoch.md", ["docs/results/v030-epoch2/*"]),
     ("X25", "Test-time training, two stages; closed null across a 40x range",
      "2026-10-05-X25-ttt-inference.md", ["docs/results/x25-stage*.json"]),

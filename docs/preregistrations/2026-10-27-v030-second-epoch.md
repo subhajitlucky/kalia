@@ -115,3 +115,26 @@ val loss 2.7743 | bpB 0.9070 | tokens 819,200
 
 The checkpoint and the training curves are in `docs/results/v030-epoch2/`;
 the final eval is `kalia-v030-final-eval`.
+
+---
+
+## Result (appended 2026-10-28, after the final evaluation)
+
+The final checkpoint (step 6,770) was evaluated on CPU by
+`kalia-v030-final-eval` (code `0f1a370`). The first launch printed the
+canonical val and then died on a markdown parse bug; the fixed launch produced
+E-2 and E-3. No number changed between the two launches.
+
+| bar | required | measured | verdict |
+|---|---|---|---|
+| **E-1** | ≤ 2.8048 | **2.7743** (bpB 0.9070) | **PASS** |
+| **E-2** | no task worse than −2σ | all five 2k tasks improved | **PASS** |
+| **E-3** | ≤ 2.805875 | **2.756648** (drift −0.042227) | **PASS** |
+
+E-2: ARC-Easy +1.15 pp (z +0.73), HellaSwag +1.60 (z +1.05), LAMBADA +2.40
+(z +1.75), PIQA +0.22 (z +0.14), WinoGrande +0.55 (z +0.28). The baseline is
+the archived v0.2.0 2,000-sample run; the 500-sample verdict is not rewritten.
+
+**Registered verdict: `release_candidate = true`.** v0.3.0 is a release
+candidate, not an architecture result; the next-gen search continues
+separately. Artifacts: `docs/results/v030-epoch2/`; decision: D63.
