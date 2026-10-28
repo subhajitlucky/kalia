@@ -1,0 +1,42 @@
+{
+  "code_fingerprint": "0444c15d2c246ad2fa645dc3bb0d096d481931dce2af450a09d1170e7b2ea80d",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "config_path": "/kaggle/working/v030-epoch2.yaml",
+  "config_sha256": "be576fa775648a320f97a4f3421c113c06155651ec09b78d4d75e9ae9810436b",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "experiment": "v030-epoch2",
+  "kernel_id": "subhajitlucky/kalia-v030-epoch2",
+  "kernel_revision": "b103d5dcb52b995bf22bd52a4fbd7484c1e40810",
+  "max_minutes": 660,
+  "overrides": {
+    "eval_interval": 100,
+    "eval_steps": 100,
+    "max_steps": 2000,
+    "rewarm": true,
+    "sample_interval": 0,
+    "seed": 1401,
+    "update_budget": 2000,
+    "warmup_steps": 200
+  },
+  "recorded": "2026-10-27T05:18:22.250932+00:00",
+  "replay_bin": null,
+  "resume_from": {
+    "bytes": 565895345,
+    "path": "/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt",
+    "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+  },
+  "schedule": "cosine (re-warm)",
+  "seed": 1401,
+  "steps": 2000,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  },
+  "warmup_steps": 200
+}

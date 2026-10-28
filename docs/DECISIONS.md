@@ -668,3 +668,50 @@ head, against a **parameter-matched adapter control** at 30M.
 
 **Status.** closed — no scale; the memory mechanism is a component candidate,
 not a model improvement.
+
+## D62 — X37: the Pāṇinian rule grammar is a null at 30M (2026-10-28)
+
+**Context.** After the X36 memory trade-off, X37 tested a different unit of
+computation: 64 reusable low-rank rules, top-1 routing, an anuvṛtti carry, an
+adhikāra scope, a general SwiGLU and an optional utsarga/apavāda exception path,
+against a parameter-matched wider MLP. v1 completed base/control, then died on
+the 3D-Newton–Schulz optimizer bug; v2 reran the six rule arms with the
+`ndim == 2` fix and reused the valid base/control.
+
+**Evidence.** ~14 GPU-h across both launches.
+
+| arm | val s1338 | val s1339 | mean |
+|---|---:|---:|---:|
+| control (matched MLP) | **4.0692** | **4.2290** | **4.1491** |
+| rules | 4.1503 | 4.2113 | 4.1808 |
+| full (rules + carry + scope) | 4.1721 | 4.2564 | **4.2143** |
+| full + exception | 4.1932 | 4.3872 | 4.2902 |
+
+S-1 fails (+0.0652); S-2 fails (−0.00128 / −0.00059; the full is less
+swap-sensitive); S-3 passes decisively (entropy 4.157, max share 0.018,
+effective **63.9 / 64**); S-5 shows the carry/scope is worse than rules alone
+on val (+0.0335) and slightly better on swap (+0.0026/+0.0020).
+
+**Decision.**
+1. **The registered SUTRA micro is a null. No 58M scale.** The rule grammar as
+   implemented does not beat the parameter-matched dense MLP on val or on the
+   compositional swap test.
+2. **The router and codebook work; the rules are not specialized.** All 64
+   rules are used at ~1.6%, so the codebook is capacity, not a grammar. A
+   uniform router is a design signal, not a success.
+3. **The Paninian mapping is not closed as an idea; this implementation is.**
+   A new registration must change a specific mechanism: a rule-diversity /
+   specialization objective, a general path matched to the control's 1,408
+   width, a longer 1,500-step micro, top-k routing, or role-conditioned routing.
+   No tuning of the failed 763-step run.
+4. **The next-gen programme continues, but with constraints.** One failed
+   registered hypothesis closes that hypothesis; it does not close the search.
+   The next attempt must be cheap, parameter-matched and pre-registered.
+5. **The current real model win is v0.3.0's E-1.** The final eval printed
+   **2.7743** (bar 2.8048), 0.0505 better than v0.2.0; E-2/E-3 are pending.
+
+**Cost.** ~14 GPU-h. Artifacts: `docs/results/x37/`; registration:
+`2026-10-27-X37-sutra-micro.md`.
+
+**Status.** closed — no scale. The rule-grammar line is parked until a targeted
+SUTRA-v2 registration exists.

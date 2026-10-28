@@ -96,3 +96,22 @@ outcome.
   2k benchmark, CL-0 ledger, run manifest.
 - `tools/kalia_v030_epoch2_kernel.py` — the training runner.
 - `kaggle/kernel-metadata-v030-epoch2.json`.
+
+---
+
+## Result (appended 2026-10-28, after training; final eval in progress)
+
+The 2,000-step re-warm update completed. The canonical 100-batch eval printed:
+
+```text
+val loss 2.7743 | bpB 0.9070 | tokens 819,200
+```
+
+- **E-1 PASS** — 2.7743 ≤ 2.8048, and **0.0505 nats** better than v0.2.0's
+  2.8248.
+- **E-2 / E-3 pending.** The first final-eval kernel died on a markdown parse
+  bug after printing the val; the fixed CPU kernel is rerunning the 2,000-sample
+  benchmark and the CL-0 probe. The full verdict is appended when those land.
+
+The checkpoint and the training curves are in `docs/results/v030-epoch2/`;
+the final eval is `kalia-v030-final-eval`.

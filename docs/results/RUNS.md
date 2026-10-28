@@ -21,6 +21,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X20` | Static per-channel gate; largest effect ever measured | yes | 1 file |
 | `X21` | Replication of X20 at fresh seeds; inverted | yes | 1 file |
 | `v0.3.0 Step 1` | 58M control seed spread, 0.2892; tripped the programme stop | yes | 8 files |
+| `v0.3.0 epoch2` | Second epoch, 2,000-step re-warm; canonical val 2.7743, E-1 pass; final eval in progress | yes | 6 files |
 | `X25` | Test-time training, two stages; closed null across a 40x range | yes | 2 files |
 | `X26` | Kautilya adaptive mixture pilot; ate dessert | yes | 4 files |
 | `X28` | Kautilya trio (static/level/trend); dessert replicates | yes | 8 files |
@@ -36,6 +37,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X34` | Seed-1007 replication of X33; the midpoint readout does not clear the registered bar | yes | 7 files |
 | `X35` | Static code-mixture screen; code10 −0.0007, code25 +0.0058; S-1 fails, Stage 2 not run | yes | 13 files |
 | `X36` | Entity-memory micro; retention passes, val +0.076 vs matched control fails M-2; no scale | yes | 24 files |
+| `X37` | Pāṇinian rule grammar; S-1/S-2 fail, S-3 pass; no scale | yes | 17 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -83,6 +85,14 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/logs/v030-baseline-rerun-s1403-val_log.csv`
 - `docs/results/logs/v030-baseline-s1401-val_log.csv`
 - `… 2 more`
+
+**v0.3.0 epoch2**
+- `docs/results/v030-epoch2/README.md`
+- `docs/results/v030-epoch2/kalia-v030-epoch2.log`
+- `docs/results/v030-epoch2/run_manifest.json`
+- `docs/results/v030-epoch2/train_log.csv`
+- `docs/results/v030-epoch2/v030-epoch2.yaml`
+- `docs/results/v030-epoch2/val_log.csv`
 
 **X25**
 - `docs/results/x25-stage1.json`
@@ -205,6 +215,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x36/configs/x36-copy-s1338.yaml`
 - `… 18 more`
 
+**X37**
+- `docs/results/x37/README.md`
+- `docs/results/x37/configs/x37-exception-s1338.yaml`
+- `docs/results/x37/configs/x37-exception-s1339.yaml`
+- `docs/results/x37/configs/x37-full-s1338.yaml`
+- `docs/results/x37/configs/x37-full-s1339.yaml`
+- `docs/results/x37/configs/x37-rules-s1338.yaml`
+- `… 11 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -222,4 +241,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-29 runs tracked, 176 files archived, 3 with no evidence.
+31 runs tracked, 199 files archived, 3 with no evidence.

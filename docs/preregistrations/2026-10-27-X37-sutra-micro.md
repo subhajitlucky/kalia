@@ -138,3 +138,34 @@ sent the 3D rule codebooks to Newton–Schulz, which asserts 2D. The split is no
 so their v1 values are valid and are reused from the archived v1 log; the six
 rule arms are rerun with the fix. No arm, seed, threshold or decision rule
 changes. The v1 log is archived at `docs/results/x37/kalia-x37-sutra-v1.log`.
+
+---
+
+## Result (appended 2026-10-28, after the registered runs)
+
+Kernels `kalia-x37-sutra` v1 and v2; v1 completed base/control then died on the
+3D-Newton–Schulz optimizer bug; v2 reran the six rule arms with the `ndim == 2`
+fix and reused the valid base/control. ~14 GPU-h across both launches.
+
+| arm | val s1338 | val s1339 | mean |
+|---|---:|---:|---:|
+| control (matched MLP) | **4.0692** | **4.2290** | **4.1491** |
+| rules | 4.1503 | 4.2113 | 4.1808 |
+| **full** | 4.1721 | 4.2564 | **4.2143** |
+| full + exception | 4.1932 | 4.3872 | 4.2902 |
+
+- **S-1 FAIL** — full − control **+0.0652**.
+- **S-2 FAIL** — swap deltas **−0.00128 / −0.00059**; the full is less
+  swap-sensitive than the control.
+- **S-3 PASS** — entropy 4.157, max share 0.018, effective **63.9 / 64**.
+- **S-4** — control val spread 0.160; swap spread 0.0026; reported.
+- **S-5** — full − rules val **+0.0335**; full − rules swap +0.0026/+0.0020;
+  the carry/scope is not helping val.
+
+**Registered verdict: `advance_full = false`. No 58M scale.** The router and
+codebook work, but uniformly: all 64 rules are used at ~1.6%, so the codebook is
+acting as capacity, not as a specialized grammar. The dense control is better on
+val and at least as good on the swap. A new registration with a targeted change
+(rule specialization/diversity, a matched general path, a longer micro) is
+required before this line is reopened. Artifacts: `docs/results/x37/`;
+decision: D62.

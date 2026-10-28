@@ -1,0 +1,172 @@
+{
+  "arms": {
+    "x37-exception-s1338": {
+      "arm": "exception",
+      "config_sha256": "434e2eb1463405d5c96ba89b61c6fd4377d87fad35ca2dc87f8895fbb7082565",
+      "flags": {
+        "sutra": true,
+        "sutra_balance": 0.01,
+        "sutra_carry": true,
+        "sutra_carry_dim": 64,
+        "sutra_chunk": 64,
+        "sutra_exception": true,
+        "sutra_general_hidden": 1024,
+        "sutra_rank": 8,
+        "sutra_rules": 64,
+        "sutra_scope": true,
+        "sutra_top_k": 1
+      },
+      "params": 32651148,
+      "seed": 1338
+    },
+    "x37-exception-s1339": {
+      "arm": "exception",
+      "config_sha256": "b54bd51186f027ec90394ddd273d24126b6e4132b405f4e4feb71b54656841ab",
+      "flags": {
+        "sutra": true,
+        "sutra_balance": 0.01,
+        "sutra_carry": true,
+        "sutra_carry_dim": 64,
+        "sutra_chunk": 64,
+        "sutra_exception": true,
+        "sutra_general_hidden": 1024,
+        "sutra_rank": 8,
+        "sutra_rules": 64,
+        "sutra_scope": true,
+        "sutra_top_k": 1
+      },
+      "params": 32651148,
+      "seed": 1339
+    },
+    "x37-full-s1338": {
+      "arm": "full",
+      "config_sha256": "b080185cef1fdbebbe8cc63a2b8b65d8e1677bdd8c77fc803373a31089735cbf",
+      "flags": {
+        "sutra": true,
+        "sutra_balance": 0.01,
+        "sutra_carry": true,
+        "sutra_carry_dim": 64,
+        "sutra_chunk": 64,
+        "sutra_general_hidden": 1024,
+        "sutra_rank": 8,
+        "sutra_rules": 64,
+        "sutra_scope": true,
+        "sutra_top_k": 1
+      },
+      "params": 32627718,
+      "seed": 1338
+    },
+    "x37-full-s1339": {
+      "arm": "full",
+      "config_sha256": "c513a4c8e03e81a7f13f4edeb6ed5f5153695176b50d5023346917e1d84aae51",
+      "flags": {
+        "sutra": true,
+        "sutra_balance": 0.01,
+        "sutra_carry": true,
+        "sutra_carry_dim": 64,
+        "sutra_chunk": 64,
+        "sutra_general_hidden": 1024,
+        "sutra_rank": 8,
+        "sutra_rules": 64,
+        "sutra_scope": true,
+        "sutra_top_k": 1
+      },
+      "params": 32627718,
+      "seed": 1339
+    },
+    "x37-rules-s1338": {
+      "arm": "rules",
+      "config_sha256": "96ba4a674dfe0515ace1738b5022e5028ee2187fb768b9723033f630ef0898ee",
+      "flags": {
+        "sutra": true,
+        "sutra_balance": 0.01,
+        "sutra_carry": false,
+        "sutra_carry_dim": 64,
+        "sutra_chunk": 64,
+        "sutra_general_hidden": 1024,
+        "sutra_rank": 8,
+        "sutra_rules": 64,
+        "sutra_scope": false,
+        "sutra_top_k": 1
+      },
+      "params": 32627718,
+      "seed": 1338
+    },
+    "x37-rules-s1339": {
+      "arm": "rules",
+      "config_sha256": "a8937c69af10bf3afcd63215cc9f6782c998032989705ff134604e92bd417e9c",
+      "flags": {
+        "sutra": true,
+        "sutra_balance": 0.01,
+        "sutra_carry": false,
+        "sutra_carry_dim": 64,
+        "sutra_chunk": 64,
+        "sutra_general_hidden": 1024,
+        "sutra_rank": 8,
+        "sutra_rules": 64,
+        "sutra_scope": false,
+        "sutra_top_k": 1
+      },
+      "params": 32627718,
+      "seed": 1339
+    }
+  },
+  "bars": {
+    "S1_allowance": 0.005,
+    "S2_floor": 0.02,
+    "S3_effective": 8.0,
+    "S3_entropy": 2.0,
+    "S3_max_share": 0.5
+  },
+  "base_config": "configs/micro-muon.yaml",
+  "base_config_sha256": "f62adb02dc5343ca57bff20d47cc914b959f29b5915fe53fc2161e7bf5300322",
+  "code_fingerprint": "5b5bd794d8fba918c0ae2e00b27f8a5b04e3ac28c14f55e93f2145b24a38a5ee",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "experiment": "sutra",
+  "kernel_id": "subhajitlucky/kalia-x37-sutra",
+  "kernel_revision": "983d70669251d6b093cc445efc1535444e3e586e",
+  "recorded": "2026-10-27T14:48:23.834653+00:00",
+  "seeds": [
+    1338,
+    1339
+  ],
+  "steps": 763,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "v1_base_control": {
+    "params": {
+      "base": 29921280,
+      "control": 32575488
+    },
+    "source": "kalia-x37-sutra version 1 log; base/control have no 3D params and are unaffected by the ndim==2 Muon fix",
+    "swap": {
+      "base": {
+        "1338": 0.0019744873046875,
+        "1339": 0.0020452380180358888
+      },
+      "control": {
+        "1338": 0.004343163967132568,
+        "1339": 0.0017855048179626464
+      }
+    },
+    "vals": {
+      "base": {
+        "1338": 4.2413,
+        "1339": 4.2371
+      },
+      "control": {
+        "1338": 4.0692,
+        "1339": 4.229
+      }
+    }
+  },
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}
