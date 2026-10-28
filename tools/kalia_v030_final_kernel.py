@@ -150,8 +150,8 @@ subprocess.run(
     check=True,
 )
 md = Path(val_md).read_text()
-val_loss = float(re.search(r"Val loss:\s*\*\*([0-9.]+)\*\*", md).group(1))
-val_bpb = float(re.search(r"bpB:\s*\*\*([0-9.]+)\*\*", md).group(1))
+val_loss = float(re.search(r"Val loss:\s*([0-9.]+)", md).group(1))
+val_bpb = float(re.search(r"bpB:\s*([0-9.]+)", md).group(1))
 print(f"E-1 val {val_loss:.4f} | bpB {val_bpb:.4f} | bar {E1_BAR:.4f}")
 e1 = val_loss <= E1_BAR
 
