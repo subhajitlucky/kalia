@@ -836,3 +836,46 @@ registration: `2026-10-28-X38-crb-micro.md`.
 
 **Status.** closed — no scale. The invariant-sum decomposition remains a
 component candidate; the counterfactual objective is closed as implemented.
+
+## D66 — v0.3.1: the 30/70 v0.2.0/v0.3.0 merge is the release candidate (2026-11-01)
+
+**Context.** The v0.3.0 second epoch's best in-training 100-batch val was
+**2.7255 at step 6,500**; the final checkpoint at 6,770 scored **2.7743**. The
+intermediate checkpoint was overwritten. A weight-space merge of v0.2.0 and
+v0.3.0 is valid because v0.3.0 is a continuation of v0.2.0.
+
+**Evidence.** Kaggle CPU, zero GPU.
+
+| v0.2.0 weight | val |
+|---:|---:|
+| 0.0 | 2.7743 |
+| 0.1 | 2.7653 |
+| 0.2 | 2.7601 |
+| **0.3** | **2.7579** |
+
+The w0.0 run reproduced 2.7743 exactly. The best blend is **30% v0.2.0 / 70%
+v0.3.0**, **−0.0164 nats**. The 2k benchmark improves on all five tasks vs
+v0.3.0 (ARC +0.45, HellaSwag +0.45, LAMBADA +0.70, PIQA +0.38, WinoGrande
++0.95); no task regresses by >2σ. CL-0 is **2.740949**, **−0.015699** vs v0.3.0.
+`release_candidate = true`.
+
+**Decision.**
+1. **v0.3.1 is the release candidate.** It is a weight-space soup, not an
+   architecture result: it recovers part of the final-checkpoint regression by
+   averaging a continuation's endpoints.
+2. **v0.3.0 remains the base experiment.** The merge does not change the
+   architecture, data or training recipe.
+3. **The checkpoint must be re-materialised before release.** The merge kernel's
+   cleanup deleted the binary after scoring it; the exact blend is deterministic
+   from the two hash-pinned checkpoints. The release uses the materialised file
+   only after the 100-batch val reproduces **2.7579**.
+4. **The 2k gains are modest** (z 0.24–0.50); a 5k re-score is the confirmation
+   before a public benchmark claim.
+5. **Next:** export v0.3.1 to safetensors and re-score the written file (the
+   v0.2.0 release gate); update the model card. Optional: w0.4/w0.5 or a
+   lower-LR best-checkpoint continuation. The data mix waits.
+
+**Cost.** Zero GPU; ~3 CPU-hours. Artifacts: `docs/results/v031-merge/`;
+plan: `docs/research/2026-11-01-v031-merge-plan.md`.
+
+**Status.** release candidate pending checkpoint materialisation and export.

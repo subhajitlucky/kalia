@@ -1,5 +1,9 @@
 # v0.3.0 second epoch — release candidate
 
+> **v0.3.1 note (2026-11-01):** the 30% v0.2.0 / 70% v0.3.0 weight merge is the
+> new release candidate (val **2.7579**, all five 2k tasks positive, CL-0
+> **2.740949**). See `docs/results/v031-merge/`.
+
 Registered: `docs/preregistrations/2026-10-27-v030-second-epoch.md`
 (sha `7375a595…`, ledger-verified). Training kernel `kalia-v030-epoch2`,
 code `b103d5d`, **~10 GPU-h**. Final eval kernel `kalia-v030-final-eval`,

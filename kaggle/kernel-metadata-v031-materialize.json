@@ -1,0 +1,20 @@
+{
+  "id": "subhajitlucky/kalia-v031-materialize",
+  "title": "KALIA v031 materialize",
+  "code_file": "kalia_v031_materialize_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev",
+    "subhajitlucky/kalia-v020-ckpt"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-v030-epoch2",
+    "subhajitlucky/kalia-prep-v2b"
+  ],
+  "model_sources": []
+}

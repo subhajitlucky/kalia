@@ -1,0 +1,94 @@
+{
+  "E2_no_regression": true,
+  "E3_cl0": true,
+  "baseline_v020_val": 2.8248,
+  "baseline_v030_cl0": 2.756648,
+  "baseline_v030_val": 2.7743,
+  "benchmark": {
+    "arc_easy": {
+      "delta_vs_v030_pp": 0.4500000000000004,
+      "regression_2sigma": false,
+      "v020": 46.400000000000006,
+      "v030": 47.55,
+      "v031": 48.0,
+      "z_vs_v030": 0.284818861961687
+    },
+    "hellaswag": {
+      "delta_vs_v030_pp": 0.4500000000000004,
+      "regression_2sigma": false,
+      "v020": 35.6,
+      "v030": 37.2,
+      "v031": 37.65,
+      "z_vs_v030": 0.29398642262143543
+    },
+    "lambada_openai": {
+      "delta_vs_v030_pp": 0.7000000000000006,
+      "regression_2sigma": false,
+      "v020": 23.9,
+      "v030": 26.3,
+      "v031": 27.0,
+      "z_vs_v030": 0.5005579713316861
+    },
+    "piqa": {
+      "delta_vs_v030_pp": 0.3808487486398282,
+      "regression_2sigma": false,
+      "v020": 61.37105549510338,
+      "v030": 61.58868335146899,
+      "v031": 61.969532100108815,
+      "z_vs_v030": 0.23753314638923329
+    },
+    "winogrande": {
+      "delta_vs_v030_pp": 0.9471191791633804,
+      "regression_2sigma": false,
+      "v020": 50.74980268350434,
+      "v030": 51.302288871349646,
+      "v031": 52.249408050513026,
+      "z_vs_v030": 0.4769030287461885
+    }
+  },
+  "best": "w0.3",
+  "best_val": 2.7579,
+  "cl0": 2.740949,
+  "cl0_allowance": 0.007,
+  "date": "2026-11-01",
+  "experiment": "v031-merge",
+  "note": "the merge wins on val; the 2k and CL-0 gates decide the release",
+  "release_candidate": true,
+  "rows": {
+    "w0.0": {
+      "ckpt": "/kaggle/working/merge/v031-w0.0.pt",
+      "ckpt_sha256": "f3c0aa80e648fa9ce60d35fe0e4358a50ea93691f0607fa4dc10a2d4e0437aa7",
+      "v020_weight": 0.0,
+      "v030_weight": 1.0,
+      "val": 2.7743
+    },
+    "w0.1": {
+      "ckpt": "/kaggle/working/merge/v031-w0.1.pt",
+      "ckpt_sha256": "5299610be13b595af58d57b9ac3fd16457ef7e296f02dc0d443c387deefeaa5c",
+      "v020_weight": 0.1,
+      "v030_weight": 0.9,
+      "val": 2.7653
+    },
+    "w0.2": {
+      "ckpt": "/kaggle/working/merge/v031-w0.2.pt",
+      "ckpt_sha256": "f32c0d934db897495fa2af2f4abbb87365ac029182a1712bf852c39b45a88e55",
+      "v020_weight": 0.2,
+      "v030_weight": 0.8,
+      "val": 2.7601
+    },
+    "w0.3": {
+      "ckpt": "/kaggle/working/best_merged.pt",
+      "ckpt_sha256": "dc2539984a89ba8b3df6b6191c004fca722d1aa9cefe1baf04cc1f4cb09bc1f7",
+      "v020_weight": 0.3,
+      "v030_weight": 0.7,
+      "val": 2.7579
+    }
+  },
+  "weights_v020": [
+    0.0,
+    0.1,
+    0.2,
+    0.3
+  ],
+  "win_on_val": true
+}

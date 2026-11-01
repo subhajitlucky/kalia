@@ -1,0 +1,36 @@
+{
+  "bars": {
+    "cl0": 2.7636480000000003,
+    "limit": 2000,
+    "val": 2.7743
+  },
+  "code_fingerprint": "61dd044e54f9e8f9e6b43b08614420586ab393feda51eccb06c9c7acba68c975",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "kernel_id": "subhajitlucky/kalia-v031-merge",
+  "kernel_revision": "15f7d7f80af9230d6d414eadd51c1cdf8e93b54b",
+  "recorded": "2026-11-01T07:02:43.888533+00:00",
+  "v020_bench": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-bench-pair-2k/bench_v020_2k.json",
+    "sha256": "ea3246e686678181d8a0b5d975efafe72707deb5ad321b1b94657576fcf3752f"
+  },
+  "v020_checkpoint": {
+    "path": "/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt",
+    "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+  },
+  "v030_bench": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-v030-final-eval/bench_v030_2k.json",
+    "sha256": "089abaafd766b3b11ab8d4c3b21e846ccf9af9ed66b800bc81ccb939b2a3f93e"
+  },
+  "v030_checkpoint": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-v030-epoch2/out/ckpt.pt",
+    "sha256": "80b064f9a99e6ed5372e7fa46021574a9b21298b822fd2c581357831cc77537e"
+  },
+  "v030_final": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-v030-final-eval/v030_final.json",
+    "sha256": "564aa6a396d43cb4327ee4e4d540021fb8ebf2fe19fde1d3d78eaffaf35399ed"
+  },
+  "val_bin": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

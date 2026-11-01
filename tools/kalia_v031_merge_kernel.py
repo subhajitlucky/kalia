@@ -263,13 +263,13 @@ if best is not None:
     cl0_row = json.loads(cl0_path.read_text().strip().splitlines()[-1])
     cl0 = float(cl0_row["probe_loss"])
     cl0_pass = (cl0 - V030_CL0) <= CL0_ALLOWANCE
-    shutil.copyfile(best["ckpt"], "/kaggle/working/best_merged.pt")
-    rows[best_name]["ckpt"] = "/kaggle/working/best_merged.pt"
+    src = Path(best["ckpt"])
+    shutil.copyfile(src, "/kaggle/working/best_merged.pt")
     for name, row in rows.items():
-        path = Path(row["ckpt"])
-        if name != best_name and path.exists():
-            path.unlink()
-    Path(best["ckpt"]).unlink(missing_ok=True)
+        if name != best_name:
+            Path(row["ckpt"]).unlink(missing_ok=True)
+    src.unlink(missing_ok=True)
+    rows[best_name]["ckpt"] = "/kaggle/working/best_merged.pt"
     print(f"CL-0 {cl0:.6f} vs v0.3.0 {V030_CL0:.6f} | drift {cl0 - V030_CL0:+.6f}")
 
 release_candidate = bool(best is not None and no_regression and cl0_pass)

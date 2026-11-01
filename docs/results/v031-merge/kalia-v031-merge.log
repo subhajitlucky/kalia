@@ -1,0 +1,147 @@
+[{"stream_name":"stdout","time":31.750803938,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":41.468442875,"data":"v0.2.0: /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":41.468492062,"data":"v0.3.0: /kaggle/input/notebooks/subhajitlucky/kalia-v030-epoch2/out/ckpt.pt\n"}
+,{"stream_name":"stdout","time":41.468498012,"data":"val: /kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin\n"}
+,{"stream_name":"stdout","time":41.46850379,"data":"v0.3.0 baseline: 2.7743 | CL-0: 2.756648\n"}
+,{"stream_name":"stdout","time":72.280135559,"data":"checkpoints compatible: same model config, keys and shapes\n"}
+,{"stream_name":"stdout","time":1973.299475685,"data":"val loss 2.7743 | bpB 0.9070 | tokens 819,200\n"}
+,{"stream_name":"stdout","time":1976.284671842,"data":"w0.0: v0.2.0 0.0 / v0.3.0 1.0 -\u003e val 2.7743\n"}
+,{"stream_name":"stdout","time":3832.633667682,"data":"val loss 2.7653 | bpB 0.9040 | tokens 819,200\n"}
+,{"stream_name":"stdout","time":3835.751359176,"data":"w0.1: v0.2.0 0.1 / v0.3.0 0.9 -\u003e val 2.7653\n"}
+,{"stream_name":"stdout","time":5750.019921368,"data":"val loss 2.7601 | bpB 0.9023 | tokens 819,200\n"}
+,{"stream_name":"stdout","time":5753.223523942,"data":"w0.2: v0.2.0 0.2 / v0.3.0 0.8 -\u003e val 2.7601\n"}
+,{"stream_name":"stdout","time":7652.149423547,"data":"val loss 2.7579 | bpB 0.9016 | tokens 819,200\n"}
+,{"stream_name":"stdout","time":7655.754786453,"data":"w0.3: v0.2.0 0.3 / v0.3.0 0.7 -\u003e val 2.7579\n"}
+,{"stream_name":"stdout","time":7655.755275828,"data":"best merge: w0.3 2.7579\n"}
+,{"stream_name":"stderr","time":7698.870692817,"data":"ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.\n"}
+,{"stream_name":"stderr","time":7698.870751865,"data":"gradio 6.26.0 requires huggingface-hub\u003c2.0,\u003e=1.16.0, but you have huggingface-hub 0.36.2 which is incompatible.\n"}
+,{"stream_name":"stderr","time":7698.870757724,"data":"gradio 6.26.0 requires pillow\u003c13.0,\u003e=8.0, but you have pillow 13.0.0 which is incompatible.\n"}
+,{"stream_name":"stderr","time":7698.870761854,"data":"diffusers 0.40.0 requires huggingface-hub\u003c2.0,\u003e=1.23.0, but you have huggingface-hub 0.36.2 which is incompatible.\n"}
+,{"stream_name":"stderr","time":7747.196686002,"data":"WARNING:torchao.kernel.intmm:Warning: Detected no triton, on systems without Triton certain kernels will not work\n"}
+,{"stream_name":"stdout","time":7764.1642187,"data":"samples per task: 2000\n"}
+,{"stream_name":"stdout","time":7764.164268304,"data":"checkpoint: /kaggle/working/merge/v031-w0.3.pt\n"}
+,{"stream_name":"stderr","time":7764.3158044,"data":"\rGenerating train split:   0%|          | 0/2251 [00:00\u003c?, ? examples/s]\rGenerating train split:  44%|████▍     | 1000/2251 [00:00\u003c00:00, 6914.29 examples/s]\rGenerating train split: 100%|██████████| 2251/2251 [00:00\u003c00:00, 14947.31 examples/s]\n"}
+,{"stream_name":"stderr","time":7764.325721269,"data":"\rGenerating test split:   0%|          | 0/2376 [00:00\u003c?, ? examples/s]\rGenerating test split: 100%|██████████| 2376/2376 [00:00\u003c00:00, 261195.85 examples/s]\n"}
+,{"stream_name":"stderr","time":7764.331255814,"data":"\rGenerating validation split:   0%|          | 0/570 [00:00\u003c?, ? examples/s]\rGenerating validation split: 100%|██████████| 570/570 [00:00\u003c00:00, 115551.15 examples/s]\n"}
+,{"stream_name":"stderr","time":7764.514264818,"data":"`trust_remote_code` is not supported anymore.\n"}
+,{"stream_name":"stderr","time":7764.514332717,"data":"Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.\n"}
+,{"stream_name":"stderr","time":7764.514370837,"data":"If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.\n"}
+,{"stream_name":"stderr","time":7764.514374695,"data":"ERROR:datasets.load:`trust_remote_code` is not supported anymore.\n"}
+,{"stream_name":"stderr","time":7764.514377746,"data":"Please check that the Hugging Face dataset 'baber/piqa' isn't based on a loading script and remove `trust_remote_code`.\n"}
+,{"stream_name":"stderr","time":7764.514380645,"data":"If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.\n"}
+,{"stream_name":"stderr","time":7766.830713858,"data":"\rGenerating train split:   0%|          | 0/16113 [00:00\u003c?, ? examples/s]\rGenerating train split: 100%|██████████| 16113/16113 [00:00\u003c00:00, 615110.63 examples/s]\n"}
+,{"stream_name":"stderr","time":7766.838051628,"data":"\rGenerating validation split:   0%|          | 0/1838 [00:00\u003c?, ? examples/s]\rGenerating validation split: 100%|██████████| 1838/1838 [00:00\u003c00:00, 288008.77 examples/s]\n"}
+,{"stream_name":"stderr","time":7766.846752816,"data":"\rGenerating test split:   0%|          | 0/3084 [00:00\u003c?, ? examples/s]\rGenerating test split: 100%|██████████| 3084/3084 [00:00\u003c00:00, 393192.09 examples/s]\n"}
+,{"stream_name":"stderr","time":7767.518373523,"data":"`trust_remote_code` is not supported anymore.\n"}
+,{"stream_name":"stderr","time":7767.518418727,"data":"Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.\n"}
+,{"stream_name":"stderr","time":7767.518426651,"data":"If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.\n"}
+,{"stream_name":"stderr","time":7767.518432277,"data":"ERROR:datasets.load:`trust_remote_code` is not supported anymore.\n"}
+,{"stream_name":"stderr","time":7767.518437568,"data":"Please check that the Hugging Face dataset 'hellaswag' isn't based on a loading script and remove `trust_remote_code`.\n"}
+,{"stream_name":"stderr","time":7767.518442463,"data":"If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.\n"}
+,{"stream_name":"stderr","time":7771.018527512,"data":"\rGenerating train split:   0%|          | 0/39905 [00:00\u003c?, ? examples/s]\rGenerating train split:  45%|████▌     | 18000/39905 [00:00\u003c00:00, 172302.96 examples/s]\rGenerating train split:  93%|█████████▎| 37000/39905 [00:00\u003c00:00, 176663.26 examples/s]\rGenerating train split: 100%|██████████| 39905/39905 [00:00\u003c00:00, 179242.99 examples/s]\n"}
+,{"stream_name":"stderr","time":7771.074389488,"data":"\rGenerating test split:   0%|          | 0/10003 [00:00\u003c?, ? examples/s]\rGenerating test split: 100%|██████████| 10003/10003 [00:00\u003c00:00, 182334.10 examples/s]\n"}
+,{"stream_name":"stderr","time":7771.127537676,"data":"\rGenerating validation split:   0%|          | 0/10042 [00:00\u003c?, ? examples/s]\rGenerating validation split: 100%|██████████| 10042/10042 [00:00\u003c00:00, 192500.04 examples/s]\n"}
+,{"stream_name":"stderr","time":7778.179882596,"data":"\rMap:   0%|          | 0/39905 [00:00\u003c?, ? examples/s]\rMap:   1%|▏         | 595/39905 [00:00\u003c00:06, 5827.29 examples/s]\rMap:   3%|▎         | 1373/39905 [00:01\u003c00:31, 1211.23 examples/s]\rMap:   5%|▌         | 2000/39905 [00:01\u003c00:20, 1835.97 examples/s]\rMap:   7%|▋         | 2864/39905 [00:01\u003c00:12, 2869.59 examples/s]\rMap:  10%|▉         | 3830/39905 [00:01\u003c00:09, 3745.66 examples/s]\rMap:  11%|█         | 4466/39905 [00:01\u003c00:08, 4240.18 examples/s]\rMap:  13%|█▎        | 5129/39905 [00:01\u003c00:07, 4748.22 examples/s]\rMap:  15%|█▍        | 5964/39905 [00:01\u003c00:06, 5586.72 examples/s]\rMap:  18%|█▊        | 7000/39905 [00:01\u003c00:05, 5712.66 examples/s]\rMap:  20%|█▉        | 7853/39905 [00:01\u003c00:05, 6363.61 examples/s]\rMap:  22%|██▏       | 8795/39905 [00:02\u003c00:04, 6332.85 examples/s]\rMap:  25%|██▍       | 9875/39905 [00:02\u003c00:04, 6601.79 examples/s]\rMap:  27%|██▋       | 10914/39905 [00:02\u003c00:04, 6701.16 examples/s]\rMap:  30%|███       | 12000/39905 [00:02\u003c00:04, 6537.38 examples/s]\rMap:  32%|███▏      | 12785/39905 [00:02\u003c00:03, 6823.39 examples/s]\rMap:  35%|███▍      | 13851/39905 [00:02\u003c00:03, 6867.57 examples/s]\rMap:  37%|███▋      | 14924/39905 [00:02\u003c00:03, 6953.38 examples/s]\rMap:  40%|███▉      | 15854/39905 [00:03\u003c00:03, 6719.35 examples/s]\rMap:  42%|████▏     | 16831/39905 [00:03\u003c00:03, 6655.03 examples/s]\rMap:  45%|████▍     | 17802/39905 [00:03\u003c00:03, 6509.41 examples/s]\rMap:  47%|████▋     | 18787/39905 [00:03\u003c00:03, 6500.47 examples/s]\rMap:  50%|████▉     | 19831/39905 [00:03\u003c00:03, 6585.32 examples/s]\rMap:  52%|█████▏    | 20856/39905 [00:03\u003c00:02, 6656.67 examples/s]\rMap:  55%|█████▍    | 21805/39905 [00:04\u003c00:02, 6550.74 examples/s]\rMap:  57%|█████▋    | 22716/39905 [00:04\u003c00:02, 6209.19 examples/s]\rMap:  59%|█████▊    | 23383/39905 [00:04\u003c00:02, 6015.53 examples/s]\rMap:  60%|██████    | 24000/39905 [00:04\u003c00:02, 5902.91 examples/s]\rMap:  62%|██████▏   | 24771/39905 [00:04\u003c00:02, 6336.41 examples/s]\rMap:  65%|██████▍   | 25771/39905 [00:04\u003c00:02, 6286.09 examples/s]\rMap:  67%|██████▋   | 26786/39905 [00:04\u003c00:02, 6315.72 examples/s]\rMap:  70%|██████▉   | 27792/39905 [00:05\u003c00:01, 6404.07 examples/s]\rMap:  72%|███████▏  | 28715/39905 [00:05\u003c00:01, 6169.07 examples/s]\rMap:  74%|███████▎  | 29396/39905 [00:05\u003c00:01, 6113.12 examples/s]\rMap:  76%|███████▌  | 30363/39905 [00:05\u003c00:01, 6107.86 examples/s]\rMap:  78%|███████▊  | 31000/39905 [00:05\u003c00:01, 6024.12 examples/s]\rMap:  80%|███████▉  | 31763/39905 [00:05\u003c00:01, 6408.87 examples/s]\rMap:  82%|████████▏ | 32775/39905 [00:05\u003c00:01, 6399.04 examples/s]\rMap:  85%|████████▍ | 33737/39905 [00:05\u003c00:00, 6239.48 examples/s]\rMap:  87%|████████▋ | 34664/39905 [00:06\u003c00:00, 5925.89 examples/s]\rMap:  89%|████████▊ | 35371/39905 [00:06\u003c00:00, 5939.16 examples/s]\rMap:  90%|█████████ | 36000/39905 [00:06\u003c00:00, 5971.45 examples/s]\rMap:  92%|█████████▏| 36793/39905 [00:06\u003c00:00, 6455.40 examples/s]\rMap:  95%|█████████▍| 37761/39905 [00:06\u003c00:00, 6389.09 examples/s]\rMap:  97%|█████████▋| 38792/39905 [00:06\u003c00:00, 6396.22 examples/s]\rMap: 100%|█████████▉| 39730/39905 [00:06\u003c00:00, 6245.99 examples/s]\rMap: 100%|██████████| 39905/39905 [00:07\u003c00:00, 5682.20 examples/s]\n"}
+,{"stream_name":"stderr","time":7785.182970573,"data":"\rMap:   0%|          | 0/10042 [00:00\u003c?, ? examples/s]\rMap:   9%|▉         | 906/10042 [00:00\u003c00:01, 8886.69 examples/s]\rMap:  19%|█▉        | 1914/10042 [00:00\u003c00:01, 7411.78 examples/s]\rMap:  30%|██▉       | 3000/10042 [00:00\u003c00:01, 6824.04 examples/s]\rMap:  37%|███▋      | 3746/10042 [00:00\u003c00:00, 7014.65 examples/s]\rMap:  47%|████▋     | 4732/10042 [00:00\u003c00:00, 6538.48 examples/s]\rMap:  54%|█████▍    | 5419/10042 [00:00\u003c00:00, 6411.66 examples/s]\rMap:  64%|██████▍   | 6465/10042 [00:00\u003c00:00, 6608.12 examples/s]\rMap:  74%|███████▍  | 7442/10042 [00:01\u003c00:00, 6574.24 examples/s]\rMap:  84%|████████▎ | 8406/10042 [00:01\u003c00:00, 6523.42 examples/s]\rMap:  93%|█████████▎| 9382/10042 [00:02\u003c00:00, 2708.43 examples/s]\rMap: 100%|█████████▉| 10000/10042 [00:02\u003c00:00, 3073.79 examples/s]\rMap: 100%|██████████| 10042/10042 [00:02\u003c00:00, 4563.01 examples/s]\n"}
+,{"stream_name":"stderr","time":7785.188974382,"data":"`trust_remote_code` is not supported anymore.\n"}
+,{"stream_name":"stderr","time":7785.189032153,"data":"Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.\n"}
+,{"stream_name":"stderr","time":7785.189040893,"data":"If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.\n"}
+,{"stream_name":"stderr","time":7785.189046462,"data":"ERROR:datasets.load:`trust_remote_code` is not supported anymore.\n"}
+,{"stream_name":"stderr","time":7785.189051379,"data":"Please check that the Hugging Face dataset 'EleutherAI/lambada_openai' isn't based on a loading script and remove `trust_remote_code`.\n"}
+,{"stream_name":"stderr","time":7785.189055715,"data":"If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.\n"}
+,{"stream_name":"stderr","time":7786.707682584,"data":"\rGenerating test split:   0%|          | 0/5153 [00:00\u003c?, ? examples/s]\rGenerating test split: 100%|██████████| 5153/5153 [00:00\u003c00:00, 376589.92 examples/s]\n"}
+,{"stream_name":"stderr","time":7786.802060565,"data":"`trust_remote_code` is not supported anymore.\n"}
+,{"stream_name":"stderr","time":7786.802110078,"data":"Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.\n"}
+,{"stream_name":"stderr","time":7786.802114877,"data":"If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.\n"}
+,{"stream_name":"stderr","time":7786.802118565,"data":"ERROR:datasets.load:`trust_remote_code` is not supported anymore.\n"}
+,{"stream_name":"stderr","time":7786.802121653,"data":"Please check that the Hugging Face dataset 'winogrande' isn't based on a loading script and remove `trust_remote_code`.\n"}
+,{"stream_name":"stderr","time":7786.802125059,"data":"If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.\n"}
+,{"stream_name":"stderr","time":7790.327170886,"data":"\rGenerating train split:   0%|          | 0/40398 [00:00\u003c?, ? examples/s]\rGenerating train split: 100%|██████████| 40398/40398 [00:00\u003c00:00, 1130242.89 examples/s]\n"}
+,{"stream_name":"stderr","time":7790.332937867,"data":"\rGenerating test split:   0%|          | 0/1767 [00:00\u003c?, ? examples/s]\rGenerating test split: 100%|██████████| 1767/1767 [00:00\u003c00:00, 352601.70 examples/s]\n"}
+,{"stream_name":"stderr","time":7790.338219946,"data":"\rGenerating validation split:   0%|          | 0/1267 [00:00\u003c?, ? examples/s]\rGenerating validation split: 100%|██████████| 1267/1267 [00:00\u003c00:00, 275260.70 examples/s]\n"}
+,{"stream_name":"stderr","time":7791.838840104,"data":"\r  0%|          | 0/1267 [00:00\u003c?, ?it/s]\r100%|██████████| 1267/1267 [00:00\u003c00:00, 92472.04it/s]\n"}
+,{"stream_name":"stderr","time":7796.257382504,"data":"\r  0%|          | 0/2000 [00:00\u003c?, ?it/s]\r  2%|▏         | 46/2000 [00:00\u003c00:04, 455.68it/s]\r  5%|▍         | 92/2000 [00:00\u003c00:04, 452.32it/s]\r  7%|▋         | 138/2000 [00:00\u003c00:04, 451.67it/s]\r  9%|▉         | 184/2000 [00:00\u003c00:04, 451.69it/s]\r 12%|█▏        | 231/2000 [00:00\u003c00:03, 456.07it/s]\r 14%|█▍        | 278/2000 [00:00\u003c00:03, 460.19it/s]\r 16%|█▋        | 325/2000 [00:00\u003c00:03, 454.79it/s]\r 19%|█▊        | 371/2000 [00:00\u003c00:03, 450.42it/s]\r 21%|██        | 417/2000 [00:00\u003c00:03, 453.27it/s]\r 23%|██▎       | 464/2000 [00:01\u003c00:03, 458.29it/s]\r 26%|██▌       | 511/2000 [00:01\u003c00:03, 460.63it/s]\r 28%|██▊       | 558/2000 [00:01\u003c00:03, 462.54it/s]\r 30%|███       | 605/2000 [00:01\u003c00:03, 452.70it/s]\r 33%|███▎      | 651/2000 [00:01\u003c00:02, 453.17it/s]\r 35%|███▌      | 700/2000 [00:01\u003c00:02, 462.01it/s]\r 37%|███▋      | 747/2000 [00:01\u003c00:02, 463.81it/s]\r 40%|███▉      | 794/2000 [00:01\u003c00:02, 462.48it/s]\r 42%|████▏     | 842/2000 [00:01\u003c00:02, 465.76it/s]\r 44%|████▍     | 889/2000 [00:01\u003c00:02, 460.27it/s]\r 47%|████▋     | 936/2000 [00:02\u003c00:02, 456.28it/s]\r 49%|████▉     | 983/2000 [00:02\u003c00:02, 459.41it/s]\r 52%|█████▏    | 1030/2000 [00:02\u003c00:02, 461.37it/s]\r 54%|█████▍    | 1077/2000 [00:02\u003c00:02, 451.73it/s]\r 56%|█████▌    | 1123/2000 [00:02\u003c00:01, 446.94it/s]\r 58%|█████▊    | 1168/2000 [00:02\u003c00:01, 445.00it/s]\r 61%|██████    | 1213/2000 [00:02\u003c00:01, 444.49it/s]\r 63%|██████▎   | 1259/2000 [00:02\u003c00:01, 447.66it/s]\r 65%|██████▌   | 1306/2000 [00:02\u003c00:01, 451.85it/s]\r 68%|██████▊   | 1354/2000 [00:02\u003c00:01, 458.71it/s]\r 70%|███████   | 1403/2000 [00:03\u003c00:01, 466.49it/s]\r 73%|███████▎  | 1452/2000 [00:03\u003c00:01, 472.80it/s]\r 75%|███████▌  | 1500/2000 [00:03\u003c00:01, 470.30it/s]\r 77%|███████▋  | 1548/2000 [00:03\u003c00:00, 460.55it/s]\r 80%|███████▉  | 1595/2000 [00:03\u003c00:00, 458.60it/s]\r 82%|████████▏ | 1641/2000 [00:03\u003c00:00, 447.78it/s]\r 84%|████████▍ | 1687/2000 [00:03\u003c00:00, 449.44it/s]\r 87%|████████▋ | 1734/2000 [00:03\u003c00:00, 455.08it/s]\r 89%|████████▉ | 1780/2000 [00:03\u003c00:00, 455.33it/s]\r 92%|█████████▏| 1830/2000 [00:04\u003c00:00, 465.76it/s]\r 94%|█████████▍| 1877/2000 [00:04\u003c00:00, 460.04it/s]\r 96%|█████████▌| 1924/2000 [00:04\u003c00:00, 455.46it/s]\r 98%|█████████▊| 1970/2000 [00:04\u003c00:00, 454.01it/s]\r100%|██████████| 2000/2000 [00:04\u003c00:00, 456.60it/s]\n"}
+,{"stream_name":"stderr","time":7797.530684393,"data":"\r  0%|          | 0/2000 [00:00\u003c?, ?it/s]\r 10%|▉         | 199/2000 [00:00\u003c00:00, 1983.27it/s]\r 20%|█▉        | 398/2000 [00:00\u003c00:00, 1934.87it/s]\r 30%|██▉       | 592/2000 [00:00\u003c00:00, 1926.16it/s]\r 40%|███▉      | 791/2000 [00:00\u003c00:00, 1948.07it/s]\r 49%|████▉     | 986/2000 [00:00\u003c00:00, 1904.32it/s]\r 60%|█████▉    | 1192/2000 [00:00\u003c00:00, 1951.51it/s]\r 69%|██████▉   | 1388/2000 [00:00\u003c00:00, 1916.73it/s]\r 79%|███████▉  | 1580/2000 [00:00\u003c00:00, 1908.96it/s]\r 89%|████████▊ | 1772/2000 [00:00\u003c00:00, 1901.81it/s]\r 98%|█████████▊| 1967/2000 [00:01\u003c00:00, 1913.47it/s]\r100%|██████████| 2000/2000 [00:01\u003c00:00, 1921.87it/s]\n"}
+,{"stream_name":"stderr","time":7799.861328562,"data":"\r  0%|          | 0/1838 [00:00\u003c?, ?it/s]\r  4%|▍         | 82/1838 [00:00\u003c00:02, 814.16it/s]\r  9%|▉         | 164/1838 [00:00\u003c00:02, 784.04it/s]\r 13%|█▎        | 243/1838 [00:00\u003c00:02, 778.68it/s]\r 17%|█▋        | 321/1838 [00:00\u003c00:01, 768.22it/s]\r 22%|██▏       | 399/1838 [00:00\u003c00:01, 770.62it/s]\r 26%|██▌       | 477/1838 [00:00\u003c00:01, 767.29it/s]\r 31%|███       | 562/1838 [00:00\u003c00:01, 791.73it/s]\r 35%|███▌      | 649/1838 [00:00\u003c00:01, 815.95it/s]\r 40%|███▉      | 733/1838 [00:00\u003c00:01, 820.18it/s]\r 45%|████▍     | 820/1838 [00:01\u003c00:01, 833.96it/s]\r 49%|████▉     | 904/1838 [00:01\u003c00:01, 829.86it/s]\r 54%|█████▍    | 992/1838 [00:01\u003c00:01, 843.20it/s]\r 59%|█████▊    | 1078/1838 [00:01\u003c00:00, 846.68it/s]\r 63%|██████▎   | 1163/1838 [00:01\u003c00:00, 845.27it/s]\r 68%|██████▊   | 1248/1838 [00:01\u003c00:00, 843.31it/s]\r 73%|███████▎  | 1333/1838 [00:01\u003c00:00, 835.16it/s]\r 77%|███████▋  | 1417/1838 [00:01\u003c00:00, 827.37it/s]\r 82%|████████▏ | 1500/1838 [00:01\u003c00:00, 818.83it/s]\r 86%|████████▌ | 1582/1838 [00:01\u003c00:00, 761.79it/s]\r 91%|█████████ | 1664/1838 [00:02\u003c00:00, 777.54it/s]\r 95%|█████████▌| 1751/1838 [00:02\u003c00:00, 803.42it/s]\r100%|██████████| 1838/1838 [00:02\u003c00:00, 812.23it/s]\n"}
+,{"stream_name":"stderr","time":7802.500828344,"data":"\r  0%|          | 0/2000 [00:00\u003c?, ?it/s]\r  4%|▍         | 81/2000 [00:00\u003c00:02, 803.42it/s]\r  8%|▊         | 162/2000 [00:00\u003c00:02, 757.21it/s]\r 12%|█▏        | 238/2000 [00:00\u003c00:02, 745.91it/s]\r 16%|█▌        | 321/2000 [00:00\u003c00:02, 775.63it/s]\r 21%|██        | 411/2000 [00:00\u003c00:01, 817.36it/s]\r 25%|██▍       | 496/2000 [00:00\u003c00:01, 826.11it/s]\r 29%|██▉       | 579/2000 [00:00\u003c00:01, 821.38it/s]\r 33%|███▎      | 662/2000 [00:00\u003c00:01, 819.54it/s]\r 38%|███▊      | 751/2000 [00:00\u003c00:01, 839.38it/s]\r 42%|████▏     | 841/2000 [00:01\u003c00:01, 855.94it/s]\r 46%|████▋     | 927/2000 [00:01\u003c00:01, 823.68it/s]\r 50%|█████     | 1010/2000 [00:01\u003c00:01, 824.87it/s]\r 55%|█████▍    | 1095/2000 [00:01\u003c00:01, 829.66it/s]\r 59%|█████▉    | 1179/2000 [00:01\u003c00:01, 748.26it/s]\r 63%|██████▎   | 1256/2000 [00:01\u003c00:01, 740.08it/s]\r 67%|██████▋   | 1335/2000 [00:01\u003c00:00, 753.03it/s]\r 71%|███████   | 1416/2000 [00:01\u003c00:00, 767.13it/s]\r 75%|███████▍  | 1497/2000 [00:01\u003c00:00, 777.38it/s]\r 79%|███████▉  | 1577/2000 [00:01\u003c00:00, 783.23it/s]\r 83%|████████▎ | 1656/2000 [00:02\u003c00:00, 783.51it/s]\r 87%|████████▋ | 1735/2000 [00:02\u003c00:00, 757.02it/s]\r 91%|█████████ | 1815/2000 [00:02\u003c00:00, 768.20it/s]\r 95%|█████████▌| 1902/2000 [00:02\u003c00:00, 797.40it/s]\r100%|█████████▉| 1990/2000 [00:02\u003c00:00, 818.45it/s]\r100%|██████████| 2000/2000 [00:02\u003c00:00, 795.60it/s]\n"}
+,{"stream_name":"stdout","time":10118.218062016,"data":"bootstrapping for stddev: perplexity\n"}
+,{"stream_name":"stderr","time":10118.259729644,"data":"\r  0%|          | 0/1 [00:00\u003c?, ?it/s]\r100%|██████████| 1/1 [00:00\u003c00:00, 31.73it/s]\n"}
+,{"stream_name":"stderr","time":10118.396640326,"data":"fatal: not a git repository (or any parent up to mount point /kaggle)\n"}
+,{"stream_name":"stderr","time":10118.396751643,"data":"Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).\n"}
+,{"stream_name":"stdout","time":10120.598150173,"data":"================================================================\n"}
+,{"stream_name":"stdout","time":10120.598306964,"data":"BENCHMARK SUMMARY (0-shot)\n"}
+,{"stream_name":"stdout","time":10120.598316546,"data":"arc_easy {\"acc,none\": 0.48, \"acc_stderr,none\": 0.011174185930778483, \"acc_norm,none\": 0.4275, \"acc_norm_stderr,none\": 0.01106494878188656}\n"}
+,{"stream_name":"stdout","time":10120.598322185,"data":"hellaswag {\"acc,none\": 0.3235, \"acc_stderr,none\": 0.010463202870400323, \"acc_norm,none\": 0.3765, \"acc_norm_stderr,none\": 0.010836631916589573}\n"}
+,{"stream_name":"stdout","time":10120.598326066,"data":"lambada_openai {\"perplexity,none\": 122.88354952002013, \"perplexity_stderr,none\": 10.672943965144498, \"acc,none\": 0.27, \"acc_stderr,none\": 0.009929718004547002}\n"}
+,{"stream_name":"stdout","time":10120.598332052,"data":"piqa {\"acc,none\": 0.6196953210010882, \"acc_stderr,none\": 0.011326620892570301, \"acc_norm,none\": 0.6093579978237215, \"acc_norm_stderr,none\": 0.011383377760053567}\n"}
+,{"stream_name":"stdout","time":10120.598337734,"data":"winogrande {\"acc,none\": 0.5224940805051302, \"acc_stderr,none\": 0.014038257824059859}\n"}
+,{"stream_name":"stdout","time":10126.47881578,"data":"benchmark: {\n"}
+,{"stream_name":"stdout","time":10126.478882413,"data":"  \"arc_easy\": {\n"}
+,{"stream_name":"stdout","time":10126.478888657,"data":"    \"delta_vs_v030_pp\": 0.4500000000000004,\n"}
+,{"stream_name":"stdout","time":10126.478893586,"data":"    \"regression_2sigma\": false,\n"}
+,{"stream_name":"stdout","time":10126.478898703,"data":"    \"v020\": 46.400000000000006,\n"}
+,{"stream_name":"stdout","time":10126.478904471,"data":"    \"v030\": 47.55,\n"}
+,{"stream_name":"stdout","time":10126.478913732,"data":"    \"v031\": 48.0,\n"}
+,{"stream_name":"stdout","time":10126.478925973,"data":"    \"z_vs_v030\": 0.284818861961687\n"}
+,{"stream_name":"stdout","time":10126.478929243,"data":"  },\n"}
+,{"stream_name":"stdout","time":10126.478932473,"data":"  \"hellaswag\": {\n"}
+,{"stream_name":"stdout","time":10126.478935258,"data":"    \"delta_vs_v030_pp\": 0.4500000000000004,\n"}
+,{"stream_name":"stdout","time":10126.478938086,"data":"    \"regression_2sigma\": false,\n"}
+,{"stream_name":"stdout","time":10126.478940826,"data":"    \"v020\": 35.6,\n"}
+,{"stream_name":"stdout","time":10126.478943426,"data":"    \"v030\": 37.2,\n"}
+,{"stream_name":"stdout","time":10126.478945983,"data":"    \"v031\": 37.65,\n"}
+,{"stream_name":"stdout","time":10126.47894876,"data":"    \"z_vs_v030\": 0.29398642262143543\n"}
+,{"stream_name":"stdout","time":10126.478951378,"data":"  },\n"}
+,{"stream_name":"stdout","time":10126.478953895,"data":"  \"lambada_openai\": {\n"}
+,{"stream_name":"stdout","time":10126.478956746,"data":"    \"delta_vs_v030_pp\": 0.7000000000000006,\n"}
+,{"stream_name":"stdout","time":10126.478959359,"data":"    \"regression_2sigma\": false,\n"}
+,{"stream_name":"stdout","time":10126.478961959,"data":"    \"v020\": 23.9,\n"}
+,{"stream_name":"stdout","time":10126.478964682,"data":"    \"v030\": 26.3,\n"}
+,{"stream_name":"stdout","time":10126.478967237,"data":"    \"v031\": 27.0,\n"}
+,{"stream_name":"stdout","time":10126.47896994,"data":"    \"z_vs_v030\": 0.5005579713316861\n"}
+,{"stream_name":"stdout","time":10126.478972568,"data":"  },\n"}
+,{"stream_name":"stdout","time":10126.478975093,"data":"  \"piqa\": {\n"}
+,{"stream_name":"stdout","time":10126.47897771,"data":"    \"delta_vs_v030_pp\": 0.3808487486398282,\n"}
+,{"stream_name":"stdout","time":10126.478980328,"data":"    \"regression_2sigma\": false,\n"}
+,{"stream_name":"stdout","time":10126.478983241,"data":"    \"v020\": 61.37105549510338,\n"}
+,{"stream_name":"stdout","time":10126.478986064,"data":"    \"v030\": 61.58868335146899,\n"}
+,{"stream_name":"stdout","time":10126.479048657,"data":"    \"v031\": 61.969532100108815,\n"}
+,{"stream_name":"stdout","time":10126.479059434,"data":"    \"z_vs_v030\": 0.23753314638923329\n"}
+,{"stream_name":"stdout","time":10126.479064219,"data":"  },\n"}
+,{"stream_name":"stdout","time":10126.479068269,"data":"  \"winogrande\": {\n"}
+,{"stream_name":"stdout","time":10126.47907266,"data":"    \"delta_vs_v030_pp\": 0.9471191791633804,\n"}
+,{"stream_name":"stdout","time":10126.47907647,"data":"    \"regression_2sigma\": false,\n"}
+,{"stream_name":"stdout","time":10126.479080343,"data":"    \"v020\": 50.74980268350434,\n"}
+,{"stream_name":"stdout","time":10126.479084149,"data":"    \"v030\": 51.302288871349646,\n"}
+,{"stream_name":"stdout","time":10126.479088121,"data":"    \"v031\": 52.249408050513026,\n"}
+,{"stream_name":"stdout","time":10126.47909197,"data":"    \"z_vs_v030\": 0.4769030287461885\n"}
+,{"stream_name":"stdout","time":10126.479095941,"data":"  }\n"}
+,{"stream_name":"stdout","time":10126.479101566,"data":"}\n"}
+,{"stream_name":"stdout","time":10631.627945455,"data":"{\n"}
+,{"stream_name":"stdout","time":10631.628110084,"data":"  \"step\": 6770,\n"}
+,{"stream_name":"stdout","time":10631.628119539,"data":"  \"probe_loss\": 2.740949,\n"}
+,{"stream_name":"stdout","time":10631.628123837,"data":"  \"probe_tokens\": 204800,\n"}
+,{"stream_name":"stdout","time":10631.628128343,"data":"  \"batches\": 25,\n"}
+,{"stream_name":"stdout","time":10631.628132117,"data":"  \"seed\": 1234,\n"}
+,{"stream_name":"stdout","time":10631.628135523,"data":"  \"drift_from_best\": null,\n"}
+,{"stream_name":"stdout","time":10631.628139102,"data":"  \"bpB\": 0.897137,\n"}
+,{"stream_name":"stdout","time":10631.628142586,"data":"  \"bytes_per_token\": 4.407745,\n"}
+,{"stream_name":"stdout","time":10631.628145997,"data":"  \"commit\": \"15f7d7f80af9230d6d414eadd51c1cdf8e93b54b\",\n"}
+,{"stream_name":"stdout","time":10631.62814952,"data":"  \"recorded\": \"2026-11-01T07:02:42+00:00\"\n"}
+,{"stream_name":"stdout","time":10631.628153003,"data":"}\n"}
+,{"stream_name":"stdout","time":10633.022350591,"data":"CL-0 2.740949 vs v0.3.0 2.756648 | drift -0.015699\n"}
+,{"stream_name":"stdout","time":10682.500056654,"data":"\n"}
+,{"stream_name":"stdout","time":10682.500118021,"data":"V0.3.1 MERGE VERDICT\n"}
+,{"stream_name":"stdout","time":10682.500128567,"data":"  win_on_val: True\n"}
+,{"stream_name":"stdout","time":10682.500132249,"data":"  E2_no_regression: True\n"}
+,{"stream_name":"stdout","time":10682.500135582,"data":"  E3_cl0: True\n"}
+,{"stream_name":"stdout","time":10682.500138992,"data":"  release_candidate: True\n"}
+,{"stream_name":"stdout","time":10682.500142234,"data":"  best: w0.3 | val 2.7579 vs 2.7743\n"}
+,{"stream_name":"stdout","time":10682.500145523,"data":"  summary written to /kaggle/working/v031_merge_summary.json\n"}
+,{"stream_name":"stderr","time":10686.484444904,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":10686.484550916,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":10686.940099266,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":10686.940145407,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":10688.114284731,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":10689.272302565,"data":"[NbConvertApp] Writing 337589 bytes to __results__.html\n"}
+]

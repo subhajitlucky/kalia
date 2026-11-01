@@ -55,6 +55,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      ["docs/results/step1_spread*.json", "docs/results/logs/v030-baseline*"]),
     ("v0.3.0 epoch2", "Second epoch, 2,000-step re-warm; E-1/E-2/E-3 pass, release candidate (val 2.7743, all 2k tasks improved)",
      "2026-10-27-v030-second-epoch.md", ["docs/results/v030-epoch2/*"]),
+    ("v0.3.1 merge", "v0.2.0/v0.3.0 weight soup; val 2.7579 (−0.0164), 2k all positive, CL-0 −0.0157; release candidate",
+     "2026-11-01-v031-merge-plan.md", ["docs/results/v031-merge/*"]),
     ("X25", "Test-time training, two stages; closed null across a 40x range",
      "2026-10-05-X25-ttt-inference.md", ["docs/results/x25-stage*.json"]),
     ("X26", "Kautilya adaptive mixture pilot; ate dessert",
