@@ -919,3 +919,7 @@ workspace immediately; X36's closed gate is the negative precedent.
 **Status.** Built and CPU-tested; the 30M screen is not run. Artifacts:
 `intervention_pairs.py`, `eval_ip.py`, `tools/kalia_x40_ip_kernel.py`,
 `docs/research/2026-11-01-x40-build.md`.
+
+**Update 2026-11-01.** The code dataset was republished with the new files and
+the 30M screen was pushed as `subhajitlucky/kalia-x40-ip`, revision
+`9588b85e923b`. The kernel is running; no I-bar is measured yet.
