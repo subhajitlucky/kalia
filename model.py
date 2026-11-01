@@ -121,6 +121,29 @@ class GPTConfig:
     crb_stable_dim: int = 64
     """Rank of the stable residual stream. Must be smaller than n_embd."""
 
+    event_slots: int = 0
+    """X40: number of event-workspace slots. 0 = off."""
+
+    event_slot_dim: int = 64
+    """X40: width of each event slot. The read is projected back to n_embd."""
+
+    event_chunk: int = 64
+    """X40: tokens per workspace write/read chunk."""
+
+    event_gate_init: float = 0.0
+    """X40: write-gate bias. The read output is zero-initialised separately, so
+    the language path starts as the control even with an open gate."""
+
+    event_head: bool = False
+    """X40: attach the intervention head (the IP arm). The workspace-only arm
+    has event_slots > 0 and event_head = False."""
+
+    event_head_hidden: int = 256
+    """X40: hidden width of the intervention head."""
+
+    event_op_dim: int = 6
+    """X40: intervention-vector width (five ops + a composition flag)."""
+
 
 class RMSNorm(nn.Module):
     """Root-mean-square layer norm (no mean subtraction, no bias)."""
@@ -444,6 +467,130 @@ class EntityWorkspace(nn.Module):
         return gate.unsqueeze(-1) * new + (1.0 - gate.unsqueeze(-1)) * values
 
 
+class EventWorkspace(nn.Module):
+    """X40: a small causal workspace for the state an intervention changes.
+
+    The workspace is written at chunk ends and read at the *next* chunk, so no
+    token can see a later chunk's write. The read projection is
+    zero-initialised: the language path starts exactly as its control, and the
+    workspace has to earn its influence. Unlike X36's entity memory there is no
+    copy head, recurrence head or surprise signal; the only training signal is
+    the language loss on the pair text and, in the IP arm, the auxiliary
+    next-state loss.
+
+    Slots are per sequence. ``slot_keys`` and the initial values are shared
+    learned parameters; the write projects each chunk's hidden states into the
+    slot space, and the read projects the attended slot values back to the
+    model width.
+    """
+
+    def __init__(self, dim: int, slots: int, slot_dim: int = 64,
+                 gate_init: float = 0.0):
+        super().__init__()
+        self.slots = slots
+        self.slot_dim = slot_dim
+        self.slot_keys = nn.Parameter(torch.randn(slots, slot_dim) * 0.02)
+        self.slot_values_init = nn.Parameter(torch.zeros(slots, slot_dim))
+        self.read_q = nn.Linear(dim, slot_dim, bias=False)
+        self.read_o = nn.Linear(slot_dim, dim, bias=False)
+        self.write_key = nn.Linear(dim, slot_dim, bias=False)
+        self.write_value = nn.Linear(dim, slot_dim, bias=False)
+        self.write_gate = nn.Sequential(
+            nn.Linear(2 * dim, dim),
+            nn.SiLU(),
+            nn.Linear(dim, slots),
+        )
+        nn.init.zeros_(self.read_o.weight)
+        nn.init.constant_(self.write_gate[-1].bias, gate_init)
+
+    def initial(self, batch: int, device: torch.device) -> torch.Tensor:
+        return self.slot_values_init.unsqueeze(0).expand(batch, -1, -1).to(device)
+
+    def read(self, h: torch.Tensor, values: torch.Tensor) -> torch.Tensor:
+        q = self.read_q(h)
+        scores = q @ self.slot_keys.t() / math.sqrt(self.slot_dim)
+        attn = F.softmax(scores, dim=-1)
+        return self.read_o(attn @ values)
+
+    def write(
+        self,
+        h: torch.Tensor,
+        token_mask: torch.Tensor | None,
+        values: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Update the slots from one chunk. Returns (values, assignment mass)."""
+        b, t, _ = h.shape
+        if token_mask is None:
+            token_mask = torch.ones(b, t, dtype=torch.bool, device=h.device)
+        mask = token_mask.unsqueeze(-1)
+        denom = mask.to(h.dtype).sum(dim=1).clamp(min=1.0)
+        pooled = (h * mask.to(h.dtype)).sum(dim=1) / denom
+        lengths = token_mask.long().sum(dim=1).clamp(min=1)
+        last = h[torch.arange(b, device=h.device), lengths - 1]
+        gate = torch.sigmoid(
+            self.write_gate(torch.cat([pooled, last], dim=-1))
+        )
+        q = self.write_key(h)
+        scores = q @ self.slot_keys.t() / math.sqrt(self.slot_dim)
+        scores = scores.masked_fill(~mask, -1e9)
+        assign = F.softmax(scores, dim=-1)
+        mass = assign.sum(dim=1).clamp(min=1e-6)
+        new = torch.einsum("btk,btd->bkd", assign, self.write_value(h))
+        new = new / mass.unsqueeze(-1)
+        out = gate.unsqueeze(-1) * new + (1.0 - gate.unsqueeze(-1)) * values
+        return out, assign.mean(dim=1)
+
+    def diversity(self, values: torch.Tensor, assign: torch.Tensor) -> torch.Tensor:
+        """Keep the slots distinct and the write mass spread across them.
+
+        This is the X38 lesson made explicit: a bottleneck that collapses to
+        one direction is not a workspace. Both terms are zero at their ideal
+        (orthogonal slot directions, uniform assignment entropy).
+        """
+        b, k, _ = values.shape
+        unit = values / values.norm(dim=-1, keepdim=True).clamp(min=1e-6)
+        sim = unit @ unit.transpose(1, 2)
+        eye = torch.eye(k, dtype=values.dtype, device=values.device).unsqueeze(0)
+        off = sim * (1.0 - eye)
+        cosine = (off ** 2).sum() / max(1, b * k * (k - 1))
+        p = assign.mean(dim=0)
+        p = p / p.sum().clamp(min=1e-6)
+        entropy = -(p * (p + 1e-9).log()).sum() / math.log(k)
+        return cosine + (1.0 - entropy)
+
+
+class InterventionHead(nn.Module):
+    """X40: predict the edited next state from the workspace and the op vector.
+
+    The head is auxiliary. It never touches the LM logits; its only job is to
+    force the workspace to carry the state that the intervention changes. The
+    per-op embedding is a multi-hot passed through a small MLP, so a held-out
+    **composition** is the sum-like combination of two seen ops rather than an
+    unseen class label.
+    """
+
+    def __init__(self, dim: int, slots: int, slot_dim: int,
+                 op_dim: int = 6, hidden: int = 256):
+        super().__init__()
+        self.ws_proj = nn.Linear(slots * slot_dim, hidden, bias=False)
+        self.op_proj = nn.Sequential(
+            nn.Linear(op_dim, 32),
+            nn.SiLU(),
+            nn.Linear(32, 32),
+        )
+        self.net = nn.Sequential(
+            nn.Linear(hidden + 32, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, dim),
+        )
+        self.norm = nn.LayerNorm(dim)
+
+    def forward(self, values: torch.Tensor, op_vec: torch.Tensor) -> torch.Tensor:
+        ws = self.ws_proj(values.flatten(1))
+        op = self.op_proj(op_vec)
+        return self.norm(self.net(torch.cat([ws, op], dim=-1)))
+
+
 class OutputAdapter(nn.Module):
     """X36 control: a parameter-matched residual MLP at the output.
 
@@ -719,6 +866,19 @@ class GPT(nn.Module):
             "CRB is a separate arm; do not combine it with memory, SUTRA or the "
             "gated/branch residual variants"
         )
+        assert not (config.event_slots > 0 and (
+            config.memory_slots > 0 or config.memory_copy or config.memory_control
+            or config.sutra or config.sutra_control or config.crb
+            or config.gated_residual or config.branch_norm
+        )), (
+            "X40's event workspace is a separate arm; do not combine it with "
+            "memory, SUTRA, CRB or the residual variants"
+        )
+        assert not (config.event_head and config.event_slots <= 0), (
+            "event_head requires event_slots > 0; a head without a workspace "
+            "would be a different mechanism"
+        )
+        assert config.event_chunk > 0, "event_chunk must be positive"
         self.tok_emb = nn.Embedding(config.vocab_size, config.n_embd)
         self.blocks = nn.ModuleList(
             [Block(config, layer_index=i) for i in range(config.n_layer)]
@@ -758,7 +918,28 @@ class GPT(nn.Module):
             if config.memory_copy
             else None
         )
-        for module in (self.adapter, self.memory, self.recurrence, self.copy):
+        # X40: the event workspace and its auxiliary head. Constructed after the
+        # base init for the same RNG-stream reason as X36.
+        self.event = (
+            EventWorkspace(
+                config.n_embd, config.event_slots, config.event_slot_dim,
+                config.event_gate_init,
+            )
+            if config.event_slots > 0
+            else None
+        )
+        self.intervention_head = (
+            InterventionHead(
+                config.n_embd, config.event_slots, config.event_slot_dim,
+                config.event_op_dim, config.event_head_hidden,
+            )
+            if config.event_head
+            else None
+        )
+        for module in (
+            self.adapter, self.memory, self.recurrence, self.copy,
+            self.event, self.intervention_head,
+        ):
             if module is not None:
                 module.apply(self._init_weights)
         if self.adapter is not None:
@@ -768,6 +949,9 @@ class GPT(nn.Module):
             nn.init.constant_(self.memory.write_gate[-1].bias, config.memory_gate_init)
         if self.copy is not None:
             nn.init.constant_(self.copy.gate.bias, config.copy_gate_init)
+        if self.event is not None:
+            nn.init.zeros_(self.event.read_o.weight)
+            nn.init.constant_(self.event.write_gate[-1].bias, config.event_gate_init)
         # X38: shared low-rank decomposition of every block's residual delta.
         # Constructed after the base init so the base weights keep the same RNG
         # stream; the decomposition has its own init.
@@ -842,6 +1026,23 @@ class GPT(nn.Module):
                 volatile = volatile + dv
                 x = stable + volatile
         return self.norm_f(x), stable
+
+    def trunk_state(
+        self,
+        idx: torch.Tensor,
+        attn_mask: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        """Final normalized hidden state, before any workspace read.
+
+        X40 uses this for the detached counterfactual target: the edited
+        prefix's state at the prompt boundary must not itself depend on the
+        workspace being learned.
+        """
+        x = self.tok_emb(idx)
+        for _ in range(self.cfg.n_loops):
+            for block in self.blocks:
+                x = block(x, attn_mask)
+        return self.norm_f(x)
 
     def stable_state(
         self,
@@ -993,13 +1194,128 @@ class GPT(nn.Module):
             loss = loss + self.cfg.recurrence_weight * torch.stack(rec_losses).mean()
         return logits, loss
 
+    def _forward_events(
+        self,
+        idx: torch.Tensor,
+        targets: torch.Tensor | None,
+        attn_mask: torch.Tensor | None,
+        loss_mask: torch.Tensor | None,
+        token_mask: torch.Tensor | None,
+        return_events: bool,
+    ):
+        """X40: chunked event-workspace read/write around the LM path.
+
+        Chunk c reads the values written by chunks < c, so the workspace is
+        causal. The first chunk's write is the prompt state the intervention
+        head reads; the first chunk's *pre-read* trunk state is kept for
+        diagnostics.
+        """
+        h = self.trunk_state(idx, attn_mask)
+        b, t, _ = h.shape
+        chunk = min(self.cfg.event_chunk, t)
+        values = self.event.initial(b, h.device)
+        logits_chunks = []
+        lm_losses = []
+        ws_prefix = None
+        assign_prefix = None
+        boundary = None
+        for start in range(0, t, chunk):
+            end = min(start + chunk, t)
+            hc = h[:, start:end]
+            hc = hc + self.event.read(hc, values)
+            logits_c = self.lm_head(hc)
+            if self.cfg.logit_softcap > 0:
+                cap = self.cfg.logit_softcap
+                logits_c = cap * torch.tanh(logits_c / cap)
+            logits_chunks.append(logits_c)
+            if targets is not None:
+                per_token = F.cross_entropy(
+                    logits_c.view(-1, logits_c.size(-1)),
+                    targets[:, start:end].reshape(-1),
+                    reduction="none",
+                ).view(b, end - start)
+                if loss_mask is None:
+                    lm_losses.append(per_token.mean())
+                else:
+                    keep = loss_mask[:, start:end]
+                    # A chunk with no supervised token (the prompt chunk of a
+                    # pair) contributes nothing; averaging its unsupported loss
+                    # would silently train the given prompt as well.
+                    if keep.any():
+                        lm_losses.append(per_token[keep].mean())
+            if start == 0:
+                boundary = h[:, end - 1]
+            mask_c = token_mask[:, start:end] if token_mask is not None else None
+            values, assign = self.event.write(hc, mask_c, values)
+            if start == 0:
+                ws_prefix = values
+                assign_prefix = assign
+        logits = torch.cat(logits_chunks, dim=1)
+        loss = None
+        if targets is not None:
+            loss = torch.stack(lm_losses).mean() if lm_losses else logits.sum() * 0.0
+        if return_events:
+            return logits, loss, {
+                "workspace": ws_prefix,
+                "assign": assign_prefix,
+                "boundary": boundary,
+            }
+        return logits, loss
+
+    def ip_loss(
+        self,
+        batch,
+        lm_weight: float = 1.0,
+        state_weight: float = 0.1,
+        div_weight: float = 0.01,
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+        """X40: pair LM loss + counterfactual next-state + slot diversity.
+
+        The target is the edited prefix's detached trunk state at the prompt
+        boundary. The head sees only the factual workspace and the op vector,
+        so it has to predict the state the intervention would produce.
+        """
+        if self.event is None or self.intervention_head is None:
+            raise ValueError("ip_loss requires event_slots > 0 and event_head")
+        _, lm_loss, events = self._forward_events(
+            batch.x, batch.y, batch.attn_mask, batch.loss_mask,
+            batch.token_mask, return_events=True,
+        )
+        with torch.no_grad():
+            target_h = self.trunk_state(
+                batch.target_x, attn_mask=batch.target_attn_mask
+            )[:, -1, :]
+        pred = self.intervention_head(events["workspace"], batch.op_vec)
+        target = F.layer_norm(target_h, (target_h.size(-1),))
+        state_loss = F.mse_loss(pred, target)
+        div_loss = self.event.diversity(events["workspace"], events["assign"])
+        total = (
+            lm_weight * lm_loss
+            + state_weight * state_loss
+            + div_weight * div_loss
+        )
+        stats = {
+            "lm": lm_loss.detach(),
+            "state": state_loss.detach(),
+            "div": div_loss.detach(),
+        }
+        return total, stats
+
     def forward(
         self,
         idx: torch.Tensor,
         targets: torch.Tensor | None = None,
         attn_mask: torch.Tensor | None = None,
         loss_mask: torch.Tensor | None = None,
+        token_mask: torch.Tensor | None = None,
+        return_events: bool = False,
     ):
+        if return_events and self.event is None:
+            raise ValueError("return_events requires config.event_slots > 0")
+        if self.event is not None:
+            return self._forward_events(
+                idx, targets, attn_mask, loss_mask, token_mask, return_events,
+            )
         if self.crb is not None:
             h, _ = self._run_trunk(idx, attn_mask, track_stable=True)
             logits = self.lm_head(h)

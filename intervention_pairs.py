@@ -429,6 +429,7 @@ class IPBatch:
     attn_mask: torch.Tensor
     target_x: torch.Tensor
     target_mask: torch.Tensor
+    target_attn_mask: torch.Tensor
     op_vec: torch.Tensor
 
 
@@ -558,10 +559,12 @@ class InterventionDataset:
         y = torch.stack(y)
         loss_mask = torch.stack(loss_mask)
         token_mask = torch.stack(token_mask)
+        target_mask = torch.stack(target_mask)
         return IPBatch(
             x=x, y=y, loss_mask=loss_mask, token_mask=token_mask,
             attn_mask=causal_pad_mask(token_mask),
-            target_x=torch.stack(target_x), target_mask=torch.stack(target_mask),
+            target_x=torch.stack(target_x), target_mask=target_mask,
+            target_attn_mask=causal_pad_mask(target_mask),
             op_vec=torch.stack(op_vec),
         )
 

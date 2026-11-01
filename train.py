@@ -15,6 +15,7 @@ import json
 
 from data import MixtureDataset, TokenDataset
 from crb_pairs import CounterfactualPairDataset
+from intervention_pairs import InterventionDataset
 from mixture import SourceMixtureDataset, per_source_loss, strategy_counts
 from model import GPT, GPTConfig
 from optim import MuonWithAuxAdam, split_muon_params
@@ -39,6 +40,16 @@ def parse_args(argv=None):
                    help="X38 counterfactual pair JSONL; enables the CRB auxiliary loss")
     p.add_argument("--crb-weight", type=float, default=None,
                    help="override train.crb_weight for one-off runs")
+    p.add_argument("--ip-pairs", type=Path, default=None,
+                   help="X40 intervention-pair JSONL; adds the pair batch and the IP loss")
+    p.add_argument("--ip-lm-weight", type=float, default=None,
+                   help="override train.ip_lm_weight (pair LM term)")
+    p.add_argument("--ip-state-weight", type=float, default=None,
+                   help="override train.ip_state_weight (counterfactual next-state term)")
+    p.add_argument("--ip-div-weight", type=float, default=None,
+                   help="override train.ip_div_weight (slot-diversity term)")
+    p.add_argument("--ip-batch-size", type=int, default=None,
+                   help="override train.ip_batch_size")
     p.add_argument("--seed", type=int, default=None)
     p.add_argument(
         "--doc-mask",
@@ -362,6 +373,31 @@ def main(argv=None) -> None:
         if args.cf_pairs is not None
         else None
     )
+    ip_lm_weight = (
+        args.ip_lm_weight
+        if args.ip_lm_weight is not None
+        else float(train_cfg.get("ip_lm_weight", 1.0))
+    )
+    ip_state_weight = (
+        args.ip_state_weight
+        if args.ip_state_weight is not None
+        else float(train_cfg.get("ip_state_weight", 0.0))
+    )
+    ip_div_weight = (
+        args.ip_div_weight
+        if args.ip_div_weight is not None
+        else float(train_cfg.get("ip_div_weight", 0.0))
+    )
+    ip_batch_size = (
+        args.ip_batch_size
+        if args.ip_batch_size is not None
+        else int(train_cfg.get("ip_batch_size", 8))
+    )
+    ip_every = int(train_cfg.get("ip_every", 1))
+    if (ip_state_weight > 0 or ip_div_weight > 0) and args.ip_pairs is None:
+        raise ValueError("ip_state_weight/ip_div_weight > 0 requires --ip-pairs")
+    if args.ip_pairs is not None and ip_lm_weight <= 0 and ip_state_weight <= 0 and ip_div_weight <= 0:
+        raise ValueError("--ip-pairs is set but every IP weight is zero")
     validate_schedule(train_cfg)
 
     rank, world = setup_distributed()
@@ -381,6 +417,30 @@ def main(argv=None) -> None:
         raise ValueError(
             f"crb_max_len {cf_ds.max_len} exceeds model context {model_cfg.context_len}"
         )
+    ip_ds = None
+    if args.ip_pairs is not None:
+        ip_prefix_len = int(train_cfg.get("ip_prefix_len", 64))
+        ip_suffix_len = int(train_cfg.get("ip_suffix_len", 64))
+        if ip_prefix_len + ip_suffix_len > model_cfg.context_len:
+            raise ValueError(
+                f"ip_prefix_len + ip_suffix_len ({ip_prefix_len + ip_suffix_len}) "
+                f"exceeds model context {model_cfg.context_len}"
+            )
+        if model_cfg.event_slots > 0 and ip_prefix_len != model_cfg.event_chunk:
+            raise ValueError(
+                "the X40 workspace writes at event_chunk; the prompt must end at "
+                f"that boundary (prefix {ip_prefix_len}, chunk {model_cfg.event_chunk})"
+            )
+        if (ip_state_weight > 0 or ip_div_weight > 0) and not (
+            model_cfg.event_slots > 0 and model_cfg.event_head
+        ):
+            raise ValueError(
+                "the auxiliary state/diversity loss requires event_slots > 0 "
+                "and event_head = true"
+            )
+        ip_ds = InterventionDataset(
+            args.ip_pairs, prefix_len=ip_prefix_len, suffix_len=ip_suffix_len
+        )
     model = GPT(model_cfg).to(device)
     if is_master:
         print(f"KALIA params: {model.num_params():,} | device: {device} | world: {world}")
@@ -389,6 +449,11 @@ def main(argv=None) -> None:
             print(
                 f"crb: weight {crb_weight} | margin {crb_margin} | "
                 f"batch {crb_batch_size} | every {crb_every} | pairs {len(cf_ds)}"
+            )
+        if ip_ds is not None:
+            print(
+                f"ip: pairs {len(ip_ds)} | lm {ip_lm_weight} | state {ip_state_weight} "
+                f"| div {ip_div_weight} | batch {ip_batch_size} | every {ip_every}"
             )
         schedule = train_cfg.get("lr_schedule", "cosine")
         if schedule == "wsd":
@@ -693,6 +758,10 @@ def main(argv=None) -> None:
             loss_total = 0.0
             cf_total = 0.0
             cf_batches = 0
+            ip_total = 0.0
+            ip_state_total = 0.0
+            ip_div_total = 0.0
+            ip_batches = 0
             t0 = time.time()
             for _ in range(train_cfg["grad_accum_steps"]):
                 batch = train_ds.get_batch(
@@ -722,6 +791,33 @@ def main(argv=None) -> None:
                         loss = loss + crb_weight * cf_loss
                         cf_total += cf_loss.item()
                         cf_batches += 1
+                    if (
+                        ip_ds is not None
+                        and ip_lm_weight > 0
+                        and ip_every > 0
+                        and step % ip_every == 0
+                    ):
+                        pair = ip_ds.get_batch(ip_batch_size, device, generator)
+                        raw = model.module if hasattr(model, "module") else model
+                        if ip_state_weight > 0 or ip_div_weight > 0:
+                            ip_loss, ip_stats = raw.ip_loss(
+                                pair, ip_lm_weight, ip_state_weight, ip_div_weight,
+                            )
+                            ip_state_total += ip_stats["state"]
+                            ip_div_total += ip_stats["div"]
+                        else:
+                            # pairs/workspace arms: the same pair text as ordinary
+                            # LM data, no state head.
+                            _, ip_pair_loss = raw(
+                                pair.x, pair.y,
+                                attn_mask=pair.attn_mask,
+                                loss_mask=pair.loss_mask,
+                                token_mask=pair.token_mask,
+                            )
+                            ip_loss = ip_lm_weight * ip_pair_loss
+                        loss = loss + ip_loss
+                        ip_total += ip_loss.detach()
+                        ip_batches += 1
                     loss = loss / train_cfg["grad_accum_steps"]
                 scaler.scale(loss).backward()
                 loss_total += loss.item()
@@ -751,6 +847,12 @@ def main(argv=None) -> None:
                 )
                 if cf_batches:
                     msg += f" | cf {cf_total / cf_batches:.4f}"
+                if ip_batches:
+                    msg += f" | ip {float(ip_total / ip_batches):.4f}"
+                    if ip_state_weight > 0:
+                        msg += f" | ip_state {float(ip_state_total / ip_batches):.4f}"
+                    if ip_div_weight > 0:
+                        msg += f" | ip_div {float(ip_div_total / ip_batches):.4f}"
                 print(msg)
                 with open(log_path, "a", newline="") as fh:
                     csv.writer(fh).writerow(
