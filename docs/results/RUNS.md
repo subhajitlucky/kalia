@@ -22,7 +22,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X21` | Replication of X20 at fresh seeds; inverted | yes | 1 file |
 | `v0.3.0 Step 1` | 58M control seed spread, 0.2892; tripped the programme stop | yes | 8 files |
 | `v0.3.0 epoch2` | Second epoch, 2,000-step re-warm; E-1/E-2/E-3 pass, release candidate (val 2.7743, all 2k tasks improved) | yes | 6 files |
-| `v0.3.1 merge` | v0.2.0/v0.3.0 weight soup; val 2.7579 (−0.0164), 2k all positive, CL-0 −0.0157; released private at kalia-v031 | yes | 10 files |
+| `v0.3.1 merge` | v0.2.0/v0.3.0 weight soup; val 2.7579 (−0.0164), 2k all positive, CL-0 −0.0157; released public at kalia-v031 | yes | 10 files |
 | `X25` | Test-time training, two stages; closed null across a 40x range | yes | 2 files |
 | `X26` | Kautilya adaptive mixture pilot; ate dessert | yes | 4 files |
 | `X28` | Kautilya trio (static/level/trend); dessert replicates | yes | 8 files |
