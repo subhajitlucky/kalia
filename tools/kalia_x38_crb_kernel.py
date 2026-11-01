@@ -357,6 +357,7 @@ for seed in SEEDS:
         print(f"  val {vals[name]:.4f} | swap {swaps[name]:+.5f} | "
               f"paraphrase {paras[name]:.5f} | retention {rets[name]:.3f}")
         if arm in ("split", "crb"):
+            assert model.crb is not None, f"{name} has no CRB module"
             stable[name] = model.stable_stats(x_val)
             cfg = yaml.safe_load(open(Path("configs") / f"{name}.yaml"))
             torch.manual_seed(int(seed))
@@ -364,7 +365,7 @@ for seed in SEEDS:
             rel = {}
             for key in ("up", "down"):
                 a = getattr(initial.crb, key).weight.detach()
-                b = getattr(model, key).weight.detach().cpu()
+                b = getattr(model.crb, key).weight.detach().cpu()
                 rel[key] = float((b - a).norm() / (a.norm() + 1e-9))
             rel_change[name] = rel
             stable[name]["relative_change"] = rel
