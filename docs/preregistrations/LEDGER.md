@@ -37,3 +37,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-10-27 | X36-entity-memory-micro | `docs/preregistrations/2026-10-27-X36-entity-memory-micro.md` | `ea7cb66c108e047ecee2aaf91c11679b5405788179d7dffff6041a90867fc7f7` |
 | 2026-10-27 | X37-sutra-micro | `docs/preregistrations/2026-10-27-X37-sutra-micro.md` | `108ad5fefb896f55a9ba53b92a451e6fdd0e6f7877683d5adb8ca8c9d3c49dcd` |
 | 2026-10-28 | X38-crb-micro | `docs/preregistrations/2026-10-28-X38-crb-micro.md` | `a28329ed95fc17f518836b19fdefac2c2c2090d2ade7bbf13f3f1f5d5d720351` |
+| 2026-11-01 | X39-edit-algebra | `docs/preregistrations/2026-11-01-X39-edit-algebra.md` | `d2d143b0acdf490b7ea657c8557e0e43c6f321e54e80a032e4841fb9865a835a` |
