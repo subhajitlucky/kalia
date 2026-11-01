@@ -1,0 +1,22 @@
+{
+  "id": "subhajitlucky/kalia-v031-merge",
+  "title": "KALIA v031 merge",
+  "code_file": "kalia_v031_merge_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev",
+    "subhajitlucky/kalia-v020-ckpt"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-v030-epoch2",
+    "subhajitlucky/kalia-v030-final-eval",
+    "subhajitlucky/kalia-prep-v2b",
+    "subhajitlucky/kalia-bench-pair-2k"
+  ],
+  "model_sources": []
+}
