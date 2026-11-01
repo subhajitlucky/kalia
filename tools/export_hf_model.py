@@ -49,6 +49,7 @@ PROTOCOL = {"batches": 100, "batch_size": 8, "seed": 1234}
 EXPECTED = {
     "v020": {"val_loss": 2.8248, "bpb": 0.9244, "step": 4770, "tokens": 2_500_853_760},
     "v012": {"val_loss": 3.0533, "bpb": 0.9992, "step": 3478, "tokens": 1_823_473_664},
+    "v031": {"val_loss": 2.7579, "bpb": 0.9016, "step": 6770, "tokens": 3_549_429_760},
 }
 
 
@@ -100,7 +101,7 @@ def write_safetensors(state: dict, step: int, tokens: int, path: Path) -> int:
     return len(out)
 
 
-def verify(path: Path, expected_val: float, tol: float = 5e-4) -> dict:
+def verify(path: Path, expected_val: float, val_bin: str | Path | None = None, tol: float = 5e-4) -> dict:
     """Load the *written* tensors back and re-score them under the protocol.
 
     This is the check that makes the export trustworthy. It scores the artifact
@@ -137,13 +138,13 @@ def verify(path: Path, expected_val: float, tol: float = 5e-4) -> dict:
         raise ValueError("published head is not tied to the embedding")
     model.eval()
 
-    val_bin = Path(cfg["_val_bin"])
+    val_bin = Path(val_bin) if val_bin is not None else Path(cfg["_val_bin"])
     import math
 
-    import numpy as np
     import tiktoken
 
     from data import TokenDataset
+    from eval_val import bytes_per_token
 
     ds = TokenDataset(val_bin, model_cfg.context_len)
     enc = tiktoken.get_encoding("gpt2")
@@ -156,8 +157,7 @@ def verify(path: Path, expected_val: float, tol: float = 5e-4) -> dict:
             total += loss.item() * y.numel()
             ntok += int(y.numel())
     val = total / ntok
-    bpt = sum(len(enc.encode_ordinary(ds.bin_bytes[i : i + 4096].tobytes().decode("latin-1")))
-              for i in (0, 4096, 8192)) / 3 / 4096 if hasattr(ds, "bin_bytes") else 4.4086
+    bpt = bytes_per_token(ds, enc, 10, PROTOCOL["batch_size"], PROTOCOL["seed"])
     bpb = val / math.log(2) / bpt
     ok = abs(val - expected_val) <= tol
     return {"val_loss": round(val, 4), "bpb": round(bpb, 4), "tokens": ntok, "matches": ok}
@@ -208,7 +208,7 @@ def main() -> int:
         return 1
     cfg["_val_bin"] = args.val_bin
     (out / "config.json").write_text(json.dumps({k: v for k, v in cfg.items() if k != "_val_bin"}, indent=2) + "\n")
-    res = verify(out / "model.safetensors", exp["val_loss"])
+    res = verify(out / "model.safetensors", exp["val_loss"], args.val_bin)
     print(f"\nverification on the written tensors: val {res['val_loss']} / bpB {res['bpb']} over {res['tokens']:,} tokens")
     print(f"registered value for {args.release}: {exp['val_loss']} / {exp['bpb']}")
     if not res["matches"]:

@@ -116,6 +116,10 @@ def test_release_gate_constants_match_the_registered_results():
     assert EXPECTED["v020"]["step"] == 4770
     assert EXPECTED["v020"]["tokens"] == 2_500_853_760
     assert EXPECTED["v012"]["val_loss"] == 3.0533
+    assert EXPECTED["v031"]["val_loss"] == 2.7579
+    assert EXPECTED["v031"]["bpb"] == 0.9016
+    assert EXPECTED["v031"]["step"] == 6770
+    assert EXPECTED["v031"]["tokens"] == 3_549_429_760
     assert PROTOCOL == {"batches": 100, "batch_size": 8, "seed": 1234}
 
 

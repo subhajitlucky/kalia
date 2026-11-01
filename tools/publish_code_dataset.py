@@ -57,6 +57,7 @@ REQUIRED = [
     "eval/ttt_probe_stories.json",
     "LICENSE",
     "hf-model-card-v020.md",
+    "hf-model-card-v031.md",
     "configs/micro-base.yaml",
     "configs/micro-nope.yaml",
     "configs/micro-gated.yaml",
@@ -107,7 +108,8 @@ def stage(dest: Path) -> list[str]:
 
     # LICENSE travels with the code because the release needs it: the export
     # kernel copies it into the model repo, and its absence failed the run.
-    for extra in ("LICENSE", "README.md", "docs/public/hf-model-card-v020.md"):
+    for extra in ("LICENSE", "README.md", "docs/public/hf-model-card-v020.md",
+                  "docs/public/hf-model-card-v031.md"):
         src = ROOT / extra
         if src.exists():
             name = extra if "/" not in extra else Path(extra).name
