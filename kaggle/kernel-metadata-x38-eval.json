@@ -8,11 +8,11 @@
   "enable_gpu": true,
   "enable_internet": true,
   "dataset_sources": [
-    "subhajitlucky/kalia-code-dev"
+    "subhajitlucky/kalia-code-dev",
+    "subhajitlucky/kalia-x38-ckpts"
   ],
   "competition_sources": [],
   "kernel_sources": [
-    "subhajitlucky/kalia-x38-crb",
     "subhajitlucky/kalia-prep-v2b"
   ],
   "model_sources": []

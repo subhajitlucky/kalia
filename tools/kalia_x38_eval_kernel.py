@@ -90,10 +90,14 @@ for req in (
     assert os.path.exists(req), f"{req} missing from the code snapshot"
 print("code:", code_root)
 
-# The failed run's output is the kernel source. Prefer its paths.
-def pick(pattern: str, marker: str = "/kalia-x38-crb/") -> list[str]:
+# The failed run's output is the kernel source. Prefer its paths, then the
+# checkpoint dataset that carries the stripped checkpoints and configs.
+def pick(
+    pattern: str,
+    markers: tuple[str, ...] = ("/kalia-x38-crb/", "/kalia-x38-ckpts/"),
+) -> list[str]:
     found = sorted(glob.glob(pattern, recursive=True))
-    preferred = [p for p in found if marker in p]
+    preferred = [p for p in found if any(m in p for m in markers)]
     return preferred or found
 
 
