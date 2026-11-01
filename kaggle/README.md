@@ -5,10 +5,12 @@ hand-edit; `--check` fails if this file stops matching Kaggle. Every KALIA kerne
 and dataset is private; exposure is checked separately by
 `tools/audit_public_state.py`.
 
-## Kernels (62)
+## Kernels (64)
 
 | ref | title | last run | recorded in repo |
 |---|---|---|---|
+| `subhajitlucky/kalia-x38-eval` | KALIA x38 eval | 2026-11-01 | `kernel-metadata-x38-eval.json` |
+| `subhajitlucky/kalia-x38-crb` | KALIA x38 crb | 2026-10-31 | `kernel-metadata-x38-crb.json` |
 | `subhajitlucky/kalia-v030-final-eval` | KALIA v030 final eval | 2026-10-28 | `kernel-metadata-v030-final-eval.json` |
 | `subhajitlucky/kalia-x37-sutra` | KALIA x37 sutra | 2026-10-27 | `kernel-metadata-x37-sutra.json` |
 | `subhajitlucky/kalia-x36-entity` | KALIA x36 entity | 2026-10-27 | `kernel-metadata-x36-entity.json` |
@@ -72,11 +74,12 @@ and dataset is private; exposure is checked separately by
 | `subhajitlucky/kalia-train` | KALIA train | 2026-09-22 | `kernel-metadata-train.json` |
 | `subhajitlucky/kalia-prep` | KALIA prep | 2026-09-22 | `kernel-metadata-prep.json` |
 
-## Datasets (4)
+## Datasets (5)
 
 | ref | title | size | last updated |
 |---|---|---|---|
-| `subhajitlucky/kalia-code-dev` | KALIA code dev | 0.5 MB | 2026-10-27 |
+| `subhajitlucky/kalia-x38-ckpts` | KALIA X38 checkpoints | 0.0 MB | 2026-11-01 |
+| `subhajitlucky/kalia-code-dev` | KALIA code dev | 0.5 MB | 2026-10-31 |
 | `subhajitlucky/kalia-publish-aux` | KALIA publish aux | 0.0 MB | 2026-10-07 |
 | `subhajitlucky/kalia-v020-ckpt` | KALIA v020 checkpoint | 523.4 MB | 2026-10-05 |
 | `subhajitlucky/kalia-code` | KALIA code | 0.0 MB | 2026-09-22 |
@@ -87,4 +90,3 @@ and dataset is private; exposure is checked separately by
 - `subhajitlucky/kalia-replay` (`kernel-metadata-replay.json`) — no live kernel (never run, renamed, or removed)
 - `subhajitlucky/kalia-x18` (`kernel-metadata-x18.json`) — no live kernel (never run, renamed, or removed)
 - `subhajitlucky/kalia-x35-mix-replicate` (`kernel-metadata-x35-mix-replicate.json`) — no live kernel (never run, renamed, or removed)
-- `subhajitlucky/kalia-x38-crb` (`kernel-metadata-x38-crb.json`) — no live kernel (never run, renamed, or removed)

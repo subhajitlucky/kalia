@@ -1,0 +1,96 @@
+Warning: Looks like you're using an outdated `kaggle` version (installed: 2.2.4), please consider upgrading to the latest version (2.2.5)
+[{"stream_name":"stdout","time":21.805352057,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":22.674860707,"data":"checkpoints: 8\n"}
+,{"stream_name":"stdout","time":24.335854925,"data":"failed run manifest: /kaggle/input/kalia-x38-ckpts/run_manifest.json\n"}
+,{"stream_name":"stdout","time":25.143683522,"data":"val: /kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin\n"}
+,{"stream_name":"stdout","time":26.967494166,"data":"{\n"}
+,{"stream_name":"stdout","time":26.96754525,"data":"  \"seed\": 1338,\n"}
+,{"stream_name":"stdout","time":26.967550855,"data":"  \"n_train\": 7200,\n"}
+,{"stream_name":"stdout","time":26.967555001,"data":"  \"n_eval\": 400,\n"}
+,{"stream_name":"stdout","time":26.967558736,"data":"  \"train_templates\": [\n"}
+,{"stream_name":"stdout","time":26.967562555,"data":"    \"find\",\n"}
+,{"stream_name":"stdout","time":26.967566326,"data":"    \"give\",\n"}
+,{"stream_name":"stdout","time":26.967570171,"data":"    \"meet\",\n"}
+,{"stream_name":"stdout","time":26.967573688999998,"data":"    \"put\",\n"}
+,{"stream_name":"stdout","time":26.96757723,"data":"    \"tell\",\n"}
+,{"stream_name":"stdout","time":26.967580549,"data":"    \"walk\"\n"}
+,{"stream_name":"stdout","time":26.967584029,"data":"  ],\n"}
+,{"stream_name":"stdout","time":26.967587793,"data":"  \"eval_templates\": [\n"}
+,{"stream_name":"stdout","time":26.967591407,"data":"    \"ask\",\n"}
+,{"stream_name":"stdout","time":26.967595087,"data":"    \"see\"\n"}
+,{"stream_name":"stdout","time":26.967598502,"data":"  ],\n"}
+,{"stream_name":"stdout","time":26.967601883,"data":"  \"train_counts\": {\n"}
+,{"stream_name":"stdout","time":26.967605514,"data":"    \"invariant/rename\": 2040,\n"}
+,{"stream_name":"stdout","time":26.967609079,"data":"    \"invariant/synonym\": 540,\n"}
+,{"stream_name":"stdout","time":26.967613167,"data":"    \"sensitive/negate\": 2040,\n"}
+,{"stream_name":"stdout","time":26.967617195,"data":"    \"sensitive/number\": 240,\n"}
+,{"stream_name":"stdout","time":26.967621209,"data":"    \"sensitive/place\": 1100,\n"}
+,{"stream_name":"stdout","time":26.967625008,"data":"    \"sensitive/swap\": 1240\n"}
+,{"stream_name":"stdout","time":26.967628864,"data":"  },\n"}
+,{"stream_name":"stdout","time":26.967632526,"data":"  \"eval_counts\": {\n"}
+,{"stream_name":"stdout","time":26.967636501,"data":"    \"invariant/rename\": 100,\n"}
+,{"stream_name":"stdout","time":26.967640242999998,"data":"    \"invariant/synonym\": 50,\n"}
+,{"stream_name":"stdout","time":26.967644136,"data":"    \"sensitive/negate\": 100,\n"}
+,{"stream_name":"stdout","time":26.967647851,"data":"    \"sensitive/place\": 50,\n"}
+,{"stream_name":"stdout","time":26.967652054,"data":"    \"sensitive/swap\": 100\n"}
+,{"stream_name":"stdout","time":26.96765592,"data":"  }\n"}
+,{"stream_name":"stdout","time":26.967659644,"data":"}\n"}
+,{"stream_name":"stdout","time":29.019519031,"data":"pairs: hashes match the failed run\n"}
+,{"stream_name":"stdout","time":32.543259417,"data":"\n"}
+,{"stream_name":"stdout","time":32.543289434,"data":"=== x38-control-s1338 ===\n"}
+,{"stream_name":"stdout","time":54.354449253,"data":"val loss 4.1468 | bpB 1.3089 | tokens 409,600\n"}
+,{"stream_name":"stdout","time":70.111187024,"data":"  val 4.1468 | swap -0.00052 | paraphrase 0.14604 | retention 0.000\n"}
+,{"stream_name":"stdout","time":70.11122282,"data":"\n"}
+,{"stream_name":"stdout","time":70.111228344,"data":"=== x38-split-s1338 ===\n"}
+,{"stream_name":"stdout","time":84.551609467,"data":"val loss 4.1474 | bpB 1.3091 | tokens 409,600\n"}
+,{"stream_name":"stdout","time":100.699460541,"data":"  val 4.1474 | swap +0.00298 | paraphrase 0.14950 | retention 0.001\n"}
+,{"stream_name":"stdout","time":101.63316091,"data":"  stable {'stable_norm': 71.75750732421875, 'effective_rank': 11.214953422546387, 'relative_change': {'up': 0.0, 'down': 0.0}} | relative {'up': 0.0, 'down': 0.0}\n"}
+,{"stream_name":"stdout","time":101.633201925,"data":"\n"}
+,{"stream_name":"stdout","time":101.63320652,"data":"=== x38-loss-s1338 ===\n"}
+,{"stream_name":"stdout","time":116.03060673,"data":"val loss 4.1583 | bpB 1.3126 | tokens 409,600\n"}
+,{"stream_name":"stdout","time":131.672779029,"data":"  val 4.1583 | swap +0.00123 | paraphrase 0.14433 | retention 0.000\n"}
+,{"stream_name":"stdout","time":131.67282389,"data":"\n"}
+,{"stream_name":"stdout","time":131.672830095,"data":"=== x38-crb-s1338 ===\n"}
+,{"stream_name":"stdout","time":145.936215714,"data":"val loss 4.1493 | bpB 1.3097 | tokens 409,600\n"}
+,{"stream_name":"stdout","time":162.359368543,"data":"  val 4.1493 | swap +0.00236 | paraphrase 0.17218 | retention 0.000\n"}
+,{"stream_name":"stdout","time":163.147177205,"data":"  stable {'stable_norm': 1319.10546875, 'effective_rank': 1.4787719249725342, 'relative_change': {'up': 1.5185867547988892, 'down': 1.4937784671783447}} | relative {'up': 1.5185867547988892, 'down': 1.4937784671783447}\n"}
+,{"stream_name":"stdout","time":163.147215181,"data":"\n"}
+,{"stream_name":"stdout","time":163.147220824,"data":"=== x38-control-s1339 ===\n"}
+,{"stream_name":"stdout","time":177.762484232,"data":"val loss 4.1594 | bpB 1.3129 | tokens 409,600\n"}
+,{"stream_name":"stdout","time":193.694891523,"data":"  val 4.1594 | swap +0.00062 | paraphrase 0.13520 | retention 0.000\n"}
+,{"stream_name":"stdout","time":193.694958222,"data":"\n"}
+,{"stream_name":"stdout","time":193.694965737,"data":"=== x38-split-s1339 ===\n"}
+,{"stream_name":"stdout","time":208.460812575,"data":"val loss 4.1638 | bpB 1.3143 | tokens 409,600\n"}
+,{"stream_name":"stdout","time":225.174114808,"data":"  val 4.1638 | swap +0.00293 | paraphrase 0.14708 | retention 0.000\n"}
+,{"stream_name":"stdout","time":225.950277475,"data":"  stable {'stable_norm': 71.77865600585938, 'effective_rank': 11.282946586608887, 'relative_change': {'up': 0.0, 'down': 0.0}} | relative {'up': 0.0, 'down': 0.0}\n"}
+,{"stream_name":"stdout","time":225.950327349,"data":"\n"}
+,{"stream_name":"stdout","time":225.950335174,"data":"=== x38-loss-s1339 ===\n"}
+,{"stream_name":"stdout","time":240.484083588,"data":"val loss 4.1528 | bpB 1.3108 | tokens 409,600\n"}
+,{"stream_name":"stdout","time":256.647296904,"data":"  val 4.1528 | swap +0.00088 | paraphrase 0.11119 | retention 0.000\n"}
+,{"stream_name":"stdout","time":256.647358599,"data":"\n"}
+,{"stream_name":"stdout","time":256.647368322,"data":"=== x38-crb-s1339 ===\n"}
+,{"stream_name":"stdout","time":271.962590577,"data":"val loss 4.1613 | bpB 1.3135 | tokens 409,600\n"}
+,{"stream_name":"stdout","time":288.78837742,"data":"  val 4.1613 | swap +0.00231 | paraphrase 0.14450 | retention 0.000\n"}
+,{"stream_name":"stdout","time":289.577853773,"data":"  stable {'stable_norm': 1073.1337890625, 'effective_rank': 1.4390692710876465, 'relative_change': {'up': 1.3724329471588135, 'down': 1.5078197717666626}} | relative {'up': 1.3724329471588135, 'down': 1.5078197717666626}\n"}
+,{"stream_name":"stdout","time":293.863448216,"data":"\n"}
+,{"stream_name":"stdout","time":293.863476348,"data":"X38 EVAL VERDICT\n"}
+,{"stream_name":"stdout","time":293.863494752,"data":"  C1: True\n"}
+,{"stream_name":"stdout","time":293.863499741,"data":"  C1b: True\n"}
+,{"stream_name":"stdout","time":293.863504073,"data":"  C2: False\n"}
+,{"stream_name":"stdout","time":293.863516195,"data":"  C3: False\n"}
+,{"stream_name":"stdout","time":293.863519692,"data":"  C4: True\n"}
+,{"stream_name":"stdout","time":293.863522879,"data":"  C5: False\n"}
+,{"stream_name":"stdout","time":293.863526226,"data":"  C6: True\n"}
+,{"stream_name":"stdout","time":293.863529707,"data":"  advance: False\n"}
+,{"stream_name":"stdout","time":293.863538392,"data":"  val deltas (crb - split): {'1338': 0.0019000000000000128, '1339': -0.002500000000000391}\n"}
+,{"stream_name":"stdout","time":293.863542034,"data":"  swap deltas (crb - split): {'1338': -0.0006196498870849609, '1339': -0.0006206274032592774} | threshold 0.01000\n"}
+,{"stream_name":"stdout","time":293.863545859,"data":"  paraphrase deltas (split - crb): {'1338': -0.022682562470436096, '1339': 0.0025771409273147583}\n"}
+,{"stream_name":"stdout","time":293.86355875,"data":"  stable: {'x38-split-s1338': {'stable_norm': 71.75750732421875, 'effective_rank': 11.214953422546387, 'relative_change': {'up': 0.0, 'down': 0.0}}, 'x38-crb-s1338': {'stable_norm': 1319.10546875, 'effective_rank': 1.4787719249725342, 'relative_change': {'up': 1.5185867547988892, 'down': 1.4937784671783447}}, 'x38-split-s1339': {'stable_norm': 71.77865600585938, 'effective_rank': 11.282946586608887, 'relative_change': {'up': 0.0, 'down': 0.0}}, 'x38-crb-s1339': {'stable_norm': 1073.1337890625, 'effective_rank': 1.4390692710876465, 'relative_change': {'up': 1.3724329471588135, 'down': 1.5078197717666626}}}\n"}
+,{"stream_name":"stdout","time":293.863565582,"data":"  summary written to /kaggle/working/x38_summary.json\n"}
+,{"stream_name":"stderr","time":296.441122863,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":296.441148297,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":296.693433223,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":296.693454609,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":297.472266842,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":298.446511199,"data":"[NbConvertApp] Writing 359917 bytes to __results__.html\n"}
+]

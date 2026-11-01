@@ -1,0 +1,179 @@
+{
+  "arms": {
+    "x38-control-s1338": {
+      "arm": "control",
+      "config_sha256": "825edf655546e246113e49d5719a19b293be6670dd44a9307faea61183d0c72a",
+      "crb_weight": 0.0,
+      "flags": {
+        "crb": false
+      },
+      "params": 29921280,
+      "seed": 1338
+    },
+    "x38-control-s1339": {
+      "arm": "control",
+      "config_sha256": "9e9913054e0a2a0ee546054122e3cc3f06c1abca1ed61b2b7cba2dcac6f757be",
+      "crb_weight": 0.0,
+      "flags": {
+        "crb": false
+      },
+      "params": 29921280,
+      "seed": 1339
+    },
+    "x38-crb-s1338": {
+      "arm": "crb",
+      "config_sha256": "296d231ba491554720d861c1303601b882589a9ba7c6ad00cffcc0cbae360e02",
+      "crb_weight": 0.1,
+      "flags": {
+        "crb": true,
+        "crb_stable_dim": 64
+      },
+      "params": 29970432,
+      "seed": 1338
+    },
+    "x38-crb-s1339": {
+      "arm": "crb",
+      "config_sha256": "4e06b590b1f39e09b9f85928aa6c9ab2fe6275d77236bbf3701a78aa698b2637",
+      "crb_weight": 0.1,
+      "flags": {
+        "crb": true,
+        "crb_stable_dim": 64
+      },
+      "params": 29970432,
+      "seed": 1339
+    },
+    "x38-loss-s1338": {
+      "arm": "loss",
+      "config_sha256": "308aeaa50f7e1339b9147b354b4dddf129312672b3612b166568e3925d313894",
+      "crb_weight": 0.1,
+      "flags": {
+        "crb": false
+      },
+      "params": 29921280,
+      "seed": 1338
+    },
+    "x38-loss-s1339": {
+      "arm": "loss",
+      "config_sha256": "20ea2dd0e4f361ac102746f016abf6c562c96b02efc0025672b47c014a1a2bfd",
+      "crb_weight": 0.1,
+      "flags": {
+        "crb": false
+      },
+      "params": 29921280,
+      "seed": 1339
+    },
+    "x38-split-s1338": {
+      "arm": "split",
+      "config_sha256": "9dcb2279a084b68949ebd180736812ae332cdb7cc97a2aa29ca87723ff8e9f5a",
+      "crb_weight": 0.0,
+      "flags": {
+        "crb": true,
+        "crb_stable_dim": 64
+      },
+      "params": 29970432,
+      "seed": 1338
+    },
+    "x38-split-s1339": {
+      "arm": "split",
+      "config_sha256": "0c9f3bd1a503f75a1f377057321d34032e0bf36641e6a6206eb378fe7ef66f1f",
+      "crb_weight": 0.0,
+      "flags": {
+        "crb": true,
+        "crb_stable_dim": 64
+      },
+      "params": 29970432,
+      "seed": 1339
+    }
+  },
+  "bars": {
+    "C1": 0.005,
+    "C2": 0.01,
+    "C3": 0.01,
+    "C4": 0.005,
+    "C5_change": 0.001,
+    "C5_norm": 0.01,
+    "C5_rank": 8.0
+  },
+  "base_config": "configs/micro-muon.yaml",
+  "base_config_sha256": "f62adb02dc5343ca57bff20d47cc914b959f29b5915fe53fc2161e7bf5300322",
+  "code_fingerprint": "61dd044e54f9e8f9e6b43b08614420586ab393feda51eccb06c9c7acba68c975",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "experiment": "crb",
+  "kernel_id": "subhajitlucky/kalia-x38-crb",
+  "kernel_revision": "1c36390e29fc02d18386d99c189cdfc28841e06d",
+  "pairs": {
+    "audit_sha256": "9eb51bd86b913fdbaed25ca33a979df1e22855dc520197ad83741373b8101a3e",
+    "dir": "/kaggle/working/crb",
+    "eval_names": [
+      "Anton",
+      "Diego",
+      "Elise",
+      "Freya",
+      "June",
+      "Lila",
+      "Marco",
+      "Omar",
+      "Priya",
+      "Rowan",
+      "Sana",
+      "Tessa"
+    ],
+    "eval_sha256": "bedf57e902e262a734fd7c4eb40f5e8e1cade863ad8fdbb19925a95b26859ec0",
+    "eval_templates": [
+      "ask",
+      "see"
+    ],
+    "train_names": [
+      "Ada",
+      "Aria",
+      "Cleo",
+      "Ella",
+      "Finn",
+      "Hugo",
+      "Iris",
+      "Kai",
+      "Lena",
+      "Leo",
+      "Max",
+      "Maya",
+      "Milo",
+      "Nina",
+      "Nora",
+      "Otis",
+      "Owen",
+      "Rhys",
+      "Ruby",
+      "Sam",
+      "Sol",
+      "Theo",
+      "Vera",
+      "Zara"
+    ],
+    "train_sha256": "33571c732628d1fd3829c5b8fa072221c6b27fd173b001fdb84a7fe464301927",
+    "train_templates": [
+      "find",
+      "give",
+      "meet",
+      "put",
+      "tell",
+      "walk"
+    ]
+  },
+  "recorded": "2026-10-31T17:57:43.314708+00:00",
+  "seeds": [
+    1338,
+    1339
+  ],
+  "steps": 763,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

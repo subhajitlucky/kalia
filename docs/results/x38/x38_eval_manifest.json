@@ -1,0 +1,96 @@
+{
+  "bars": {
+    "C1": 0.005,
+    "C2": 0.01,
+    "C3": 0.01,
+    "C4": 0.005,
+    "C5_change": 0.001,
+    "C5_norm": 0.01,
+    "C5_rank": 8.0
+  },
+  "checkpoints": {
+    "x38-control-s1338": {
+      "path": "/kaggle/input/kalia-x38-ckpts/out/x38-control-s1338/ckpt.pt",
+      "sha256": "39ee5f12cad86105a196b8b7349dadff76a05c088b57b2fa516511f9fae69f30"
+    },
+    "x38-control-s1339": {
+      "path": "/kaggle/input/kalia-x38-ckpts/out/x38-control-s1339/ckpt.pt",
+      "sha256": "3780399a3e34460aa0e4a6b553dfb5c99e411bc950a660ee9545d8cb4b98284d"
+    },
+    "x38-crb-s1338": {
+      "path": "/kaggle/input/kalia-x38-ckpts/out/x38-crb-s1338/ckpt.pt",
+      "sha256": "4f97644c55496994dc48a7f79af92f991b2294cf16a43ea2743a63dfc2786c1c"
+    },
+    "x38-crb-s1339": {
+      "path": "/kaggle/input/kalia-x38-ckpts/out/x38-crb-s1339/ckpt.pt",
+      "sha256": "3c6c68f2f11cc1437b83b4e11fb382c0a2e6422123634d1be53a933913baef28"
+    },
+    "x38-loss-s1338": {
+      "path": "/kaggle/input/kalia-x38-ckpts/out/x38-loss-s1338/ckpt.pt",
+      "sha256": "3411e26ea9cda32212a8658f41be57cf24918afa8d5dbe3b046634b89aec1e55"
+    },
+    "x38-loss-s1339": {
+      "path": "/kaggle/input/kalia-x38-ckpts/out/x38-loss-s1339/ckpt.pt",
+      "sha256": "8ab411882ef30235bd488557e0625501f54623f0ac06a2949e9c75f7487d6735"
+    },
+    "x38-split-s1338": {
+      "path": "/kaggle/input/kalia-x38-ckpts/out/x38-split-s1338/ckpt.pt",
+      "sha256": "f0a458f1a0354a6ce44cd2121319ec47e5c5d2cd4f0c28764e318ec90431db7e"
+    },
+    "x38-split-s1339": {
+      "path": "/kaggle/input/kalia-x38-ckpts/out/x38-split-s1339/ckpt.pt",
+      "sha256": "6c19275f9ffc3116676e61dcc74ab9767a6e3d55c823df6178fd77028ccdba44"
+    }
+  },
+  "code_fingerprint": "61dd044e54f9e8f9e6b43b08614420586ab393feda51eccb06c9c7acba68c975",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "configs": {
+    "x38-control-s1338": {
+      "path": "/kaggle/input/kalia-x38-ckpts/configs/x38-control-s1338.yaml",
+      "sha256": "825edf655546e246113e49d5719a19b293be6670dd44a9307faea61183d0c72a"
+    },
+    "x38-control-s1339": {
+      "path": "/kaggle/input/kalia-x38-ckpts/configs/x38-control-s1339.yaml",
+      "sha256": "9e9913054e0a2a0ee546054122e3cc3f06c1abca1ed61b2b7cba2dcac6f757be"
+    },
+    "x38-crb-s1338": {
+      "path": "/kaggle/input/kalia-x38-ckpts/configs/x38-crb-s1338.yaml",
+      "sha256": "296d231ba491554720d861c1303601b882589a9ba7c6ad00cffcc0cbae360e02"
+    },
+    "x38-crb-s1339": {
+      "path": "/kaggle/input/kalia-x38-ckpts/configs/x38-crb-s1339.yaml",
+      "sha256": "4e06b590b1f39e09b9f85928aa6c9ab2fe6275d77236bbf3701a78aa698b2637"
+    },
+    "x38-loss-s1338": {
+      "path": "/kaggle/input/kalia-x38-ckpts/configs/x38-loss-s1338.yaml",
+      "sha256": "308aeaa50f7e1339b9147b354b4dddf129312672b3612b166568e3925d313894"
+    },
+    "x38-loss-s1339": {
+      "path": "/kaggle/input/kalia-x38-ckpts/configs/x38-loss-s1339.yaml",
+      "sha256": "20ea2dd0e4f361ac102746f016abf6c562c96b02efc0025672b47c014a1a2bfd"
+    },
+    "x38-split-s1338": {
+      "path": "/kaggle/input/kalia-x38-ckpts/configs/x38-split-s1338.yaml",
+      "sha256": "9dcb2279a084b68949ebd180736812ae332cdb7cc97a2aa29ca87723ff8e9f5a"
+    },
+    "x38-split-s1339": {
+      "path": "/kaggle/input/kalia-x38-ckpts/configs/x38-split-s1339.yaml",
+      "sha256": "0c9f3bd1a503f75a1f377057321d34032e0bf36641e6a6206eb378fe7ef66f1f"
+    }
+  },
+  "kernel_id": "subhajitlucky/kalia-x38-eval",
+  "kernel_revision": "5f85b8c5f9f92980d1ccd2e684ea9cc87dcb3916",
+  "pairs": {
+    "audit_sha256": "9eb51bd86b913fdbaed25ca33a979df1e22855dc520197ad83741373b8101a3e",
+    "eval_sha256": "bedf57e902e262a734fd7c4eb40f5e8e1cade863ad8fdbb19925a95b26859ec0",
+    "train_sha256": "33571c732628d1fd3829c5b8fa072221c6b27fd173b001fdb84a7fe464301927"
+  },
+  "recorded": "2026-11-01T03:07:39.576475+00:00",
+  "source_kernel": "subhajitlucky/kalia-x38-crb",
+  "source_manifest": "/kaggle/input/kalia-x38-ckpts/run_manifest.json",
+  "source_manifest_sha256": "72d9e693139d089c2447096fde9d4a98df5ca7b0f5d3e7aef310cde713e776aa",
+  "val_bin": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

@@ -38,6 +38,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X35` | Static code-mixture screen; code10 −0.0007, code25 +0.0058; S-1 fails, Stage 2 not run | yes | 13 files |
 | `X36` | Entity-memory micro; retention passes, val +0.076 vs matched control fails M-2; no scale | yes | 24 files |
 | `X37` | Pāṇinian rule grammar; S-1/S-2 fail, S-3 pass; no scale | yes | 17 files |
+| `X38` | Counterfactual residual bottleneck; C-1/C-1b pass but C-2/C-3/C-5 fail; stable stream collapses to rank 1.5; no scale | yes | 31 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -224,6 +225,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x37/configs/x37-rules-s1338.yaml`
 - `… 11 more`
 
+**X38**
+- `docs/results/x38/README.md`
+- `docs/results/x38/configs/x38-control-s1338.yaml`
+- `docs/results/x38/configs/x38-control-s1339.yaml`
+- `docs/results/x38/configs/x38-crb-s1338.yaml`
+- `docs/results/x38/configs/x38-crb-s1339.yaml`
+- `docs/results/x38/configs/x38-loss-s1338.yaml`
+- `… 25 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -241,4 +251,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-31 runs tracked, 199 files archived, 3 with no evidence.
+32 runs tracked, 230 files archived, 3 with no evidence.

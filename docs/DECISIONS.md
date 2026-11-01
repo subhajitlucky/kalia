@@ -786,3 +786,53 @@ behavioural probe. X11 remains queued.
 **Status.** Registered and implemented; code, tests and the kernel are
 committed; **no GPU spent**. The current window has 0.87 GPU-h; the 30M screen
 waits for the 2026-10-31 reset.
+
+## D65 — X38: the invariant sum is free, the counterfactual objective collapses (2026-11-01)
+
+**Context.** X38 tested a low-rank decomposition of every block's residual
+delta into a stable stream and a volatile complement, with the sum preserved
+and a paired counterfactual loss on the stable stream. The question was whether
+the CF signal could shape a stable representation without paying the X36
+language-quality tax.
+
+**Evidence.** Eight arms, 30M, 763 steps, seeds 1338/1339, 5.16 GPU-h training
+plus the eval-only kernel.
+
+| bar | measured | verdict |
+|---|---|---|
+| C-1 CRB val ≤ split + 0.005 | **+0.0019 / −0.0025** | PASS |
+| C-1b split val ≤ control + 0.005 | **+0.0006 / +0.0044** | PASS |
+| C-2 CRB swap ≥ split + max(spread, 0.01) | **−0.00062 / −0.00062** | FAIL |
+| C-3 CRB paraphrase ≤ split − 0.01 | **−0.02268 / +0.00258** | FAIL |
+| C-4 CRB retention ≥ split − 0.005 | **−0.00069 / 0.0** | PASS (floor-limited) |
+| C-5 stable rank > 8, norm > 0.01, change > 1e-3 | rank **1.48 / 1.44**; norm **1319 / 1073**; change **1.49–1.52** | FAIL on rank |
+| C-6 pair audit clean | hashes match; templates/names disjoint | PASS |
+
+**Decision.**
+1. **No 58M scale. Close this implementation.** `advance = false`.
+2. **The invariant-sum decomposition is a component candidate, not a model
+   win.** Split and control are the same model on val (C-1b), and CRB pays no
+   language tax (C-1). The decomposition is free at the language level.
+3. **The counterfactual objective as implemented is a null.** It trains the
+   projection (relative change ~1.5) but collapses the stable stream to
+   **rank ~1.5**. A rank-1 direction that separates the pair sets is enough to
+   minimise the loss; the stable stream is an edit detector, not a meaning
+   representation. The trainable norm grew to 1073–1319 versus the split's 72.
+4. **The split did not help and may have hurt.** CRB is slightly less
+   swap-sensitive than split on both seeds (−0.00062), and the paraphrase
+   effect is inconsistent (worse on 1338 by 0.0227, better on 1339 by 0.0026).
+   The loss-only arm reduces paraphrase distance on both seeds but also reduces
+   swap sensitivity; the CF objective teaches invariance, not sensitivity, on
+   the real probe.
+5. **The rank bar was load-bearing.** Without C-5, the trained projection and
+   the language-neutral val would have looked like a partial win.
+6. **A new registration, not a tune.** Candidates: a rank/coverage regulariser
+   or reconstruction head on the stable stream; a sensitivity-only or balanced
+   objective; story-level pairs instead of templates. The next portfolio bets
+   are Relational Algebra Attention and Predictive-Coding Depth.
+
+**Cost.** 5.16 GPU-h training + ~1.5h eval. Artifacts: `docs/results/x38/`;
+registration: `2026-10-28-X38-crb-micro.md`.
+
+**Status.** closed — no scale. The invariant-sum decomposition remains a
+component candidate; the counterfactual objective is closed as implemented.

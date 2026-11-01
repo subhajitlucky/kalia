@@ -1,0 +1,106 @@
+{
+  "eval_counts": {
+    "invariant/rename": 100,
+    "invariant/synonym": 50,
+    "sensitive/negate": 100,
+    "sensitive/place": 50,
+    "sensitive/swap": 100
+  },
+  "eval_names": [
+    "Anton",
+    "Diego",
+    "Elise",
+    "Freya",
+    "June",
+    "Lila",
+    "Marco",
+    "Omar",
+    "Priya",
+    "Rowan",
+    "Sana",
+    "Tessa"
+  ],
+  "eval_sha256": "bedf57e902e262a734fd7c4eb40f5e8e1cade863ad8fdbb19925a95b26859ec0",
+  "eval_templates": [
+    "ask",
+    "see"
+  ],
+  "examples": [
+    {
+      "edited": "Zara gave Sol a shiny ribbon.",
+      "original": "Vera gave Theo a shiny ribbon.",
+      "subtype": "rename"
+    },
+    {
+      "edited": "Zara gave Ada a crimson coin.",
+      "original": "Zara gave Ada a red coin.",
+      "subtype": "synonym"
+    },
+    {
+      "edited": "Iris gave Vera a small apple.",
+      "original": "Vera gave Iris a small apple.",
+      "subtype": "swap"
+    },
+    {
+      "edited": "Ella did not give Nina a shiny letter.",
+      "original": "Ella gave Nina a shiny letter.",
+      "subtype": "negate"
+    },
+    {
+      "edited": "Finn gave Milo three letters.",
+      "original": "Finn gave Milo two letters.",
+      "subtype": "number"
+    },
+    {
+      "edited": "Otis met Rhys near the market.",
+      "original": "Otis met Rhys at the market.",
+      "subtype": "place"
+    }
+  ],
+  "n_eval": 400,
+  "n_train": 7200,
+  "seed": 1338,
+  "train_counts": {
+    "invariant/rename": 2040,
+    "invariant/synonym": 540,
+    "sensitive/negate": 2040,
+    "sensitive/number": 240,
+    "sensitive/place": 1100,
+    "sensitive/swap": 1240
+  },
+  "train_names": [
+    "Ada",
+    "Aria",
+    "Cleo",
+    "Ella",
+    "Finn",
+    "Hugo",
+    "Iris",
+    "Kai",
+    "Lena",
+    "Leo",
+    "Max",
+    "Maya",
+    "Milo",
+    "Nina",
+    "Nora",
+    "Otis",
+    "Owen",
+    "Rhys",
+    "Ruby",
+    "Sam",
+    "Sol",
+    "Theo",
+    "Vera",
+    "Zara"
+  ],
+  "train_sha256": "33571c732628d1fd3829c5b8fa072221c6b27fd173b001fdb84a7fe464301927",
+  "train_templates": [
+    "find",
+    "give",
+    "meet",
+    "put",
+    "tell",
+    "walk"
+  ]
+}
