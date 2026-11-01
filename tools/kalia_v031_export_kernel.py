@@ -54,7 +54,9 @@ def pick(pattern: str, markers: tuple[str, ...]) -> list[str]:
 # --- code and inputs ---------------------------------------------------------
 hits = pick("/kaggle/input/**/export_hf_model.py", ("/kalia-code-dev/",))
 assert hits, "kalia-code-dev not attached or lacks export_hf_model.py"
-code_root = os.path.dirname(hits[0])
+root_hits = pick("/kaggle/input/**/model.py", ("/kalia-code-dev/",))
+assert root_hits, "kalia-code-dev not attached or lacks model.py"
+code_root = os.path.dirname(root_hits[0])
 work = "/kaggle/working/kalia"
 if not os.path.exists(work):
     shutil.copytree(code_root, work)
