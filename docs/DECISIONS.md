@@ -888,3 +888,34 @@ wrote 93 tensors and re-scored the written `model.safetensors` at
 **2.7579 / bpB 0.9016** (334,360,208 bytes, sha `bbd8a036…`). The release is
 published publicly with the card and three static charts; the old cards remain
 frozen.
+
+## D67 — X40 build: factual prompt, counterfactual target, fixed weights (2026-11-01)
+
+**Context.** The X40 registration fixed the mechanism and the I-1…I-7 bars but
+left the implementation open. The first pair generator rendered the **edited**
+prefix into the model input, which would have made the intervention already
+applied and turned I-3 into ordinary continuation. The target also had two
+possible readings: the factual boundary state or the edited-prefix state.
+
+**Decision.**
+1. The model sees the **factual** prefix and an **explicit** instruction
+   (`rename Maya to Tessa`, `change two to three`). The edited prefix is never
+   shown; it is only the input to the detached next-state target.
+2. The target is the edited prefix's **last-token trunk state**, before the
+   workspace read, detached.
+3. The 30M weights are fixed before GPU: pair LM **1.0**, state **0.1**,
+   diversity **0.01**, pair batch **8**, every step. The 30M pairs are 16,000
+   train / 1,050 eval.
+4. The workspace is 16 slots × 64, gate init **0.0**, zero-init read.
+
+**Why.** The explicit instruction is required for `rename`/`number`/`place` to
+be well-posed. The edited-prefix target is the only one that forces a
+counterfactual representation. An open write gate with a zero read keeps the
+model identical to control at init while letting the state loss train the
+workspace immediately; X36's closed gate is the negative precedent.
+
+**Cost.** Zero GPU; 644 tests passed after the build.
+
+**Status.** Built and CPU-tested; the 30M screen is not run. Artifacts:
+`intervention_pairs.py`, `eval_ip.py`, `tools/kalia_x40_ip_kernel.py`,
+`docs/research/2026-11-01-x40-build.md`.
