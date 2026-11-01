@@ -12,8 +12,20 @@
       "sha256": "d9ec2da66bd30525a72e3a6476c082a11bfdb99c8a1560b58ee35943ea43e0b9"
     },
     "README.md": {
-      "bytes": 5624,
-      "sha256": "b99e50f3840bb4da2eea0eee57bcbf94f84e2e711b052bed4db3ab5599eed8fa"
+      "bytes": 5804,
+      "sha256": "f033d117233c82629591162c278f66208a8619e6e01bdb8be942ae515a12a962"
+    },
+    "charts/v031_cl0.png": {
+      "bytes": 60424,
+      "sha256": "8bdc4069a54087f409f4d57c0cbc1f60da89a0004b1ab2fa25d0f1ae0372b08e"
+    },
+    "charts/v031_held_out_loss.png": {
+      "bytes": 118056,
+      "sha256": "95858ff0225074d8550d4b0a0e0759980252c5847542c627a84c8ca78d8a8160"
+    },
+    "charts/v031_zero_shot_deltas.png": {
+      "bytes": 104469,
+      "sha256": "f543c99dd66f9ae2d7a2a0caca30078b9665342a5ce28dbe74bfb769a3baecb7"
     },
     "config.json": {
       "bytes": 321,
@@ -54,7 +66,7 @@
   },
   "kernel_id": "subhajitlucky/kalia-v031-export",
   "kernel_revision": "eb21613f94e57ade381824fa4d4d10386c1590f5",
-  "post_export_update": "card-only: added Delta vs v0.2.0; weights unchanged",
+  "post_export_update": "card+charts-only: added Delta vs v0.2.0 and three static charts; weights unchanged",
   "recorded": "2026-11-01T08:43:54.927628+00:00",
   "release": "v031",
   "tokenizer_files": [

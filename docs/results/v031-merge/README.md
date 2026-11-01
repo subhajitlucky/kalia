@@ -123,5 +123,7 @@ It is not committed (large binary); it is the output of
 - `best_merged_manifest.json`, `best_merged_val.md`, `kalia-v031-materialize.log`.
 - `release/README.md`, `release/config.json`, `release/generation_config.json`,
   `release/v031_export_manifest.json` — the export proof and card.
+- `release/charts/v031_held_out_loss.png`, `release/charts/v031_zero_shot_deltas.png`,
+  `release/charts/v031_cl0.png` — the three static card charts.
 - `docs/research/2026-11-01-v031-merge-plan.md` — positives, negatives,
   verdict written before the run.

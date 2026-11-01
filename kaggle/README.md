@@ -5,10 +5,12 @@ hand-edit; `--check` fails if this file stops matching Kaggle. Every KALIA kerne
 and dataset is private; exposure is checked separately by
 `tools/audit_public_state.py`.
 
-## Kernels (65)
+## Kernels (67)
 
 | ref | title | last run | recorded in repo |
 |---|---|---|---|
+| `subhajitlucky/kalia-v031-export` | KALIA v031 export | 2026-11-01 | `kernel-metadata-v031-export.json` |
+| `subhajitlucky/kalia-v031-materialize` | KALIA v031 materialize | 2026-11-01 | `kernel-metadata-v031-materialize.json` |
 | `subhajitlucky/kalia-v031-merge` | KALIA v031 merge | 2026-11-01 | `kernel-metadata-v031-merge.json` |
 | `subhajitlucky/kalia-x38-eval` | KALIA x38 eval | 2026-11-01 | `kernel-metadata-x38-eval.json` |
 | `subhajitlucky/kalia-x38-crb` | KALIA x38 crb | 2026-10-31 | `kernel-metadata-x38-crb.json` |
@@ -79,8 +81,8 @@ and dataset is private; exposure is checked separately by
 
 | ref | title | size | last updated |
 |---|---|---|---|
+| `subhajitlucky/kalia-code-dev` | KALIA code dev | 0.6 MB | 2026-11-01 |
 | `subhajitlucky/kalia-x38-ckpts` | KALIA X38 checkpoints | 889.1 MB | 2026-11-01 |
-| `subhajitlucky/kalia-code-dev` | KALIA code dev | 0.5 MB | 2026-10-31 |
 | `subhajitlucky/kalia-publish-aux` | KALIA publish aux | 0.0 MB | 2026-10-07 |
 | `subhajitlucky/kalia-v020-ckpt` | KALIA v020 checkpoint | 523.4 MB | 2026-10-05 |
 | `subhajitlucky/kalia-code` | KALIA code | 0.0 MB | 2026-09-22 |

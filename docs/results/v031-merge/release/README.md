@@ -54,6 +54,8 @@ tokens = **819,200 tokens**, seed 1234.
 
 v0.3.1 is **−0.0164 nats** vs v0.3.0 and **−0.0669 nats** vs v0.2.0.
 
+![Held-out loss and bits per byte](charts/v031_held_out_loss.png)
+
 ### Zero-shot accuracy at 2,000 samples
 
 Measured with lm-evaluation-harness 0.4.9, 0-shot, 2,000 samples per task.
@@ -71,6 +73,8 @@ All five tasks improve; no task regresses by >2σ. The v0.2.0 deltas are the
 release-to-release movement against the last published model; the v0.3.0
 deltas isolate the merge. The 2k gains are modest and none reaches 2σ.
 
+![2,000-sample accuracy deltas](charts/v031_zero_shot_deltas.png)
+
 ### CL-0 retention probe
 
 | Model | Probe loss |
@@ -81,6 +85,8 @@ deltas isolate the merge. The 2k gains are modest and none reaches 2σ.
 
 The merge improves the retention probe by **0.0157** vs v0.3.0; the val gain is
 not bought with forgetting.
+
+![CL-0 retention probe](charts/v031_cl0.png)
 
 ## Architecture
 
