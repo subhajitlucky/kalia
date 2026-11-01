@@ -525,8 +525,14 @@ class EventWorkspace(nn.Module):
         mask = token_mask.unsqueeze(-1)
         denom = mask.to(h.dtype).sum(dim=1).clamp(min=1.0)
         pooled = (h * mask.to(h.dtype)).sum(dim=1) / denom
-        lengths = token_mask.long().sum(dim=1).clamp(min=1)
-        last = h[torch.arange(b, device=h.device), lengths - 1]
+        # The prompt is left-padded, so "the last real token" is the maximum
+        # unmasked index, not the number of real tokens minus one. The first
+        # implementation used lengths-1 and read a PAD embedding.
+        positions = torch.arange(t, device=h.device).unsqueeze(0).expand(b, t)
+        last_idx = torch.where(
+            token_mask, positions, torch.full_like(positions, -1)
+        ).max(dim=1).values.clamp(min=0)
+        last = h[torch.arange(b, device=h.device), last_idx]
         gate = torch.sigmoid(
             self.write_gate(torch.cat([pooled, last], dim=-1))
         )
@@ -534,6 +540,9 @@ class EventWorkspace(nn.Module):
         scores = q @ self.slot_keys.t() / math.sqrt(self.slot_dim)
         scores = scores.masked_fill(~mask, -1e9)
         assign = F.softmax(scores, dim=-1)
+        # softmax over all -1e9 padded rows is uniform, not zero; multiply the
+        # mask back or every PAD embedding enters the slot average at 1/K.
+        assign = assign * mask.to(assign.dtype)
         mass = assign.sum(dim=1).clamp(min=1e-6)
         new = torch.einsum("btk,btd->bkd", assign, self.write_value(h))
         new = new / mass.unsqueeze(-1)

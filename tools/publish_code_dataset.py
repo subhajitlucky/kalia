@@ -50,6 +50,8 @@ REQUIRED = [
     "optim.py",
     "train.py",
     "crb_pairs.py",
+    "intervention_pairs.py",
+    "eval_ip.py",
     "eval_entities.py",
     "tools/forgetting_probe.py",
     "eval/probe_sentences.json",

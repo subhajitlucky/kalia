@@ -17,7 +17,7 @@ from __future__ import annotations
 import torch
 
 from intervention_pairs import InterventionDataset, write_pairs
-from model import GPT, GPTConfig
+from model import EventWorkspace, GPT, GPTConfig
 
 TINY = dict(
     vocab_size=50257, n_layer=2, n_head=2, n_embd=32, context_len=64,
@@ -78,6 +78,23 @@ def test_event_forward_backward_and_gradients(tmp_path):
     ):
         grad = named[name].grad
         assert grad is not None and grad.abs().sum() > 0, f"{name} got no gradient"
+
+
+def test_workspace_write_ignores_padding():
+    """The gate's 'last hidden state' must be the last real token.
+
+    The prompt is left-padded, so the first implementation's `lengths - 1`
+    selected a PAD. Changing only padded positions must not change the write.
+    """
+    workspace = EventWorkspace(dim=8, slots=2, slot_dim=4)
+    h = torch.randn(1, 4, 8)
+    token_mask = torch.tensor([[False, False, True, True]])
+    values = workspace.initial(1, torch.device("cpu"))
+    out_a, _ = workspace.write(h, token_mask, values)
+    h2 = h.clone()
+    h2[0, :2] += 100.0
+    out_b, _ = workspace.write(h2, token_mask, values)
+    assert torch.allclose(out_a, out_b, atol=1e-6)
 
 
 def test_workspace_is_causal(tmp_path):
