@@ -1,0 +1,18 @@
+{
+  "model_type": "kalia",
+  "architectures": [
+    "KaliaGPT"
+  ],
+  "vocab_size": 50257,
+  "n_layer": 10,
+  "n_head": 8,
+  "n_embd": 512,
+  "context_len": 1024,
+  "dropout": 0.0,
+  "qk_norm": true,
+  "logit_softcap": 30.0,
+  "tie_embeddings": true,
+  "norm": "rmsnorm",
+  "activation": "swiglu",
+  "position": "rope"
+}

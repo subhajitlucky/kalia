@@ -878,9 +878,12 @@ v0.3.0 (ARC +0.45, HellaSwag +0.45, LAMBADA +0.70, PIQA +0.38, WinoGrande
 **Cost.** Zero GPU; ~3 CPU-hours. Artifacts: `docs/results/v031-merge/`;
 plan: `docs/research/2026-11-01-v031-merge-plan.md`.
 
-**Status.** release candidate; checkpoint verified, export pending.
+**Status.** release candidate; checkpoint and export verified; HF upload pending.
 
 **Update 2026-11-01.** The materialise kernel rebuilt w0.3 from the hash-pinned
 sources and re-scored **2.7579 / bpB 0.9016**; checkpoint sha
-`f59e059c…`, weight sha `19f68b…`, 668,830,321 bytes. The release artifact is
-verified; the export/re-score gate is next.
+`f59e059c…`, weight sha `19f68b…`, 668,830,321 bytes. The export kernel then
+wrote 93 tensors and re-scored the written `model.safetensors` at
+**2.7579 / bpB 0.9016** (334,360,208 bytes, sha `bbd8a036…`). The release files
+and v0.3.1 card are staged; the only remaining step is the new
+`kalia-lm/kalia-v031` repo.

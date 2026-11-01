@@ -1,0 +1,80 @@
+{
+  "checkpoint": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-v031-materialize/best_merged.pt",
+    "sha256": "f59e059ce673d15601dc637940c713731fa77ca874202804395847ed9d415382"
+  },
+  "expected_bpb": 0.9016,
+  "expected_val": 2.7579,
+  "export_stdout": "wrote 93 tensors, step 6770, 3,549,429,760 tokens -> /kaggle/working/release\nconfig: 10L x 512d, ctx 1024, qk_norm True\n\nverification on the written tensors: val 2.7579 / bpB 0.9016 over 819,200 tokens\nregistered value for v031: 2.7579 / 0.9016\n\nOK: the exported artifact reproduces the registered number.\n",
+  "files": {
+    "LICENSE": {
+      "bytes": 1075,
+      "sha256": "d9ec2da66bd30525a72e3a6476c082a11bfdb99c8a1560b58ee35943ea43e0b9"
+    },
+    "README.md": {
+      "bytes": 5429,
+      "sha256": "8e1e2992129c2e9bf999aaef01623e7552aed226f5a1810c239ce44d41c0be2a"
+    },
+    "config.json": {
+      "bytes": 321,
+      "sha256": "6af0956a78316e26285eb0be07292323f685e42cad992b49b87ed81df3576831"
+    },
+    "generation_config.json": {
+      "bytes": 115,
+      "sha256": "c845e974ff5037265b0339f08e80dc5899bd501d66ffaa0f5024593588a515a1"
+    },
+    "merges.txt": {
+      "bytes": 456318,
+      "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5"
+    },
+    "model.py": {
+      "bytes": 44876,
+      "sha256": "4a6498fa1ff1ea0f82522710f77a4a86201c9d20800db96f13d3f33a4d0c693b"
+    },
+    "model.safetensors": {
+      "bytes": 334360208,
+      "sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468"
+    },
+    "sample.py": {
+      "bytes": 1859,
+      "sha256": "50eb315ba9ac0898f57238359a21f696056208854c0b45b090458aca5fd38246"
+    },
+    "tokenizer.json": {
+      "bytes": 1355256,
+      "sha256": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6"
+    },
+    "tokenizer_config.json": {
+      "bytes": 26,
+      "sha256": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f"
+    },
+    "vocab.json": {
+      "bytes": 1042301,
+      "sha256": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783"
+    }
+  },
+  "kernel_id": "subhajitlucky/kalia-v031-export",
+  "kernel_revision": "eb21613f94e57ade381824fa4d4d10386c1590f5",
+  "recorded": "2026-11-01T08:43:54.927628+00:00",
+  "release": "v031",
+  "tokenizer_files": [
+    "tokenizer.json",
+    "tokenizer_config.json",
+    "vocab.json",
+    "merges.txt"
+  ],
+  "val_bin": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  },
+  "weights": {
+    "v020": 0.3,
+    "v030": 0.7
+  },
+  "written_bpb": 0.9016,
+  "written_safetensors": {
+    "bytes": 334360208,
+    "path": "/kaggle/working/release/model.safetensors",
+    "sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468"
+  },
+  "written_val": 2.7579
+}

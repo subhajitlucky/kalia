@@ -51,6 +51,21 @@ The merge does not trade retention for the val gain; it improves the probe.
 - CL-0 **2.740949 ≤ 2.763648** (v0.3.0 + 0.0070) — pass.
 - **`release_candidate = true`.**
 
+## Export gate — PASSED
+
+The export kernel wrote **93 tensors** and re-scored the **written**
+`model.safetensors` under the registered protocol: **2.7579 / bpB 0.9016** over
+819,200 tokens. The published artifact is the one that was measured.
+
+- `model.safetensors` — 334,360,208 bytes; sha256
+  `bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468`.
+- `config.json` — 10 layers × 512, context 1,024, QK-Norm, soft-cap 30.
+- `README.md` — the v0.3.1 card; GPT-2 BPE tokenizer files; `model.py`,
+  `sample.py`, `LICENSE`.
+- The v0.1.2/v0.2.0 cards are untouched; v0.3.1 is a new repo.
+- Release files are staged in `release/` (small files); the safetensors is the
+  `kalia-v031-export` kernel output.
+
 ## The checkpoint bug
 
 The merge kernel scored the best checkpoint, copied it to
@@ -91,11 +106,12 @@ It is not committed (large binary); it is the output of
 
 1. ~~Materialise and re-score the w0.3 checkpoint.~~ **Done:** w0.3 rebuilt,
    val **2.7579 / bpB 0.9016**, checkpoint verified.
-2. Export v0.3.1 to safetensors and re-score the written file (the v0.2.0
-   release gate); update the model card.
-3. Optional: w0.4 / w0.5, or a lower-LR best-checkpoint continuation. The merge
+2. ~~Export v0.3.1 and re-score the written file.~~ **Done:** 93 tensors,
+   safetensors re-scores **2.7579 / 0.9016**, 334,360,208 bytes.
+3. Upload the v0.3.1 card + files to a new `kalia-lm/kalia-v031` repo (pending).
+4. Optional: w0.4 / w0.5, or a lower-LR best-checkpoint continuation. The merge
    already gives the release candidate; the continuation is a further bet.
-4. Data mix: 10% TinyStories / 70% FineWeb-Edu / 15% Cosmopedia / 5% code,
+5. Data mix: 10% TinyStories / 70% FineWeb-Edu / 15% Cosmopedia / 5% code,
    only after the release path is settled.
 
 ## Artifacts
@@ -105,5 +121,7 @@ It is not committed (large binary); it is the output of
 - `bench_v031_2k.json`, `cl0_v031.jsonl`, `val-w0.3.md`.
 - `kalia-v031-merge.log`.
 - `best_merged_manifest.json`, `best_merged_val.md`, `kalia-v031-materialize.log`.
+- `release/README.md`, `release/config.json`, `release/generation_config.json`,
+  `release/v031_export_manifest.json` — the export proof and card.
 - `docs/research/2026-11-01-v031-merge-plan.md` — positives, negatives,
   verdict written before the run.
