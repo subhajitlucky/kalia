@@ -94,14 +94,15 @@ assert proc.returncode == 0, f"export gate failed with {proc.returncode}"
 
 shutil.copyfile("hf-model-card-v031.md", out / "README.md")
 
-# The tokenizer travels with the weights; reuse the v0.2.0 repo's GPT-2 files.
+# The tokenizer travels with the weights. The model uses GPT-2 BPE, so take the
+# public `gpt2` tokenizer files; no dependence on the private v0.2.0 repo.
 tokenizer_files = []
 try:
     from huggingface_hub import hf_hub_download
     for name in ("tokenizer.json", "tokenizer_config.json", "special_tokens_map.json",
                  "vocab.json", "merges.txt"):
         try:
-            src = hf_hub_download("kalia-lm/kalia-v020", name)
+            src = hf_hub_download("gpt2", name)
             shutil.copyfile(src, out / name)
             tokenizer_files.append(name)
         except Exception as exc:  # a missing optional file must not hide the weights
