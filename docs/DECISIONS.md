@@ -878,4 +878,9 @@ v0.3.0 (ARC +0.45, HellaSwag +0.45, LAMBADA +0.70, PIQA +0.38, WinoGrande
 **Cost.** Zero GPU; ~3 CPU-hours. Artifacts: `docs/results/v031-merge/`;
 plan: `docs/research/2026-11-01-v031-merge-plan.md`.
 
-**Status.** release candidate pending checkpoint materialisation and export.
+**Status.** release candidate; checkpoint verified, export pending.
+
+**Update 2026-11-01.** The materialise kernel rebuilt w0.3 from the hash-pinned
+sources and re-scored **2.7579 / bpB 0.9016**; checkpoint sha
+`f59e059c…`, weight sha `19f68b…`, 668,830,321 bytes. The release artifact is
+verified; the export/re-score gate is next.

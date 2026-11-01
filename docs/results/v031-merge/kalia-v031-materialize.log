@@ -1,0 +1,44 @@
+[{"stream_name":"stdout","time":40.429283844,"data":"v0.2.0: /kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\n"}
+,{"stream_name":"stdout","time":40.429338357,"data":"v0.3.0: /kaggle/input/notebooks/subhajitlucky/kalia-v030-epoch2/out/ckpt.pt\n"}
+,{"stream_name":"stdout","time":75.266336803,"data":"wrote /kaggle/working/best_merged.pt 668830321\n"}
+,{"stream_name":"stdout","time":76.897827921,"data":"weight sha256: 19f68b01fdc27d5910223dc624b1bb9f33f99993643f0169481d2abd0c604db0\n"}
+,{"stream_name":"stdout","time":1730.766554301,"data":"val loss 2.7579 | bpB 0.9016 | tokens 819,200\n"}
+,{"stream_name":"stdout","time":1731.371512835,"data":"val 2.7579 (expected 2.7579)\n"}
+,{"stream_name":"stdout","time":1740.331889398,"data":"{\n"}
+,{"stream_name":"stdout","time":1740.331924545,"data":"  \"checkpoint\": {\n"}
+,{"stream_name":"stdout","time":1740.331931301,"data":"    \"bytes\": 668830321,\n"}
+,{"stream_name":"stdout","time":1740.331937371,"data":"    \"path\": \"/kaggle/working/best_merged.pt\",\n"}
+,{"stream_name":"stdout","time":1740.331943516,"data":"    \"sha256\": \"f59e059ce673d15601dc637940c713731fa77ca874202804395847ed9d415382\",\n"}
+,{"stream_name":"stdout","time":1740.331949535,"data":"    \"weight_sha256\": \"19f68b01fdc27d5910223dc624b1bb9f33f99993643f0169481d2abd0c604db0\"\n"}
+,{"stream_name":"stdout","time":1740.331955548,"data":"  },\n"}
+,{"stream_name":"stdout","time":1740.331961498,"data":"  \"expected_val\": 2.7579,\n"}
+,{"stream_name":"stdout","time":1740.33196692,"data":"  \"kernel_id\": \"subhajitlucky/kalia-v031-materialize\",\n"}
+,{"stream_name":"stdout","time":1740.331972615,"data":"  \"kernel_revision\": \"db21214b2fbe76aca188a3335037afb22161466f\",\n"}
+,{"stream_name":"stdout","time":1740.331978948,"data":"  \"recorded\": \"2026-11-01T07:38:51.153097+00:00\",\n"}
+,{"stream_name":"stdout","time":1740.331984898,"data":"  \"sources\": {\n"}
+,{"stream_name":"stdout","time":1740.331990723,"data":"    \"v020\": {\n"}
+,{"stream_name":"stdout","time":1740.331996401,"data":"      \"path\": \"/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt\",\n"}
+,{"stream_name":"stdout","time":1740.332002664,"data":"      \"sha256\": \"924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718\"\n"}
+,{"stream_name":"stdout","time":1740.332008426,"data":"    },\n"}
+,{"stream_name":"stdout","time":1740.332013595,"data":"    \"v030\": {\n"}
+,{"stream_name":"stdout","time":1740.33201882,"data":"      \"path\": \"/kaggle/input/notebooks/subhajitlucky/kalia-v030-epoch2/out/ckpt.pt\",\n"}
+,{"stream_name":"stdout","time":1740.332025399,"data":"      \"sha256\": \"80b064f9a99e6ed5372e7fa46021574a9b21298b822fd2c581357831cc77537e\"\n"}
+,{"stream_name":"stdout","time":1740.332031675,"data":"    }\n"}
+,{"stream_name":"stdout","time":1740.332036971,"data":"  },\n"}
+,{"stream_name":"stdout","time":1740.332042121,"data":"  \"val\": 2.7579,\n"}
+,{"stream_name":"stdout","time":1740.332048055,"data":"  \"val_bin\": {\n"}
+,{"stream_name":"stdout","time":1740.332080872,"data":"    \"path\": \"/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin\",\n"}
+,{"stream_name":"stdout","time":1740.332088226,"data":"    \"sha256\": \"625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc\"\n"}
+,{"stream_name":"stdout","time":1740.332093992,"data":"  },\n"}
+,{"stream_name":"stdout","time":1740.332098974,"data":"  \"weights\": {\n"}
+,{"stream_name":"stdout","time":1740.332105206,"data":"    \"v020\": 0.3,\n"}
+,{"stream_name":"stdout","time":1740.332110939,"data":"    \"v030\": 0.7\n"}
+,{"stream_name":"stdout","time":1740.332116643,"data":"  }\n"}
+,{"stream_name":"stdout","time":1740.332121716,"data":"}\n"}
+,{"stream_name":"stderr","time":1744.252768916,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1744.252809238,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1744.778213309,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1744.778246379,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1745.922132349,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1747.60613504,"data":"[NbConvertApp] Writing 300176 bytes to __results__.html\n"}
+]

@@ -68,6 +68,14 @@ reproduces **2.7579**. Source hashes:
 - v0.3.0 `80b064f9a99e6ed5372e7fa46021574a9b21298b822fd2c581357831cc77537e`
 - val.bin `625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc`
 
+**Verified 2026-11-01:** the materialise kernel rebuilt w0.3 and re-scored
+**2.7579 / bpB 0.9016**. The checkpoint is `best_merged.pt`,
+**668,830,321 bytes**, sha256
+`f59e059ce673d15601dc637940c713731fa77ca874202804395847ed9d415382`,
+weight sha256 `19f68b01fdc27d5910223dc624b1bb9f33f99993643f0169481d2abd0c604db0`.
+It is not committed (large binary); it is the output of
+`kalia-v031-materialize`.
+
 ## What this is and is not
 
 - **It is a weight-space soup**, not an architecture result. It recovers part of
@@ -81,8 +89,8 @@ reproduces **2.7579**. Source hashes:
 
 ## Next
 
-1. Materialise and re-score the w0.3 checkpoint (CPU); if val = 2.7579, it is
-   the release artifact.
+1. ~~Materialise and re-score the w0.3 checkpoint.~~ **Done:** w0.3 rebuilt,
+   val **2.7579 / bpB 0.9016**, checkpoint verified.
 2. Export v0.3.1 to safetensors and re-score the written file (the v0.2.0
    release gate); update the model card.
 3. Optional: w0.4 / w0.5, or a lower-LR best-checkpoint continuation. The merge
@@ -96,5 +104,6 @@ reproduces **2.7579**. Source hashes:
 - `v031_merge_manifest.json` — source/val/bench hashes.
 - `bench_v031_2k.json`, `cl0_v031.jsonl`, `val-w0.3.md`.
 - `kalia-v031-merge.log`.
+- `best_merged_manifest.json`, `best_merged_val.md`, `kalia-v031-materialize.log`.
 - `docs/research/2026-11-01-v031-merge-plan.md` — positives, negatives,
   verdict written before the run.

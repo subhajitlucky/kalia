@@ -1,0 +1,31 @@
+{
+  "checkpoint": {
+    "bytes": 668830321,
+    "path": "/kaggle/working/best_merged.pt",
+    "sha256": "f59e059ce673d15601dc637940c713731fa77ca874202804395847ed9d415382",
+    "weight_sha256": "19f68b01fdc27d5910223dc624b1bb9f33f99993643f0169481d2abd0c604db0"
+  },
+  "expected_val": 2.7579,
+  "kernel_id": "subhajitlucky/kalia-v031-materialize",
+  "kernel_revision": "db21214b2fbe76aca188a3335037afb22161466f",
+  "recorded": "2026-11-01T07:38:51.153097+00:00",
+  "sources": {
+    "v020": {
+      "path": "/kaggle/input/datasets/subhajitlucky/kalia-v020-ckpt/ckpt.pt",
+      "sha256": "924ad52b27017bb823e925df6695d1becdef032b772ae8436eb0b74bdbac6718"
+    },
+    "v030": {
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-v030-epoch2/out/ckpt.pt",
+      "sha256": "80b064f9a99e6ed5372e7fa46021574a9b21298b822fd2c581357831cc77537e"
+    }
+  },
+  "val": 2.7579,
+  "val_bin": {
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  },
+  "weights": {
+    "v020": 0.3,
+    "v030": 0.7
+  }
+}
