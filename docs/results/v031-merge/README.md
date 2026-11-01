@@ -68,7 +68,7 @@ The export kernel wrote **93 tensors** and re-scored the **written**
 
 ## Published
 
-**`https://huggingface.co/kalia-lm/kalia-v031`** — private, 2026-11-01, **15
+**`https://huggingface.co/kalia-lm/kalia-v031`** — public, 2026-11-01, **15
 files**:
 
 - `model.safetensors` (334,360,208 bytes, sha `bbd8a036…`), config, generation
@@ -77,7 +77,7 @@ files**:
 - GPT-2 tokenizer files.
 
 The v0.1.2 and v0.2.0 cards are untouched; v0.3.1 is a new repository. The repo
-is private and can be made public when wanted.
+is public.
 
 ## The checkpoint bug
 
@@ -122,7 +122,7 @@ It is not committed (large binary); it is the output of
 2. ~~Export v0.3.1 and re-score the written file.~~ **Done:** 93 tensors,
    safetensors re-scores **2.7579 / 0.9016**, 334,360,208 bytes.
 3. ~~Upload the v0.3.1 card + files to a new `kalia-lm/kalia-v031` repo.~~
-   **Done:** private repo, 15 files, 2026-11-01.
+   **Done:** public repo, 15 files, 2026-11-01.
 4. Optional: w0.4 / w0.5, or a lower-LR best-checkpoint continuation. The merge
    already gives the release candidate; the continuation is a further bet.
 5. Data mix: 10% TinyStories / 70% FineWeb-Edu / 15% Cosmopedia / 5% code,

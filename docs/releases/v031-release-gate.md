@@ -32,7 +32,7 @@ OK: the exported artifact reproduces the registered number.
 
 ## The upload
 
-- Repository: **`kalia-lm/kalia-v031`** (private), 15 files.
+- Repository: **`kalia-lm/kalia-v031`** (public), 15 files.
 - Card: `README.md` with three static charts
   (`charts/v031_held_out_loss.png`, `charts/v031_zero_shot_deltas.png`,
   `charts/v031_cl0.png`).
