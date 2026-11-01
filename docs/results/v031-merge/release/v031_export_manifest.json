@@ -12,8 +12,8 @@
       "sha256": "d9ec2da66bd30525a72e3a6476c082a11bfdb99c8a1560b58ee35943ea43e0b9"
     },
     "README.md": {
-      "bytes": 5429,
-      "sha256": "8e1e2992129c2e9bf999aaef01623e7552aed226f5a1810c239ce44d41c0be2a"
+      "bytes": 5624,
+      "sha256": "b99e50f3840bb4da2eea0eee57bcbf94f84e2e711b052bed4db3ab5599eed8fa"
     },
     "config.json": {
       "bytes": 321,
@@ -54,6 +54,7 @@
   },
   "kernel_id": "subhajitlucky/kalia-v031-export",
   "kernel_revision": "eb21613f94e57ade381824fa4d4d10386c1590f5",
+  "post_export_update": "card-only: added Delta vs v0.2.0; weights unchanged",
   "recorded": "2026-11-01T08:43:54.927628+00:00",
   "release": "v031",
   "tokenizer_files": [

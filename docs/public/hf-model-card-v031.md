@@ -59,16 +59,17 @@ v0.3.1 is **−0.0164 nats** vs v0.3.0 and **−0.0669 nats** vs v0.2.0.
 Measured with lm-evaluation-harness 0.4.9, 0-shot, 2,000 samples per task.
 Standard errors are about 1.0–1.4 percentage points.
 
-| Task | v0.2.0 | v0.3.0 | **v0.3.1** | Δ vs v0.3.0 | z |
-|---|---:|---:|---:|---:|---:|
-| ARC-Easy | 46.40 | 47.55 | **48.00** | +0.45 | +0.28 |
-| HellaSwag | 35.60 | 37.20 | **37.65** | +0.45 | +0.29 |
-| LAMBADA | 23.90 | 26.30 | **27.00** | +0.70 | +0.50 |
-| PIQA | 61.37 | 61.59 | **61.97** | +0.38 | +0.24 |
-| WinoGrande | 50.75 | 51.30 | **52.25** | +0.95 | +0.48 |
+| Task | v0.2.0 | v0.3.0 | **v0.3.1** | Δ vs v0.2.0 | Δ vs v0.3.0 | z vs v0.3.0 |
+|---|---:|---:|---:|---:|---:|---:|
+| ARC-Easy | 46.40 | 47.55 | **48.00** | +1.60 | +0.45 | +0.28 |
+| HellaSwag | 35.60 | 37.20 | **37.65** | +2.05 | +0.45 | +0.29 |
+| LAMBADA | 23.90 | 26.30 | **27.00** | +3.10 | +0.70 | +0.50 |
+| PIQA | 61.37 | 61.59 | **61.97** | +0.60 | +0.38 | +0.24 |
+| WinoGrande | 50.75 | 51.30 | **52.25** | +1.50 | +0.95 | +0.48 |
 
-All five tasks improve; no task regresses by >2σ. The 2k gains are modest and
-none reaches 2σ.
+All five tasks improve; no task regresses by >2σ. The v0.2.0 deltas are the
+release-to-release movement against the last published model; the v0.3.0
+deltas isolate the merge. The 2k gains are modest and none reaches 2σ.
 
 ### CL-0 retention probe
 
