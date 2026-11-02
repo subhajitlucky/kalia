@@ -538,7 +538,9 @@ class EventWorkspace(nn.Module):
         )
         q = self.write_key(h)
         scores = q @ self.slot_keys.t() / math.sqrt(self.slot_dim)
-        scores = scores.masked_fill(~mask, -1e9)
+        # -1e9 overflows fp16 (max 65504) under autocast; use the dtype's own
+        # finite minimum. This was the X40 30M startup crash.
+        scores = scores.masked_fill(~mask, torch.finfo(scores.dtype).min)
         assign = F.softmax(scores, dim=-1)
         # softmax over all -1e9 padded rows is uniform, not zero; multiply the
         # mask back or every PAD embedding enters the slot average at 1/K.

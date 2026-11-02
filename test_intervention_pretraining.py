@@ -80,6 +80,17 @@ def test_event_forward_backward_and_gradients(tmp_path):
         assert grad is not None and grad.abs().sum() > 0, f"{name} got no gradient"
 
 
+def test_workspace_write_survives_fp16_autocast():
+    """The 30M run died at step 0 from -1e9 in an fp16 masked_fill."""
+    workspace = EventWorkspace(dim=8, slots=2, slot_dim=4).half()
+    h = torch.randn(1, 4, 8).half()
+    token_mask = torch.tensor([[False, False, True, True]])
+    values = workspace.initial(1, torch.device("cpu")).half()
+    out, assign = workspace.write(h, token_mask, values)
+    assert torch.isfinite(out).all()
+    assert torch.isfinite(assign).all()
+
+
 def test_workspace_write_ignores_padding():
     """The gate's 'last hidden state' must be the last real token.
 
