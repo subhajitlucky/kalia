@@ -52,6 +52,8 @@ REQUIRED = [
     "crb_pairs.py",
     "intervention_pairs.py",
     "eval_ip.py",
+    "composition_benchmark.py",
+    "eval_composition_benchmark.py",
     "eval_entities.py",
     "tools/forgetting_probe.py",
     "eval/probe_sentences.json",
