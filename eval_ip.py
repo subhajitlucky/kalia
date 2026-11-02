@@ -81,6 +81,7 @@ def accuracy_from_scores(
             "operations": "+".join(record["operations"]),
             "composition": bool(record["composition"]),
             "n_way": int(record["n_way"]),
+            "cell": record.get("cell"),
             "correct": bool(pred == record["correct_index"]),
             "pred": int(pred),
             "correct_index": int(record["correct_index"]),
@@ -100,6 +101,22 @@ def accuracy_from_scores(
     for key, bucket in by_op.items():
         bucket["accuracy"] = bucket["correct"] / bucket["n"]
 
+    # The 2x2 benchmark uses `cell`; the X40 records do not, so this is empty
+    # for the original screen and does not change its verdict.
+    by_cell: dict[str, dict] = {}
+    for r in rows:
+        cell = r.get("cell")
+        if not cell:
+            continue
+        bucket = by_cell.setdefault(
+            cell, {"n": 0, "correct": 0, "n_way": r["n_way"]}
+        )
+        bucket["n"] += 1
+        bucket["correct"] += int(r["correct"])
+    for key, bucket in by_cell.items():
+        bucket["accuracy"] = bucket["correct"] / bucket["n"]
+        bucket["chance"] = 1.0 / bucket["n_way"]
+
     return {
         "seen": rate(seen),
         "unseen": rate(unseen),
@@ -109,6 +126,7 @@ def accuracy_from_scores(
         "seen_chance": 1.0 / 2.0,
         "unseen_chance": 1.0 / 4.0,
         "by_operation": by_op,
+        "by_cell": by_cell,
         "rows": rows,
     }
 
