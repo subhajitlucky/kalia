@@ -1,0 +1,896 @@
+{
+  "I1": false,
+  "I2": true,
+  "I3": false,
+  "I4": true,
+  "I5": true,
+  "I6": true,
+  "I7": true,
+  "advance": false,
+  "arms": {
+    "x40-adapter-s1338": {
+      "arm": "adapter",
+      "config_sha256": "4577dcb1ecd15f72a828cb2920218993b4ade64695647cc40007664ed28d2ff0",
+      "flags": {
+        "memory_control": true,
+        "memory_control_hidden": 523
+      },
+      "params": 30322944,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 0.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-adapter-s1339": {
+      "arm": "adapter",
+      "config_sha256": "83142457c88f4c65b40ad07f2e92ea91d6a6300a01a473aad0b8d1e4e6900394",
+      "flags": {
+        "memory_control": true,
+        "memory_control_hidden": 523
+      },
+      "params": 30322944,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 0.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-control-s1338": {
+      "arm": "control",
+      "config_sha256": "95576452b0a8a855152e99d927c800aa99381d570546bdff9f1ff96405ba74b9",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 0.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-control-s1339": {
+      "arm": "control",
+      "config_sha256": "f0382de61e6868036e8e4e833726e91a3704367e0ae342cc0bc5f306fe87c49d",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 0.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-ip-s1338": {
+      "arm": "ip",
+      "config_sha256": "d5f71bf0a0f342993d145c5c0f2caea21f63decdc7a4cac7d1f0a173bd2877c8",
+      "flags": {
+        "event_chunk": 64,
+        "event_head": true,
+        "event_head_hidden": 256,
+        "event_op_dim": 6,
+        "event_slot_dim": 64,
+        "event_slots": 16
+      },
+      "params": 30759952,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.01,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.1
+      }
+    },
+    "x40-ip-s1339": {
+      "arm": "ip",
+      "config_sha256": "5bb2924d28a33422211042e55b9c5a86e1a758d0415557fda1628fc27f540a5f",
+      "flags": {
+        "event_chunk": 64,
+        "event_head": true,
+        "event_head_hidden": 256,
+        "event_op_dim": 6,
+        "event_slot_dim": 64,
+        "event_slots": 16
+      },
+      "params": 30759952,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.01,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.1
+      }
+    },
+    "x40-pairs-s1338": {
+      "arm": "pairs",
+      "config_sha256": "a3b90e680d10fa0fe61952de2b9b41720aeff88fe504bea190cbba1c51ddf00b",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-pairs-s1339": {
+      "arm": "pairs",
+      "config_sha256": "b401cd72e14d278f01082f33a615436b2a819694f6f5f4a711c7e01898aa4816",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-workspace-s1338": {
+      "arm": "workspace",
+      "config_sha256": "2351c7a41a9eb7d7167180adfde7338c4b217673bb635af5ac80ceeede504add",
+      "flags": {
+        "event_chunk": 64,
+        "event_head": false,
+        "event_slot_dim": 64,
+        "event_slots": 16
+      },
+      "params": 30323088,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-workspace-s1339": {
+      "arm": "workspace",
+      "config_sha256": "3d56891b358b7e03f4c94174a6fa82e2c4c1d80aaae0199b52029183347b8c0b",
+      "flags": {
+        "event_chunk": 64,
+        "event_head": false,
+        "event_slot_dim": 64,
+        "event_slots": 16
+      },
+      "params": 30323088,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.0
+      }
+    }
+  },
+  "bars": {
+    "I1": 0.005,
+    "I2": 0.1,
+    "I3": 0.1,
+    "I4": 0.005,
+    "I5_entropy": 2.0,
+    "I5_probe": 0.1,
+    "I5_rank": 4.0
+  },
+  "by_operation": {
+    "x40-adapter-s1338": {
+      "negate": {
+        "accuracy": 0.8260869565217391,
+        "correct": 38,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.39568345323741005,
+        "correct": 55,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.32666666666666666,
+        "correct": 49,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.13333333333333333,
+        "correct": 20,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.48695652173913045,
+        "correct": 56,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.44,
+        "correct": 66,
+        "n": 150
+      }
+    },
+    "x40-adapter-s1339": {
+      "negate": {
+        "accuracy": 0.9565217391304348,
+        "correct": 44,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.4028776978417266,
+        "correct": 56,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.3933333333333333,
+        "correct": 59,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.11333333333333333,
+        "correct": 17,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.5391304347826087,
+        "correct": 62,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.5133333333333333,
+        "correct": 77,
+        "n": 150
+      }
+    },
+    "x40-control-s1338": {
+      "negate": {
+        "accuracy": 0.8478260869565217,
+        "correct": 39,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.4172661870503597,
+        "correct": 58,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.38,
+        "correct": 57,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.16666666666666666,
+        "correct": 25,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.4608695652173913,
+        "correct": 53,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.4666666666666667,
+        "correct": 70,
+        "n": 150
+      }
+    },
+    "x40-control-s1339": {
+      "negate": {
+        "accuracy": 1.0,
+        "correct": 46,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.4172661870503597,
+        "correct": 58,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.3933333333333333,
+        "correct": 59,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.19333333333333333,
+        "correct": 29,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.4956521739130435,
+        "correct": 57,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.4666666666666667,
+        "correct": 70,
+        "n": 150
+      }
+    },
+    "x40-ip-s1338": {
+      "negate": {
+        "accuracy": 1.0,
+        "correct": 46,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.05194805194805195,
+        "correct": 4,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 1.0,
+        "correct": 73,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.48201438848920863,
+        "correct": 67,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.38,
+        "correct": 57,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.22666666666666666,
+        "correct": 34,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.4434782608695652,
+        "correct": 51,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.4533333333333333,
+        "correct": 68,
+        "n": 150
+      }
+    },
+    "x40-ip-s1339": {
+      "negate": {
+        "accuracy": 1.0,
+        "correct": 46,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.8051948051948052,
+        "correct": 62,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 0.2876712328767123,
+        "correct": 21,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.4676258992805755,
+        "correct": 65,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.43333333333333335,
+        "correct": 65,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.2866666666666667,
+        "correct": 43,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.4434782608695652,
+        "correct": 51,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.4866666666666667,
+        "correct": 73,
+        "n": 150
+      }
+    },
+    "x40-pairs-s1338": {
+      "negate": {
+        "accuracy": 1.0,
+        "correct": 46,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.381294964028777,
+        "correct": 53,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.36,
+        "correct": 54,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.16,
+        "correct": 24,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.4782608695652174,
+        "correct": 55,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.4266666666666667,
+        "correct": 64,
+        "n": 150
+      }
+    },
+    "x40-pairs-s1339": {
+      "negate": {
+        "accuracy": 1.0,
+        "correct": 46,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.35064935064935066,
+        "correct": 27,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.10666666666666667,
+        "correct": 16,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 0.8493150684931506,
+        "correct": 62,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.41007194244604317,
+        "correct": 57,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.41333333333333333,
+        "correct": 62,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.18,
+        "correct": 27,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.4434782608695652,
+        "correct": 51,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.5066666666666667,
+        "correct": 76,
+        "n": 150
+      }
+    },
+    "x40-workspace-s1338": {
+      "negate": {
+        "accuracy": 1.0,
+        "correct": 46,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 0.4383561643835616,
+        "correct": 32,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.4892086330935252,
+        "correct": 68,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.38666666666666666,
+        "correct": 58,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.18666666666666668,
+        "correct": 28,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.4608695652173913,
+        "correct": 53,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.4666666666666667,
+        "correct": 70,
+        "n": 150
+      }
+    },
+    "x40-workspace-s1339": {
+      "negate": {
+        "accuracy": 1.0,
+        "correct": 46,
+        "n": 46
+      },
+      "number": {
+        "accuracy": 0.38961038961038963,
+        "correct": 30,
+        "n": 77
+      },
+      "number+place": {
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 150
+      },
+      "place": {
+        "accuracy": 1.0,
+        "correct": 73,
+        "n": 73
+      },
+      "rename": {
+        "accuracy": 0.4460431654676259,
+        "correct": 62,
+        "n": 139
+      },
+      "rename+negate": {
+        "accuracy": 0.38666666666666666,
+        "correct": 58,
+        "n": 150
+      },
+      "rename+swap": {
+        "accuracy": 0.2,
+        "correct": 30,
+        "n": 150
+      },
+      "swap": {
+        "accuracy": 0.5391304347826087,
+        "correct": 62,
+        "n": 115
+      },
+      "swap+negate": {
+        "accuracy": 0.5066666666666667,
+        "correct": 76,
+        "n": 150
+      }
+    }
+  },
+  "decision": "stop: the IP arm costs language quality (I-1)",
+  "experiment": "x40-ip",
+  "overall": {
+    "x40-adapter-s1338": 0.2704761904761905,
+    "x40-adapter-s1339": 0.3,
+    "x40-control-s1338": 0.2876190476190476,
+    "x40-control-s1339": 0.3038095238095238,
+    "x40-ip-s1338": 0.38095238095238093,
+    "x40-ip-s1339": 0.4057142857142857,
+    "x40-pairs-s1338": 0.2819047619047619,
+    "x40-pairs-s1339": 0.4038095238095238,
+    "x40-workspace-s1338": 0.3380952380952381,
+    "x40-workspace-s1339": 0.41619047619047617
+  },
+  "pairs": {
+    "audit_sha256": "2d10d28e4f3b8157e02296943ac79585a2b631e8d62f3867439e32d5d56eb1f7",
+    "eval_counts": {
+      "negate": 46,
+      "number": 77,
+      "number+place": 150,
+      "place": 73,
+      "rename": 139,
+      "rename+negate": 150,
+      "rename+swap": 150,
+      "swap": 115,
+      "swap+negate": 150
+    },
+    "eval_sha256": "d96c729bb96ebd2dab650a2db8ab8ca62858e73737ea36e7a1db97480e58c4aa",
+    "lengths": {
+      "eval_edited_prefix_tokens": 19,
+      "eval_prompt_tokens": 42,
+      "eval_suffix_tokens": 10,
+      "train_edited_prefix_tokens": 19,
+      "train_prompt_tokens": 39,
+      "train_suffix_tokens": 9
+    },
+    "n_eval": 1050,
+    "n_train": 16000,
+    "train_counts": {
+      "negate": 3633,
+      "number": 2023,
+      "place": 2962,
+      "rename": 3747,
+      "swap": 3635
+    },
+    "train_sha256": "b0efd11e56dd8b725ed880c603bde986fba3281453f21b9955849f45837fb5b3"
+  },
+  "params": {
+    "x40-adapter-s1338": 30322944,
+    "x40-adapter-s1339": 30322944,
+    "x40-control-s1338": 29921280,
+    "x40-control-s1339": 29921280,
+    "x40-ip-s1338": 30759952,
+    "x40-ip-s1339": 30759952,
+    "x40-pairs-s1338": 29921280,
+    "x40-pairs-s1339": 29921280,
+    "x40-workspace-s1338": 30323088,
+    "x40-workspace-s1339": 30323088
+  },
+  "retention": {
+    "x40-adapter-s1338": 0.000689655172413793,
+    "x40-adapter-s1339": 0.00035971223021582735,
+    "x40-control-s1338": 0.001282051282051282,
+    "x40-control-s1339": 0.00035971223021582735,
+    "x40-ip-s1338": 0.0,
+    "x40-ip-s1339": 0.0,
+    "x40-pairs-s1338": 0.0,
+    "x40-pairs-s1339": 0.0003448275862068965,
+    "x40-workspace-s1338": 0.0,
+    "x40-workspace-s1339": 0.0
+  },
+  "retention_delta_ip_minus_control": {
+    "1338": -0.001282051282051282,
+    "1339": -0.00035971223021582735
+  },
+  "ruler_control_seed_spread": {
+    "seen": 0.024444444444444435,
+    "unseen": 0.009999999999999953,
+    "val": 0.01130000000000031
+  },
+  "seeds": [
+    1338,
+    1339
+  ],
+  "seen": {
+    "x40-adapter-s1338": 0.33111111111111113,
+    "x40-adapter-s1339": 0.36,
+    "x40-control-s1338": 0.3333333333333333,
+    "x40-control-s1339": 0.35777777777777775,
+    "x40-ip-s1338": 0.5355555555555556,
+    "x40-ip-s1339": 0.5444444444444444,
+    "x40-pairs-s1338": 0.3422222222222222,
+    "x40-pairs-s1339": 0.54,
+    "x40-workspace-s1338": 0.44222222222222224,
+    "x40-workspace-s1339": 0.6066666666666667
+  },
+  "seen_delta_ip_minus_control": {
+    "1338": 0.20222222222222225,
+    "1339": 0.18666666666666665
+  },
+  "steps": 763,
+  "swap": {
+    "x40-adapter-s1338": 0.0034345149993896484,
+    "x40-adapter-s1339": 0.0008518457412719727,
+    "x40-control-s1338": 0.0014402151107788086,
+    "x40-control-s1339": 0.0020650386810302734,
+    "x40-ip-s1338": 0.0028796672821044924,
+    "x40-ip-s1339": 0.0021145105361938476,
+    "x40-pairs-s1338": 0.000675201416015625,
+    "x40-pairs-s1339": -0.00017302036285400392,
+    "x40-workspace-s1338": 0.003654789924621582,
+    "x40-workspace-s1339": 0.00374603271484375
+  },
+  "unseen": {
+    "x40-adapter-s1338": 0.225,
+    "x40-adapter-s1339": 0.255,
+    "x40-control-s1338": 0.25333333333333335,
+    "x40-control-s1339": 0.2633333333333333,
+    "x40-ip-s1338": 0.265,
+    "x40-ip-s1339": 0.3016666666666667,
+    "x40-pairs-s1338": 0.23666666666666666,
+    "x40-pairs-s1339": 0.3016666666666667,
+    "x40-workspace-s1338": 0.26,
+    "x40-workspace-s1339": 0.2733333333333333
+  },
+  "unseen_delta_ip_minus_pairs": {
+    "1338": 0.02833333333333335,
+    "1339": 0.0
+  },
+  "unseen_delta_pairs_minus_control": {
+    "1338": -0.01666666666666669,
+    "1339": 0.038333333333333386
+  },
+  "unseen_delta_workspace_minus_pairs": {
+    "1338": 0.023333333333333345,
+    "1339": -0.028333333333333377
+  },
+  "val_delta_ip_minus_control": {
+    "1338": 0.20400000000000063,
+    "1339": 0.16889999999999983
+  },
+  "vals": {
+    "x40-adapter-s1338": 3.8914,
+    "x40-adapter-s1339": 3.9018,
+    "x40-control-s1338": 4.1495,
+    "x40-control-s1339": 4.1608,
+    "x40-ip-s1338": 4.3535,
+    "x40-ip-s1339": 4.3297,
+    "x40-pairs-s1338": 4.273,
+    "x40-pairs-s1339": 4.2831,
+    "x40-workspace-s1338": 4.3671,
+    "x40-workspace-s1339": 4.3373
+  },
+  "workspace": {
+    "x40-adapter-s1338": {},
+    "x40-adapter-s1339": {},
+    "x40-control-s1338": {},
+    "x40-control-s1339": {},
+    "x40-ip-s1338": {
+      "effective_rank": 12.283206939697266,
+      "n": 1050,
+      "probe_accuracy": 1.0,
+      "probe_chance": 0.1111111111111111,
+      "probe_classes": [
+        "negate",
+        "number",
+        "number+place",
+        "place",
+        "rename",
+        "rename+negate",
+        "rename+swap",
+        "swap",
+        "swap+negate"
+      ],
+      "probe_gain": 0.8888888888888888,
+      "probe_n": 1050,
+      "slot_dim": 64,
+      "slot_entropy_bits": 3.793865919113159,
+      "slot_norm": 17.19854736328125,
+      "slots": 16
+    },
+    "x40-ip-s1339": {
+      "effective_rank": 11.96037769317627,
+      "n": 1050,
+      "probe_accuracy": 1.0,
+      "probe_chance": 0.1111111111111111,
+      "probe_classes": [
+        "negate",
+        "number",
+        "number+place",
+        "place",
+        "rename",
+        "rename+negate",
+        "rename+swap",
+        "swap",
+        "swap+negate"
+      ],
+      "probe_gain": 0.8888888888888888,
+      "probe_n": 1050,
+      "slot_dim": 64,
+      "slot_entropy_bits": 3.763296365737915,
+      "slot_norm": 15.341880798339844,
+      "slots": 16
+    },
+    "x40-pairs-s1338": {},
+    "x40-pairs-s1339": {},
+    "x40-workspace-s1338": {
+      "effective_rank": 10.654509544372559,
+      "n": 1050,
+      "probe_accuracy": 0.9942857027053833,
+      "probe_chance": 0.1111111111111111,
+      "probe_classes": [
+        "negate",
+        "number",
+        "number+place",
+        "place",
+        "rename",
+        "rename+negate",
+        "rename+swap",
+        "swap",
+        "swap+negate"
+      ],
+      "probe_gain": 0.8831745915942721,
+      "probe_n": 1050,
+      "slot_dim": 64,
+      "slot_entropy_bits": 3.358046054840088,
+      "slot_norm": 16.810810089111328,
+      "slots": 16
+    },
+    "x40-workspace-s1339": {
+      "effective_rank": 10.858627319335938,
+      "n": 1050,
+      "probe_accuracy": 1.0,
+      "probe_chance": 0.1111111111111111,
+      "probe_classes": [
+        "negate",
+        "number",
+        "number+place",
+        "place",
+        "rename",
+        "rename+negate",
+        "rename+swap",
+        "swap",
+        "swap+negate"
+      ],
+      "probe_gain": 0.8888888888888888,
+      "probe_n": 1050,
+      "slot_dim": 64,
+      "slot_entropy_bits": 3.6600911617279053,
+      "slot_norm": 15.423344612121582,
+      "slots": 16
+    }
+  }
+}

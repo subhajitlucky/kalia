@@ -1,0 +1,197 @@
+{
+  "eval_counts": {
+    "negate": 46,
+    "number": 77,
+    "number+place": 150,
+    "place": 73,
+    "rename": 139,
+    "rename+negate": 150,
+    "rename+swap": 150,
+    "swap": 115,
+    "swap+negate": 150
+  },
+  "eval_names": [
+    "Anton",
+    "Diego",
+    "Elise",
+    "Freya",
+    "June",
+    "Lila",
+    "Marco",
+    "Omar",
+    "Priya",
+    "Rowan",
+    "Sana",
+    "Tessa"
+  ],
+  "eval_sha256": "d96c729bb96ebd2dab650a2db8ab8ca62858e73737ea36e7a1db97480e58c4aa",
+  "eval_templates": [
+    "ask_help",
+    "pack_box",
+    "tell_secret"
+  ],
+  "examples": [
+    {
+      "alternatives": [
+        "Marco told Elise the secret."
+      ],
+      "correct": "June told Omar the secret.",
+      "instruction": "Intervention: rename Freya to Anton, Marco to June, and Elise to Omar.",
+      "operations": [
+        "rename"
+      ],
+      "prefix": "Freya told Marco a secret. Marco promised to keep it."
+    },
+    {
+      "alternatives": [
+        "Tessa told Rowan the secret."
+      ],
+      "correct": "Priya told Rowan the secret.",
+      "instruction": "Intervention: swap Priya and Tessa.",
+      "operations": [
+        "swap"
+      ],
+      "prefix": "Priya told Tessa a secret. Tessa promised to keep it."
+    },
+    {
+      "alternatives": [
+        "Anton thanked Freya."
+      ],
+      "correct": "Anton did not thank Freya.",
+      "instruction": "Intervention: negate the event.",
+      "operations": [
+        "negate"
+      ],
+      "prefix": "Anton asked Freya for the letter. Freya gave it to Anton."
+    },
+    {
+      "alternatives": [
+        "The bag holds two lanterns on the floor."
+      ],
+      "correct": "The bag holds three lanterns on the floor.",
+      "instruction": "Intervention: change two to three.",
+      "operations": [
+        "number"
+      ],
+      "prefix": "Sana packed two lanterns on the floor."
+    },
+    {
+      "alternatives": [
+        "The bag holds two books on the ledge."
+      ],
+      "correct": "The bag holds two books under the ledge.",
+      "instruction": "Intervention: change on to under.",
+      "operations": [
+        "place"
+      ],
+      "prefix": "Lila packed two books on the ledge."
+    },
+    {
+      "alternatives": [
+        "Lila thanked June.",
+        "Freya thanked Sana.",
+        "Sana thanked Freya."
+      ],
+      "correct": "June thanked Lila.",
+      "instruction": "Intervention: rename Freya to Lila and Sana to June; swap Lila and June.",
+      "operations": [
+        "rename",
+        "swap"
+      ],
+      "prefix": "Freya asked Sana for the ribbon. Sana gave it to Freya."
+    },
+    {
+      "alternatives": [
+        "June thanked Omar.",
+        "Omar thanked June.",
+        "June did not thank Omar."
+      ],
+      "correct": "Omar did not thank June.",
+      "instruction": "Intervention: swap June and Omar; negate the event.",
+      "operations": [
+        "swap",
+        "negate"
+      ],
+      "prefix": "June asked Omar for the book. Omar gave it to June."
+    },
+    {
+      "alternatives": [
+        "The bag holds two stones on the desk.",
+        "The bag holds two stones under the desk.",
+        "The bag holds three stones on the desk."
+      ],
+      "correct": "The bag holds three stones under the desk.",
+      "instruction": "Intervention: change two to three; change on to under.",
+      "operations": [
+        "number",
+        "place"
+      ],
+      "prefix": "Omar packed two stones on the desk."
+    },
+    {
+      "alternatives": [
+        "Omar thanked Tessa.",
+        "Marco thanked Lila.",
+        "Omar did not thank Tessa."
+      ],
+      "correct": "Marco did not thank Lila.",
+      "instruction": "Intervention: rename Omar to Marco and Tessa to Lila; negate the event.",
+      "operations": [
+        "rename",
+        "negate"
+      ],
+      "prefix": "Omar asked Tessa for the apple. Tessa gave it to Omar."
+    }
+  ],
+  "lengths": {
+    "eval_edited_prefix_tokens": 19,
+    "eval_prompt_tokens": 42,
+    "eval_suffix_tokens": 10,
+    "train_edited_prefix_tokens": 19,
+    "train_prompt_tokens": 39,
+    "train_suffix_tokens": 9
+  },
+  "n_eval": 1050,
+  "n_train": 16000,
+  "seed": 1338,
+  "train_counts": {
+    "negate": 3633,
+    "number": 2023,
+    "place": 2962,
+    "rename": 3747,
+    "swap": 3635
+  },
+  "train_names": [
+    "Ada",
+    "Aria",
+    "Cleo",
+    "Ella",
+    "Finn",
+    "Hugo",
+    "Iris",
+    "Kai",
+    "Lena",
+    "Leo",
+    "Max",
+    "Maya",
+    "Milo",
+    "Nina",
+    "Nora",
+    "Otis",
+    "Owen",
+    "Rhys",
+    "Ruby",
+    "Sam",
+    "Sol",
+    "Theo",
+    "Vera",
+    "Zara"
+  ],
+  "train_sha256": "b0efd11e56dd8b725ed880c603bde986fba3281453f21b9955849f45837fb5b3",
+  "train_templates": [
+    "give_keep",
+    "hide_find",
+    "meet_tell",
+    "put_count"
+  ]
+}

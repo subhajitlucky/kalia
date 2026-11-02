@@ -916,10 +916,77 @@ workspace immediately; X36's closed gate is the negative precedent.
 
 **Cost.** Zero GPU; 644 tests passed after the build.
 
-**Status.** Built and CPU-tested; the 30M screen is not run. Artifacts:
+**Status.** Built and CPU-tested; the 30M screen is run and failed — see D68. Artifacts:
 `intervention_pairs.py`, `eval_ip.py`, `tools/kalia_x40_ip_kernel.py`,
 `docs/research/2026-11-01-x40-build.md`.
 
 **Update 2026-11-01.** The code dataset was republished with the new files and
 the 30M screen was pushed as `subhajitlucky/kalia-x40-ip`, revision
 `9588b85e923b`. The kernel is running; no I-bar is measured yet.
+
+## D68 — X40 is closed at 30M: no composition gain, and a language tax (2026-11-02)
+
+**Context.** The X40 30M screen completed as kernel version 2 at revision
+`2153d6f`. The v1 kernel died at the first workspace arm on an fp16
+`masked_fill(-1e9)` overflow and produced no eval; it is logged separately and
+is not used. v2 ran all five arms at seeds 1338/1339 (763 steps), with the
+registered weights and no changes after launch.
+
+**Result.**
+
+| bar | 1338 | 1339 | verdict |
+|---|---:|---:|---|
+| I-1 IP val − control | **+0.2040** | **+0.1689** | **FAIL** |
+| I-2 IP seen − control | +0.2022 | +0.1867 | PASS |
+| I-3 IP unseen − pairs | **+0.0283** | **0.0000** | **FAIL** |
+| I-4 IP retention − control | −0.00128 | −0.00036 | PASS (floor) |
+| I-5 entropy / rank / probe | 3.79 / 12.28 / 0.889 | 3.76 / 11.96 / 0.889 | PASS |
+| I-6 pair audit | clean | clean | PASS |
+| I-7 control seed spread | val 0.0113 / seen 0.0244 / unseen 0.0100 | — | reported |
+
+`advance = false`. The IP seen accuracy is only 0.536/0.544, 3.6–4.4 pp above
+2-way chance; unseen is 0.265/0.302, 1.5–5.2 pp above 4-way chance. The
+workspace is alive, so the null is not a dead-module artifact.
+
+**The tax is not only the state loss.** Pairs-only costs **+0.123/+0.122** nats
+vs control; the event workspace adds **+0.094/+0.054** over pairs; the
+state/diversity terms **slightly reduce** the tax vs the workspace arm
+(**−0.014/−0.008**). The pair data and the workspace architecture are the
+costs; the state term is not the culprit. The total is still 34–41× the 0.005
+allowance.
+
+**The seen gain is vs control, not vs pairs.** Against the pair-only baseline,
+the IP seen gain is **+0.193 on seed 1338 but +0.004 on seed 1339**; the
+`pairs` arm itself is unstable (0.342 vs 0.540). I-2 passes as registered, but
+the IP does not robustly beat the data baseline on the seen task.
+
+**The parameter-matched adapter is the surprise.** The output-only adapter
+(no pair data) improves val by **0.26 nats** vs control; the workspace at the
+same budget is **0.44–0.48 nats worse than the adapter** (and **0.18–0.22 nats
+worse than control**). At 30M the extra parameters are better spent at the
+output than in the event workspace. This is a capacity observation, not a
+rescue for X40.
+
+**The composition test has a confound.** `number+place` is 0.0 in 9/10 arms
+(pairs-s1339 0.107): the `pack_box` eval template's causal relation
+("packed" → "bag holds") never appears in training. Excluding it, the other
+three compositions still do not give a consistent +0.10: rename+swap
++0.067/+0.107, swap+negate +0.027/−0.020, rename+negate +0.020/+0.020. The
+confound changes the size of the composition claim, not the verdict.
+
+**Decision.**
+1. **Close X40.** No 58M, no 134M. No eval tuning, no pair-weight rescue, no
+   composition-set rescue. The registration's rule is I-1 or I-3 fail → stop.
+2. **v0.3.1 remains the model.** The architecture/objective search does not
+   have a promoted mechanism.
+3. **The next mechanism needs a new pre-registration.** A cleaner composition
+   benchmark should hold the causal relation fixed across train/eval and vary
+   only the composition; that is a benchmark contribution, not a scale-up of
+   X40.
+4. **The adapter result is a side observation**, not a new extraordinary
+   mechanism. If anyone pursues it, it is a separate pre-registered maintenance
+   run, not a rescue.
+
+**Cost.** v1 ~2.2 GPU-h before the startup failure; v2 ~6.3 GPU-h. No further
+GPU. Artifacts: `docs/results/x40/` (26 files; summary, rows, manifest, pair
+audit, configs, val reports, log). Registry: 34 runs / 266 files.

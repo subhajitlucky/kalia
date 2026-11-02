@@ -1,0 +1,252 @@
+{
+  "arms": {
+    "x40-adapter-s1338": {
+      "arm": "adapter",
+      "config_sha256": "4577dcb1ecd15f72a828cb2920218993b4ade64695647cc40007664ed28d2ff0",
+      "flags": {
+        "memory_control": true,
+        "memory_control_hidden": 523
+      },
+      "params": 30322944,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 0.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-adapter-s1339": {
+      "arm": "adapter",
+      "config_sha256": "83142457c88f4c65b40ad07f2e92ea91d6a6300a01a473aad0b8d1e4e6900394",
+      "flags": {
+        "memory_control": true,
+        "memory_control_hidden": 523
+      },
+      "params": 30322944,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 0.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-control-s1338": {
+      "arm": "control",
+      "config_sha256": "95576452b0a8a855152e99d927c800aa99381d570546bdff9f1ff96405ba74b9",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 0.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-control-s1339": {
+      "arm": "control",
+      "config_sha256": "f0382de61e6868036e8e4e833726e91a3704367e0ae342cc0bc5f306fe87c49d",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 0.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-ip-s1338": {
+      "arm": "ip",
+      "config_sha256": "d5f71bf0a0f342993d145c5c0f2caea21f63decdc7a4cac7d1f0a173bd2877c8",
+      "flags": {
+        "event_chunk": 64,
+        "event_head": true,
+        "event_head_hidden": 256,
+        "event_op_dim": 6,
+        "event_slot_dim": 64,
+        "event_slots": 16
+      },
+      "params": 30759952,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.01,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.1
+      }
+    },
+    "x40-ip-s1339": {
+      "arm": "ip",
+      "config_sha256": "5bb2924d28a33422211042e55b9c5a86e1a758d0415557fda1628fc27f540a5f",
+      "flags": {
+        "event_chunk": 64,
+        "event_head": true,
+        "event_head_hidden": 256,
+        "event_op_dim": 6,
+        "event_slot_dim": 64,
+        "event_slots": 16
+      },
+      "params": 30759952,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.01,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.1
+      }
+    },
+    "x40-pairs-s1338": {
+      "arm": "pairs",
+      "config_sha256": "a3b90e680d10fa0fe61952de2b9b41720aeff88fe504bea190cbba1c51ddf00b",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-pairs-s1339": {
+      "arm": "pairs",
+      "config_sha256": "b401cd72e14d278f01082f33a615436b2a819694f6f5f4a711c7e01898aa4816",
+      "flags": {},
+      "params": 29921280,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-workspace-s1338": {
+      "arm": "workspace",
+      "config_sha256": "2351c7a41a9eb7d7167180adfde7338c4b217673bb635af5ac80ceeede504add",
+      "flags": {
+        "event_chunk": 64,
+        "event_head": false,
+        "event_slot_dim": 64,
+        "event_slots": 16
+      },
+      "params": 30323088,
+      "seed": 1338,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.0
+      }
+    },
+    "x40-workspace-s1339": {
+      "arm": "workspace",
+      "config_sha256": "3d56891b358b7e03f4c94174a6fa82e2c4c1d80aaae0199b52029183347b8c0b",
+      "flags": {
+        "event_chunk": 64,
+        "event_head": false,
+        "event_slot_dim": 64,
+        "event_slots": 16
+      },
+      "params": 30323088,
+      "seed": 1339,
+      "weights": {
+        "ip_div_weight": 0.0,
+        "ip_lm_weight": 1.0,
+        "ip_state_weight": 0.0
+      }
+    }
+  },
+  "bars": {
+    "I1": 0.005,
+    "I2": 0.1,
+    "I3": 0.1,
+    "I4": 0.005,
+    "I5_entropy": 2.0,
+    "I5_probe": 0.1,
+    "I5_rank": 4.0
+  },
+  "base_config": "configs/micro-muon.yaml",
+  "base_config_sha256": "f62adb02dc5343ca57bff20d47cc914b959f29b5915fe53fc2161e7bf5300322",
+  "code_fingerprint": "b714edc4fbef1443d122cc8d23fc6a4ac2ebdad5d9f08bc7dcfd660be4db0815",
+  "code_snapshot": "/kaggle/input/datasets/subhajitlucky/kalia-code-dev",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data",
+  "experiment": "ip",
+  "kernel_id": "subhajitlucky/kalia-x40-ip",
+  "kernel_revision": "2153d6f4de3e50706ade6a55386fd08dd2252bba",
+  "pairs": {
+    "audit_sha256": "2d10d28e4f3b8157e02296943ac79585a2b631e8d62f3867439e32d5d56eb1f7",
+    "dir": "/kaggle/working/ip",
+    "eval_names": [
+      "Anton",
+      "Diego",
+      "Elise",
+      "Freya",
+      "June",
+      "Lila",
+      "Marco",
+      "Omar",
+      "Priya",
+      "Rowan",
+      "Sana",
+      "Tessa"
+    ],
+    "eval_sha256": "d96c729bb96ebd2dab650a2db8ab8ca62858e73737ea36e7a1db97480e58c4aa",
+    "eval_templates": [
+      "ask_help",
+      "pack_box",
+      "tell_secret"
+    ],
+    "lengths": {
+      "eval_edited_prefix_tokens": 19,
+      "eval_prompt_tokens": 42,
+      "eval_suffix_tokens": 10,
+      "train_edited_prefix_tokens": 19,
+      "train_prompt_tokens": 39,
+      "train_suffix_tokens": 9
+    },
+    "train_names": [
+      "Ada",
+      "Aria",
+      "Cleo",
+      "Ella",
+      "Finn",
+      "Hugo",
+      "Iris",
+      "Kai",
+      "Lena",
+      "Leo",
+      "Max",
+      "Maya",
+      "Milo",
+      "Nina",
+      "Nora",
+      "Otis",
+      "Owen",
+      "Rhys",
+      "Ruby",
+      "Sam",
+      "Sol",
+      "Theo",
+      "Vera",
+      "Zara"
+    ],
+    "train_sha256": "b0efd11e56dd8b725ed880c603bde986fba3281453f21b9955849f45837fb5b3",
+    "train_templates": [
+      "give_keep",
+      "hide_find",
+      "meet_tell",
+      "put_count"
+    ]
+  },
+  "recorded": "2026-11-02T09:05:32.013663+00:00",
+  "seeds": [
+    1338,
+    1339
+  ],
+  "steps": 763,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}

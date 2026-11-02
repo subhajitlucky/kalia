@@ -93,6 +93,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-10-27-X37-sutra-micro.md", ["docs/results/x37/**/*"]),
     ("X38", "Counterfactual residual bottleneck; C-1/C-1b pass but C-2/C-3/C-5 fail; stable stream collapses to rank 1.5; no scale",
      "2026-10-28-X38-crb-micro.md", ["docs/results/x38/**/*"]),
+    ("X40", "Intervention pretraining; I-1 fails (+0.204/+0.169 val tax) and I-3 fails (+0.028/0.000 unseen over pairs); workspace alive but no composition gain; closed at 30M, no scale",
+     "2026-11-01-X40-intervention-pretraining.md", ["docs/results/x40/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",
