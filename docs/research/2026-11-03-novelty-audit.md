@@ -193,3 +193,22 @@ hard cells are different; the hard cells may still fail.
 B+ application, with the prior art cited; C-1 val guard +0.005, C-2 held-out
 S-P +0.10, C-3/C-4 no regressions, C-5 operation-level table. If C-1 or C-2
 fails, close the data-side line.
+
+## Follow-up: the intervention-benchmark space is saturated
+
+A third sweep (OpenAlex/arXiv) checked every remaining “new problem” angle
+around interventions. Each has close prior art:
+
+| candidate | closest prior art | verdict |
+|---|---|---|
+| ordered intervention sequences / order contrastive | order sensitivity (2024, 2026), COCO-LM order/contrastive pretraining (2021), multi-step instruction following (MUFFIN, ProcBench) | B+ |
+| intervention composition / edit algebra | **Composable Interventions for Language Models** (2024), **ALAM** algebraic latent actions (2026), **Algebraic Consistency Alone Does Not Certify Temporal Structure** (2026) | B+ / D |
+| reversibility / inverse edits | **On Reversibility as Language Model Behavioral Property in Parametric Knowledge Editing** (2026) | B+ |
+| minimality / locality | **Long-form evaluation of model editing** (2024), model-editing locality benchmarks | B+ |
+| commutator / non-commuting edits | **Commutator Memory** (2026), **Commutator Trace Invariants** (2026) — the term is already used in LM interpretability | B+ |
+| attention mediation | causal mediation analysis for NLP (2020), causal mediation for arithmetic reasoning (2023), activation steering via generative causal mediation (2026) | D (method known) |
+
+**Verdict: no A-class new experiment remains in this space.** The only
+defensible new artifact is the 2×2 benchmark + the negative record, both of
+which are already built. Any further “new” intervention experiment would be a
+B+ application; the godmode rule says do not run it as a novelty bet.
