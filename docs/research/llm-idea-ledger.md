@@ -82,16 +82,18 @@ Each axis still needs two prior-art probes before it becomes an experiment.
 
 | candidate | formal idea | closest prior art | class | status |
 |---|---|---|---|---|
-| **Saptabhaṅgī Attention (SBA)** | seven-perspective attention: is / is not / both / inexpressible / combinations, mixed by a router; zero-init control | syādvāda for XAI (2026); multi-view/fuzzy attention; negation-aware models | **A−/B+** | **PNB benchmark first** |
+| **Saptabhaṅgī Attention (SBA)** | seven-perspective attention: is / is not / both / inexpressible / combinations, mixed by a router; zero-init control | Multi-Perspective Reasoning Transformers (2021); NAST negation-aware training (2026); NLMs (2023); syādvāda XAI (2026) | **B+** | **not A; do not run as new** |
 | Pratyāhāra Set Tokenizer (PST) | set-valued tokens with a composition rule | BPE/WordPiece; multi-token prediction; vocabulary compression | B+ | not first |
 | Nyāya Five-Member Verifier (NFV) | five-stage thesis/reason/example/application/conclusion head | CoT, process reward models, verifiers | B+ | benchmark only |
 | Pramāṇa Evidence Router (PER) | six-source evidence routing per claim | RAG, tool routing, MoE, claim verification | B+ | interface |
 
-**Next D: Perspective & Negation Benchmark (PNB).** Stories with characters
-who believe, deny, or are unsure; questions from a named perspective; negation
-consistency; “unknown” as a valid answer. Evaluate v0.3.1, GPT-2 small,
-Pythia-160M, Qwen2.5-0.5B. CPU/light GPU, no training.
+**Confirmed: PNB is D/B+, not a new problem.** Closest prior art: ReFract
+(2026, perspective-awareness benchmark), SYMBOLICTOM (2023, multi-character
+belief tracker), ToMBench / OpenToM / CogToM (2024–2026), and negation-
+consistency benchmarks (2023–2026). The exact combination may be new, but it is
+a theory-of-mind + negation application.
 
-If PNB shows a gap, SBA gets a 30M screen (3–5 GPU-h): control vs pairs vs SBA;
-val ≤ control + 0.005; PNB +0.10; negation consistency +0.10; kill on val tax or
-no gain. If PNB shows no gap, stop; do not build the metaphor.
+Under the “everything new” rule, **do not run SBA or PNB as a new mechanism**.
+If a labelled B+ application is acceptable, PNB is cheap; otherwise keep
+searching CPU-side. The ancient-text lens produced a new composition, not a new
+primitive.
