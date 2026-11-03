@@ -59,6 +59,7 @@ A B+ is not success. A null on a B+ is a process failure, not a result.
 - Data: what data is missing — impossible edits, ambiguous edits, multi-party
   stories, temporal chains, conservation violations?
 - Scale: is the claim a scaling curve rather than a mechanism?
+- Ancient texts: source principle → formal structure → mechanism → nearest modern relative. Discard metaphors that do not compile.
 
 ## The classes
 
