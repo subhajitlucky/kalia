@@ -36,8 +36,8 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X32` | Entity-selection circuit probe; layer-9 heads carry entity mass but ablation hurts | yes | 5 files |
 | `X33` | Linear midpoint readout; probe beats greedy +0.0155, ~35% of the coverage gap | yes | 5 files |
 | `X34` | Seed-1007 replication of X33; the midpoint readout does not clear the registered bar | yes | 7 files |
-| `X35` | Static code-mixture screen; code10 −0.0007, code25 +0.0058; S-1 fails, Stage 2 not run | yes | 13 files |
-| `X36` | Entity-memory micro; retention passes, val +0.076 vs matched control fails M-2; no scale | yes | 24 files |
+| `X35` | Static code-mixture screen; code10 −0.0007, code25 +0.0058; S-1 fails, Stage 2 not run | yes | 7 files |
+| `X36` | Entity-memory micro; retention passes, val +0.076 vs matched control fails M-2; no scale | yes | 16 files |
 | `X37` | Pāṇinian rule grammar; S-1/S-2 fail, S-3 pass; no scale | yes | 17 files |
 | `X38` | Counterfactual residual bottleneck; C-1/C-1b pass but C-2/C-3/C-5 fail; stable stream collapses to rank 1.5; no scale | yes | 31 files |
 | `X40` | Intervention pretraining; I-1 fails (+0.204/+0.169 val tax) and I-3 fails (+0.028/0.000 unseen over pairs); workspace alive but no composition gain; closed at 30M, no scale | yes | 26 files |
@@ -216,8 +216,8 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x35/configs/x35-code25-s1401.yaml`
 - `docs/results/x35/configs/x35-control-s1401.yaml`
 - `docs/results/x35/kalia-x35-mix-screen.log`
-- `docs/results/x35/out/code10-s1401/train_log.csv`
-- `… 7 more`
+- `docs/results/x35/run_manifest.json`
+- `… 1 more`
 
 **X36**
 - `docs/results/x36/README.md`
@@ -226,7 +226,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x36/configs/x36-control-s1338.yaml`
 - `docs/results/x36/configs/x36-control-s1339.yaml`
 - `docs/results/x36/configs/x36-copy-s1338.yaml`
-- `… 18 more`
+- `… 10 more`
 
 **X37**
 - `docs/results/x37/README.md`
@@ -279,4 +279,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-35 runs tracked, 271 files archived, 3 with no evidence.
+35 runs tracked, 257 files archived, 3 with no evidence.

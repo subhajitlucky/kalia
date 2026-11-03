@@ -23,6 +23,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import subprocess
 import sys
 from pathlib import Path
 
@@ -119,10 +120,34 @@ KNOWN_GAPS = {
 }
 
 
+def _tracked(root: Path) -> set[str] | None:
+    """Paths git tracks, or None outside a git checkout.
+
+    The registry describes the *committed* archive. The working tree can hold
+    ignored evaluation output that CI never sees; counting it made the local
+    registry disagree with the checkout (271 files locally, 257 in CI). A clean
+    `git archive` has no .git -- there every file is tracked, so None is right.
+    """
+    r = subprocess.run(
+        ["git", "-C", str(root), "ls-files", "-z"],
+        capture_output=True,
+    )
+    if r.returncode != 0:
+        return None
+    return {p for p in r.stdout.decode().split("\0") if p}
+
+
 def expand(globs: list[str], root: Path = ROOT) -> list[str]:
+    tracked = _tracked(root)
     found = []
     for pattern in globs:
-        found += [str(p.relative_to(root)) for p in sorted(root.glob(pattern)) if p.is_file()]
+        for p in sorted(root.glob(pattern)):
+            if not p.is_file():
+                continue
+            rel = str(p.relative_to(root))
+            if tracked is not None and rel not in tracked:
+                continue
+            found.append(rel)
     return found
 
 

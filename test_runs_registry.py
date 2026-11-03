@@ -10,6 +10,7 @@ where a run has no artifacts.
 from __future__ import annotations
 
 import importlib.util
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -77,3 +78,25 @@ def test_every_declared_glob_actually_matches_something_or_is_a_known_gap():
             assert run_id in R.KNOWN_GAPS, f"{run_id} has no globs but no recorded reason"
             continue
         assert R.expand(globs, ROOT), f"{run_id}: globs match nothing -- typo or a moved archive"
+
+
+def test_untracked_artifacts_are_not_archived(tmp_path):
+    """The registry describes the committed archive, not ignored local output.
+
+    This is the CI/local drift that made 271 files locally and 257 in a clean
+    checkout: the extra files were ignored evaluation output, not evidence.
+    """
+    tracked = tmp_path / "docs" / "results" / "entity-decode.json"
+    tracked.parent.mkdir(parents=True)
+    tracked.write_text("{}")
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    subprocess.run(
+        ["git", "-C", str(tmp_path), "add", "docs/results/entity-decode.json"],
+        check=True,
+    )
+    extra = tmp_path / "docs" / "results" / "entity-holdout" / "extra.json"
+    extra.parent.mkdir(parents=True)
+    extra.write_text("{}")
+    report = R.build(tmp_path)
+    assert "`entity decode` | Entity-consistent decoding vs greedy | — | 1 file |" in report
+    assert "extra.json" not in report
