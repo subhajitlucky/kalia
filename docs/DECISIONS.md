@@ -989,7 +989,7 @@ confound changes the size of the composition claim, not the verdict.
 
 **Cost.** v1 ~2.2 GPU-h before the startup failure; v2 ~6.3 GPU-h. No further
 GPU. Artifacts: `docs/results/x40/` (26 files; summary, rows, manifest, pair
-audit, configs, val reports, log). Registry: 34 runs / 266 files.
+audit, configs, val reports, log). Registry: the X40 row lists 26 files; the current registry is 35 runs / 257 files.
 
 ## D69 — The clean 2×2 benchmark confirms the composition failure (2026-11-03)
 

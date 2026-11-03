@@ -41,7 +41,7 @@ This programme kept the opposite record. Each bet has:
 - an archive of configs, logs, checkpoints and per-record eval rows;
 - a rule that a failed bar closes the mechanism; no eval tuning, no scale.
 
-The ledger verifies 33 pre-registrations. The archive holds 35 runs and 271
+The ledger verifies 33 pre-registrations. The archive holds 35 runs and 257
 files. Three early runs are recorded as gaps rather than reconstructed.
 
 ## 2. Protocol
@@ -237,7 +237,7 @@ v0.3.1 and stop the architecture search.
 
 ## Artifacts
 
-- `docs/results/RUNS.md` — 35 runs, 271 files, 3 recorded gaps.
+- `docs/results/RUNS.md` — 35 runs, 257 files, 3 recorded gaps.
 - `docs/preregistrations/LEDGER.md` — 33 verified registrations.
 - `docs/results/x40/README.md` — the X40 null and I-1…I-7.
 - `docs/results/x40-bench/README.md` — the 2×2 benchmark and S-P by-operation.
