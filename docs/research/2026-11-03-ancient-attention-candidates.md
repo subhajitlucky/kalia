@@ -126,3 +126,21 @@ is real.**
 The ancient text supplies a **formal constraint** — perspectival qualification
 — not a brand name. SBA is a new composition, not a proven mechanism. If PNB
 shows no gap, the correct result is to stop, not to build the metaphor.
+
+## Final confirmation — the second search says B+, not A
+
+The confirmation sweep found the closest work and it is close enough to change
+the class:
+
+| candidate | confirmed prior art | verdict |
+|---|---|---|
+| **SBA** | **Multi-Perspective Reasoning Transformers** (2021) — multi-perspective soft/hard attention for reasoning; **NAST** (2026) — negation-aware selective training with causal tracing; **NLMs** (2023) — augmenting negation in LMs; syādvāda for XAI (2026); multi-perspective collaborative attention (2026) | **B+** — no exact seven-valued attention, but a reviewer can call it a multi-perspective/negation-aware attention variant |
+| **PNB** | **ReFract** (2026) — perspective-awareness benchmark; **SYMBOLICTOM** (2023) — multi-character belief tracker; **ToMBench / OpenToM / CogToM** (2024–2026); **“Language models are not naysayers”** (2023), **“Making Language Models Robust Against Negation”** (2025), **Controlled Reformulation Testing** (2026) | **D/B+** — the exact combination may be new, but it is a theory-of-mind + negation benchmark application |
+
+**Confirmed verdict: SBA is B+, not A−. PNB is D/B+, not a new problem.**
+Under the “everything new” rule, do not run either as a new mechanism. If a
+B+ application is acceptable, PNB is cheap; but it is not a new primitive and
+must be labelled as an application.
+
+The search does not confirm a new attention mechanism. It confirms a new
+**composition** of known parts.
