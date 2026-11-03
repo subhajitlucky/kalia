@@ -166,3 +166,30 @@ If the goal is a paper, the benchmark + negative record is the stronger
 artifact and costs no GPU. If the goal is another mechanism, the honest answer
 is that the current queue has no A-class candidate with a positive prior; the
 next idea needs a new prior-art memo, not another run.
+
+## Follow-up: the Intervention Composition Curriculum (ICC) is not new
+
+Checked after the audit. The core idea — train on some compositions, hold out
+others, test whether the model composes the held-out combination — is already
+tested:
+
+| work | what it tests | relation to ICC |
+|---|---|---|
+| **Can Models Learn Skill Composition from Examples?** (2024-09-29) | fine-tune 7B/13B models on random subsets of skills; split skill categories into train/held-out; test composition with held-out skills | direct prior art for “train on some compositions, test held-out compositions”; reports improvement on held-out skill composition |
+| **Learning to Reason with Curriculum II: Compositional Generalization** (2026-06-26) | autocurriculum: decompose longer sequences into subproblems, learn, compose; statistical-complexity analysis | direct prior art for compositional curricula; theory + semiautomata |
+| **Distinct Computations Emerge From Compositional Curricula in In-Context Learning** (2025-06-16) | in-context compositional subtask curriculum; zero-shot unseen compositions | prior art for compositional curricula and held-out composition |
+| **Harnessing Dataset Cartography for Improved Compositional Generalization** (2023) | data selection/curriculum for compositional generalization | prior art for curriculum/data selection |
+
+**Verdict:** ICC is **B+** — a known mechanism (compositional curriculum) in a
+new setting (intervention pairs + the 2×2 benchmark). It is not a new
+experiment in the field, and it must not be called “never tested.”
+
+**Benefit for KALIA if run:** a targeted capability gain on the held-out S-P
+composition cell, not val/2k. The prior is positive (the 2024 skill-composition
+paper reports held-out composition gains), but the intervention setting and the
+hard cells are different; the hard cells may still fail.
+
+**Cost:** ~3–4 GPU-h at 30M, two seeds. **Go/no-go:** run only as a deliberate
+B+ application, with the prior art cited; C-1 val guard +0.005, C-2 held-out
+S-P +0.10, C-3/C-4 no regressions, C-5 operation-level table. If C-1 or C-2
+fails, close the data-side line.
