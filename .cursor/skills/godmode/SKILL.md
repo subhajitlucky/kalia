@@ -71,7 +71,7 @@ Read only the lens that matches the task. A task can use two.
 - **Science / biology / empirical research:** [lenses/science.md](lenses/science.md)
 - **History / debate / argument:** [lenses/history-debate.md](lenses/history-debate.md)
 - **Strategy / product / organizations:** [lenses/strategy.md](lenses/strategy.md)
-- **LLM research / model training:** [lenses/llm-research.md](lenses/llm-research.md)
+- **LLM research / model training:** [lenses/llm-research.md](lenses/llm-research.md); for the persistent search loop, use the `llm-godmode` skill.
 
 When the domain is unclear, use the **strategy** lens first to find the real
 game, then the closest technical lens.
