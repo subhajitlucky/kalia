@@ -10,25 +10,44 @@ entity binding, attention knockout, circuit-guided steering, next-latent
 prediction, gated adapters, and compositional curricula. Not a systematic
 review.
 
-## Verdict
+## Verdict — corrected after the second sweep
 
-**No exact match was found.** The closest work is attention supervision with
-counterfactuals for **text classification** (2020), and 2026 work that
-**analyses** how LMs bind entities with attention knockout and circuit
-patching. The candidate novelty is narrow:
+**No exact match in the narrow LM/entity-binding application, but the broad
+mechanism is not new.** Counterfactual/causal attention supervision already
+exists in adjacent domains:
 
-> To our knowledge, no prior work trains an autoregressive LM with an
-> entity-level attention-alignment loss derived from **symbolic intervention
-> pairs**, and evaluates it on **held-out compositions** at 30M/58M.
+- **offline RL** — UCF, *Unifying Counterfactual Data Augmentation and
+  Architectural Inductive Biases in Offline RL* (ICLR 2026 submission):
+  supervises attention weights to focus on causal parents using counterfactual
+  data;
+- **graph attention** — CSA, *Causal-Based Supervision of Attention in Graph
+  Neural Networks* (2023): counterfactual attention regularization;
+- **text classification** — *Attention Supervision with Counterfactuals for
+  Text Classification* (EMNLP 2020).
 
-The claim is a new training signal, not a new primitive. Search again before
-submission; a closer paper turns it into a replication/extension.
+The remaining gap is the **application**: entity binding in a decoder-only LM,
+targets derived from **symbolic intervention pairs**, held-out composition
+evaluation at 30M/58M. That is an **adaptation/extension**, not a new
+primitive.
+
+**Do not claim “never experimented.”** The defensible claim is:
+
+> We apply counterfactual attention supervision to entity binding in a small
+> decoder-only LM, with targets derived from symbolic intervention pairs, and
+> evaluate held-out compositions.
+
+The benchmark and the small-scale result are the contribution; the mechanism
+is borrowed.
 
 ## Closest prior art
 
 | work | what it does | why it is not this |
 |---|---|---|
 | **Attention Supervision with Counterfactuals for Text Classification** (EMNLP 2020) | human attention supervision on counterfactual text for classification | classification, human annotations, no LM pretraining, no entity binding or held-out compositions |
+| **UCF: Unifying Counterfactual Data Augmentation and Architectural Inductive Biases in Offline RL** (ICLR 2026 submission) | causal attention supervision: attention weights are pushed to the causal parents using counterfactual data | offline RL, not a decoder-only LM; no entity binding or held-out composition |
+| **CSA: Causal-Based Supervision of Attention in Graph Neural Networks** (2023) | counterfactual attention regularization for graph attention | graph classification, not LM entity binding |
+| **Counterfactual Simulation Training** (2026) / **Counterfactual Sensitivity Regularization** (2025) | counterfactual training for faithful CoT/reasoning | reasoning traces, not entity attention; no held-out composition |
+| **LUKE / Mention Memory / entity-tracking attention** (2019–2026) | entity-aware attention and mention-memory architectures | architectures, not a pair-derived attention loss |
 | **Mixing Mechanisms: How LMs Retrieve Bound Entities In-Context** (ICLR 2026) | attention-knockout analysis of lexical/positional/reflexive binding | analysis only; no training loss |
 | **A retrieval conditioned rebinding circuit for dynamic entity tracking** (EMNLP 2026) | identifies and patches a rebinding circuit | circuit analysis; no pretraining objective |
 | **Next-Latent Prediction Transformers** (2025) | auxiliary latent next-state prediction | latent state, not entity attention; X40 tested a related next-state objective and failed |
@@ -90,6 +109,9 @@ No 58M until it passes.
 
 ## Honest risk
 
+- **The broad mechanism is prior art in adjacent domains.** EBAS is an
+  adaptation to decoder-only LM entity binding, not a new primitive. A reviewer
+  can reasonably call it “causal attention supervision applied to LMs.”
 - This targets the **composition benchmark**, not val. If “better than v0.3.1”
   means only val/bpB, the only positive signal is the **output adapter**
   (X40's parameter-matched control improved 30M val by 0.26 nats); a 58M
@@ -104,8 +126,19 @@ No 58M until it passes.
 
 ## The honest sentence
 
-We are not inventing attention supervision or entity binding. We are testing
-whether **deriving the attention target from symbolic intervention pairs**,
-with no new parameters, teaches a small LM to bind edited entities and
-generalize to held-out compositions — and whether it does so without a
-language tax.
+We are not inventing attention supervision, counterfactual supervision, or
+entity binding. We are testing whether **applying** counterfactual
+attention supervision to entity binding in a small decoder-only LM, with
+targets derived from symbolic intervention pairs, teaches held-out composition
+without a language tax. The mechanism is borrowed; the benchmark and the
+small-scale result are the new part.
+
+## Second sweep note
+
+The first memo said “no exact match.” The second sweep found counterfactual
+attention supervision in offline RL (UCF, ICLR 2026 submission), graph
+attention (CSA, 2023) and classification (EMNLP 2020), plus counterfactual
+training for reasoning (CST/CSR, 2025–2026) and entity-aware attention
+architectures (LUKE, Mention Memory, entity-tracking). The correct conclusion
+is **no exact match for this application, but the mechanism is not new**. The
+“never” claim was withdrawn before any GPU time.
