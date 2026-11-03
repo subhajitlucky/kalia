@@ -41,6 +41,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X37` | Pāṇinian rule grammar; S-1/S-2 fail, S-3 pass; no scale | yes | 17 files |
 | `X38` | Counterfactual residual bottleneck; C-1/C-1b pass but C-2/C-3/C-5 fail; stable stream collapses to rank 1.5; no scale | yes | 31 files |
 | `X40` | Intervention pretraining; I-1 fails (+0.204/+0.169 val tax) and I-3 fails (+0.028/0.000 unseen over pairs); workspace alive but no composition gain; closed at 30M, no scale | yes | 26 files |
+| `X40 bench` | Clean 2x2 composition benchmark on the archived X40 checkpoints; S-P at chance; rename+swap and number+place fail even on seen templates; negation pairs above chance for the control; X40 stays closed | — | 5 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -254,6 +255,13 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x40/configs/x40-ip-s1338.yaml`
 - `… 20 more`
 
+**X40 bench**
+- `docs/results/x40-bench/README.md`
+- `docs/results/x40-bench/bench_audit.json`
+- `docs/results/x40-bench/x40-bench.log`
+- `docs/results/x40-bench/x40_bench_rows.jsonl`
+- `docs/results/x40-bench/x40_bench_summary.json`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -271,4 +279,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-34 runs tracked, 266 files archived, 3 with no evidence.
+35 runs tracked, 271 files archived, 3 with no evidence.

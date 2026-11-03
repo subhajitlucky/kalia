@@ -136,6 +136,28 @@ cleanly, and it still failed.
    test should hold the causal relation fixed across train/eval and vary only
    the operation composition. `number+place` conflates the two.
 
+## Post-hoc 2×2 benchmark (2026-11-03)
+
+The clean benchmark separates template novelty from composition: seen/unseen
+sentence type × single/pair change, one new name pool held constant. It is in
+`docs/results/x40-bench/README.md`.
+
+The result **does not rescue X40; it explains it**:
+
+- On the cleanest cell (seen template, pair change only), every arm is at
+  chance: control 0.240/0.240, pairs 0.253/0.290, IP 0.275/0.228 (chance 0.25).
+- `number+place` is **0.0** for every model, even on the seen `put_count`
+  template; `rename+swap` is at chance for every model.
+- The above-chance pair cells are negation-marked (`swap+negate`,
+  `rename+negate`), where the **control** is already at 0.32–0.33. That is a
+  “did not”/new-name heuristic, not a learned composition.
+- The IP does not improve the hard cells over pairs or control.
+
+The composition failure survives the benchmark fix. The aggregate S-P at
+chance is not just `number+place`: `rename+swap` is at chance too. Future
+composition claims must report the S-P by-operation table, not just an
+aggregate.
+
 ## Decision
 
 **Close X40.** The registered rule says stop on I-1 or I-3; both fail, on both

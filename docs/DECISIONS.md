@@ -990,3 +990,59 @@ confound changes the size of the composition claim, not the verdict.
 **Cost.** v1 ~2.2 GPU-h before the startup failure; v2 ~6.3 GPU-h. No further
 GPU. Artifacts: `docs/results/x40/` (26 files; summary, rows, manifest, pair
 audit, configs, val reports, log). Registry: 34 runs / 266 files.
+
+## D69 — The clean 2×2 benchmark confirms the composition failure (2026-11-03)
+
+**Context.** X40's unseen-composition set mixed a new operation pair with a new
+sentence type / causal relation (`pack_box`). To test whether the null was a
+test artifact, a clean 2×2 benchmark was built: seen/unseen sentence type ×
+single/pair change, one new name pool held constant, degenerate compositions
+removed. The archived X40 v2 checkpoints (control, pairs, IP at seeds
+1338/1339) were scored on it by a CPU kernel. This is post-hoc and does not
+re-score the registered I-1…I-7.
+
+**The 2×2** (chance 0.50 for single cells, 0.25 for pair cells):
+
+| cell | control 1338/1339 | pairs 1338/1339 | IP 1338/1339 |
+|---|---:|---:|---:|
+| S-S seen / single | 0.4375 / 0.4300 | 0.6350 / 0.7200 | 0.7050 / 0.7200 |
+| **S-P seen / pair** | **0.2400 / 0.2400** | **0.2525 / 0.2900** | **0.2750 / 0.2275** |
+| U-S unseen / single | 0.3650 / 0.4000 | 0.3700 / 0.5425 | 0.5400 / 0.5550 |
+| U-P unseen / pair | 0.3300 / 0.3450 | 0.3325 / 0.3425 | 0.3275 / 0.3275 |
+
+**S-P by operation** (chance 0.25):
+
+| operation | control 1338/1339 | pairs 1338/1339 | IP 1338/1339 |
+|---|---:|---:|---:|
+| `number+place` | 0.000 / 0.000 | 0.000 / 0.000 | 0.000 / 0.000 |
+| `rename+swap` | 0.239 / 0.179 | 0.246 / 0.269 | 0.239 / 0.246 |
+| `swap+negate` | 0.236 / 0.326 | 0.292 / 0.348 | 0.382 / 0.270 |
+| `rename+negate` | 0.323 / 0.323 | 0.316 / 0.368 | 0.331 / 0.256 |
+
+**Findings.**
+1. The X40 null is **not** a template artifact. On the cleanest cell (S-P),
+   every arm is at chance even though the sentence type and causal relation
+   were seen in training.
+2. `number+place` is **0.0 for every model**, even on the seen `put_count`
+   template. The model saw `number` and `place` singly; it cannot combine them.
+3. `rename+swap` is at chance for every model.
+4. The above-chance pair cells are negation-marked; the **control** is already
+   at 0.32–0.33. That is a “did not”/new-name heuristic, not a learned
+   composition. The IP does not consistently improve these cells.
+5. The IP/pairs gains are on the **single** operations and the easy negation
+   pairs. They do not improve the hard compositions.
+6. Aggregate composition accuracy hides the effect: a 4-way aggregate can look
+   “at chance” because one hard operation is 0.0 while another is 0.4. Future
+   claims must report by operation.
+
+**Decision.**
+1. **X40 stays closed.** No 58M, no 134M, no re-score of the registered bars.
+   The clean benchmark confirms the failure is composition, not the test.
+2. **The benchmark is the reusable asset.** It separates template novelty from
+   composition and exposes the hard operations.
+3. **A future mechanism must target `rename+swap` and `number+place`.** Beating
+   the negation pairs or the single-op cells is not enough; the control already
+   handles those. That is a new pre-registration, not a rescue.
+
+**Cost.** CPU only; no GPU. Artifacts: `docs/results/x40-bench/` (summary,
+9,600 per-record rows, audit, kernel log). Registry updated separately.

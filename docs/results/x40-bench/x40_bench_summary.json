@@ -1,0 +1,667 @@
+{
+  "benchmark": {
+    "cells": {
+      "S-P": {
+        "chance": 0.25,
+        "counts": {
+          "number+place": 44,
+          "rename+negate": 133,
+          "rename+swap": 134,
+          "swap+negate": 89
+        },
+        "n": 400,
+        "n_way": 4
+      },
+      "S-S": {
+        "chance": 0.5,
+        "counts": {
+          "negate": 100,
+          "number": 33,
+          "place": 66,
+          "rename": 101,
+          "swap": 100
+        },
+        "n": 400,
+        "n_way": 2
+      },
+      "U-P": {
+        "chance": 0.25,
+        "counts": {
+          "number+place": 80,
+          "rename+negate": 80,
+          "rename+swap": 160,
+          "swap+negate": 80
+        },
+        "n": 400,
+        "n_way": 4
+      },
+      "U-S": {
+        "chance": 0.5,
+        "counts": {
+          "negate": 57,
+          "number": 57,
+          "place": 57,
+          "rename": 115,
+          "swap": 114
+        },
+        "n": 400,
+        "n_way": 2
+      }
+    },
+    "examples": {
+      "S-P": {
+        "candidates": [
+          "Bella kept the book.",
+          "Eli kept the book.",
+          "Mateo kept the book.",
+          "Tara kept the book."
+        ],
+        "correct": "Eli kept the book.",
+        "instruction": "Intervention: rename Bella to Eli and Tara to Mateo; swap Eli and Mateo.",
+        "prefix": "Bella gave Tara the shiny book."
+      },
+      "S-S": {
+        "candidates": [
+          "Willa kept the apple.",
+          "Luna kept the apple."
+        ],
+        "correct": "Willa kept the apple.",
+        "instruction": "Intervention: rename Eli to Umar and Luna to Willa.",
+        "prefix": "Eli gave Luna the old apple."
+      },
+      "U-P": {
+        "candidates": [
+          "Luna told Pablo the secret.",
+          "Nadia told Pablo the secret.",
+          "Umar told Mateo the secret.",
+          "Sven told Mateo the secret."
+        ],
+        "correct": "Nadia told Pablo the secret.",
+        "instruction": "Intervention: rename Sven to Nadia, Umar to Luna, and Mateo to Pablo; swap Nadia and Luna.",
+        "prefix": "Sven told Umar a secret. Umar promised to keep it."
+      },
+      "U-S": {
+        "candidates": [
+          "Dina told Luna the secret.",
+          "Quinn told Fiona the secret."
+        ],
+        "correct": "Quinn told Fiona the secret.",
+        "instruction": "Intervention: rename Ivan to Willa, Dina to Quinn, and Luna to Fiona.",
+        "prefix": "Ivan told Dina a secret. Dina promised to keep it."
+      }
+    },
+    "lengths": {
+      "edited_prefix_tokens": 20,
+      "prompt_tokens": 43,
+      "suffix_tokens": 10
+    },
+    "n": 1600,
+    "n_per_cell": 400,
+    "names": [
+      "Bella",
+      "Caleb",
+      "Dina",
+      "Eli",
+      "Fiona",
+      "Gabe",
+      "Hana",
+      "Ivan",
+      "Jade",
+      "Kofi",
+      "Luna",
+      "Mateo",
+      "Nadia",
+      "Pablo",
+      "Quinn",
+      "Rosa",
+      "Sven",
+      "Tara",
+      "Umar",
+      "Willa"
+    ],
+    "seed": 2026,
+    "sha256": "aad1b32187a8697b896f6be8408b979abd389466bd9fd42256b2f547e87dd45b"
+  },
+  "checkpoints": {
+    "x40-control-s1338": {
+      "bytes": 316632377,
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-x40-ip/out/x40-control-s1338/ckpt.pt",
+      "sha256": "9b7877f617efb29526d99f83eda93641703a5292722fc8e4683f13654d8502cb"
+    },
+    "x40-control-s1339": {
+      "bytes": 316632377,
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-x40-ip/out/x40-control-s1339/ckpt.pt",
+      "sha256": "5009ddf0995496a1bd00b9654f544fcffc0c37b6bc288288f66f78f5e42488b4"
+    },
+    "x40-ip-s1338": {
+      "bytes": 323364119,
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-x40-ip/out/x40-ip-s1338/ckpt.pt",
+      "sha256": "c29b562e638e3bd7e29f4208db82237f2db1bed353a268f7bb227ae4e71166f2"
+    },
+    "x40-ip-s1339": {
+      "bytes": 323364119,
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-x40-ip/out/x40-ip-s1339/ckpt.pt",
+      "sha256": "b4308393b0fbfc4c49f66cfa843249740dd5f18f964f193c199e8f2b62cb491c"
+    },
+    "x40-pairs-s1338": {
+      "bytes": 316632377,
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-x40-ip/out/x40-pairs-s1338/ckpt.pt",
+      "sha256": "66093dd068886f344f4cc94499c78cea36eddfa6a794b69779d22ddcfe978269"
+    },
+    "x40-pairs-s1339": {
+      "bytes": 316632377,
+      "path": "/kaggle/input/notebooks/subhajitlucky/kalia-x40-ip/out/x40-pairs-s1339/ckpt.pt",
+      "sha256": "0ba6525f68f5ec9d5183ddffcee8afa42a6c5f9b869e1046bebad1a38a9c74fd"
+    }
+  },
+  "experiment": "x40-bench",
+  "kernel_id": "subhajitlucky/kalia-x40-bench",
+  "kernel_revision": "unknown",
+  "models": {
+    "x40-control-s1338": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.24,
+          "chance": 0.25,
+          "correct": 96,
+          "n": 400,
+          "n_way": 4
+        },
+        "S-S": {
+          "accuracy": 0.4375,
+          "chance": 0.5,
+          "correct": 175,
+          "n": 400,
+          "n_way": 2
+        },
+        "U-P": {
+          "accuracy": 0.33,
+          "chance": 0.25,
+          "correct": 132,
+          "n": 400,
+          "n_way": 4
+        },
+        "U-S": {
+          "accuracy": 0.365,
+          "chance": 0.5,
+          "correct": 146,
+          "n": 400,
+          "n_way": 2
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.7770700636942676,
+          "correct": 122,
+          "n": 157
+        },
+        "number": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 90
+        },
+        "number+place": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 124
+        },
+        "place": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 123
+        },
+        "rename": {
+          "accuracy": 0.4583333333333333,
+          "correct": 99,
+          "n": 216
+        },
+        "rename+negate": {
+          "accuracy": 0.40375586854460094,
+          "correct": 86,
+          "n": 213
+        },
+        "rename+swap": {
+          "accuracy": 0.23809523809523808,
+          "correct": 70,
+          "n": 294
+        },
+        "swap": {
+          "accuracy": 0.4672897196261682,
+          "correct": 100,
+          "n": 214
+        },
+        "swap+negate": {
+          "accuracy": 0.4260355029585799,
+          "correct": 72,
+          "n": 169
+        }
+      },
+      "overall": 0.343125,
+      "pairs": 0.285,
+      "singles": 0.40125
+    },
+    "x40-control-s1339": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.24,
+          "chance": 0.25,
+          "correct": 96,
+          "n": 400,
+          "n_way": 4
+        },
+        "S-S": {
+          "accuracy": 0.43,
+          "chance": 0.5,
+          "correct": 172,
+          "n": 400,
+          "n_way": 2
+        },
+        "U-P": {
+          "accuracy": 0.345,
+          "chance": 0.25,
+          "correct": 138,
+          "n": 400,
+          "n_way": 4
+        },
+        "U-S": {
+          "accuracy": 0.4,
+          "chance": 0.5,
+          "correct": 160,
+          "n": 400,
+          "n_way": 2
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.7770700636942676,
+          "correct": 122,
+          "n": 157
+        },
+        "number": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 90
+        },
+        "number+place": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 124
+        },
+        "place": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 123
+        },
+        "rename": {
+          "accuracy": 0.48148148148148145,
+          "correct": 104,
+          "n": 216
+        },
+        "rename+negate": {
+          "accuracy": 0.40375586854460094,
+          "correct": 86,
+          "n": 213
+        },
+        "rename+swap": {
+          "accuracy": 0.23809523809523808,
+          "correct": 70,
+          "n": 294
+        },
+        "swap": {
+          "accuracy": 0.4953271028037383,
+          "correct": 106,
+          "n": 214
+        },
+        "swap+negate": {
+          "accuracy": 0.46153846153846156,
+          "correct": 78,
+          "n": 169
+        }
+      },
+      "overall": 0.35375,
+      "pairs": 0.2925,
+      "singles": 0.415
+    },
+    "x40-ip-s1338": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.275,
+          "chance": 0.25,
+          "correct": 110,
+          "n": 400,
+          "n_way": 4
+        },
+        "S-S": {
+          "accuracy": 0.705,
+          "chance": 0.5,
+          "correct": 282,
+          "n": 400,
+          "n_way": 2
+        },
+        "U-P": {
+          "accuracy": 0.3275,
+          "chance": 0.25,
+          "correct": 131,
+          "n": 400,
+          "n_way": 4
+        },
+        "U-S": {
+          "accuracy": 0.54,
+          "chance": 0.5,
+          "correct": 216,
+          "n": 400,
+          "n_way": 2
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.8535031847133758,
+          "correct": 134,
+          "n": 157
+        },
+        "number": {
+          "accuracy": 0.37777777777777777,
+          "correct": 34,
+          "n": 90
+        },
+        "number+place": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 124
+        },
+        "place": {
+          "accuracy": 0.991869918699187,
+          "correct": 122,
+          "n": 123
+        },
+        "rename": {
+          "accuracy": 0.5046296296296297,
+          "correct": 109,
+          "n": 216
+        },
+        "rename+negate": {
+          "accuracy": 0.38497652582159625,
+          "correct": 82,
+          "n": 213
+        },
+        "rename+swap": {
+          "accuracy": 0.2585034013605442,
+          "correct": 76,
+          "n": 294
+        },
+        "swap": {
+          "accuracy": 0.46261682242990654,
+          "correct": 99,
+          "n": 214
+        },
+        "swap+negate": {
+          "accuracy": 0.4911242603550296,
+          "correct": 83,
+          "n": 169
+        }
+      },
+      "overall": 0.461875,
+      "pairs": 0.30125,
+      "singles": 0.6225
+    },
+    "x40-ip-s1339": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.2275,
+          "chance": 0.25,
+          "correct": 91,
+          "n": 400,
+          "n_way": 4
+        },
+        "S-S": {
+          "accuracy": 0.72,
+          "chance": 0.5,
+          "correct": 288,
+          "n": 400,
+          "n_way": 2
+        },
+        "U-P": {
+          "accuracy": 0.3275,
+          "chance": 0.25,
+          "correct": 131,
+          "n": 400,
+          "n_way": 4
+        },
+        "U-S": {
+          "accuracy": 0.555,
+          "chance": 0.5,
+          "correct": 222,
+          "n": 400,
+          "n_way": 2
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.8789808917197452,
+          "correct": 138,
+          "n": 157
+        },
+        "number": {
+          "accuracy": 0.8888888888888888,
+          "correct": 80,
+          "n": 90
+        },
+        "number+place": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 124
+        },
+        "place": {
+          "accuracy": 0.6504065040650406,
+          "correct": 80,
+          "n": 123
+        },
+        "rename": {
+          "accuracy": 0.48148148148148145,
+          "correct": 104,
+          "n": 216
+        },
+        "rename+negate": {
+          "accuracy": 0.3474178403755869,
+          "correct": 74,
+          "n": 213
+        },
+        "rename+swap": {
+          "accuracy": 0.2653061224489796,
+          "correct": 78,
+          "n": 294
+        },
+        "swap": {
+          "accuracy": 0.5046728971962616,
+          "correct": 108,
+          "n": 214
+        },
+        "swap+negate": {
+          "accuracy": 0.41420118343195267,
+          "correct": 70,
+          "n": 169
+        }
+      },
+      "overall": 0.4575,
+      "pairs": 0.2775,
+      "singles": 0.6375
+    },
+    "x40-pairs-s1338": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.2525,
+          "chance": 0.25,
+          "correct": 101,
+          "n": 400,
+          "n_way": 4
+        },
+        "S-S": {
+          "accuracy": 0.635,
+          "chance": 0.5,
+          "correct": 254,
+          "n": 400,
+          "n_way": 2
+        },
+        "U-P": {
+          "accuracy": 0.3325,
+          "chance": 0.25,
+          "correct": 133,
+          "n": 400,
+          "n_way": 4
+        },
+        "U-S": {
+          "accuracy": 0.37,
+          "chance": 0.5,
+          "correct": 148,
+          "n": 400,
+          "n_way": 2
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.7388535031847133,
+          "correct": 116,
+          "n": 157
+        },
+        "number": {
+          "accuracy": 0.36666666666666664,
+          "correct": 33,
+          "n": 90
+        },
+        "number+place": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 124
+        },
+        "place": {
+          "accuracy": 0.5365853658536586,
+          "correct": 66,
+          "n": 123
+        },
+        "rename": {
+          "accuracy": 0.4351851851851852,
+          "correct": 94,
+          "n": 216
+        },
+        "rename+negate": {
+          "accuracy": 0.4084507042253521,
+          "correct": 87,
+          "n": 213
+        },
+        "rename+swap": {
+          "accuracy": 0.25510204081632654,
+          "correct": 75,
+          "n": 294
+        },
+        "swap": {
+          "accuracy": 0.43457943925233644,
+          "correct": 93,
+          "n": 214
+        },
+        "swap+negate": {
+          "accuracy": 0.4260355029585799,
+          "correct": 72,
+          "n": 169
+        }
+      },
+      "overall": 0.3975,
+      "pairs": 0.2925,
+      "singles": 0.5025
+    },
+    "x40-pairs-s1339": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.29,
+          "chance": 0.25,
+          "correct": 116,
+          "n": 400,
+          "n_way": 4
+        },
+        "S-S": {
+          "accuracy": 0.72,
+          "chance": 0.5,
+          "correct": 288,
+          "n": 400,
+          "n_way": 2
+        },
+        "U-P": {
+          "accuracy": 0.3425,
+          "chance": 0.25,
+          "correct": 137,
+          "n": 400,
+          "n_way": 4
+        },
+        "U-S": {
+          "accuracy": 0.5425,
+          "chance": 0.5,
+          "correct": 217,
+          "n": 400,
+          "n_way": 2
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.8726114649681529,
+          "correct": 137,
+          "n": 157
+        },
+        "number": {
+          "accuracy": 0.5888888888888889,
+          "correct": 53,
+          "n": 90
+        },
+        "number+place": {
+          "accuracy": 0.056451612903225805,
+          "correct": 7,
+          "n": 124
+        },
+        "place": {
+          "accuracy": 0.8780487804878049,
+          "correct": 108,
+          "n": 123
+        },
+        "rename": {
+          "accuracy": 0.4722222222222222,
+          "correct": 102,
+          "n": 216
+        },
+        "rename+negate": {
+          "accuracy": 0.4272300469483568,
+          "correct": 91,
+          "n": 213
+        },
+        "rename+swap": {
+          "accuracy": 0.2653061224489796,
+          "correct": 78,
+          "n": 294
+        },
+        "swap": {
+          "accuracy": 0.49065420560747663,
+          "correct": 105,
+          "n": 214
+        },
+        "swap+negate": {
+          "accuracy": 0.4556213017751479,
+          "correct": 77,
+          "n": 169
+        }
+      },
+      "overall": 0.47375,
+      "pairs": 0.31625,
+      "singles": 0.63125
+    }
+  },
+  "n_per_cell": 400,
+  "x40_source_kernel": "subhajitlucky/kalia-x40-ip",
+  "x40_verdict": {
+    "I1": false,
+    "I2": true,
+    "I3": false,
+    "I4": true,
+    "I5": true,
+    "I6": true,
+    "I7": true,
+    "advance": false,
+    "decision": "stop: the IP arm costs language quality (I-1)"
+  }
+}
