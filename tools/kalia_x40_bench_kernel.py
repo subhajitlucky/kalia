@@ -24,6 +24,7 @@ import torch
 KERNEL_ID = "subhajitlucky/kalia-x40-bench"
 KERNEL_REVISION = "unknown"
 N_PER_CELL = 400
+MODES = ("instruction_prefix", "edited_prefix")
 MODELS = (
     "x40-control-s1338", "x40-control-s1339",
     "x40-pairs-s1338", "x40-pairs-s1339",
@@ -89,9 +90,13 @@ from eval_reversibility import load_model  # noqa: E402
 from intervention_pairs import InterventionDataset  # noqa: E402
 
 device = torch.device("cpu")
-ds = InterventionDataset(
-    Path("/kaggle/working/bench/bench.jsonl"), prefix_len=64, suffix_len=64
-)
+datasets = {
+    mode: InterventionDataset(
+        Path("/kaggle/working/bench/bench.jsonl"),
+        prefix_len=64, suffix_len=64, prompt_mode=mode,
+    )
+    for mode in MODES
+}
 summary = {
     "experiment": "x40-bench",
     "kernel_id": KERNEL_ID,
@@ -108,29 +113,36 @@ with open(rows_path, "w") as rows_fh:
         name = Path(ckpt).parent.name
         print(f"\n=== {name} ===")
         model = load_model(ckpt, device)
-        scores = score_candidates(model, ds, device, batch_size=16)
-        accuracy = accuracy_from_scores(ds, scores)
-        summary["models"][name] = {
-            "by_cell": accuracy["by_cell"],
-            "by_operation": accuracy["by_operation"],
-            "singles": accuracy["seen"],
-            "pairs": accuracy["unseen"],
-            "overall": accuracy["overall"],
-        }
+        summary["models"][name] = {}
+        for mode in MODES:
+            ds = datasets[mode]
+            scores = score_candidates(model, ds, device, batch_size=16)
+            accuracy = accuracy_from_scores(ds, scores)
+            summary["models"][name][mode] = {
+                "by_cell": accuracy["by_cell"],
+                "by_operation": accuracy["by_operation"],
+                "singles": accuracy["seen"],
+                "pairs": accuracy["unseen"],
+                "overall": accuracy["overall"],
+            }
+            for row in accuracy["rows"]:
+                rows_fh.write(json.dumps(
+                    {"model": name, "prompt_mode": mode, **row},
+                    sort_keys=True,
+                ) + "\n")
+            print(f"  prompt={mode}")
+            for cell in ("S-S", "S-P", "U-S", "U-P"):
+                b = accuracy["by_cell"].get(cell)
+                if b:
+                    print(
+                        f"    {cell}: n={b['n']} acc={b['accuracy']:.4f} "
+                        f"chance={b['chance']:.2f} above={b['accuracy']-b['chance']:+.4f}"
+                    )
         summary["checkpoints"][name] = {
             "path": ckpt,
             "bytes": os.path.getsize(ckpt),
             "sha256": sha256_file(ckpt),
         }
-        for row in accuracy["rows"]:
-            rows_fh.write(json.dumps({"model": name, **row}, sort_keys=True) + "\n")
-        for cell in ("S-S", "S-P", "U-S", "U-P"):
-            b = accuracy["by_cell"].get(cell)
-            if b:
-                print(
-                    f"  {cell}: n={b['n']} acc={b['accuracy']:.4f} "
-                    f"chance={b['chance']:.2f} above={b['accuracy']-b['chance']:+.4f}"
-                )
 
 # Attach the X40 verdict for context; the benchmark does not change it.
 verdict_hits = sorted(glob.glob("/kaggle/input/**/x40_summary.json", recursive=True))

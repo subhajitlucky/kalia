@@ -26,7 +26,7 @@ import torch
 
 from eval_ip import accuracy_from_scores, score_candidates
 from eval_reversibility import load_model
-from intervention_pairs import InterventionDataset
+from intervention_pairs import PROMPT_MODES, InterventionDataset
 
 CELL_ORDER = ("S-S", "S-P", "U-S", "U-P")
 CELL_LABEL = {
@@ -44,6 +44,8 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--batch-size", type=int, default=16)
+    parser.add_argument("--prompt-mode", choices=PROMPT_MODES, default="instruction_prefix",
+                        help="instruction_prefix (normal) or edited_prefix (gold-edit interface test)")
     parser.add_argument("--rows", type=Path, default=None,
                         help="optional JSONL with per-record rows")
     args = parser.parse_args()
@@ -52,13 +54,16 @@ def main() -> None:
 
     device = torch.device(args.device)
     model = load_model(args.ckpt, device)
-    ds = InterventionDataset(args.bench, prefix_len=64, suffix_len=64)
+    ds = InterventionDataset(
+        args.bench, prefix_len=64, suffix_len=64, prompt_mode=args.prompt_mode
+    )
     scores = score_candidates(model, ds, device, batch_size=args.batch_size)
     accuracy = accuracy_from_scores(ds, scores)
 
     by_cell = accuracy["by_cell"]
     print(f"checkpoint: {args.ckpt}")
     print(f"benchmark : {args.bench} ({len(ds.records)} records)")
+    print(f"prompt    : {args.prompt_mode}")
     print(f"{'cell':4} {'n':>5} {'acc':>7} {'chance':>7} {'above':>8}  label")
     for cell in CELL_ORDER:
         bucket = by_cell.get(cell)
@@ -78,6 +83,7 @@ def main() -> None:
         "ckpt": str(args.ckpt),
         "bench": str(args.bench),
         "bench_sha256": hashlib.sha256(args.bench.read_bytes()).hexdigest(),
+        "prompt_mode": args.prompt_mode,
         "n": len(ds.records),
         "by_cell": by_cell,
         "by_operation": accuracy["by_operation"],

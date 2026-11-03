@@ -29,6 +29,7 @@ import torch
 
 PAD_ID = 50256  # GPT-2 EOS, used only as padding; masks exclude it.
 CHUNK = 64
+PROMPT_MODES = ("instruction_prefix", "edited_prefix")
 
 OP_NAMES = ("rename", "swap", "negate", "number", "place")
 OP_DIM = len(OP_NAMES) + 1  # one multi-hot over ops + a composition flag
@@ -463,12 +464,17 @@ class InterventionDataset:
     """
 
     def __init__(self, path: str | Path, prefix_len: int = CHUNK,
-                 suffix_len: int = CHUNK):
+                 suffix_len: int = CHUNK, prompt_mode: str = "instruction_prefix"):
         import tiktoken
 
+        if prompt_mode not in PROMPT_MODES:
+            raise ValueError(
+                f"prompt_mode must be one of {PROMPT_MODES}, got {prompt_mode!r}"
+            )
         self.path = Path(path)
         self.prefix_len = int(prefix_len)
         self.suffix_len = int(suffix_len)
+        self.prompt_mode = prompt_mode
         self.records = [
             json.loads(line) for line in self.path.read_text().splitlines() if line.strip()
         ]
@@ -476,6 +482,11 @@ class InterventionDataset:
             raise ValueError(f"no records in {self.path}")
         self.enc = tiktoken.get_encoding("gpt2")
         self._cache: dict[tuple[int, str | None], tuple] = {}
+
+    def _prompt(self, record: dict) -> str:
+        if self.prompt_mode == "edited_prefix":
+            return record["edited_prefix"]
+        return f"{record['instruction']} {record['prefix']}"
 
     def __len__(self) -> int:
         return len(self.records)
@@ -524,7 +535,7 @@ class InterventionDataset:
         key = (index, None)
         if key not in self._cache:
             self._cache[key] = self._encode(
-                f"{r['instruction']} {r['prefix']}", r["suffix"],
+                self._prompt(r), r["suffix"],
                 r["edited_prefix"], r["op_vector"],
             )
         return self._cache[key]
@@ -535,7 +546,7 @@ class InterventionDataset:
         key = (index, candidate)
         if key not in self._cache:
             s_ids = self._ids(candidate, self.suffix_len)
-            p_ids = self._ids(f"{r['instruction']} {r['prefix']}", self.prefix_len)
+            p_ids = self._ids(self._prompt(r), self.prefix_len)
             prefix = _pad_left(p_ids, self.prefix_len)
             suffix = _pad_right(s_ids, self.suffix_len)
             x = prefix + suffix

@@ -112,3 +112,36 @@ def test_score_candidates_on_a_tiny_model(tmp_path):
     acc = accuracy_from_scores(ds, scores)
     assert set(acc["by_cell"]) == set(CELL_ID.values())
     assert sum(b["n"] for b in acc["by_cell"].values()) == len(ds.records)
+
+
+def test_prompt_modes_select_the_right_prefix(tmp_path):
+    write_benchmark(tmp_path, seed=7, n_per_cell=4)
+    row = InterventionDataset(tmp_path / "bench.jsonl").records[0]
+    inst = InterventionDataset(
+        tmp_path / "bench.jsonl", prompt_mode="instruction_prefix"
+    )
+    edited = InterventionDataset(
+        tmp_path / "bench.jsonl", prompt_mode="edited_prefix"
+    )
+
+    x, _, _, token_mask, _, _, _ = inst.example(0)
+    decoded = inst.enc.decode([int(t) for t in x[:64][token_mask[:64]]])
+    assert decoded == f"{row['instruction']} {row['prefix']}"
+
+    x, _, _, token_mask, _, _, _ = edited.example(0)
+    decoded = edited.enc.decode([int(t) for t in x[:64][token_mask[:64]]])
+    assert decoded == row["edited_prefix"]
+
+    x, _, _, token_mask = edited.candidate(0, row["candidates"][0])
+    decoded = edited.enc.decode([int(t) for t in x[:64][token_mask[:64]]])
+    assert decoded == row["edited_prefix"]
+
+
+def test_bogus_prompt_mode_is_rejected(tmp_path):
+    write_benchmark(tmp_path, seed=7, n_per_cell=2)
+    try:
+        InterventionDataset(tmp_path / "bench.jsonl", prompt_mode="bogus")
+    except ValueError as err:
+        assert "prompt_mode" in str(err)
+    else:
+        raise AssertionError("bogus prompt_mode was accepted")
