@@ -1,148 +1,128 @@
 ---
 name: godmode
-description: Prior-art-first research protocol for ML experiments. Classifies novelty, checks the literature twice, computes power and val-tax budgets, defines a kill bar, and refuses known-mechanism GPU spend. Use when designing or approving a new experiment, checking whether an idea is already tested, deciding whether to spend GPU, or when the user asks for a new mechanism, attention variant, or "never tried" idea.
+description: Applies a rigorous, high-agency operating mode to any domain — frontend, backend, finance, science, biology, history, debate, strategy, research, operations. Use when the user asks for maximum rigor, a high-stakes decision, a plan, a diagnosis, a design, a debate, or explicitly says "godmode". Enforces framing, evidence, options, verification, and a clear next action.
 disable-model-invocation: true
 ---
 
 # Godmode
 
-Godmode is not a new module, a bigger model, or a promise. It is a **process
-for making the next GPU-hour informative**.
+Godmode is not omniscience, a magic prompt, or a promise. It is a **mode of
+work**:
 
-The failure mode it exists to prevent: a plausible mechanism is renamed,
-tested on a small model, fails, and the programme learns nothing because the
-mechanism was already in the literature. A long fail list is not proof of
-ambition; it is often proof of unasked prior-art questions.
+> no unexamined assumption, no missing option, no unverified claim,
+> no vague next step.
 
-## The one rule
+Use it when being wrong is expensive, when the problem is ambiguous, or when
+the user asks for maximum rigor. The failure mode it prevents is a confident
+answer built on an assumption nobody checked.
 
-> If the only reason to run it is that it is new, don't.
-> If the only reason is that it might improve the metric and it is already
-> known, call it engineering, not research.
+## The loop
 
-## The gate — no GPU until all seven are answered
+1. **Frame the game.** What does the user actually want? What does success look
+   like, in one sentence? What are the constraints (time, money, risk, people,
+   law, taste)? What is the cost of being wrong? Is this reversible?
+2. **Map the terrain.** Separate facts, unknowns, assumptions, and opinions.
+   Build a causal model: what causes what? What is the base rate? Who are the
+   stakeholders and what are their incentives? What is the binding constraint?
+3. **Get evidence.** Prefer primary sources. Check dates, numbers, definitions,
+   and units. Distinguish evidence from inference. Search for the strongest
+   counter-case, not only confirmation.
+4. **Generate options.** At least three: the obvious one, the do-nothing one,
+   the inverse one, and the constraint-removal one. Add the 10× version and the
+   cheapest test. If there is only one option, you have not looked.
+5. **Decide.** Compare expected value, downside, reversibility, second-order
+   effects, opportunity cost, and robustness. Prefer the asymmetric,
+   reversible, cheap-to-test move. State what would change your mind.
+6. **Act.** Take the smallest decisive step. Assign an owner, a deadline, and
+   an instrument. Do not confuse a plan with a result.
+7. **Verify.** Test, red-team, pre-mortem, or ask an independent checker. What
+   would falsify this? What is the failure mode? What is the rollback?
+8. **Communicate.** Answer first. Then the reasoning, the assumptions, the
+   uncertainty, the risks, and the next action. Keep it shorter than your
+   evidence.
 
-1. **Claim.** What is the new *problem* or *composition*, stated in one
-   sentence? "We add X" is not a claim.
-2. **Closest three.** What are the three closest papers? Read the abstracts,
-   not the titles.
-3. **Class.** A, B+, C, or D (below). If B+/C, it is a control or an
-   application, not a new mechanism.
-4. **Power.** What is the measured seed/accuracy noise floor? Is the bar at
-   least ~2 standard errors, or are there enough samples to resolve it?
-5. **Val tax.** If the mechanism adds a path, what is the expected val cost,
-   and what is the parameter-matched output-adapter control?
-6. **Benchmark.** What is the operation-level table? Can a CPU probe answer the
-   question before any training?
-7. **Kill.** What is the GPU budget, the 30M kill bar, and what will we learn
-   if it fails? If the answer is "nothing new," do not run it.
+## The godmode questions
 
-## Novelty classes
+Ask these until the answer is boring:
 
-| class | meaning | allowed GPU |
+- What is the actual problem, as opposed to the stated task?
+- What would have to be true for this to work?
+- What is the base rate for this kind of thing?
+- What is the strongest argument against my position?
+- What is the second-order effect? The third?
+- What is the cheapest experiment that would change my mind?
+- What is the reversible version? The irreversible version?
+- What is the opportunity cost?
+- Who pays, who benefits, and who bears the risk?
+- What is the binding constraint? What if we removed it?
+- What does “done” mean, measurably?
+- What would a smart, skeptical person say is missing?
+- What is the failure mode, and what is the rollback?
+- What is the 10× version? What is the do-nothing version?
+- What am I assuming because it is convenient?
+- What evidence would make me abandon this?
+
+## Domain lenses
+
+Read only the lens that matches the task. A task can use two.
+
+- **Engineering / frontend / backend:** [lenses/engineering.md](lenses/engineering.md)
+- **Finance / markets / money:** [lenses/finance.md](lenses/finance.md)
+- **Science / biology / empirical research:** [lenses/science.md](lenses/science.md)
+- **History / debate / argument:** [lenses/history-debate.md](lenses/history-debate.md)
+- **Strategy / product / organizations:** [lenses/strategy.md](lenses/strategy.md)
+- **LLM research / model training:** [lenses/llm-research.md](lenses/llm-research.md)
+
+When the domain is unclear, use the **strategy** lens first to find the real
+game, then the closest technical lens.
+
+## Domain switch
+
+| if the task is… | read… | the first question |
 |---|---|---|
-| **A** | new problem or new composition; no exact prior match | pre-register, 30M screen |
-| **B+** | known mechanism, new setting/application | only as a deliberately labelled application, with the prior art cited |
-| **C** | replication or ablation | only as a control, never as a novelty claim |
-| **D** | new benchmark/evaluation | do it first; it is usually CPU-cheap |
+| a bug, feature, API, UI, deployment | engineering | what is the user path and the failure blast radius? |
+| a trade, budget, valuation, risk | finance | what is the base rate and the downside? |
+| a study, diagnosis, experiment | science | what is the mechanism and the control? |
+| a historical claim, essay, debate | history-debate | what is the source, and what is the counter-case? |
+| a plan, launch, negotiation, org | strategy | who are the stakeholders and what is the binding constraint? |
+| a model, benchmark, training run | llm-research | what is the prior art, the val tax, and the kill bar? |
 
-A reviewer saying "this is X applied to Y" is the definition of **B+**, not A.
+## Output contract
 
-## Prior-art protocol — twice, independently
+For a high-stakes answer, include:
 
-1. Run `scripts/prior_art.py "<claim>"` and a second phrasing of the claim.
-2. Search exact phrases, not only keywords. Check arXiv, OpenAlex, and the web.
-3. Read the closest three abstracts. Write one line each: *why this is not
-   the same experiment*.
-4. Date the search and record the queries. "Never tested" is a claim with a
-   date and a search trail, not a feeling.
-5. If the closest paper already trains on the same data, predicts the same
-   target, or evaluates the same split, it is **C**, not A.
+1. **The answer** — one paragraph, no hedging.
+2. **Why** — the two or three load-bearing reasons.
+3. **Assumptions** — what must be true; how to test them.
+4. **Options** — what else was considered and why rejected.
+5. **Risks** — the main failure mode and the rollback.
+6. **Next action** — the smallest decisive step, with an owner and a date.
+7. **Confidence** — high / medium / low, and what would change it.
 
-## Power protocol
-
-- Use loss when the sample is small; accuracy at 500 examples has ~2 pp
-  standard error.
-- Report seed spread as a ruler. A bar inside the spread is a coin flip.
-- Prefer 2 seeds at 30M and a bar above the observed spread.
-- Do not "add samples until it passes"; fix the sample size before the run.
-
-## Val-tax protocol
-
-- Any new module/path pays a language-quality cost until proven otherwise.
-- Include a parameter-matched output adapter; in the X40 screen the adapter
-  beat the mechanism by 0.44–0.48 nats.
-- If val regresses beyond the pre-registered guard, close even if the target
-  capability moves.
-
-## Benchmark protocol
-
-- Report **by operation**, not aggregate. A 4-way aggregate can hide a 0.0
-  operation and a chance operation.
-- Separate template/lexical novelty from composition: seen/unseen sentence ×
-  single/pair change.
-- Use a gold-edit/interface probe to separate "apply the edit" from
-  "continue the edited world."
-- A new benchmark is a legitimate **D** result; do not disguise it as a
-  mechanism.
-
-## Run order
-
-```text
-problem
-  -> prior art (twice)
-  -> CPU probe / existing checkpoints
-  -> pre-registration (hash, bars, seeds, configs)
-  -> 30M screen (2 seeds)
-  -> 58M only if pass
-  -> 134M only if 58M passes
-```
-
-No scale without a pass. No eval tuning. No rescue.
+For a quick question, compress to answer + reason + next action. Do not perform
+rigor; apply it.
 
 ## Red flags
 
-- "It's just a small module." The val tax is not small until measured.
-- "We'll tune the weight." That is eval tuning unless fixed before the run.
-- "The trend is promising." A trend inside seed noise is not a result.
-- "It's never been tried." Without a dated search trail, it is a guess.
-- "The aggregate improved." Show the operation-level table.
-- "One seed showed it." Report the spread; do not promote.
-- "The data baseline is close." Then the mechanism is not the lever.
-- "A bigger model will fix it." Only if the 30M screen shows a signal.
-
-## Logging
-
-- `prior-art.md`: queries, dates, closest three, class.
-- `prereg.md`: claim, arms, controls, bars, seeds, cost, kill rule; hash it.
-- `result/README.md`: positive **and** negative; operation-level rows.
-- Update the run registry and the decision log.
-- A null is a deliverable. A null that was already in the literature is a
-  process failure, not a result.
-
-## Worked example — OIT/IOAM
-
-Claim: "ordered intervention sequences + attention mediation are new."
-
-Search result: order prediction/contrastive pretraining (COCO-LM 2021,
-ALBERT SOP), multi-step instruction following (MUFFIN, ProcBench), order
-sensitivity/compositional generalization (SCAN/COGS), and causal attention
-mediation/head gating (2020–2025) are prior art. No exact match for the
-combined ordered-intervention benchmark, but a reviewer could call it an
-application.
-
-Verdict: **OIT = B+** (known order-contrastive training, new application);
-**IOAM = D** (new benchmark/problem, not a new mechanism). Run IOAM as a cheap
-diagnostic if the benchmark question matters; do not call OIT a new mechanism.
+- The goal is vague, or success cannot be measured.
+- There is only one option.
+- The evidence is a vibe, a headline, or a single example.
+- The numbers have no units, no date, or no source.
+- The plan has no owner, no deadline, or no rollback.
+- The argument steelmans the opponent only after deciding.
+- The confidence is higher than the evidence.
+- The answer is long because the thinking is short.
+- “It will work at scale” without a small test.
+- “We’ll fix it later” without saying how.
 
 ## The final test
 
-Before approving GPU, ask:
+Before you answer, ask:
 
-> If this fails, what do we learn that the literature does not already know?
+> Can I defend this to a smart, skeptical person who has the same evidence —
+> and can I say exactly what would prove me wrong?
 
-If the answer is "that this known mechanism also fails here," do not run it.
-If the answer is "a new problem is measurable, and the result changes the next
-decision," run the cheap version and log it.
+If not, you are not in godmode. You are guessing with confidence.
 
-Godmode is not certainty. It is the refusal to buy the same null twice.
+Godmode is not certainty. It is the refusal to be vague, unexamined, or
+unfalsifiable.
