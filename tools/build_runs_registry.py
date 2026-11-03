@@ -96,7 +96,7 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-10-28-X38-crb-micro.md", ["docs/results/x38/**/*"]),
     ("X40", "Intervention pretraining; I-1 fails (+0.204/+0.169 val tax) and I-3 fails (+0.028/0.000 unseen over pairs); workspace alive but no composition gain; closed at 30M, no scale",
      "2026-11-01-X40-intervention-pretraining.md", ["docs/results/x40/**/*"]),
-    ("X40 bench", "Clean 2x2 composition benchmark on the archived X40 checkpoints; S-P at chance; rename+swap and number+place fail even on seen templates; negation pairs above chance for the control; X40 stays closed",
+    ("X40 bench", "Clean 2x2 benchmark + gold-edit interface test; S-P at chance; number+place and rename+swap fail even with the edited prefix; the edit is not the missing piece; X40 stays closed",
      None, ["docs/results/x40-bench/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),

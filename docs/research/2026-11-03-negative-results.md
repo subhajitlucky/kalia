@@ -41,7 +41,7 @@ This programme kept the opposite record. Each bet has:
 - an archive of configs, logs, checkpoints and per-record eval rows;
 - a rule that a failed bar closes the mechanism; no eval tuning, no scale.
 
-The ledger verifies 33 pre-registrations. The archive holds 35 runs and 257
+The ledger verifies 33 pre-registrations. The archive holds 35 runs and 260
 files. Three early runs are recorded as gaps rather than reconstructed.
 
 ## 2. Protocol
@@ -175,9 +175,35 @@ The composition failure is real, not a template artifact. The hard cases are
 independent attribute changes). The negation pairs are not the target: the
 control already handles them.
 
+### The gold-edit interface test
+
+One question remains: is the model failing to **apply** the intervention, or
+to **continue** the intervened world? Giving the model the post-intervention
+prefix (the gold edit) and scoring the same candidates separates the two.
+
+S-P aggregate, normal → edited (chance 0.25):
+
+| model | 1338 | 1339 |
+|---|---:|---:|
+| control | 0.240 → 0.293 | 0.240 → 0.295 |
+| pairs | 0.253 → 0.255 | 0.290 → 0.260 |
+| IP | 0.275 → 0.320 | 0.228 → 0.325 |
+
+The gain is concentrated in `rename+negate` (control 0.323 → 0.504/0.519; IP
+0.331/0.256 → 0.414/0.474). The hard cells do not move: `number+place` is
+0.0 in 5/6 arms (one IP seed 0.318), and `rename+swap` remains at chance.
+`swap+negate` is mixed and often worse.
+
+The model can continue some negation-marked pairs from the edited world, but
+it cannot continue the two hard compositions even when the edit is given. The
+bottleneck is not just edit application; it is role/attribute composition. The
+gold-edit prompt is zero-shot and out of distribution, so a fine-tuned
+interface could score higher; the hard-cell failure is still informative
+because continuing from the edited world should be the easier task.
+
 The benchmark is released as `docs/results/x40-bench/` with a generator, an
-audit, per-record rows and a scoring script. It is a diagnostic, not a
-leaderboard; its value is the S-P by-operation table.
+audit, per-record rows, a scoring script and the gold-edit results. It is a
+diagnostic, not a leaderboard; its value is the S-P by-operation table.
 
 ## 6. What would count as evidence
 
@@ -237,7 +263,7 @@ v0.3.1 and stop the architecture search.
 
 ## Artifacts
 
-- `docs/results/RUNS.md` — 35 runs, 257 files, 3 recorded gaps.
+- `docs/results/RUNS.md` — 35 runs, 260 files, 3 recorded gaps.
 - `docs/preregistrations/LEDGER.md` — 33 verified registrations.
 - `docs/results/x40/README.md` — the X40 null and I-1…I-7.
 - `docs/results/x40-bench/README.md` — the 2×2 benchmark and S-P by-operation.

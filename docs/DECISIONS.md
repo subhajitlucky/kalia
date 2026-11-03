@@ -989,7 +989,7 @@ confound changes the size of the composition claim, not the verdict.
 
 **Cost.** v1 ~2.2 GPU-h before the startup failure; v2 ~6.3 GPU-h. No further
 GPU. Artifacts: `docs/results/x40/` (26 files; summary, rows, manifest, pair
-audit, configs, val reports, log). Registry: the X40 row lists 26 files; the current registry is 35 runs / 257 files.
+audit, configs, val reports, log). Registry: the X40 row lists 26 files; the current registry is 35 runs / 260 files.
 
 ## D69 — The clean 2×2 benchmark confirms the composition failure (2026-11-03)
 
@@ -1046,3 +1046,57 @@ re-score the registered I-1…I-7.
 
 **Cost.** CPU only; no GPU. Artifacts: `docs/results/x40-bench/` (summary,
 9,600 per-record rows, audit, kernel log). Registry updated separately.
+
+## D70 — Gold-edit test: the edit is not the missing piece (2026-11-03)
+
+**Context.** The clean 2×2 benchmark left one question: is the model failing to
+*apply* the intervention, or failing to *continue* the intervened world? The
+gold-edit mode gives the model the post-intervention prefix (no instruction)
+and scores the same candidates. Same archived control/pairs/IP checkpoints, CPU
+only.
+
+**S-P aggregate, normal → edited** (chance 0.25):
+
+| model | seed 1338 | seed 1339 |
+|---|---:|---:|
+| control | 0.240 → 0.293 | 0.240 → 0.295 |
+| pairs | 0.253 → 0.255 | 0.290 → 0.260 |
+| IP | 0.275 → 0.320 | 0.228 → 0.325 |
+
+**S-P by operation, normal → edited:**
+
+| operation | control | pairs | IP |
+|---|---|---|---|
+| `number+place` | 0.000 → 0.000 / 0.000 → 0.000 | 0.000 → 0.000 / 0.000 → 0.000 | 0.000 → 0.318 / 0.000 → 0.000 |
+| `rename+swap` | 0.239 → 0.254 / 0.179 → 0.216 | 0.246 → 0.239 / 0.269 → 0.261 | 0.239 → 0.239 / 0.246 → 0.269 |
+| `swap+negate` | 0.236 → 0.180 / 0.326 → 0.225 | 0.292 → 0.157 / 0.348 → 0.247 | 0.382 → 0.303 / 0.270 → 0.348 |
+| `rename+negate` | 0.323 → **0.504** / 0.323 → **0.519** | 0.316 → 0.421 / 0.368 → 0.353 | 0.331 → 0.414 / 0.256 → **0.474** |
+
+**Findings.**
+1. The gold edit does **not** unlock the hard cells: `number+place` is 0.0 in
+   5/6 arms (the lone IP-s1338 0.318 does not replicate), and `rename+swap` is
+   at chance in every arm.
+2. The S-P aggregate rise is mostly `rename+negate`, which the **control** uses
+   best (0.504/0.519 vs IP 0.414/0.474). The model can continue some
+   negation-marked pairs from the edited world; that is not the composition the
+   mechanism was meant to teach.
+3. The IP’s gold-edit S-P is +0.065 over pairs on both seeds (0.320/0.325 vs
+   0.255/0.260), consistent but small; the control is better on the largest
+   cell. This is not a general composition ability.
+4. The gold-edit prompt is zero-shot and out of distribution; the models were
+   never trained to continue from it. A fine-tuned edit interface could score
+   higher. The hard-cell failure is still informative: continuing from the
+   edited world should be easier than applying the edit, and the hard cells
+   remain at 0/chance.
+
+**Decision.**
+1. **Stop the composition line.** No edit-interface bet on this evidence; the
+   edit is not the missing piece. The hard cells are role binding
+   (`rename+swap`) and two independent attribute changes (`number+place`).
+2. **X40 stays closed.** No 58M/134M. The benchmark + negative record are the
+   artifact; v0.3.1 remains the model.
+3. **A future bet, if any, must target binding/attribute composition**, with
+   the S-P by-operation table as the bar; the gold edit is not enough.
+
+**Cost.** CPU only; no GPU. Artifacts: the gold-edit summary/rows/log under
+`docs/results/x40-bench/`.

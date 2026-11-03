@@ -71,12 +71,55 @@ Chance = 0.25.
   chance too, and the two negation pairs are only ~0.3–0.38 with no IP
   advantage.
 
+## Gold-edit interface test (2026-11-03)
+
+The benchmark normally gives the model `instruction + factual prefix`. The
+gold-edit mode gives it the **post-intervention prefix** instead. Same
+candidates, same scoring. The question: can the model continue correctly once
+the edit has already been applied?
+
+| cell | control normal → edited | pairs normal → edited | IP normal → edited |
+|---|---|---|---|
+| S-S | .4375 → .4250 / .4300 → .4350 | .6350 → .6575 / .7200 → .5600 | .7050 → .6350 / .7200 → .6725 |
+| **S-P** | **.2400 → .2925 / .2400 → .2950** | **.2525 → .2550 / .2900 → .2600** | **.2750 → .3200 / .2275 → .3250** |
+| U-S | .3650 → .4450 / .4000 → .4525 | .3700 → .4350 / .5425 → .5075 | .5400 → .5775 / .5550 → .6125 |
+| U-P | .3300 → .4650 / .3450 → .4200 | .3325 → .4225 / .3425 → .4000 | .3275 → .3950 / .3275 → .4275 |
+
+The aggregate S-P rises by ~0.05, but the S-P by-operation table shows where:
+
+| S-P operation | control normal → edited | pairs normal → edited | IP normal → edited |
+|---|---|---|---|
+| `number+place` | 0.000 → 0.000 / 0.000 → 0.000 | 0.000 → 0.000 / 0.000 → 0.000 | 0.000 → **0.318** / 0.000 → 0.000 |
+| `rename+swap` | 0.239 → 0.254 / 0.179 → 0.216 | 0.246 → 0.239 / 0.269 → 0.261 | 0.239 → 0.239 / 0.246 → 0.269 |
+| `swap+negate` | 0.236 → 0.180 / 0.326 → 0.225 | 0.292 → 0.157 / 0.348 → 0.247 | 0.382 → 0.303 / 0.270 → 0.348 |
+| `rename+negate` | 0.323 → **0.504** / 0.323 → **0.519** | 0.316 → 0.421 / 0.368 → 0.353 | 0.331 → 0.414 / 0.256 → **0.474** |
+
+The gold edit helps **`rename+negate`** (especially the control), but:
+
+- **`number+place` is still 0.0** in 5 of 6 arms (the lone IP-s1338 0.318 is
+  one seed and does not replicate);
+- **`rename+swap` is still at chance** in every arm;
+- `swap+negate` does not improve consistently and is often worse.
+
+**Interpretation.** The model can continue some negation-marked pairs from the
+edited world, but it cannot continue the two hard compositions even when the
+edit is given. The bottleneck is **not just applying the edit**; it is the
+role/attribute composition itself. A small edit interface would help the
+negation cells the control already handles, not the cells the mechanism was
+meant to unlock.
+
+The IP’s gold-edit S-P is +0.065 over pairs on both seeds (0.320/0.325 vs
+0.255/0.260), which is consistent but small; the control is better on
+`rename+negate` (0.504/0.519 vs 0.414/0.474), so the IP advantage is not a
+general composition ability. This does not justify an edit-interface bet.
+
 ## What this means
 
 1. **The X40 null is real, not a template artifact.** On the cleanest cell
    (S-P), the model does not compose even when the sentence type and causal
    relation are familiar. The 30M model’s composition failure survives the
-   benchmark fix.
+   benchmark fix. The gold-edit test does not change this: S-P rises only to
+   ~0.29–0.33, and `number+place` and `rename+swap` remain at 0.0/chance.
 2. **The mechanism’s gains are in the wrong place.** The IP/pairs gains are on
    single operations (`number`, `place`, negation) and the easy negation
    pairs. They do not improve `rename+swap` or `number+place`.
@@ -102,6 +145,11 @@ Chance = 0.25.
   heuristic, not necessarily composition.
 - **One benchmark seed.** The 400 records per cell give ~±0.04–0.05 standard
   error on a cell; the by-op cells are smaller (44–160 records).
+- **The gold-edit prompt is zero-shot.** None of the models were trained to
+  continue from the edited prefix. The test is an interface probe, not a
+  fine-tuned upper bound; a model trained on edited prefixes could score
+  higher. The hard-cell failure is still informative because continuing from
+  the edited world should be easier than applying the edit.
 
 ## Decision
 
@@ -112,13 +160,18 @@ Chance = 0.25.
   should use this design and report the S-P by-operation table.
 - **A future mechanism must target `rename+swap` and `number+place`.** Beating
   the negation pairs or the single-op cells is not enough; the control already
-  handles those. That is a new pre-registration, not a rescue of X40.
+  handles those. The gold-edit test shows that giving the model the edited
+  prefix is not enough either; the missing piece is binding/composition, not
+  edit application. That is a new pre-registration, not a rescue of X40.
 
 ## Artifacts
 
 - `x40_bench_summary.json` — the 6 checkpoints, 2×2, by-operation, checkpoint
   hashes, benchmark audit.
-- `x40_bench_rows.jsonl` — 9,600 per-record rows (6 models × 1,600).
+- `x40_bench_rows.jsonl` — 9,600 per-record rows for the instruction-prefix
+  mode (6 models × 1,600).
+- `x40_bench_summary_gold_edit.json` / `x40_bench_rows_gold_edit.jsonl` — the
+  two-mode run (28,800 candidate scores).
 - `bench_audit.json` — cells, counts, names, lengths.
-- `x40-bench.log` — the CPU kernel log.
+- `x40-bench.log` / `x40-bench-gold-edit.log` — the v2 and v3 CPU kernel logs.
 - Kernel: `https://www.kaggle.com/code/subhajitlucky/kalia-x40-bench`.

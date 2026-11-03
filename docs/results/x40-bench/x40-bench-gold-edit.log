@@ -1,0 +1,143 @@
+[{"stream_name":"stdout","time":18.852896039,"data":"code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev\n"}
+,{"stream_name":"stdout","time":18.853101006,"data":"\n"}
+,{"stream_name":"stdout","time":18.853107827,"data":"===== X40 2x2 benchmark =====\n"}
+,{"stream_name":"stdout","time":25.461918004,"data":"{\n"}
+,{"stream_name":"stdout","time":25.461972563,"data":"  \"seed\": 2026,\n"}
+,{"stream_name":"stdout","time":25.461976939,"data":"  \"n\": 1600,\n"}
+,{"stream_name":"stdout","time":25.461979873,"data":"  \"cells\": {\n"}
+,{"stream_name":"stdout","time":25.461982653,"data":"    \"S-P\": {\n"}
+,{"stream_name":"stdout","time":25.461985236,"data":"      \"n\": 400,\n"}
+,{"stream_name":"stdout","time":25.461988443,"data":"      \"n_way\": 4,\n"}
+,{"stream_name":"stdout","time":25.4619916,"data":"      \"chance\": 0.25,\n"}
+,{"stream_name":"stdout","time":25.461994154,"data":"      \"counts\": {\n"}
+,{"stream_name":"stdout","time":25.461996598,"data":"        \"number+place\": 44,\n"}
+,{"stream_name":"stdout","time":25.461999247,"data":"        \"rename+negate\": 133,\n"}
+,{"stream_name":"stdout","time":25.462001858,"data":"        \"rename+swap\": 134,\n"}
+,{"stream_name":"stdout","time":25.462004429,"data":"        \"swap+negate\": 89\n"}
+,{"stream_name":"stdout","time":25.46200688,"data":"      }\n"}
+,{"stream_name":"stdout","time":25.462046118,"data":"    },\n"}
+,{"stream_name":"stdout","time":25.462049015,"data":"    \"S-S\": {\n"}
+,{"stream_name":"stdout","time":25.462051438,"data":"      \"n\": 400,\n"}
+,{"stream_name":"stdout","time":25.462053848,"data":"      \"n_way\": 2,\n"}
+,{"stream_name":"stdout","time":25.462056552,"data":"      \"chance\": 0.5,\n"}
+,{"stream_name":"stdout","time":25.46205899,"data":"      \"counts\": {\n"}
+,{"stream_name":"stdout","time":25.462061394,"data":"        \"negate\": 100,\n"}
+,{"stream_name":"stdout","time":25.462063956,"data":"        \"number\": 33,\n"}
+,{"stream_name":"stdout","time":25.462066629,"data":"        \"place\": 66,\n"}
+,{"stream_name":"stdout","time":25.462069036,"data":"        \"rename\": 101,\n"}
+,{"stream_name":"stdout","time":25.462071609,"data":"        \"swap\": 100\n"}
+,{"stream_name":"stdout","time":25.46207415,"data":"      }\n"}
+,{"stream_name":"stdout","time":25.462076898,"data":"    },\n"}
+,{"stream_name":"stdout","time":25.462079369,"data":"    \"U-P\": {\n"}
+,{"stream_name":"stdout","time":25.462081898,"data":"      \"n\": 400,\n"}
+,{"stream_name":"stdout","time":25.462084306,"data":"      \"n_way\": 4,\n"}
+,{"stream_name":"stdout","time":25.462087558,"data":"      \"chance\": 0.25,\n"}
+,{"stream_name":"stdout","time":25.462089975,"data":"      \"counts\": {\n"}
+,{"stream_name":"stdout","time":25.462092533,"data":"        \"number+place\": 80,\n"}
+,{"stream_name":"stdout","time":25.462094964,"data":"        \"rename+negate\": 80,\n"}
+,{"stream_name":"stdout","time":25.46209756,"data":"        \"rename+swap\": 160,\n"}
+,{"stream_name":"stdout","time":25.462099987,"data":"        \"swap+negate\": 80\n"}
+,{"stream_name":"stdout","time":25.462102416,"data":"      }\n"}
+,{"stream_name":"stdout","time":25.462104767,"data":"    },\n"}
+,{"stream_name":"stdout","time":25.462107092,"data":"    \"U-S\": {\n"}
+,{"stream_name":"stdout","time":25.462109452,"data":"      \"n\": 400,\n"}
+,{"stream_name":"stdout","time":25.462111852,"data":"      \"n_way\": 2,\n"}
+,{"stream_name":"stdout","time":25.462114262,"data":"      \"chance\": 0.5,\n"}
+,{"stream_name":"stdout","time":25.462116831,"data":"      \"counts\": {\n"}
+,{"stream_name":"stdout","time":25.462141421,"data":"        \"negate\": 57,\n"}
+,{"stream_name":"stdout","time":25.462144106,"data":"        \"number\": 57,\n"}
+,{"stream_name":"stdout","time":25.462146493,"data":"        \"place\": 57,\n"}
+,{"stream_name":"stdout","time":25.462148918,"data":"        \"rename\": 115,\n"}
+,{"stream_name":"stdout","time":25.462151314,"data":"        \"swap\": 114\n"}
+,{"stream_name":"stdout","time":25.462153732,"data":"      }\n"}
+,{"stream_name":"stdout","time":25.462156035,"data":"    }\n"}
+,{"stream_name":"stdout","time":25.462158528,"data":"  },\n"}
+,{"stream_name":"stdout","time":25.462160896,"data":"  \"lengths\": {\n"}
+,{"stream_name":"stdout","time":25.46216334,"data":"    \"prompt_tokens\": 43,\n"}
+,{"stream_name":"stdout","time":25.462165792,"data":"    \"suffix_tokens\": 10,\n"}
+,{"stream_name":"stdout","time":25.462168215,"data":"    \"edited_prefix_tokens\": 20\n"}
+,{"stream_name":"stdout","time":25.462170694,"data":"  }\n"}
+,{"stream_name":"stdout","time":25.46217304,"data":"}\n"}
+,{"stream_name":"stdout","time":26.034612838,"data":"cells: {'S-P': 400, 'S-S': 400, 'U-P': 400, 'U-S': 400}\n"}
+,{"stream_name":"stdout","time":26.049584999,"data":"checkpoints: ['x40-control-s1338', 'x40-control-s1339', 'x40-ip-s1338', 'x40-ip-s1339', 'x40-pairs-s1338', 'x40-pairs-s1339']\n"}
+,{"stream_name":"stdout","time":26.508614675,"data":"\n"}
+,{"stream_name":"stdout","time":26.508643057,"data":"=== x40-control-s1338 ===\n"}
+,{"stream_name":"stdout","time":484.477709529,"data":"  prompt=instruction_prefix\n"}
+,{"stream_name":"stdout","time":484.477882766,"data":"    S-S: n=400 acc=0.4375 chance=0.50 above=-0.0625\n"}
+,{"stream_name":"stdout","time":484.477926522,"data":"    S-P: n=400 acc=0.2400 chance=0.25 above=-0.0100\n"}
+,{"stream_name":"stdout","time":484.477930058,"data":"    U-S: n=400 acc=0.3650 chance=0.50 above=-0.1350\n"}
+,{"stream_name":"stdout","time":484.477933981,"data":"    U-P: n=400 acc=0.3300 chance=0.25 above=+0.0800\n"}
+,{"stream_name":"stdout","time":929.216635648,"data":"  prompt=edited_prefix\n"}
+,{"stream_name":"stdout","time":929.216698227,"data":"    S-S: n=400 acc=0.4250 chance=0.50 above=-0.0750\n"}
+,{"stream_name":"stdout","time":929.216705573,"data":"    S-P: n=400 acc=0.2925 chance=0.25 above=+0.0425\n"}
+,{"stream_name":"stdout","time":929.216710567,"data":"    U-S: n=400 acc=0.4450 chance=0.50 above=-0.0550\n"}
+,{"stream_name":"stdout","time":929.216734132,"data":"    U-P: n=400 acc=0.4650 chance=0.25 above=+0.2150\n"}
+,{"stream_name":"stdout","time":930.408135585,"data":"\n"}
+,{"stream_name":"stdout","time":930.408210715,"data":"=== x40-control-s1339 ===\n"}
+,{"stream_name":"stdout","time":1383.240152713,"data":"  prompt=instruction_prefix\n"}
+,{"stream_name":"stdout","time":1383.240204852,"data":"    S-S: n=400 acc=0.4300 chance=0.50 above=-0.0700\n"}
+,{"stream_name":"stdout","time":1383.240210124,"data":"    S-P: n=400 acc=0.2400 chance=0.25 above=-0.0100\n"}
+,{"stream_name":"stdout","time":1383.240213972,"data":"    U-S: n=400 acc=0.4000 chance=0.50 above=-0.1000\n"}
+,{"stream_name":"stdout","time":1383.240217236,"data":"    U-P: n=400 acc=0.3450 chance=0.25 above=+0.0950\n"}
+,{"stream_name":"stdout","time":1815.458991773,"data":"  prompt=edited_prefix\n"}
+,{"stream_name":"stdout","time":1815.459058185,"data":"    S-S: n=400 acc=0.4350 chance=0.50 above=-0.0650\n"}
+,{"stream_name":"stdout","time":1815.459064752,"data":"    S-P: n=400 acc=0.2950 chance=0.25 above=+0.0450\n"}
+,{"stream_name":"stdout","time":1815.45906813,"data":"    U-S: n=400 acc=0.4525 chance=0.50 above=-0.0475\n"}
+,{"stream_name":"stdout","time":1815.459084286,"data":"    U-P: n=400 acc=0.4200 chance=0.25 above=+0.1700\n"}
+,{"stream_name":"stdout","time":1816.534243163,"data":"\n"}
+,{"stream_name":"stdout","time":1816.53428258,"data":"=== x40-ip-s1338 ===\n"}
+,{"stream_name":"stdout","time":2308.38211166,"data":"  prompt=instruction_prefix\n"}
+,{"stream_name":"stdout","time":2308.382200617,"data":"    S-S: n=400 acc=0.7050 chance=0.50 above=+0.2050\n"}
+,{"stream_name":"stdout","time":2308.382208069,"data":"    S-P: n=400 acc=0.2750 chance=0.25 above=+0.0250\n"}
+,{"stream_name":"stdout","time":2308.382213142,"data":"    U-S: n=400 acc=0.5400 chance=0.50 above=+0.0400\n"}
+,{"stream_name":"stdout","time":2308.38221867,"data":"    U-P: n=400 acc=0.3275 chance=0.25 above=+0.0775\n"}
+,{"stream_name":"stdout","time":2862.164449052,"data":"  prompt=edited_prefix\n"}
+,{"stream_name":"stdout","time":2862.164507381,"data":"    S-S: n=400 acc=0.6350 chance=0.50 above=+0.1350\n"}
+,{"stream_name":"stdout","time":2862.164514314,"data":"    S-P: n=400 acc=0.3200 chance=0.25 above=+0.0700\n"}
+,{"stream_name":"stdout","time":2862.164519474,"data":"    U-S: n=400 acc=0.5775 chance=0.50 above=+0.0775\n"}
+,{"stream_name":"stdout","time":2862.164525336,"data":"    U-P: n=400 acc=0.3950 chance=0.25 above=+0.1450\n"}
+,{"stream_name":"stdout","time":2863.301448208,"data":"\n"}
+,{"stream_name":"stdout","time":2863.301503859,"data":"=== x40-ip-s1339 ===\n"}
+,{"stream_name":"stdout","time":3399.920490204,"data":"  prompt=instruction_prefix\n"}
+,{"stream_name":"stdout","time":3399.920543521,"data":"    S-S: n=400 acc=0.7200 chance=0.50 above=+0.2200\n"}
+,{"stream_name":"stdout","time":3399.920551456,"data":"    S-P: n=400 acc=0.2275 chance=0.25 above=-0.0225\n"}
+,{"stream_name":"stdout","time":3399.92055666,"data":"    U-S: n=400 acc=0.5550 chance=0.50 above=+0.0550\n"}
+,{"stream_name":"stdout","time":3399.920561716,"data":"    U-P: n=400 acc=0.3275 chance=0.25 above=+0.0775\n"}
+,{"stream_name":"stdout","time":3906.387060158,"data":"  prompt=edited_prefix\n"}
+,{"stream_name":"stdout","time":3906.387123563,"data":"    S-S: n=400 acc=0.6725 chance=0.50 above=+0.1725\n"}
+,{"stream_name":"stdout","time":3906.387131183,"data":"    S-P: n=400 acc=0.3250 chance=0.25 above=+0.0750\n"}
+,{"stream_name":"stdout","time":3906.387135941,"data":"    U-S: n=400 acc=0.6125 chance=0.50 above=+0.1125\n"}
+,{"stream_name":"stdout","time":3906.387140951,"data":"    U-P: n=400 acc=0.4275 chance=0.25 above=+0.1775\n"}
+,{"stream_name":"stdout","time":3907.504262791,"data":"\n"}
+,{"stream_name":"stdout","time":3907.50431505,"data":"=== x40-pairs-s1338 ===\n"}
+,{"stream_name":"stdout","time":4349.764698074,"data":"  prompt=instruction_prefix\n"}
+,{"stream_name":"stdout","time":4349.76477375,"data":"    S-S: n=400 acc=0.6350 chance=0.50 above=+0.1350\n"}
+,{"stream_name":"stdout","time":4349.76477978,"data":"    S-P: n=400 acc=0.2525 chance=0.25 above=+0.0025\n"}
+,{"stream_name":"stdout","time":4349.76478318,"data":"    U-S: n=400 acc=0.3700 chance=0.50 above=-0.1300\n"}
+,{"stream_name":"stdout","time":4349.764789361,"data":"    U-P: n=400 acc=0.3325 chance=0.25 above=+0.0825\n"}
+,{"stream_name":"stdout","time":4811.485208258,"data":"  prompt=edited_prefix\n"}
+,{"stream_name":"stdout","time":4811.485265902,"data":"    S-S: n=400 acc=0.6575 chance=0.50 above=+0.1575\n"}
+,{"stream_name":"stdout","time":4811.485271665,"data":"    S-P: n=400 acc=0.2550 chance=0.25 above=+0.0050\n"}
+,{"stream_name":"stdout","time":4811.485276508,"data":"    U-S: n=400 acc=0.4350 chance=0.50 above=-0.0650\n"}
+,{"stream_name":"stdout","time":4811.48528123,"data":"    U-P: n=400 acc=0.4225 chance=0.25 above=+0.1725\n"}
+,{"stream_name":"stdout","time":4812.611282878,"data":"\n"}
+,{"stream_name":"stdout","time":4812.6113361,"data":"=== x40-pairs-s1339 ===\n"}
+,{"stream_name":"stdout","time":5254.472628464,"data":"  prompt=instruction_prefix\n"}
+,{"stream_name":"stdout","time":5254.472671372,"data":"    S-S: n=400 acc=0.7200 chance=0.50 above=+0.2200\n"}
+,{"stream_name":"stdout","time":5254.472676273,"data":"    S-P: n=400 acc=0.2900 chance=0.25 above=+0.0400\n"}
+,{"stream_name":"stdout","time":5254.472679765,"data":"    U-S: n=400 acc=0.5425 chance=0.50 above=+0.0425\n"}
+,{"stream_name":"stdout","time":5254.472683058,"data":"    U-P: n=400 acc=0.3425 chance=0.25 above=+0.0925\n"}
+,{"stream_name":"stdout","time":5705.012445889,"data":"  prompt=edited_prefix\n"}
+,{"stream_name":"stdout","time":5705.012504292,"data":"    S-S: n=400 acc=0.5600 chance=0.50 above=+0.0600\n"}
+,{"stream_name":"stdout","time":5705.01251106,"data":"    S-P: n=400 acc=0.2600 chance=0.25 above=+0.0100\n"}
+,{"stream_name":"stdout","time":5705.012515984,"data":"    U-S: n=400 acc=0.5075 chance=0.50 above=+0.0075\n"}
+,{"stream_name":"stdout","time":5705.012521063,"data":"    U-P: n=400 acc=0.4000 chance=0.25 above=+0.1500\n"}
+,{"stream_name":"stdout","time":5706.840848367,"data":"\n"}
+,{"stream_name":"stdout","time":5706.840894486,"data":"wrote /kaggle/working/x40_bench_summary.json\n"}
+,{"stream_name":"stderr","time":5711.159009137,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":5711.159063383,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":5711.74461188,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":5711.744658931,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":5713.077097335,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":5714.920260935,"data":"[NbConvertApp] Writing 299729 bytes to __results__.html\n"}
+]

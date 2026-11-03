@@ -158,6 +158,10 @@ chance is not just `number+place`: `rename+swap` is at chance too. Future
 composition claims must report the S-P by-operation table, not just an
 aggregate.
 
+The gold-edit test (D70) gives the model the post-intervention prefix; S-P
+rises only to 0.29–0.33, and the hard cells still fail (`number+place` 0.0 in
+5/6 arms, `rename+swap` at chance). The edit is not the missing piece.
+
 ## Decision
 
 **Close X40.** The registered rule says stop on I-1 or I-3; both fail, on both
