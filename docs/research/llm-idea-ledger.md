@@ -97,3 +97,31 @@ Under the “everything new” rule, **do not run SBA or PNB as a new mechanism*
 If a labelled B+ application is acceptable, PNB is cheap; otherwise keep
 searching CPU-side. The ancient-text lens produced a new composition, not a new
 primitive.
+
+## Tokenization / entity candidates (final sweep)
+
+| candidate | closest prior art | class | status |
+|---|---|---|---|
+| Entity-span tokenizer / entity-aware tokenization | LUKE entity-aware self-attention (2020); Entity Tracking in LMs (2023); Do LMs Track Entities Across State Changes? (2026); Tokenization Falling Short (2024); TokSuite (2025) | B+ | not A |
+| Tokenization-artifact intervention diagnostic | tokenization robustness; entity tracking; subword compositionality | D | cheap CPU diagnostic; not a mechanism |
+| Cross-checkpoint composition dynamics | Rule Extrapolation (2024); induction-head emergence (2025); phase transitions in attention (2026); attention-head binding (2026) | D/B+ | not A |
+
+## Saturation verdict (2026-11-03)
+
+Four axes were searched after the audit:
+
+1. ancient texts → SBA B+, PNB D/B+;
+2. order/composition/attention mediation → OIT B+, IOAM D;
+3. training dynamics/emergence → prior art in induction-head emergence and
+   compositional generalization;
+4. tokenization/entity binding → LUKE/entity-aware attention, entity tracking,
+   tokenization robustness.
+
+**No A-class new mechanism, architecture, attention, or tokenizer remains.**
+The only new work is D: a cheap measurement. The best D is the
+tokenization-artifact intervention diagnostic; the tokenizer idea is B+.
+
+Under the “everything new” rule, the correct action is **no GPU**. The
+defensible artifact remains the 2×2 benchmark + negative record. The search may
+continue CPU-side, but it will keep producing B+ applications unless a new
+insight arrives from outside this literature.
