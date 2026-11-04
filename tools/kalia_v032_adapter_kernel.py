@@ -142,9 +142,9 @@ def evaluate(model, ds, batches=EVAL_BATCHES, batch_size=EVAL_BATCH, seed=EVAL_S
 
 val_ds = TokenDataset(val_bin, cfg["context_len"])
 train_ds = TokenDataset(train_bin, cfg["context_len"])
-base_val = evaluate(base)
+base_val = evaluate(base, val_ds)
 adapter_zero = build_adapter()
-zero_val = evaluate(adapter_zero)
+zero_val = evaluate(adapter_zero, val_ds)
 print(f"base val {base_val:.4f} | zero-adapter val {zero_val:.4f} | ref {BASE_VAL_REF}")
 assert abs(base_val - zero_val) < 1e-4, (base_val, zero_val)
 
