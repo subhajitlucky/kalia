@@ -167,3 +167,25 @@ The only defensible new work is D: the tokenization-artifact diagnostic or the
 
 Continuing to search the same field is not godmode; it is repetition. A new
 search must change the field/problem, not the query.
+
+## Binding/composition sweep (2026-11-04)
+
+Searched specifically for a new training signal or architecture for binding/
+composition. The field is the most crowded of all:
+
+| candidate | closest prior art | class |
+|---|---|---|
+| Vector-symbolic binding loss / VSA attention | **Attention as Binding: A Vector-Symbolic Perspective on Transformer Reasoning** (2025); tensor-product transformers (2021); VSA literature | B+ |
+| Type-aware tokenizer / type-diverse attention | **Type Diversity Enables Transformers to Generalise Compositionally** (2026); type-level interchange intervention training (2023); LUKE entity-aware attention (2020) | B+ |
+| Orthogonal role-subspace loss | **Compositional Generalization Requires Linear, Orthogonal Representations** (2026); TPR/VSA binding | B+ |
+| Causal-abstraction / interchange training | Causal Abstraction (2023); Representational Analysis of Binding in LMs (2024); type-level IIT (2023) | B+ |
+| Modular routing / block operations | **Block-Operations: Using Modular Routing to Improve Compositional Generalization** (2024); “Discovering modular solutions…” (2023); latent routing (2026) | B+ |
+| Prototype / category-theoretic transformer | **Prototype Transformer** (2026); **Cognitive Categorical Transformer** (2026); category-theoretic inductive biases | B+/A− |
+| In-context binding-capacity benchmark | **In-Context Binding Capacity in Language Models** (2026); Representational Analysis of Binding (2024) | D |
+
+**Verdict: no A-class binding/composition mechanism or training signal.** The
+closest 2026 work already covers type diversity, orthogonal representations,
+vector-symbolic attention, interchange interventions, modular routing and
+prototype/category architectures. Any new binding proposal is a B+ adaptation.
+
+No GPU. The 2×2 benchmark remains the only new artifact.
