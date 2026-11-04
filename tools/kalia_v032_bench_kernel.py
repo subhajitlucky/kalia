@@ -94,8 +94,11 @@ def build_ckpt(adapter_path: Path | None, out: Path) -> dict:
         assert not load.unexpected_keys
         payload = torch.load(adapter_path, map_location="cpu", weights_only=False)
         load = model.load_state_dict(payload["adapter"], strict=False)
-        assert not load.missing_keys and not load.unexpected_keys, (
-            load.missing_keys, load.unexpected_keys
+        # Only the adapter keys are supplied; the frozen base keys are
+        # expected in missing_keys. The adapter keys must all land.
+        assert not load.unexpected_keys, load.unexpected_keys
+        assert not any(k.startswith("adapter.") for k in load.missing_keys), (
+            load.missing_keys
         )
     torch.save({
         "model": model.state_dict(),
