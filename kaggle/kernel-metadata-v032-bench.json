@@ -1,0 +1,18 @@
+{
+  "id": "subhajitlucky/kalia-v032-bench",
+  "title": "KALIA v032 bench",
+  "code_file": "kalia_v032_bench_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-v032-adapter"
+  ],
+  "model_sources": []
+}
