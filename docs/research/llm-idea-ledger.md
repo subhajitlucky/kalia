@@ -125,3 +125,22 @@ Under the “everything new” rule, the correct action is **no GPU**. The
 defensible artifact remains the 2×2 benchmark + negative record. The search may
 continue CPU-side, but it will keep producing B+ applications unless a new
 insight arrives from outside this literature.
+
+## Cross-checkpoint / tokenization / entity-head study — prior-art check
+
+| component | closest prior art | verdict |
+|---|---|---|
+| cross-checkpoint analysis | **Pythia** (2023) — suite for analyzing LMs across training and scaling | method known |
+| training dynamics of composition | **Rule Extrapolation in LMs** (2024); **OOD generalization via composition: induction heads** (2025); **Don't Forget! Training Dynamics of Memorization** (2026) | known |
+| scale vs composition | **Evaluating the Impact of Model Scale for Compositional Generalization** (2022); **Scalable Evaluation and Neural Models for Compositional Generalization** (2025); **Impact of Depth** (2024) | known |
+| tokenization / entity tracking | **Entity Tracking in LMs** (2023); **Do LMs Track Entities Across State Changes?** (2026); **Entity Tracking in Small LMs: An Attention-Based Study** (2025); tokenization robustness (2024–2025) | known |
+| entity-binding heads | **Positional versus Symbolic Attention Heads** (2026); **Compositional Attention** (2021); entity-tracking circuit (2024) | known |
+| intervention composition benchmark | **Composable Interventions for LMs** (2024); **CausalBench** (2024) | adjacent |
+
+**Verdict: D/B+, not A.** The **2×2 benchmark** is the new part; the
+cross-checkpoint/tokenization/entity-head analyses are known methods applied to
+it. No exact integrated study was found, but a reviewer can call it a
+benchmark/application, not a new discovery.
+
+If the goal is a new **measurement**, it is cheap and defensible as **D**. If
+the goal is a new **mechanism**, it is not.
