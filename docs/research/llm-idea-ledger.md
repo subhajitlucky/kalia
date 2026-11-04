@@ -144,3 +144,26 @@ benchmark/application, not a new discovery.
 
 If the goal is a new **measurement**, it is cheap and defensible as **D**. If
 the goal is a new **mechanism**, it is not.
+
+## Final axes — transactional edits and typed interventions (2026-11-04)
+
+| candidate | closest prior art | class |
+|---|---|---|
+| Transactional / concurrent story edits | **Concurrent Editing for Multi-Model Environments** (2026); **ChronoMem: Version Control and Semantic Rollback** (2026); **History Matters: Temporal Knowledge Editing** (2024); **Composable Interventions for LMs** (2024); multi-user collaborative editing systems | B+/D |
+| Typed / effectful interventions | **Type-level Interchange Intervention Training** (2023); **Evidence-Type Competition: When Can Interventional Data Teach Causal Direction?** (2026); model-editing type taxonomies (2025) | B+ |
+
+No A. The exact story-edit benchmark may be new, but the mechanisms and
+analyses are known; a reviewer would call them applications.
+
+## Search closed — 2026-11-04
+
+Six axes searched after the audit: ancient texts, order/composition,
+perspective/negation, training dynamics, tokenization/entity binding,
+transactional/typed edits. Every one is B+ or D. **No A-class mechanism,
+architecture, attention, or tokenizer remains in this space.**
+
+The only defensible new work is D: the tokenization-artifact diagnostic or the
+2×2 benchmark paper. Under the “everything new” rule, **no GPU**.
+
+Continuing to search the same field is not godmode; it is repetition. A new
+search must change the field/problem, not the query.
