@@ -1100,3 +1100,36 @@ only.
 
 **Cost.** CPU only; no GPU. Artifacts: the gold-edit summary/rows/log under
 `docs/results/x40-bench/`.
+
+## D71 — V032 output adapter passes the val bar; 2k guard pending (2026-11-04)
+
+**Context.** The audit found no A-class mechanism. The only positive val signal
+was the X40 parameter-matched output adapter. V032 tests it on v0.3.1: freeze
+the base, train only a zero-init output adapter (`512 → 1024 → 512`,
+**1,048,576** params) for 2,000 steps, two seeds, canonical 100-batch val.
+
+**Result.**
+
+| seed | val | base val | delta |
+|---|---:|---:|---:|
+| 1401 | **2.7493** | 2.7580 | **−0.0087** |
+| 1402 | **2.7495** | 2.7580 | **−0.0085** |
+
+- Bar: adapter ≤ base − 0.005, both seeds. **Pass.**
+- Frozen-weight checksum unchanged, both seeds. **Pass.**
+- Adapter parameter count exact. **Pass.**
+- Base published val 2.7579; re-measured 2.7580.
+- Kernel `subhajitlucky/kalia-v032-adapter` v2, revision `c40b464`; ~3.4 GPU-h.
+
+**Decision.**
+1. **Val bar passes; V032 is an internal v0.3.2 candidate on GitHub only.**
+   No Hugging Face push.
+2. **The 2,000-sample benchmark pair is the conditional guard (V-5).** If any
+   task regresses beyond 2σ vs v0.3.1, withhold the candidate. If not, record a
+   small val improvement.
+3. **This is engineering, not a new mechanism.** It does not answer the
+   composition failure; it is a known capacity/placement result.
+4. No tuning of LR, steps or adapter size after the result. No HF.
+
+**Artifacts.** `docs/results/v032-adapter/` (summary, logs, adapter state
+dicts, kernel log). Pre-registration hash `4ead53b6…`; ledger 34 entries.

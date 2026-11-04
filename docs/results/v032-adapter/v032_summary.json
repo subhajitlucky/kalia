@@ -1,0 +1,46 @@
+{
+  "V1": true,
+  "V2": true,
+  "V3": true,
+  "V4": true,
+  "adapter_hidden": 1024,
+  "adapter_params": 1048576,
+  "advance": true,
+  "all_frozen": true,
+  "bar": 0.005,
+  "base_repo": "kalia-lm/kalia-v031",
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "base_val": 2.757957434654236,
+  "base_val_ref": 2.7579,
+  "experiment": "v032-output-adapter",
+  "grad_accum": 8,
+  "kernel_id": "subhajitlucky/kalia-v032-adapter",
+  "kernel_revision": "c40b4640a4808085ac03dc51f761d445f2854fa0",
+  "lr": 0.001,
+  "max_delta": -0.008485496044158936,
+  "micro": 8,
+  "min_delta": -0.008673133850097603,
+  "results": {
+    "1401": {
+      "adapter_bytes": 4196653,
+      "adapter_path": "/kaggle/working/adapter_seed1401.pt",
+      "best_interim": 2.765000915527344,
+      "delta": -0.008673133850097603,
+      "frozen_ok": true,
+      "val": 2.7492843008041383
+    },
+    "1402": {
+      "adapter_bytes": 4196653,
+      "adapter_path": "/kaggle/working/adapter_seed1402.pt",
+      "best_interim": 2.765095555782318,
+      "delta": -0.008485496044158936,
+      "frozen_ok": true,
+      "val": 2.749471938610077
+    }
+  },
+  "seeds": [
+    1401,
+    1402
+  ],
+  "steps": 2000
+}
