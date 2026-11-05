@@ -40,3 +40,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-01 | X39-edit-algebra | `docs/preregistrations/2026-11-01-X39-edit-algebra.md` | `d2d143b0acdf490b7ea657c8557e0e43c6f321e54e80a032e4841fb9865a835a` |
 | 2026-11-01 | X40-intervention-pretraining | `docs/preregistrations/2026-11-01-X40-intervention-pretraining.md` | `5e42b784603ba8eff757463bfdf8b8dfda59a1e676f975306b1c8fc05759d3bd` |
 | 2026-11-04 | V032-output-adapter | `docs/preregistrations/2026-11-04-V032-output-adapter.md` | `4ead53b6e59b35399e3eda71cddf4e9b250959e4aaf37207ec97f7444b9c27a7` |
+| 2026-11-05 | X41-edit-compiler | `docs/preregistrations/2026-11-05-X41-edit-compiler.md` | `d3d5dc5398a7e2fb8830a978c3d27fdba7c35ce4838669f3f5c6b32ed678b648` |
