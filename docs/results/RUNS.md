@@ -45,6 +45,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `V032 adapter` | Frozen-base output-adapter fine-tune of v0.3.1; val 2.7493/2.7495 vs 2.7580 (−0.0087/−0.0085), both seeds pass; frozen base; 2k guard passes but is neutral; val-only internal candidate, GitHub only, no HF | yes | 12 files |
 | `X41 edit compiler` | LoRA edit compiler + frozen v0.3.1 reader; full 2x2 baseline normal S-P 0.170 vs gold 0.513; compiler number+place 0.000->0.694 both seeds, S-P 0.428/0.410, U-P 0.568/0.635; rename+swap 0.354/0.483, so C-3 fails on one seed; partial advancement | yes | 26 files |
 | `X42 reader ensemble` | Reader-guided selection between the two X41 compiler edits; dev-selected MinEntropy; held-out test rename+swap 0.4286 vs 0.45 bar; oracle capped at best single seed 0.4898; null | yes | 3 files |
+| `X43 THPT` | Template-held-out pair training; all four pair types taught on three extra templates only; S-P 0.480/0.493, number+place 0.694/0.694, rename+swap 0.592/0.646, U-P 0.860/0.873; D-1..D-6 pass; 0.97 GPU-h; capability release v0.4.0 | yes | 16 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -290,6 +291,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x42-reader-ensemble/x42_selections.jsonl`
 - `docs/results/x42-reader-ensemble/x42_summary.json`
 
+**X43 THPT**
+- `docs/results/x43-thpt/README.md`
+- `docs/results/x43-thpt/bench_audit.json`
+- `docs/results/x43-thpt/dev_armC_seed1401.csv`
+- `docs/results/x43-thpt/dev_armC_seed1402.csv`
+- `docs/results/x43-thpt/end2end_C_1401.json`
+- `docs/results/x43-thpt/end2end_C_1401_rows.jsonl`
+- `… 10 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -307,4 +317,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-38 runs tracked, 301 files archived, 3 with no evidence.
+39 runs tracked, 317 files archived, 3 with no evidence.

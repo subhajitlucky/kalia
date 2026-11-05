@@ -1214,3 +1214,25 @@ held-out-operation-combination test of X41.
 seeds, same rank-16 LoRA. Bars D-1…D-6: singles EM ≥0.90, `number+place`
 ≥0.40, `rename+swap` ≥0.45, S-P ≥0.45, U-P ≥0.35, base frozen. Cost cap
 2 GPU-h. Result pending; no tuning after the result.
+
+**Update 2026-11-05 — D-1…D-6 pass.** X43 trained the same rank-16 LoRA on
+the X41 Arm B data plus all four test pair types on the three extra templates
+only. The benchmark templates never received pair supervision.
+
+| seed | singles EM | compiler EM | S-P | `number+place` | `rename+swap` | U-P |
+|---|---:|---:|---:|---:|---:|---:|
+| 1401 | 0.9920 | 0.5469 | **0.4800** | **0.6935** | **0.5918** | **0.8600** |
+| 1402 | 0.9977 | 0.5438 | **0.4925** | **0.6935** | **0.6463** | **0.8725** |
+
+- **D-1…D-6 all PASS.** Cost **0.97 GPU-h**.
+- `rename+swap` 0.187 → **0.592/0.646**; S-P 0.170 → **0.480/0.493**;
+  `number+place` 0.000 → **0.694**; U-P 0.093 → **0.860/0.873**.
+- This is a **template-held-out pair-transfer** result: pair types are trained
+  on disjoint templates, not held out entirely. X41 remains the stricter,
+  partial held-out-combination result.
+
+**Decision.** X43 is the first clean positive capability result. Release the
+two adapters as the **v0.4.0-x43-edit-compiler** capability pack. The public
+base model remains **v0.3.1**; the standard five-task benchmark is unchanged.
+The release note is `docs/releases/v040-x43-edit-compiler.md`. No tuning after
+the result.

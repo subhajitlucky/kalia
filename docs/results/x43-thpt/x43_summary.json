@@ -1,0 +1,261 @@
+{
+  "alpha": 16,
+  "arms": {
+    "C_1401": {
+      "end2end": {
+        "by_cell": {
+          "S-P": {
+            "accuracy": 0.48,
+            "chance": 0.25,
+            "correct": 192,
+            "n": 400,
+            "n_way": 4
+          },
+          "S-S": {
+            "accuracy": 0.7025,
+            "chance": 0.5,
+            "correct": 281,
+            "n": 400,
+            "n_way": 2
+          },
+          "U-P": {
+            "accuracy": 0.86,
+            "chance": 0.25,
+            "correct": 344,
+            "n": 400,
+            "n_way": 4
+          },
+          "U-S": {
+            "accuracy": 0.82,
+            "chance": 0.5,
+            "correct": 328,
+            "n": 400,
+            "n_way": 2
+          }
+        },
+        "by_operation": {
+          "negate": {
+            "accuracy": 0.8853503184713376,
+            "correct": 139,
+            "n": 157
+          },
+          "number": {
+            "accuracy": 0.9888888888888889,
+            "correct": 89,
+            "n": 90
+          },
+          "number+place": {
+            "accuracy": 0.6935483870967742,
+            "correct": 86,
+            "n": 124
+          },
+          "place": {
+            "accuracy": 0.8130081300813008,
+            "correct": 100,
+            "n": 123
+          },
+          "rename": {
+            "accuracy": 0.8981481481481481,
+            "correct": 194,
+            "n": 216
+          },
+          "rename+negate": {
+            "accuracy": 0.8215962441314554,
+            "correct": 175,
+            "n": 213
+          },
+          "rename+swap": {
+            "accuracy": 0.5918367346938775,
+            "correct": 174,
+            "n": 294
+          },
+          "swap": {
+            "accuracy": 0.40654205607476634,
+            "correct": 87,
+            "n": 214
+          },
+          "swap+negate": {
+            "accuracy": 0.5976331360946746,
+            "correct": 101,
+            "n": 169
+          }
+        },
+        "compiler": {
+          "changed_from_factual": 1.0,
+          "exact_match": 0.546875,
+          "fallback_rate": 0.0,
+          "fallback_to_factual": 0,
+          "n": 1600,
+          "nonempty": 1.0
+        },
+        "n": 1600,
+        "overall": 0.715625,
+        "prompt_mode": "edited_prefix",
+        "seen": 0.76125,
+        "unseen": 0.67
+      },
+      "seed": 1401,
+      "singles_dev": {
+        "changed_from_factual": 1.0,
+        "exact_match": 0.9919586444572085,
+        "n": 1741,
+        "nonempty": 1.0
+      },
+      "train": {
+        "best_dev_em": 1.0,
+        "best_step": 600,
+        "dev_examples": 2456,
+        "path": "/kaggle/working/x43/lora_armC_seed1401.pt",
+        "train_examples": 32779,
+        "trainable_params": 1413120
+      },
+      "trainable_params": 1413120
+    },
+    "C_1402": {
+      "end2end": {
+        "by_cell": {
+          "S-P": {
+            "accuracy": 0.4925,
+            "chance": 0.25,
+            "correct": 197,
+            "n": 400,
+            "n_way": 4
+          },
+          "S-S": {
+            "accuracy": 0.7025,
+            "chance": 0.5,
+            "correct": 281,
+            "n": 400,
+            "n_way": 2
+          },
+          "U-P": {
+            "accuracy": 0.8725,
+            "chance": 0.25,
+            "correct": 349,
+            "n": 400,
+            "n_way": 4
+          },
+          "U-S": {
+            "accuracy": 0.815,
+            "chance": 0.5,
+            "correct": 326,
+            "n": 400,
+            "n_way": 2
+          }
+        },
+        "by_operation": {
+          "negate": {
+            "accuracy": 0.8853503184713376,
+            "correct": 139,
+            "n": 157
+          },
+          "number": {
+            "accuracy": 0.9888888888888889,
+            "correct": 89,
+            "n": 90
+          },
+          "number+place": {
+            "accuracy": 0.6935483870967742,
+            "correct": 86,
+            "n": 124
+          },
+          "place": {
+            "accuracy": 0.8130081300813008,
+            "correct": 100,
+            "n": 123
+          },
+          "rename": {
+            "accuracy": 0.8935185185185185,
+            "correct": 193,
+            "n": 216
+          },
+          "rename+negate": {
+            "accuracy": 0.8215962441314554,
+            "correct": 175,
+            "n": 213
+          },
+          "rename+swap": {
+            "accuracy": 0.6462585034013606,
+            "correct": 190,
+            "n": 294
+          },
+          "swap": {
+            "accuracy": 0.40186915887850466,
+            "correct": 86,
+            "n": 214
+          },
+          "swap+negate": {
+            "accuracy": 0.5621301775147929,
+            "correct": 95,
+            "n": 169
+          }
+        },
+        "compiler": {
+          "changed_from_factual": 1.0,
+          "exact_match": 0.54375,
+          "fallback_rate": 0.0,
+          "fallback_to_factual": 0,
+          "n": 1600,
+          "nonempty": 1.0
+        },
+        "n": 1600,
+        "overall": 0.720625,
+        "prompt_mode": "edited_prefix",
+        "seen": 0.75875,
+        "unseen": 0.6825
+      },
+      "seed": 1402,
+      "singles_dev": {
+        "changed_from_factual": 1.0,
+        "exact_match": 0.9977024698449167,
+        "n": 1741,
+        "nonempty": 1.0
+      },
+      "train": {
+        "best_dev_em": 0.9933333333333333,
+        "best_step": 900,
+        "dev_examples": 2456,
+        "path": "/kaggle/working/x43/lora_armC_seed1402.pt",
+        "train_examples": 32779,
+        "trainable_params": 1413120
+      },
+      "trainable_params": 1413120
+    }
+  },
+  "bars": {
+    "D-1_singles_em": true,
+    "D-2_number_place": true,
+    "D-3_rename_swap": true,
+    "D-4_SP": true,
+    "D-5_UP": true,
+    "D-6_base_frozen": true,
+    "values": {
+      "C_1401": {
+        "S-P": 0.48,
+        "U-P": 0.86,
+        "compiler_em": 0.546875,
+        "fallback_rate": 0.0,
+        "number+place": 0.6935483870967742,
+        "rename+swap": 0.5918367346938775,
+        "singles_em": 0.9919586444572085
+      },
+      "C_1402": {
+        "S-P": 0.4925,
+        "U-P": 0.8725,
+        "compiler_em": 0.54375,
+        "fallback_rate": 0.0,
+        "number+place": 0.6935483870967742,
+        "rename+swap": 0.6462585034013606,
+        "singles_em": 0.9977024698449167
+      }
+    }
+  },
+  "base_repo": "kalia-lm/kalia-v031",
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "bench_seed": 2026,
+  "bench_sha256": "aad1b32187a8697b896f6be8408b979abd389466bd9fd42256b2f547e87dd45b",
+  "device": "Tesla T4",
+  "elapsed_hours": 0.9657071977853775,
+  "experiment": "X43-thpt",
+  "rank": 16
+}

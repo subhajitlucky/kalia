@@ -18,6 +18,14 @@ scored by the same deterministic 100-batch protocol. The 2.4366 that appeared in
 releases is v0.1.2 on the *original* held-out set, which the rebuild replaced; the two are
 never compared (decision D43).
 
+**Current public base:** v0.3.1 — 57,856,256 parameters, held-out loss
+**2.7579**, **0.9016** bits-per-byte. **Capability release (2026-11-05):**
+[X43 edit compiler](docs/releases/v040-x43-edit-compiler.md) — a
+1,413,120-parameter LoRA adapter pack on v0.3.1. On the clean 2×2 composition
+benchmark, S-P **0.170 → 0.480/0.493**, `number+place` **0.000 → 0.694**,
+`rename+swap` **0.187 → 0.592/0.646**. The base model and the five-task
+zero-shot suite are unchanged.
+
 **The full record — method, results, strong points, weak points, and every failure — lives
 in the repository:** the first-release summary in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md),
 the dated journal, the decision ledger, the incident record, the hash-anchored

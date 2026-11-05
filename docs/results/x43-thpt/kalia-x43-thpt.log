@@ -1,0 +1,334 @@
+code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev
+work: /kaggle/working/kalia
+device: Tesla T4
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+base sha256: bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468
+{
+  "seed": 2026,
+  "n": 1600,
+  "cells": {
+    "S-P": {
+      "n": 400,
+      "n_way": 4,
+      "chance": 0.25,
+      "counts": {
+        "number+place": 44,
+        "rename+negate": 133,
+        "rename+swap": 134,
+        "swap+negate": 89
+      }
+    },
+    "S-S": {
+      "n": 400,
+      "n_way": 2,
+      "chance": 0.5,
+      "counts": {
+        "negate": 100,
+        "number": 33,
+        "place": 66,
+        "rename": 101,
+        "swap": 100
+      }
+    },
+    "U-P": {
+      "n": 400,
+      "n_way": 4,
+      "chance": 0.25,
+      "counts": {
+        "number+place": 80,
+        "rename+negate": 80,
+        "rename+swap": 160,
+        "swap+negate": 80
+      }
+    },
+    "U-S": {
+      "n": 400,
+      "n_way": 2,
+      "chance": 0.5,
+      "counts": {
+        "negate": 57,
+        "number": 57,
+        "place": 57,
+        "rename": 115,
+        "swap": 114
+      }
+    }
+  },
+  "lengths": {
+    "prompt_tokens": 43,
+    "suffix_tokens": 10,
+    "edited_prefix_tokens": 20
+  }
+}
+bench sha256: aad1b32187a8697b896f6be8408b979abd389466bd9fd42256b2f547e87dd45b records: 1600
+arm C train: 32779 dev: 2456
+
+=== arm C_1401 (32779 train, 2200 steps) ===
+/kaggle/working/kalia/edit_compiler.py:472: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=device.type == "cuda")
+armC seed 1401 step 0/2200 loss 2.0908 lr 2.00e-06
+armC seed 1401 step 0 dev_em 0.0000
+armC seed 1401 step 20/2200 loss 1.8243 lr 4.20e-05
+armC seed 1401 step 40/2200 loss 1.4561 lr 8.20e-05
+armC seed 1401 step 60/2200 loss 0.7916 lr 1.22e-04
+armC seed 1401 step 80/2200 loss 0.4585 lr 1.62e-04
+armC seed 1401 step 100/2200 loss 0.1771 lr 2.00e-04
+armC seed 1401 step 120/2200 loss 0.0997 lr 2.00e-04
+armC seed 1401 step 140/2200 loss 0.0387 lr 2.00e-04
+armC seed 1401 step 160/2200 loss 0.0153 lr 2.00e-04
+armC seed 1401 step 180/2200 loss 0.0092 lr 1.99e-04
+armC seed 1401 step 200/2200 loss 0.0054 lr 1.99e-04
+armC seed 1401 step 220/2200 loss 0.0042 lr 1.99e-04
+armC seed 1401 step 240/2200 loss 0.0029 lr 1.98e-04
+armC seed 1401 step 260/2200 loss 0.0026 lr 1.97e-04
+armC seed 1401 step 280/2200 loss 0.0027 lr 1.97e-04
+armC seed 1401 step 300/2200 loss 0.0020 lr 1.96e-04
+armC seed 1401 step 300 dev_em 0.9867
+armC seed 1401 step 320/2200 loss 0.0014 lr 1.95e-04
+armC seed 1401 step 340/2200 loss 0.0016 lr 1.94e-04
+armC seed 1401 step 360/2200 loss 0.0020 lr 1.93e-04
+armC seed 1401 step 380/2200 loss 0.0011 lr 1.92e-04
+armC seed 1401 step 400/2200 loss 0.0013 lr 1.91e-04
+armC seed 1401 step 420/2200 loss 0.0011 lr 1.90e-04
+armC seed 1401 step 440/2200 loss 0.0009 lr 1.89e-04
+armC seed 1401 step 460/2200 loss 0.0008 lr 1.87e-04
+armC seed 1401 step 480/2200 loss 0.0006 lr 1.86e-04
+armC seed 1401 step 500/2200 loss 0.0006 lr 1.84e-04
+armC seed 1401 step 520/2200 loss 0.0004 lr 1.83e-04
+armC seed 1401 step 540/2200 loss 0.0003 lr 1.81e-04
+armC seed 1401 step 560/2200 loss 0.0003 lr 1.80e-04
+armC seed 1401 step 580/2200 loss 0.0002 lr 1.78e-04
+armC seed 1401 step 600/2200 loss 0.0002 lr 1.76e-04
+armC seed 1401 step 600 dev_em 1.0000
+armC seed 1401 step 620/2200 loss 0.0001 lr 1.74e-04
+armC seed 1401 step 640/2200 loss 0.0001 lr 1.72e-04
+armC seed 1401 step 660/2200 loss 0.0001 lr 1.70e-04
+armC seed 1401 step 680/2200 loss 0.0002 lr 1.68e-04
+armC seed 1401 step 700/2200 loss 0.0001 lr 1.66e-04
+armC seed 1401 step 720/2200 loss 0.0001 lr 1.64e-04
+armC seed 1401 step 740/2200 loss 0.0001 lr 1.62e-04
+armC seed 1401 step 760/2200 loss 0.0001 lr 1.60e-04
+armC seed 1401 step 780/2200 loss 0.0003 lr 1.57e-04
+armC seed 1401 step 800/2200 loss 0.0001 lr 1.55e-04
+armC seed 1401 step 820/2200 loss 0.0001 lr 1.53e-04
+armC seed 1401 step 840/2200 loss 0.0001 lr 1.50e-04
+armC seed 1401 step 860/2200 loss 0.0001 lr 1.48e-04
+armC seed 1401 step 880/2200 loss 0.0001 lr 1.45e-04
+armC seed 1401 step 900/2200 loss 0.0001 lr 1.43e-04
+armC seed 1401 step 900 dev_em 1.0000
+armC seed 1401 step 920/2200 loss 0.0001 lr 1.40e-04
+armC seed 1401 step 940/2200 loss 0.0001 lr 1.38e-04
+armC seed 1401 step 960/2200 loss 0.0001 lr 1.35e-04
+armC seed 1401 step 980/2200 loss 0.0001 lr 1.33e-04
+armC seed 1401 step 1000/2200 loss 0.0001 lr 1.30e-04
+armC seed 1401 step 1020/2200 loss 0.0001 lr 1.27e-04
+armC seed 1401 step 1040/2200 loss 0.0000 lr 1.25e-04
+armC seed 1401 step 1060/2200 loss 0.0000 lr 1.22e-04
+armC seed 1401 step 1080/2200 loss 0.0000 lr 1.19e-04
+armC seed 1401 step 1100/2200 loss 0.0000 lr 1.17e-04
+armC seed 1401 step 1120/2200 loss 0.0000 lr 1.14e-04
+armC seed 1401 step 1140/2200 loss 0.0000 lr 1.11e-04
+armC seed 1401 step 1160/2200 loss 0.0000 lr 1.09e-04
+armC seed 1401 step 1180/2200 loss 0.0000 lr 1.06e-04
+armC seed 1401 step 1200/2200 loss 0.0000 lr 1.03e-04
+armC seed 1401 step 1200 dev_em 0.9933
+armC seed 1401 step 1220/2200 loss 0.0000 lr 1.01e-04
+armC seed 1401 step 1240/2200 loss 0.0000 lr 9.79e-05
+armC seed 1401 step 1260/2200 loss 0.0000 lr 9.53e-05
+armC seed 1401 step 1280/2200 loss 0.0000 lr 9.26e-05
+armC seed 1401 step 1300/2200 loss 0.0000 lr 9.00e-05
+armC seed 1401 step 1320/2200 loss 0.0000 lr 8.74e-05
+armC seed 1401 step 1340/2200 loss 0.0000 lr 8.48e-05
+armC seed 1401 step 1360/2200 loss 0.0000 lr 8.22e-05
+armC seed 1401 step 1380/2200 loss 0.0000 lr 7.96e-05
+armC seed 1401 step 1400/2200 loss 0.0000 lr 7.71e-05
+armC seed 1401 step 1420/2200 loss 0.0000 lr 7.46e-05
+armC seed 1401 step 1440/2200 loss 0.0000 lr 7.22e-05
+armC seed 1401 step 1460/2200 loss 0.0000 lr 6.97e-05
+armC seed 1401 step 1480/2200 loss 0.0000 lr 6.74e-05
+armC seed 1401 step 1500/2200 loss 0.0000 lr 6.50e-05
+armC seed 1401 step 1500 dev_em 0.9867
+armC seed 1401 step 1520/2200 loss 0.0000 lr 6.27e-05
+armC seed 1401 step 1540/2200 loss 0.0000 lr 6.04e-05
+armC seed 1401 step 1560/2200 loss 0.0000 lr 5.82e-05
+armC seed 1401 step 1580/2200 loss 0.0000 lr 5.60e-05
+armC seed 1401 step 1600/2200 loss 0.0000 lr 5.39e-05
+armC seed 1401 step 1620/2200 loss 0.0000 lr 5.18e-05
+armC seed 1401 step 1640/2200 loss 0.0000 lr 4.98e-05
+armC seed 1401 step 1660/2200 loss 0.0000 lr 4.78e-05
+armC seed 1401 step 1680/2200 loss 0.0000 lr 4.59e-05
+armC seed 1401 step 1700/2200 loss 0.0000 lr 4.40e-05
+armC seed 1401 step 1720/2200 loss 0.0000 lr 4.22e-05
+armC seed 1401 step 1740/2200 loss 0.0000 lr 4.05e-05
+armC seed 1401 step 1760/2200 loss 0.0000 lr 3.88e-05
+armC seed 1401 step 1780/2200 loss 0.0000 lr 3.72e-05
+armC seed 1401 step 1800/2200 loss 0.0000 lr 3.56e-05
+armC seed 1401 step 1800 dev_em 0.9933
+armC seed 1401 step 1820/2200 loss 0.0000 lr 3.42e-05
+armC seed 1401 step 1840/2200 loss 0.0000 lr 3.27e-05
+armC seed 1401 step 1860/2200 loss 0.0000 lr 3.14e-05
+armC seed 1401 step 1880/2200 loss 0.0000 lr 3.01e-05
+armC seed 1401 step 1900/2200 loss 0.0000 lr 2.89e-05
+armC seed 1401 step 1920/2200 loss 0.0000 lr 2.78e-05
+armC seed 1401 step 1940/2200 loss 0.0000 lr 2.67e-05
+armC seed 1401 step 1960/2200 loss 0.0000 lr 2.57e-05
+armC seed 1401 step 1980/2200 loss 0.0000 lr 2.48e-05
+armC seed 1401 step 2000/2200 loss 0.0000 lr 2.40e-05
+armC seed 1401 step 2020/2200 loss 0.0000 lr 2.32e-05
+armC seed 1401 step 2040/2200 loss 0.0000 lr 2.26e-05
+armC seed 1401 step 2060/2200 loss 0.0000 lr 2.20e-05
+armC seed 1401 step 2080/2200 loss 0.0000 lr 2.14e-05
+armC seed 1401 step 2100/2200 loss 0.0000 lr 2.10e-05
+armC seed 1401 step 2100 dev_em 0.9733
+armC seed 1401 step 2120/2200 loss 0.0000 lr 2.06e-05
+armC seed 1401 step 2140/2200 loss 0.0000 lr 2.04e-05
+armC seed 1401 step 2160/2200 loss 0.0000 lr 2.02e-05
+armC seed 1401 step 2180/2200 loss 0.0000 lr 2.00e-05
+armC seed 1401 step 2199 dev_em 0.9800
+armC seed 1401 best dev_em 1.0000 at step 600; adapter /kaggle/working/x43/lora_armC_seed1401.pt (5684677 bytes)
+arm C_1401: singles_em 0.9920 compiler_em 0.5469 fallback 0.0000
+  cells: {'S-S': 0.7025, 'S-P': 0.48, 'U-S': 0.82, 'U-P': 0.86}
+  ops: {'negate': 0.8854, 'number': 0.9889, 'number+place': 0.6935, 'place': 0.813, 'rename': 0.8981, 'rename+negate': 0.8216, 'rename+swap': 0.5918, 'swap': 0.4065, 'swap+negate': 0.5976}
+
+=== arm C_1402 (32779 train, 2200 steps) ===
+armC seed 1402 step 0/2200 loss 2.0513 lr 2.00e-06
+armC seed 1402 step 0 dev_em 0.0000
+armC seed 1402 step 20/2200 loss 1.9429 lr 4.20e-05
+armC seed 1402 step 40/2200 loss 1.3301 lr 8.20e-05
+armC seed 1402 step 60/2200 loss 0.6365 lr 1.22e-04
+armC seed 1402 step 80/2200 loss 0.3345 lr 1.62e-04
+armC seed 1402 step 100/2200 loss 0.1600 lr 2.00e-04
+armC seed 1402 step 120/2200 loss 0.0576 lr 2.00e-04
+armC seed 1402 step 140/2200 loss 0.0381 lr 2.00e-04
+armC seed 1402 step 160/2200 loss 0.0181 lr 2.00e-04
+armC seed 1402 step 180/2200 loss 0.0084 lr 1.99e-04
+armC seed 1402 step 200/2200 loss 0.0054 lr 1.99e-04
+armC seed 1402 step 220/2200 loss 0.0036 lr 1.99e-04
+armC seed 1402 step 240/2200 loss 0.0024 lr 1.98e-04
+armC seed 1402 step 260/2200 loss 0.0018 lr 1.97e-04
+armC seed 1402 step 280/2200 loss 0.0022 lr 1.97e-04
+armC seed 1402 step 300/2200 loss 0.0030 lr 1.96e-04
+armC seed 1402 step 300 dev_em 0.9600
+armC seed 1402 step 320/2200 loss 0.0017 lr 1.95e-04
+armC seed 1402 step 340/2200 loss 0.0013 lr 1.94e-04
+armC seed 1402 step 360/2200 loss 0.0009 lr 1.93e-04
+armC seed 1402 step 380/2200 loss 0.0008 lr 1.92e-04
+armC seed 1402 step 400/2200 loss 0.0007 lr 1.91e-04
+armC seed 1402 step 420/2200 loss 0.0005 lr 1.90e-04
+armC seed 1402 step 440/2200 loss 0.0005 lr 1.89e-04
+armC seed 1402 step 460/2200 loss 0.0004 lr 1.87e-04
+armC seed 1402 step 480/2200 loss 0.0003 lr 1.86e-04
+armC seed 1402 step 500/2200 loss 0.0002 lr 1.84e-04
+armC seed 1402 step 520/2200 loss 0.0002 lr 1.83e-04
+armC seed 1402 step 540/2200 loss 0.0001 lr 1.81e-04
+armC seed 1402 step 560/2200 loss 0.0001 lr 1.80e-04
+armC seed 1402 step 580/2200 loss 0.0051 lr 1.78e-04
+armC seed 1402 step 600/2200 loss 0.0002 lr 1.76e-04
+armC seed 1402 step 600 dev_em 0.9800
+armC seed 1402 step 620/2200 loss 0.0002 lr 1.74e-04
+armC seed 1402 step 640/2200 loss 0.0002 lr 1.72e-04
+armC seed 1402 step 660/2200 loss 0.0002 lr 1.70e-04
+armC seed 1402 step 680/2200 loss 0.0003 lr 1.68e-04
+armC seed 1402 step 700/2200 loss 0.0006 lr 1.66e-04
+armC seed 1402 step 720/2200 loss 0.0003 lr 1.64e-04
+armC seed 1402 step 740/2200 loss 0.0002 lr 1.62e-04
+armC seed 1402 step 760/2200 loss 0.0002 lr 1.60e-04
+armC seed 1402 step 780/2200 loss 0.0002 lr 1.57e-04
+armC seed 1402 step 800/2200 loss 0.0001 lr 1.55e-04
+armC seed 1402 step 820/2200 loss 0.0001 lr 1.53e-04
+armC seed 1402 step 840/2200 loss 0.0001 lr 1.50e-04
+armC seed 1402 step 860/2200 loss 0.0001 lr 1.48e-04
+armC seed 1402 step 880/2200 loss 0.0001 lr 1.45e-04
+armC seed 1402 step 900/2200 loss 0.0001 lr 1.43e-04
+armC seed 1402 step 900 dev_em 0.9933
+armC seed 1402 step 920/2200 loss 0.0001 lr 1.40e-04
+armC seed 1402 step 940/2200 loss 0.0001 lr 1.38e-04
+armC seed 1402 step 960/2200 loss 0.0000 lr 1.35e-04
+armC seed 1402 step 980/2200 loss 0.0000 lr 1.33e-04
+armC seed 1402 step 1000/2200 loss 0.0000 lr 1.30e-04
+armC seed 1402 step 1020/2200 loss 0.0000 lr 1.27e-04
+armC seed 1402 step 1040/2200 loss 0.0000 lr 1.25e-04
+armC seed 1402 step 1060/2200 loss 0.0001 lr 1.22e-04
+armC seed 1402 step 1080/2200 loss 0.0000 lr 1.19e-04
+armC seed 1402 step 1100/2200 loss 0.0001 lr 1.17e-04
+armC seed 1402 step 1120/2200 loss 0.0000 lr 1.14e-04
+armC seed 1402 step 1140/2200 loss 0.0000 lr 1.11e-04
+armC seed 1402 step 1160/2200 loss 0.0000 lr 1.09e-04
+armC seed 1402 step 1180/2200 loss 0.0000 lr 1.06e-04
+armC seed 1402 step 1200/2200 loss 0.0000 lr 1.03e-04
+armC seed 1402 step 1200 dev_em 0.9867
+armC seed 1402 step 1220/2200 loss 0.0000 lr 1.01e-04
+armC seed 1402 step 1240/2200 loss 0.0000 lr 9.79e-05
+armC seed 1402 step 1260/2200 loss 0.0000 lr 9.53e-05
+armC seed 1402 step 1280/2200 loss 0.0000 lr 9.26e-05
+armC seed 1402 step 1300/2200 loss 0.0000 lr 9.00e-05
+armC seed 1402 step 1320/2200 loss 0.0000 lr 8.74e-05
+armC seed 1402 step 1340/2200 loss 0.0000 lr 8.48e-05
+armC seed 1402 step 1360/2200 loss 0.0000 lr 8.22e-05
+armC seed 1402 step 1380/2200 loss 0.0000 lr 7.96e-05
+armC seed 1402 step 1400/2200 loss 0.0000 lr 7.71e-05
+armC seed 1402 step 1420/2200 loss 0.0000 lr 7.46e-05
+armC seed 1402 step 1440/2200 loss 0.0000 lr 7.22e-05
+armC seed 1402 step 1460/2200 loss 0.0000 lr 6.97e-05
+armC seed 1402 step 1480/2200 loss 0.0000 lr 6.74e-05
+armC seed 1402 step 1500/2200 loss 0.0000 lr 6.50e-05
+armC seed 1402 step 1500 dev_em 0.9933
+armC seed 1402 step 1520/2200 loss 0.0000 lr 6.27e-05
+armC seed 1402 step 1540/2200 loss 0.0000 lr 6.04e-05
+armC seed 1402 step 1560/2200 loss 0.0000 lr 5.82e-05
+armC seed 1402 step 1580/2200 loss 0.0000 lr 5.60e-05
+armC seed 1402 step 1600/2200 loss 0.0000 lr 5.39e-05
+armC seed 1402 step 1620/2200 loss 0.0000 lr 5.18e-05
+armC seed 1402 step 1640/2200 loss 0.0000 lr 4.98e-05
+armC seed 1402 step 1660/2200 loss 0.0000 lr 4.78e-05
+armC seed 1402 step 1680/2200 loss 0.0000 lr 4.59e-05
+armC seed 1402 step 1700/2200 loss 0.0000 lr 4.40e-05
+armC seed 1402 step 1720/2200 loss 0.0000 lr 4.22e-05
+armC seed 1402 step 1740/2200 loss 0.0000 lr 4.05e-05
+armC seed 1402 step 1760/2200 loss 0.0000 lr 3.88e-05
+armC seed 1402 step 1780/2200 loss 0.0000 lr 3.72e-05
+armC seed 1402 step 1800/2200 loss 0.0000 lr 3.56e-05
+armC seed 1402 step 1800 dev_em 0.9933
+armC seed 1402 step 1820/2200 loss 0.0000 lr 3.42e-05
+armC seed 1402 step 1840/2200 loss 0.0000 lr 3.27e-05
+armC seed 1402 step 1860/2200 loss 0.0000 lr 3.14e-05
+armC seed 1402 step 1880/2200 loss 0.0000 lr 3.01e-05
+armC seed 1402 step 1900/2200 loss 0.0000 lr 2.89e-05
+armC seed 1402 step 1920/2200 loss 0.0000 lr 2.78e-05
+armC seed 1402 step 1940/2200 loss 0.0000 lr 2.67e-05
+armC seed 1402 step 1960/2200 loss 0.0000 lr 2.57e-05
+armC seed 1402 step 1980/2200 loss 0.0000 lr 2.48e-05
+armC seed 1402 step 2000/2200 loss 0.0000 lr 2.40e-05
+armC seed 1402 step 2020/2200 loss 0.0000 lr 2.32e-05
+armC seed 1402 step 2040/2200 loss 0.0000 lr 2.26e-05
+armC seed 1402 step 2060/2200 loss 0.0000 lr 2.20e-05
+armC seed 1402 step 2080/2200 loss 0.0000 lr 2.14e-05
+armC seed 1402 step 2100/2200 loss 0.0000 lr 2.10e-05
+armC seed 1402 step 2100 dev_em 0.9933
+armC seed 1402 step 2120/2200 loss 0.0000 lr 2.06e-05
+armC seed 1402 step 2140/2200 loss 0.0000 lr 2.04e-05
+armC seed 1402 step 2160/2200 loss 0.0000 lr 2.02e-05
+armC seed 1402 step 2180/2200 loss 0.0000 lr 2.00e-05
+armC seed 1402 step 2199 dev_em 0.9933
+armC seed 1402 best dev_em 0.9933 at step 900; adapter /kaggle/working/x43/lora_armC_seed1402.pt (5684677 bytes)
+arm C_1402: singles_em 0.9977 compiler_em 0.5437 fallback 0.0000
+  cells: {'S-S': 0.7025, 'S-P': 0.4925, 'U-S': 0.815, 'U-P': 0.8725}
+  ops: {'negate': 0.8854, 'number': 0.9889, 'number+place': 0.6935, 'place': 0.813, 'rename': 0.8935, 'rename+negate': 0.8216, 'rename+swap': 0.6463, 'swap': 0.4019, 'swap+negate': 0.5621}
+
+X43 VERDICT
+  D-1_singles_em: True
+  D-2_number_place: True
+  D-3_rename_swap: True
+  D-4_SP: True
+  D-5_UP: True
+  D-6_base_frozen: True
+  C_1401: singles_em=0.9920 number+place=0.6935 rename+swap=0.5918 S-P=0.4800 U-P=0.8600 compiler_em=0.5469 fallback_rate=0.0000
+  C_1402: singles_em=0.9977 number+place=0.6935 rename+swap=0.6463 S-P=0.4925 U-P=0.8725 compiler_em=0.5437 fallback_rate=0.0000
+  elapsed_hours: 0.97
+  summary: /kaggle/working/x43/x43_summary.json
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 318520 bytes to __results__.html

@@ -1,0 +1,92 @@
+{
+  "by_cell": {
+    "S-P": {
+      "accuracy": 0.48,
+      "chance": 0.25,
+      "correct": 192,
+      "n": 400,
+      "n_way": 4
+    },
+    "S-S": {
+      "accuracy": 0.7025,
+      "chance": 0.5,
+      "correct": 281,
+      "n": 400,
+      "n_way": 2
+    },
+    "U-P": {
+      "accuracy": 0.86,
+      "chance": 0.25,
+      "correct": 344,
+      "n": 400,
+      "n_way": 4
+    },
+    "U-S": {
+      "accuracy": 0.82,
+      "chance": 0.5,
+      "correct": 328,
+      "n": 400,
+      "n_way": 2
+    }
+  },
+  "by_operation": {
+    "negate": {
+      "accuracy": 0.8853503184713376,
+      "correct": 139,
+      "n": 157
+    },
+    "number": {
+      "accuracy": 0.9888888888888889,
+      "correct": 89,
+      "n": 90
+    },
+    "number+place": {
+      "accuracy": 0.6935483870967742,
+      "correct": 86,
+      "n": 124
+    },
+    "place": {
+      "accuracy": 0.8130081300813008,
+      "correct": 100,
+      "n": 123
+    },
+    "rename": {
+      "accuracy": 0.8981481481481481,
+      "correct": 194,
+      "n": 216
+    },
+    "rename+negate": {
+      "accuracy": 0.8215962441314554,
+      "correct": 175,
+      "n": 213
+    },
+    "rename+swap": {
+      "accuracy": 0.5918367346938775,
+      "correct": 174,
+      "n": 294
+    },
+    "swap": {
+      "accuracy": 0.40654205607476634,
+      "correct": 87,
+      "n": 214
+    },
+    "swap+negate": {
+      "accuracy": 0.5976331360946746,
+      "correct": 101,
+      "n": 169
+    }
+  },
+  "compiler": {
+    "changed_from_factual": 1.0,
+    "exact_match": 0.546875,
+    "fallback_rate": 0.0,
+    "fallback_to_factual": 0,
+    "n": 1600,
+    "nonempty": 1.0
+  },
+  "n": 1600,
+  "overall": 0.715625,
+  "prompt_mode": "edited_prefix",
+  "seen": 0.76125,
+  "unseen": 0.67
+}

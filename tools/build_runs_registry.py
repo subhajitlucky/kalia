@@ -104,6 +104,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-05-X41-edit-compiler.md", ["docs/results/x41-edit-compiler/**/*"]),
     ("X42 reader ensemble", "Reader-guided selection between the two X41 compiler edits; dev-selected MinEntropy; held-out test rename+swap 0.4286 vs 0.45 bar; oracle capped at best single seed 0.4898; null",
      "2026-11-05-X42-reader-ensemble.md", ["docs/results/x42-reader-ensemble/**/*"]),
+    ("X43 THPT", "Template-held-out pair training; all four pair types taught on three extra templates only; S-P 0.480/0.493, number+place 0.694/0.694, rename+swap 0.592/0.646, U-P 0.860/0.873; D-1..D-6 pass; 0.97 GPU-h; capability release v0.4.0",
+     "2026-11-05-X43-template-pairs.md", ["docs/results/x43-thpt/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",
