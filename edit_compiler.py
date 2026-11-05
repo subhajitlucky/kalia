@@ -164,20 +164,25 @@ def build_dev(arm: str, singles_per_op: int = 120, pairs_per_type: int = 120,
               seed: int = 999) -> list[dict]:
     templates = list(TRAIN_TEMPLATES)
     if arm == "B":
-        return build_records(
+        out = build_records(
             templates, NAMES_EVAL,
             singles_per_op=singles_per_op,
             pairs_per_type=pairs_per_type,
             allowed_pairs=ALLOWED_PAIRS,
             seed=seed,
         )
-    return build_records(
-        templates, NAMES_EVAL,
-        singles_per_op=singles_per_op,
-        pairs_per_type=0,
-        allowed_pairs=(),
-        seed=seed,
-    )
+    else:
+        out = build_records(
+            templates, NAMES_EVAL,
+            singles_per_op=singles_per_op,
+            pairs_per_type=0,
+            allowed_pairs=(),
+            seed=seed,
+        )
+    # The early-stopping slice must see both singles and pairs, not just the
+    # first template's singles.
+    random.Random(seed + 1).shuffle(out)
+    return out
 
 
 # ---------------------------------------------------------------------------

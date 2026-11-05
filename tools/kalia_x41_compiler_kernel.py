@@ -50,7 +50,7 @@ try:
     from safetensors.torch import load_file
 except Exception:
     subprocess.run([sys.executable, "-m", "pip", "install", "-q",
-                    "safetensors", "huggingface_hub"], check=True)
+                    "safetensors", "huggingface_hub", "tiktoken"], check=True)
     from huggingface_hub import hf_hub_download
     from safetensors.torch import load_file
 
@@ -58,8 +58,6 @@ import torch  # noqa: E402
 
 from model import GPT, GPTConfig  # noqa: E402
 from edit_compiler import (  # noqa: E402
-    ALPHA,
-    RANK,
     apply_lora,
     build_dev,
     build_train,
@@ -130,7 +128,12 @@ assert bench_sha == BENCH_SHA, (bench_sha, BENCH_SHA)
 records = [json.loads(line) for line in bench.read_text().splitlines() if line.strip()]
 print("bench sha256:", bench_sha, "records:", len(records))
 
-import tiktoken  # noqa: E402
+try:
+    import tiktoken  # noqa: E402
+except Exception:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "tiktoken"],
+                   check=True)
+    import tiktoken  # noqa: E402
 
 enc = tiktoken.get_encoding("gpt2")
 out_dir = Path("/kaggle/working/x41")
