@@ -1,0 +1,17 @@
+{
+  "id": "subhajitlucky/kalia-x48-data",
+  "title": "KALIA X48 data",
+  "code_file": "kalia_x48_data_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-prep-v2b",
+    "subhajitlucky/kalia-k-tok-v0"
+  ],
+  "model_sources": []
+}
