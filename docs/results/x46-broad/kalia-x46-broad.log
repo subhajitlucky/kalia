@@ -1,0 +1,363 @@
+code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev
+device: Tesla T4
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+base sha256: bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468
+fresh bench: b69bcd6102e134a88a853b27c5783002df16cfc60e20d07f54f9f20e0a7d897a n 1200
+baseline normal: {'F-S': 0.3875, 'F-P': 0.085, 'F-T': 0.035}
+baseline gold: {'F-S': 0.7125, 'F-P': 0.5725, 'F-T': 0.3925}
+broad train: 40288 dev: 10793
+templates: 17
+
+=== BROAD_1401 (40288 train, 3000 steps) ===
+/kaggle/working/kalia/edit_compiler.py:472: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=device.type == "cuda")
+broad seed 1401 step 0/3000 loss 2.1737 lr 2.00e-06
+broad seed 1401 step 0 dev_em 0.0000
+broad seed 1401 step 20/3000 loss 2.1129 lr 4.20e-05
+broad seed 1401 step 40/3000 loss 1.5810 lr 8.20e-05
+broad seed 1401 step 60/3000 loss 1.0166 lr 1.22e-04
+broad seed 1401 step 80/3000 loss 0.4565 lr 1.62e-04
+broad seed 1401 step 100/3000 loss 0.2124 lr 2.00e-04
+broad seed 1401 step 120/3000 loss 0.1256 lr 2.00e-04
+broad seed 1401 step 140/3000 loss 0.0849 lr 2.00e-04
+broad seed 1401 step 160/3000 loss 0.0256 lr 2.00e-04
+broad seed 1401 step 180/3000 loss 0.0198 lr 2.00e-04
+broad seed 1401 step 200/3000 loss 0.0119 lr 1.99e-04
+broad seed 1401 step 220/3000 loss 0.0172 lr 1.99e-04
+broad seed 1401 step 240/3000 loss 0.0069 lr 1.99e-04
+broad seed 1401 step 260/3000 loss 0.0046 lr 1.99e-04
+broad seed 1401 step 280/3000 loss 0.0041 lr 1.98e-04
+broad seed 1401 step 300/3000 loss 0.0032 lr 1.98e-04
+broad seed 1401 step 300 dev_em 0.9667
+broad seed 1401 step 320/3000 loss 0.0029 lr 1.97e-04
+broad seed 1401 step 340/3000 loss 0.0021 lr 1.97e-04
+broad seed 1401 step 360/3000 loss 0.0018 lr 1.96e-04
+broad seed 1401 step 380/3000 loss 0.0012 lr 1.96e-04
+broad seed 1401 step 400/3000 loss 0.0009 lr 1.95e-04
+broad seed 1401 step 420/3000 loss 0.0007 lr 1.95e-04
+broad seed 1401 step 440/3000 loss 0.0005 lr 1.94e-04
+broad seed 1401 step 460/3000 loss 0.0005 lr 1.93e-04
+broad seed 1401 step 480/3000 loss 0.0004 lr 1.92e-04
+broad seed 1401 step 500/3000 loss 0.0007 lr 1.92e-04
+broad seed 1401 step 520/3000 loss 0.0005 lr 1.91e-04
+broad seed 1401 step 540/3000 loss 0.0004 lr 1.90e-04
+broad seed 1401 step 560/3000 loss 0.0003 lr 1.89e-04
+broad seed 1401 step 580/3000 loss 0.0003 lr 1.88e-04
+broad seed 1401 step 600/3000 loss 0.0003 lr 1.87e-04
+broad seed 1401 step 600 dev_em 1.0000
+broad seed 1401 step 620/3000 loss 0.0002 lr 1.86e-04
+broad seed 1401 step 640/3000 loss 0.0002 lr 1.85e-04
+broad seed 1401 step 660/3000 loss 0.0002 lr 1.84e-04
+broad seed 1401 step 680/3000 loss 0.0001 lr 1.83e-04
+broad seed 1401 step 700/3000 loss 0.0001 lr 1.82e-04
+broad seed 1401 step 720/3000 loss 0.0001 lr 1.80e-04
+broad seed 1401 step 740/3000 loss 0.0001 lr 1.79e-04
+broad seed 1401 step 760/3000 loss 0.0001 lr 1.78e-04
+broad seed 1401 step 780/3000 loss 0.0001 lr 1.77e-04
+broad seed 1401 step 800/3000 loss 0.0134 lr 1.75e-04
+broad seed 1401 step 820/3000 loss 0.0002 lr 1.74e-04
+broad seed 1401 step 840/3000 loss 0.0002 lr 1.73e-04
+broad seed 1401 step 860/3000 loss 0.0006 lr 1.71e-04
+broad seed 1401 step 880/3000 loss 0.0001 lr 1.70e-04
+broad seed 1401 step 900/3000 loss 0.0001 lr 1.68e-04
+broad seed 1401 step 900 dev_em 1.0000
+broad seed 1401 step 920/3000 loss 0.0001 lr 1.67e-04
+broad seed 1401 step 940/3000 loss 0.0001 lr 1.65e-04
+broad seed 1401 step 960/3000 loss 0.0001 lr 1.64e-04
+broad seed 1401 step 980/3000 loss 0.0001 lr 1.62e-04
+broad seed 1401 step 1000/3000 loss 0.0001 lr 1.61e-04
+broad seed 1401 step 1020/3000 loss 0.0001 lr 1.59e-04
+broad seed 1401 step 1040/3000 loss 0.0001 lr 1.57e-04
+broad seed 1401 step 1060/3000 loss 0.0001 lr 1.56e-04
+broad seed 1401 step 1080/3000 loss 0.0001 lr 1.54e-04
+broad seed 1401 step 1100/3000 loss 0.0001 lr 1.52e-04
+broad seed 1401 step 1120/3000 loss 0.0001 lr 1.50e-04
+broad seed 1401 step 1140/3000 loss 0.0001 lr 1.49e-04
+broad seed 1401 step 1160/3000 loss 0.0001 lr 1.47e-04
+broad seed 1401 step 1180/3000 loss 0.0001 lr 1.45e-04
+broad seed 1401 step 1200/3000 loss 0.0001 lr 1.43e-04
+broad seed 1401 step 1200 dev_em 1.0000
+broad seed 1401 step 1220/3000 loss 0.0001 lr 1.41e-04
+broad seed 1401 step 1240/3000 loss 0.0001 lr 1.40e-04
+broad seed 1401 step 1260/3000 loss 0.0000 lr 1.38e-04
+broad seed 1401 step 1280/3000 loss 0.0000 lr 1.36e-04
+broad seed 1401 step 1300/3000 loss 0.0000 lr 1.34e-04
+broad seed 1401 step 1320/3000 loss 0.0000 lr 1.32e-04
+broad seed 1401 step 1340/3000 loss 0.0000 lr 1.30e-04
+broad seed 1401 step 1360/3000 loss 0.0000 lr 1.28e-04
+broad seed 1401 step 1380/3000 loss 0.0000 lr 1.26e-04
+broad seed 1401 step 1400/3000 loss 0.0000 lr 1.25e-04
+broad seed 1401 step 1420/3000 loss 0.0000 lr 1.23e-04
+broad seed 1401 step 1440/3000 loss 0.0000 lr 1.21e-04
+broad seed 1401 step 1460/3000 loss 0.0000 lr 1.19e-04
+broad seed 1401 step 1480/3000 loss 0.0000 lr 1.17e-04
+broad seed 1401 step 1500/3000 loss 0.0000 lr 1.15e-04
+broad seed 1401 step 1500 dev_em 0.9200
+broad seed 1401 step 1520/3000 loss 0.0003 lr 1.13e-04
+broad seed 1401 step 1540/3000 loss 0.0000 lr 1.11e-04
+broad seed 1401 step 1560/3000 loss 0.0000 lr 1.09e-04
+broad seed 1401 step 1580/3000 loss 0.0000 lr 1.07e-04
+broad seed 1401 step 1600/3000 loss 0.0000 lr 1.05e-04
+broad seed 1401 step 1620/3000 loss 0.0000 lr 1.03e-04
+broad seed 1401 step 1640/3000 loss 0.0000 lr 1.01e-04
+broad seed 1401 step 1660/3000 loss 0.0000 lr 9.93e-05
+broad seed 1401 step 1680/3000 loss 0.0000 lr 9.74e-05
+broad seed 1401 step 1700/3000 loss 0.0000 lr 9.54e-05
+broad seed 1401 step 1720/3000 loss 0.0000 lr 9.35e-05
+broad seed 1401 step 1740/3000 loss 0.0000 lr 9.16e-05
+broad seed 1401 step 1760/3000 loss 0.0000 lr 8.97e-05
+broad seed 1401 step 1780/3000 loss 0.0000 lr 8.78e-05
+broad seed 1401 step 1800/3000 loss 0.0000 lr 8.59e-05
+broad seed 1401 step 1800 dev_em 0.9867
+broad seed 1401 step 1820/3000 loss 0.0000 lr 8.40e-05
+broad seed 1401 step 1840/3000 loss 0.0000 lr 8.22e-05
+broad seed 1401 step 1860/3000 loss 0.0000 lr 8.03e-05
+broad seed 1401 step 1880/3000 loss 0.0000 lr 7.85e-05
+broad seed 1401 step 1900/3000 loss 0.0000 lr 7.67e-05
+broad seed 1401 step 1920/3000 loss 0.0000 lr 7.49e-05
+broad seed 1401 step 1940/3000 loss 0.0000 lr 7.31e-05
+broad seed 1401 step 1960/3000 loss 0.0000 lr 7.13e-05
+broad seed 1401 step 1980/3000 loss 0.0000 lr 6.96e-05
+broad seed 1401 step 2000/3000 loss 0.0000 lr 6.78e-05
+broad seed 1401 step 2020/3000 loss 0.0000 lr 6.61e-05
+broad seed 1401 step 2040/3000 loss 0.0000 lr 6.44e-05
+broad seed 1401 step 2060/3000 loss 0.0000 lr 6.28e-05
+broad seed 1401 step 2080/3000 loss 0.0000 lr 6.11e-05
+broad seed 1401 step 2100/3000 loss 0.0000 lr 5.95e-05
+broad seed 1401 step 2100 dev_em 0.9733
+broad seed 1401 step 2120/3000 loss 0.0000 lr 5.79e-05
+broad seed 1401 step 2140/3000 loss 0.0000 lr 5.63e-05
+broad seed 1401 step 2160/3000 loss 0.0000 lr 5.48e-05
+broad seed 1401 step 2180/3000 loss 0.0000 lr 5.32e-05
+broad seed 1401 step 2200/3000 loss 0.0000 lr 5.17e-05
+broad seed 1401 step 2220/3000 loss 0.0000 lr 5.03e-05
+broad seed 1401 step 2240/3000 loss 0.0000 lr 4.88e-05
+broad seed 1401 step 2260/3000 loss 0.0000 lr 4.74e-05
+broad seed 1401 step 2280/3000 loss 0.0000 lr 4.60e-05
+broad seed 1401 step 2300/3000 loss 0.0000 lr 4.47e-05
+broad seed 1401 step 2320/3000 loss 0.0000 lr 4.33e-05
+broad seed 1401 step 2340/3000 loss 0.0000 lr 4.20e-05
+broad seed 1401 step 2360/3000 loss 0.0000 lr 4.08e-05
+broad seed 1401 step 2380/3000 loss 0.0000 lr 3.95e-05
+broad seed 1401 step 2400/3000 loss 0.0000 lr 3.84e-05
+broad seed 1401 step 2400 dev_em 0.9533
+broad seed 1401 step 2420/3000 loss 0.0000 lr 3.72e-05
+broad seed 1401 step 2440/3000 loss 0.0000 lr 3.61e-05
+broad seed 1401 step 2460/3000 loss 0.0000 lr 3.50e-05
+broad seed 1401 step 2480/3000 loss 0.0000 lr 3.39e-05
+broad seed 1401 step 2500/3000 loss 0.0000 lr 3.29e-05
+broad seed 1401 step 2520/3000 loss 0.0000 lr 3.19e-05
+broad seed 1401 step 2540/3000 loss 0.0000 lr 3.09e-05
+broad seed 1401 step 2560/3000 loss 0.0000 lr 3.00e-05
+broad seed 1401 step 2580/3000 loss 0.0000 lr 2.92e-05
+broad seed 1401 step 2600/3000 loss 0.0000 lr 2.83e-05
+broad seed 1401 step 2620/3000 loss 0.0000 lr 2.75e-05
+broad seed 1401 step 2640/3000 loss 0.0000 lr 2.68e-05
+broad seed 1401 step 2660/3000 loss 0.0000 lr 2.60e-05
+broad seed 1401 step 2680/3000 loss 0.0000 lr 2.54e-05
+broad seed 1401 step 2700/3000 loss 0.0000 lr 2.47e-05
+broad seed 1401 step 2700 dev_em 0.9200
+broad seed 1401 step 2720/3000 loss 0.0000 lr 2.41e-05
+broad seed 1401 step 2740/3000 loss 0.0000 lr 2.35e-05
+broad seed 1401 step 2760/3000 loss 0.0000 lr 2.30e-05
+broad seed 1401 step 2780/3000 loss 0.0000 lr 2.25e-05
+broad seed 1401 step 2800/3000 loss 0.0000 lr 2.21e-05
+broad seed 1401 step 2820/3000 loss 0.0000 lr 2.17e-05
+broad seed 1401 step 2840/3000 loss 0.0000 lr 2.13e-05
+broad seed 1401 step 2860/3000 loss 0.0000 lr 2.10e-05
+broad seed 1401 step 2880/3000 loss 0.0000 lr 2.08e-05
+broad seed 1401 step 2900/3000 loss 0.0000 lr 2.05e-05
+broad seed 1401 step 2920/3000 loss 0.0000 lr 2.03e-05
+broad seed 1401 step 2940/3000 loss 0.0000 lr 2.02e-05
+broad seed 1401 step 2960/3000 loss 0.0000 lr 2.01e-05
+broad seed 1401 step 2980/3000 loss 0.0000 lr 2.00e-05
+broad seed 1401 step 2999 dev_em 0.9333
+broad seed 1401 best dev_em 1.0000 at step 600; adapter /kaggle/working/x46/lora_broad_seed1401.pt (5684783 bytes)
+BROAD_1401: compiler_em 0.3550 fallback 0.0000
+  cells: {'F-S': 0.7475, 'F-P': 0.6825, 'F-T': 0.615}
+  ops: {'negate': 0.77, 'number': 1.0, 'number+place': 0.4545, 'place': 0.4545, 'rename': 0.9109, 'rename+negate': 0.82, 'rename+place': 0.697, 'rename+swap': 0.7228, 'rename+swap+negate': 0.63, 'rename+swap+place': 0.57, 'swap': 0.67, 'swap+negate': 0.65, 'swap+place': 0.4545}
+
+=== BROAD_1402 (40288 train, 3000 steps) ===
+broad seed 1402 step 0/3000 loss 2.2131 lr 2.00e-06
+broad seed 1402 step 0 dev_em 0.0000
+broad seed 1402 step 20/3000 loss 2.0208 lr 4.20e-05
+broad seed 1402 step 40/3000 loss 1.4930 lr 8.20e-05
+broad seed 1402 step 60/3000 loss 1.0740 lr 1.22e-04
+broad seed 1402 step 80/3000 loss 0.4941 lr 1.62e-04
+broad seed 1402 step 100/3000 loss 0.2174 lr 2.00e-04
+broad seed 1402 step 120/3000 loss 0.1467 lr 2.00e-04
+broad seed 1402 step 140/3000 loss 0.0590 lr 2.00e-04
+broad seed 1402 step 160/3000 loss 0.0425 lr 2.00e-04
+broad seed 1402 step 180/3000 loss 0.0158 lr 2.00e-04
+broad seed 1402 step 200/3000 loss 0.0111 lr 1.99e-04
+broad seed 1402 step 220/3000 loss 0.0114 lr 1.99e-04
+broad seed 1402 step 240/3000 loss 0.0076 lr 1.99e-04
+broad seed 1402 step 260/3000 loss 0.0061 lr 1.99e-04
+broad seed 1402 step 280/3000 loss 0.0054 lr 1.98e-04
+broad seed 1402 step 300/3000 loss 0.0045 lr 1.98e-04
+broad seed 1402 step 300 dev_em 0.9800
+broad seed 1402 step 320/3000 loss 0.0035 lr 1.97e-04
+broad seed 1402 step 340/3000 loss 0.0022 lr 1.97e-04
+broad seed 1402 step 360/3000 loss 0.0017 lr 1.96e-04
+broad seed 1402 step 380/3000 loss 0.0017 lr 1.96e-04
+broad seed 1402 step 400/3000 loss 0.0019 lr 1.95e-04
+broad seed 1402 step 420/3000 loss 0.0018 lr 1.95e-04
+broad seed 1402 step 440/3000 loss 0.0015 lr 1.94e-04
+broad seed 1402 step 460/3000 loss 0.0010 lr 1.93e-04
+broad seed 1402 step 480/3000 loss 0.0009 lr 1.92e-04
+broad seed 1402 step 500/3000 loss 0.0007 lr 1.92e-04
+broad seed 1402 step 520/3000 loss 0.0006 lr 1.91e-04
+broad seed 1402 step 540/3000 loss 0.0005 lr 1.90e-04
+broad seed 1402 step 560/3000 loss 0.0004 lr 1.89e-04
+broad seed 1402 step 580/3000 loss 0.0003 lr 1.88e-04
+broad seed 1402 step 600/3000 loss 0.0005 lr 1.87e-04
+broad seed 1402 step 600 dev_em 0.9933
+broad seed 1402 step 620/3000 loss 0.0004 lr 1.86e-04
+broad seed 1402 step 640/3000 loss 0.0004 lr 1.85e-04
+broad seed 1402 step 660/3000 loss 0.0003 lr 1.84e-04
+broad seed 1402 step 680/3000 loss 0.0003 lr 1.83e-04
+broad seed 1402 step 700/3000 loss 0.0003 lr 1.82e-04
+broad seed 1402 step 720/3000 loss 0.0003 lr 1.80e-04
+broad seed 1402 step 740/3000 loss 0.0004 lr 1.79e-04
+broad seed 1402 step 760/3000 loss 0.0004 lr 1.78e-04
+broad seed 1402 step 780/3000 loss 0.0004 lr 1.77e-04
+broad seed 1402 step 800/3000 loss 0.0003 lr 1.75e-04
+broad seed 1402 step 820/3000 loss 0.0003 lr 1.74e-04
+broad seed 1402 step 840/3000 loss 0.0003 lr 1.73e-04
+broad seed 1402 step 860/3000 loss 0.0002 lr 1.71e-04
+broad seed 1402 step 880/3000 loss 0.0002 lr 1.70e-04
+broad seed 1402 step 900/3000 loss 0.0002 lr 1.68e-04
+broad seed 1402 step 900 dev_em 1.0000
+broad seed 1402 step 920/3000 loss 0.0002 lr 1.67e-04
+broad seed 1402 step 940/3000 loss 0.0002 lr 1.65e-04
+broad seed 1402 step 960/3000 loss 0.0001 lr 1.64e-04
+broad seed 1402 step 980/3000 loss 0.0001 lr 1.62e-04
+broad seed 1402 step 1000/3000 loss 0.0001 lr 1.61e-04
+broad seed 1402 step 1020/3000 loss 0.0002 lr 1.59e-04
+broad seed 1402 step 1040/3000 loss 0.0002 lr 1.57e-04
+broad seed 1402 step 1060/3000 loss 0.0001 lr 1.56e-04
+broad seed 1402 step 1080/3000 loss 0.0002 lr 1.54e-04
+broad seed 1402 step 1100/3000 loss 0.0002 lr 1.52e-04
+broad seed 1402 step 1120/3000 loss 0.0003 lr 1.50e-04
+broad seed 1402 step 1140/3000 loss 0.0002 lr 1.49e-04
+broad seed 1402 step 1160/3000 loss 0.0002 lr 1.47e-04
+broad seed 1402 step 1180/3000 loss 0.0009 lr 1.45e-04
+broad seed 1402 step 1200/3000 loss 0.0002 lr 1.43e-04
+broad seed 1402 step 1200 dev_em 1.0000
+broad seed 1402 step 1220/3000 loss 0.0001 lr 1.41e-04
+broad seed 1402 step 1240/3000 loss 0.0001 lr 1.40e-04
+broad seed 1402 step 1260/3000 loss 0.0001 lr 1.38e-04
+broad seed 1402 step 1280/3000 loss 0.0001 lr 1.36e-04
+broad seed 1402 step 1300/3000 loss 0.0001 lr 1.34e-04
+broad seed 1402 step 1320/3000 loss 0.0001 lr 1.32e-04
+broad seed 1402 step 1340/3000 loss 0.0001 lr 1.30e-04
+broad seed 1402 step 1360/3000 loss 0.0001 lr 1.28e-04
+broad seed 1402 step 1380/3000 loss 0.0001 lr 1.26e-04
+broad seed 1402 step 1400/3000 loss 0.0001 lr 1.25e-04
+broad seed 1402 step 1420/3000 loss 0.0001 lr 1.23e-04
+broad seed 1402 step 1440/3000 loss 0.0001 lr 1.21e-04
+broad seed 1402 step 1460/3000 loss 0.0001 lr 1.19e-04
+broad seed 1402 step 1480/3000 loss 0.0001 lr 1.17e-04
+broad seed 1402 step 1500/3000 loss 0.0001 lr 1.15e-04
+broad seed 1402 step 1500 dev_em 1.0000
+broad seed 1402 step 1520/3000 loss 0.0001 lr 1.13e-04
+broad seed 1402 step 1540/3000 loss 0.0001 lr 1.11e-04
+broad seed 1402 step 1560/3000 loss 0.0001 lr 1.09e-04
+broad seed 1402 step 1580/3000 loss 0.0001 lr 1.07e-04
+broad seed 1402 step 1600/3000 loss 0.0001 lr 1.05e-04
+broad seed 1402 step 1620/3000 loss 0.0001 lr 1.03e-04
+broad seed 1402 step 1640/3000 loss 0.0000 lr 1.01e-04
+broad seed 1402 step 1660/3000 loss 0.0000 lr 9.93e-05
+broad seed 1402 step 1680/3000 loss 0.0000 lr 9.74e-05
+broad seed 1402 step 1700/3000 loss 0.0000 lr 9.54e-05
+broad seed 1402 step 1720/3000 loss 0.0000 lr 9.35e-05
+broad seed 1402 step 1740/3000 loss 0.0000 lr 9.16e-05
+broad seed 1402 step 1760/3000 loss 0.0000 lr 8.97e-05
+broad seed 1402 step 1780/3000 loss 0.0000 lr 8.78e-05
+broad seed 1402 step 1800/3000 loss 0.0000 lr 8.59e-05
+broad seed 1402 step 1800 dev_em 0.9867
+broad seed 1402 step 1820/3000 loss 0.0000 lr 8.40e-05
+broad seed 1402 step 1840/3000 loss 0.0000 lr 8.22e-05
+broad seed 1402 step 1860/3000 loss 0.0000 lr 8.03e-05
+broad seed 1402 step 1880/3000 loss 0.0000 lr 7.85e-05
+broad seed 1402 step 1900/3000 loss 0.0000 lr 7.67e-05
+broad seed 1402 step 1920/3000 loss 0.0000 lr 7.49e-05
+broad seed 1402 step 1940/3000 loss 0.0000 lr 7.31e-05
+broad seed 1402 step 1960/3000 loss 0.0000 lr 7.13e-05
+broad seed 1402 step 1980/3000 loss 0.0000 lr 6.96e-05
+broad seed 1402 step 2000/3000 loss 0.0000 lr 6.78e-05
+broad seed 1402 step 2020/3000 loss 0.0000 lr 6.61e-05
+broad seed 1402 step 2040/3000 loss 0.0000 lr 6.44e-05
+broad seed 1402 step 2060/3000 loss 0.0000 lr 6.28e-05
+broad seed 1402 step 2080/3000 loss 0.0000 lr 6.11e-05
+broad seed 1402 step 2100/3000 loss 0.0000 lr 5.95e-05
+broad seed 1402 step 2100 dev_em 0.9933
+broad seed 1402 step 2120/3000 loss 0.0000 lr 5.79e-05
+broad seed 1402 step 2140/3000 loss 0.0000 lr 5.63e-05
+broad seed 1402 step 2160/3000 loss 0.0000 lr 5.48e-05
+broad seed 1402 step 2180/3000 loss 0.0000 lr 5.32e-05
+broad seed 1402 step 2200/3000 loss 0.0000 lr 5.17e-05
+broad seed 1402 step 2220/3000 loss 0.0000 lr 5.03e-05
+broad seed 1402 step 2240/3000 loss 0.0000 lr 4.88e-05
+broad seed 1402 step 2260/3000 loss 0.0000 lr 4.74e-05
+broad seed 1402 step 2280/3000 loss 0.0000 lr 4.60e-05
+broad seed 1402 step 2300/3000 loss 0.0000 lr 4.47e-05
+broad seed 1402 step 2320/3000 loss 0.0000 lr 4.33e-05
+broad seed 1402 step 2340/3000 loss 0.0000 lr 4.20e-05
+broad seed 1402 step 2360/3000 loss 0.0000 lr 4.08e-05
+broad seed 1402 step 2380/3000 loss 0.0000 lr 3.95e-05
+broad seed 1402 step 2400/3000 loss 0.0000 lr 3.84e-05
+broad seed 1402 step 2400 dev_em 0.9800
+broad seed 1402 step 2420/3000 loss 0.0000 lr 3.72e-05
+broad seed 1402 step 2440/3000 loss 0.0000 lr 3.61e-05
+broad seed 1402 step 2460/3000 loss 0.0000 lr 3.50e-05
+broad seed 1402 step 2480/3000 loss 0.0000 lr 3.39e-05
+broad seed 1402 step 2500/3000 loss 0.0000 lr 3.29e-05
+broad seed 1402 step 2520/3000 loss 0.0000 lr 3.19e-05
+broad seed 1402 step 2540/3000 loss 0.0000 lr 3.09e-05
+broad seed 1402 step 2560/3000 loss 0.0000 lr 3.00e-05
+broad seed 1402 step 2580/3000 loss 0.0000 lr 2.92e-05
+broad seed 1402 step 2600/3000 loss 0.0000 lr 2.83e-05
+broad seed 1402 step 2620/3000 loss 0.0000 lr 2.75e-05
+broad seed 1402 step 2640/3000 loss 0.0000 lr 2.68e-05
+broad seed 1402 step 2660/3000 loss 0.0000 lr 2.60e-05
+broad seed 1402 step 2680/3000 loss 0.0000 lr 2.54e-05
+broad seed 1402 step 2700/3000 loss 0.0000 lr 2.47e-05
+broad seed 1402 step 2700 dev_em 0.9800
+broad seed 1402 step 2720/3000 loss 0.0000 lr 2.41e-05
+broad seed 1402 step 2740/3000 loss 0.0000 lr 2.35e-05
+broad seed 1402 step 2760/3000 loss 0.0000 lr 2.30e-05
+broad seed 1402 step 2780/3000 loss 0.0000 lr 2.25e-05
+broad seed 1402 step 2800/3000 loss 0.0000 lr 2.21e-05
+broad seed 1402 step 2820/3000 loss 0.0000 lr 2.17e-05
+broad seed 1402 step 2840/3000 loss 0.0000 lr 2.13e-05
+broad seed 1402 step 2860/3000 loss 0.0000 lr 2.10e-05
+broad seed 1402 step 2880/3000 loss 0.0000 lr 2.08e-05
+broad seed 1402 step 2900/3000 loss 0.0000 lr 2.05e-05
+broad seed 1402 step 2920/3000 loss 0.0000 lr 2.03e-05
+broad seed 1402 step 2940/3000 loss 0.0000 lr 2.02e-05
+broad seed 1402 step 2960/3000 loss 0.0000 lr 2.01e-05
+broad seed 1402 step 2980/3000 loss 0.0000 lr 2.00e-05
+broad seed 1402 step 2999 dev_em 0.9600
+broad seed 1402 best dev_em 1.0000 at step 900; adapter /kaggle/working/x46/lora_broad_seed1402.pt (5684783 bytes)
+BROAD_1402: compiler_em 0.3783 fallback 0.0000
+  cells: {'F-S': 0.7525, 'F-P': 0.685, 'F-T': 0.5575}
+  ops: {'negate': 0.84, 'number': 1.0, 'number+place': 0.4545, 'place': 0.4242, 'rename': 0.9406, 'rename+negate': 0.87, 'rename+place': 0.6364, 'rename+swap': 0.6634, 'rename+swap+negate': 0.5933, 'rename+swap+place': 0.45, 'swap': 0.61, 'swap+negate': 0.66, 'swap+place': 0.5455}
+
+X46 VERDICT
+  G-1_fresh_pair: True
+  G-2_rename_swap: True
+  G-3_number_place: True
+  G-4_triple: True
+  G-5_compiler_em: True
+  G-6_frozen: True
+  BROAD_1401: F-S=0.7475 F-P=0.6825 F-T=0.6150 number+place=0.4545 rename+swap=0.7228 compiler_em=0.3550 fallback_rate=0.0000
+  BROAD_1402: F-S=0.7525 F-P=0.6850 F-T=0.5575 number+place=0.4545 rename+swap=0.6634 compiler_em=0.3783 fallback_rate=0.0000
+  elapsed_hours: 0.96
+  summary: /kaggle/working/x46/x46_summary.json
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 321411 bytes to __results__.html

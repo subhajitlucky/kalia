@@ -1286,3 +1286,32 @@ pre-registered base run in the next window. If the user means the composition
 metric, prepare a **merged capability checkpoint** separately and label it as
 a capability release, not a new base model. Do not claim a standard-benchmark
 gain that was not measured.
+
+## D77 — X46 broad-template compiler: clean OOD pass (2026-11-05)
+
+**Context.** X44 found the fresh-template boundary: F-P 0.523/0.493,
+`rename+swap` 0.406/0.416, 3-op 0.283/0.365, compiler EM 0.185/0.124. The
+hypothesis was data diversity, not architecture.
+
+**Treatment.** Same rank-16 LoRA, trained on 17 templates (X43's seven plus
+ten new broad templates), all 1/2/3-op combinations. The four X44 test
+templates were never seen. Two seeds, 3,000 steps, **0.96 GPU-h**.
+
+**Result (untouched X44 fresh benchmark).**
+
+| seed | F-S | F-P | F-T | `number+place` | `rename+swap` | compiler EM |
+|---|---:|---:|---:|---:|---:|---:|
+| 1401 | 0.7475 | **0.6825** | **0.6150** | **0.4545** | **0.7228** | **0.3550** |
+| 1402 | 0.7525 | **0.6850** | **0.5575** | **0.4545** | **0.6634** | **0.3783** |
+
+- **G-1…G-6 all PASS.** Fallback 0.0000; base frozen.
+- Fresh F-P 0.085 → **0.683/0.685**; `rename+swap` 0.406/0.416 →
+  **0.723/0.663**; 3-op 0.283/0.365 → **0.615/0.558**.
+- Broad template diversity closed the boundary. The X44 templates/names were
+  never in training.
+
+**Decision.** X46 is a robust OOD capability. Release **v0.4.1 — X46
+broad-template compiler** on GitHub. The public base remains **v0.3.1**; the
+standard five-task suite is unchanged. No HF base-model release: the standard
++10% gate is not met. If the user means the composition metric, this is a
+capability checkpoint candidate, not a new base model.

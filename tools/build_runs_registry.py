@@ -108,6 +108,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-05-X43-template-pairs.md", ["docs/results/x43-thpt/**/*"]),
     ("X44/X45 fresh", "Fresh names/templates; F-P 0.085 normal -> 0.523/0.493, number+place 0.455 both, rename+swap 0.406/0.416 (F-3 fail), 3-op 0.283/0.365 (F-6 fail); partial OOD generalization; X43 release remains scoped",
      "2026-11-05-X44-fresh-depth.md", ["docs/results/x44-fresh/**/*"]),
+    ("X46 broad", "Broad-template compiler; 17 templates, 1/2/3-op, X44 fresh held out; F-P 0.683/0.685, rename+swap 0.723/0.663, 3-op 0.615/0.558, compiler EM 0.355/0.378; G-1..G-6 pass; 0.96 GPU-h; v0.4.1 capability release",
+     "2026-11-05-X46-broad-compiler.md", ["docs/results/x46-broad/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

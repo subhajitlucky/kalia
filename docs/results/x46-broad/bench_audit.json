@@ -1,0 +1,107 @@
+{
+  "cells": {
+    "F-P": {
+      "chance": 0.25,
+      "counts": {
+        "number+place": 33,
+        "rename+negate": 100,
+        "rename+place": 33,
+        "rename+swap": 101,
+        "swap+negate": 100,
+        "swap+place": 33
+      },
+      "n": 400,
+      "n_way": 4
+    },
+    "F-S": {
+      "chance": 0.5,
+      "counts": {
+        "negate": 100,
+        "number": 33,
+        "place": 66,
+        "rename": 101,
+        "swap": 100
+      },
+      "n": 400,
+      "n_way": 2
+    },
+    "F-T": {
+      "chance": 0.125,
+      "counts": {
+        "rename+swap+negate": 300,
+        "rename+swap+place": 100
+      },
+      "n": 400,
+      "n_way": 8
+    }
+  },
+  "examples": {
+    "F-P": {
+      "candidates": [
+        "Sami shared the letter with Jaya.",
+        "Gita shared the letter with Farah.",
+        "Anya shared the letter with Jaya.",
+        "Cyrus shared the letter with Farah."
+      ],
+      "correct": "Anya shared the letter with Jaya.",
+      "instruction": "Intervention: rename Cyrus to Anya, Gita to Sami, and Farah to Jaya; swap Anya and Sami.",
+      "prefix": "Cyrus baked a old letter for Gita."
+    },
+    "F-S": {
+      "candidates": [
+        "Eshan shared the flower with Sami.",
+        "Kiran shared the flower with Rhea."
+      ],
+      "correct": "Eshan shared the flower with Sami.",
+      "instruction": "Intervention: rename Dara to Zoya, Kiran to Eshan, and Rhea to Sami.",
+      "prefix": "Dara baked a shiny flower for Kiran."
+    },
+    "F-T": {
+      "candidates": [
+        "Naveen did not share the stone.",
+        "Jaya shared the stone with Cyrus.",
+        "Jaya did not share the stone.",
+        "Gita did not share the stone.",
+        "Gita shared the stone with Cyrus.",
+        "Naveen shared the stone with Sami.",
+        "Kiran did not share the stone.",
+        "Kiran shared the stone with Sami."
+      ],
+      "correct": "Kiran did not share the stone.",
+      "instruction": "Intervention: rename Jaya to Kiran, Gita to Naveen, and Cyrus to Sami; swap Kiran and Naveen; negate the event.",
+      "prefix": "Jaya baked a shiny stone for Gita."
+    }
+  },
+  "n": 1200,
+  "n_per_cell": 400,
+  "names": [
+    "Anya",
+    "Bodhi",
+    "Cyrus",
+    "Dara",
+    "Eshan",
+    "Farah",
+    "Gita",
+    "Hiro",
+    "Indra",
+    "Jaya",
+    "Kiran",
+    "Leela",
+    "Mira",
+    "Naveen",
+    "Oona",
+    "Pavel",
+    "Rhea",
+    "Sami",
+    "Veer",
+    "Zoya"
+  ],
+  "seed": 2026,
+  "sha256": "b69bcd6102e134a88a853b27c5783002df16cfc60e20d07f54f9f20e0a7d897a",
+  "templates": [
+    "bake_share",
+    "count_pack",
+    "find_return",
+    "promise_tell"
+  ]
+}
