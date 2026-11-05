@@ -1381,3 +1381,22 @@ matched tokenizer A/B — GPT-2 BPE vs K-Tok 32k — at 30M (2 seeds), then the
 winning recipe at 58M. No model change now; v0.3.1 remains public.
 
 **Artifacts.** `docs/results/ktok-v0/`.
+
+## D81 — X47 Stage 0: the standard suite and the weak spots (2026-11-05)
+
+**Result (v0.3.1, 2k where available).** ARC-Easy 0.4800, ARC-Challenge
+0.2014, BoolQ 0.5435, HellaSwag 0.3235, LAMBADA 0.2700, OpenBookQA 0.1640,
+PIQA 0.6197, SciQ 0.7080, WinoGrande 0.5225. **Mean 0.4258.**
+
+**Weakest four:** OpenBookQA 0.164, ARC-Challenge 0.201, LAMBADA 0.270,
+HellaSwag 0.324. These are knowledge, reasoning, and long-range recall — not
+edit application. The 30-hour base-data experiment targets these without
+regressing the strong five.
+
+## D82 — X48 matched data ready; tokenizer A/B begins (2026-11-05)
+
+Same 312M GPT-2 tokens decoded and re-tokenized with K-Tok 32k: 309.3M K-Tok
+tokens, 0.8% fewer. Both arms see the same text. First 30M arm (GPT-2, seed
+1338) running in the current GPU window; the remaining three arms run in the
+30-hour window. Evaluation is a separate CPU kernel. Pre-registration hash
+`0c7a054c…`; bars H-1…H-5.

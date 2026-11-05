@@ -1,0 +1,28 @@
+{
+  "experiment": "X48-data",
+  "ktok": "/kaggle/input/notebooks/subhajitlucky/kalia-k-tok-v0/ktok/ktok_32k.json",
+  "requested_train_gpt2": 312000000,
+  "requested_val_gpt2": 10000000,
+  "source_train": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+  "source_val": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+  "train_gpt2.bin": {
+    "bytes": 624000000,
+    "sha256": "6006eb3462524decd3d1536fd0b2bfe33d84f698bb9a13b21d7b1bf7b27bfc00"
+  },
+  "train_gpt2_tokens": 312000000,
+  "train_ktok.bin": {
+    "bytes": 618597470,
+    "sha256": "b7ac41d71dc4fba9fbfad96afe0c88af79be710e9e379e77299812389b5e419c"
+  },
+  "train_ktok_tokens": 309298735,
+  "val_gpt2.bin": {
+    "bytes": 20000000,
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  },
+  "val_gpt2_tokens": 10000000,
+  "val_ktok.bin": {
+    "bytes": 19850916,
+    "sha256": "7b515b49bcef0ad346c8bc84475d419dfd52452f62cc04ccbbec7d2d8a78b037"
+  },
+  "val_ktok_tokens": 9925458
+}
