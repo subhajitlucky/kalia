@@ -1122,14 +1122,13 @@ the base, train only a zero-init output adapter (`512 → 1024 → 512`,
 - Kernel `subhajitlucky/kalia-v032-adapter` v2, revision `c40b464`; ~3.4 GPU-h.
 
 **Decision.**
-1. **Val bar passes; V032 is an internal v0.3.2 candidate on GitHub only.**
-   No Hugging Face push.
+1. **Val bar passes; V032 is an internal v0.3.2 candidate.**
 2. **The 2,000-sample benchmark pair is the conditional guard (V-5).** If any
    task regresses beyond 2σ vs v0.3.1, withhold the candidate. If not, record a
    small val improvement.
 3. **This is engineering, not a new mechanism.** It does not answer the
    composition failure; it is a known capacity/placement result.
-4. No tuning of LR, steps or adapter size after the result. No HF.
+4. No tuning of LR, steps or adapter size after the result.
 
 **Artifacts.** `docs/results/v032-adapter/` (summary, logs, adapter state
 dicts, kernel log). Pre-registration hash `4ead53b6…`; ledger 34 entries.
@@ -1142,4 +1141,4 @@ LAMBADA ppl +4.8/+6.3 (σ ~31), WinoGrande −0.08/+0.08 pp.
 
 **Decision.** V032 is a **val-only internal candidate**: val −0.0087/−0.0085,
 2k neutral. It is not a public release, not a benchmark improvement, and not a
-new mechanism. Public model remains v0.3.1; no HF push.
+new mechanism. The public model remains v0.3.1.

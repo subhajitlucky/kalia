@@ -1,7 +1,7 @@
 # V032 — frozen-base output-adapter fine-tune
 
-Status: **val bar passed; 2k guard passed; val-only internal candidate.
-GitHub only, no Hugging Face release.** Engineering, not a new mechanism.
+Status: **val bar passed; 2k guard passed; val-only internal candidate.**
+Engineering, not a new mechanism.
 
 ## Val result
 
@@ -40,7 +40,7 @@ higher, within its ~31-point 2σ.
 ## Verdict
 
 - **V-1…V-5 pass.** The adapter is an internal **v0.3.2-val-only candidate on
-  GitHub only**.
+  internal candidate.**
 - It is a **small val improvement**, not a benchmark improvement. Public model
   remains **v0.3.1**; no Hugging Face push.
 - It is engineering, not a new mechanism. It does not address the composition
