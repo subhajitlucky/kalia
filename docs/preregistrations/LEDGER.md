@@ -41,3 +41,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-01 | X40-intervention-pretraining | `docs/preregistrations/2026-11-01-X40-intervention-pretraining.md` | `5e42b784603ba8eff757463bfdf8b8dfda59a1e676f975306b1c8fc05759d3bd` |
 | 2026-11-04 | V032-output-adapter | `docs/preregistrations/2026-11-04-V032-output-adapter.md` | `4ead53b6e59b35399e3eda71cddf4e9b250959e4aaf37207ec97f7444b9c27a7` |
 | 2026-11-05 | X41-edit-compiler | `docs/preregistrations/2026-11-05-X41-edit-compiler.md` | `d3d5dc5398a7e2fb8830a978c3d27fdba7c35ce4838669f3f5c6b32ed678b648` |
+| 2026-11-05 | X42-reader-ensemble | `docs/preregistrations/2026-11-05-X42-reader-ensemble.md` | `0746ac105d239a28dacd63e740b6325f2f029dd6a0265be944b4345cee01a07c` |
