@@ -1332,3 +1332,23 @@ until the user explicitly says a checkpoint is KALIA v1.
 
 Model-size scaling is a separate decision from version numbering. The next
 base experiments remain 58M until the evidence says capacity-limited.
+
+## D79 — Owned-stack roadmap: K-Tok first, then K-Attn (2026-11-05)
+
+**Goal.** Remove the remaining borrowed components: the GPT-2 BPE tokenizer
+and any pretrained weights. No distillation, no copied inference. Standard
+mathematical components and PyTorch are tools, not borrowed models.
+
+**Sequence.**
+1. **K-Tok v0** — byte-level BPE at 32k/50k/64k on decoded corpus text;
+   measure compression, round-trip, domain behavior, and tied-embedding budget
+   against GPT-2 BPE.
+2. **K-Attn** — two prior-art probes, three candidates, matched micro-ablation
+   at 30M/58M. If none wins, keep QK-Norm/RoPE and record the null.
+3. **v0.7.x** — from-scratch 58M with K-Tok + winning K-Attn, compared on the
+   9-task suite.
+4. Scale to 134M only if v0.7.x is capacity-limited.
+
+**Versioning.** Stay v0.x until the user explicitly declares v1 (D78).
+
+**Artifacts.** `docs/research/2026-11-05-owned-stack-roadmap.md`.
