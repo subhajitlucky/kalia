@@ -44,3 +44,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-05 | X42-reader-ensemble | `docs/preregistrations/2026-11-05-X42-reader-ensemble.md` | `0746ac105d239a28dacd63e740b6325f2f029dd6a0265be944b4345cee01a07c` |
 | 2026-11-05 | X43-template-pairs | `docs/preregistrations/2026-11-05-X43-template-pairs.md` | `7cbce00faf218d8f544d592bababea18726d5485a3d8bc166a48133b9ebc5416` |
 | 2026-11-05 | X44-fresh-depth | `docs/preregistrations/2026-11-05-X44-fresh-depth.md` | `45b516f220700e85cdd62cefd87565d54c26cd3612120730ca11d0885ca25b30` |
+| 2026-11-05 | X46-broad-compiler | `docs/preregistrations/2026-11-05-X46-broad-compiler.md` | `ff6393be93fbfb90172e1575fb285cad4223379de5748b0334fcbd70ce7ed4e5` |
