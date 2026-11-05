@@ -1,0 +1,16 @@
+{
+  "id": "subhajitlucky/kalia-ktok-verify",
+  "title": "KALIA K-Tok verify",
+  "code_file": "kalia_ktok_verify_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-k-tok-v0"
+  ],
+  "model_sources": []
+}
