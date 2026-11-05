@@ -43,6 +43,8 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X40` | Intervention pretraining; I-1 fails (+0.204/+0.169 val tax) and I-3 fails (+0.028/0.000 unseen over pairs); workspace alive but no composition gain; closed at 30M, no scale | yes | 26 files |
 | `X40 bench` | Clean 2x2 benchmark + gold-edit interface test; S-P at chance; number+place and rename+swap fail even with the edited prefix; the edit is not the missing piece; X40 stays closed | — | 8 files |
 | `V032 adapter` | Frozen-base output-adapter fine-tune of v0.3.1; val 2.7493/2.7495 vs 2.7580 (−0.0087/−0.0085), both seeds pass; frozen base; 2k guard passes but is neutral; val-only internal candidate, GitHub only, no HF | yes | 12 files |
+| `X41 edit compiler` | LoRA edit compiler + frozen v0.3.1 reader; full 2x2 baseline normal S-P 0.170 vs gold 0.513; compiler number+place 0.000->0.694 both seeds, S-P 0.428/0.410, U-P 0.568/0.635; rename+swap 0.354/0.483, so C-3 fails on one seed; partial advancement | yes | 26 files |
+| `X42 reader ensemble` | Reader-guided selection between the two X41 compiler edits; dev-selected MinEntropy; held-out test rename+swap 0.4286 vs 0.45 bar; oracle capped at best single seed 0.4898; null | yes | 3 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -274,6 +276,20 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/v032-adapter/v032_base_2k.json`
 - `… 6 more`
 
+**X41 edit compiler**
+- `docs/results/x41-edit-compiler/README.md`
+- `docs/results/x41-edit-compiler/baseline/bench.jsonl`
+- `docs/results/x41-edit-compiler/baseline/kalia-x41-baseline.log`
+- `docs/results/x41-edit-compiler/baseline/x41-bench_audit.json`
+- `docs/results/x41-edit-compiler/baseline/x41_base_gold.json`
+- `docs/results/x41-edit-compiler/baseline/x41_base_gold_rows.jsonl`
+- `… 20 more`
+
+**X42 reader ensemble**
+- `docs/results/x42-reader-ensemble/README.md`
+- `docs/results/x42-reader-ensemble/x42_selections.jsonl`
+- `docs/results/x42-reader-ensemble/x42_summary.json`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -291,4 +307,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-36 runs tracked, 272 files archived, 3 with no evidence.
+38 runs tracked, 301 files archived, 3 with no evidence.
