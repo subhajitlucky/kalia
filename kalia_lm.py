@@ -20,16 +20,47 @@ from lm_eval.api.model import LM
 from eval_reversibility import load_model
 
 
+class TokenizerAdapter:
+    """GPT-2 tiktoken or a KALIA K-Tok tokenizer file.
+
+    The eval harness only needs ``encode_ordinary`` and ``decode``; this keeps
+    the existing GPT-2 path byte-identical and lets a K-Tok model use its own
+    vocabulary without changing the harness.
+    """
+
+    def __init__(self, tokenizer_path: str | None = None):
+        if tokenizer_path:
+            from tokenizers import Tokenizer
+
+            self._tok = Tokenizer.from_file(str(tokenizer_path))
+            self._kind = "ktok"
+            self.eot_token_id = self._tok.token_to_id("<|endoftext|>") or 0
+        else:
+            import tiktoken
+
+            self._enc = tiktoken.get_encoding("gpt2")
+            self._kind = "gpt2"
+            self.eot_token_id = 50256
+
+    def encode_ordinary(self, text: str) -> list[int]:
+        if self._kind == "ktok":
+            return self._tok.encode(text, add_special_tokens=False).ids
+        return self._enc.encode_ordinary(text)
+
+    def decode(self, ids, **kwargs) -> str:
+        if self._kind == "ktok":
+            return self._tok.decode(list(ids), skip_special_tokens=False)
+        return self._enc.decode(list(ids))
+
+
 class KaliaLM(LM):
-    def __init__(self, ckpt: str, device: str = "cpu", batch_size: int = 1):
+    def __init__(self, ckpt: str, device: str = "cpu", batch_size: int = 1,
+                 tokenizer_path: str | None = None):
         super().__init__()
         self._device = torch.device(device)
         self._batch_size = batch_size
         self.model = load_model(ckpt, self._device)
-
-        import tiktoken
-
-        self.enc = tiktoken.get_encoding("gpt2")
+        self.enc = TokenizerAdapter(tokenizer_path)
         self._max_length = int(self.model.cfg.context_len)
 
     # ---- harness interface -------------------------------------------------
@@ -47,7 +78,7 @@ class KaliaLM(LM):
 
     @property
     def eot_token_id(self) -> int:
-        return 50256
+        return self.enc.eot_token_id
 
     def tok_encode(self, string: str, **kwargs) -> list[int]:
         return self.enc.encode_ordinary(string)

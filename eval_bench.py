@@ -73,6 +73,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--tasks", type=str, default="arc_easy,piqa,hellaswag,lambada_openai,winogrande")
     parser.add_argument("--limit", type=int, default=2000)
     parser.add_argument("--out", type=Path, default=Path("/kaggle/working/bench_results.json"))
+    parser.add_argument("--device", type=str, default="cpu",
+                        help="cpu or cuda")
+    parser.add_argument("--tokenizer", type=str, default=None,
+                        help="optional K-Tok tokenizer JSON; default is GPT-2 BPE")
     return parser
 
 
@@ -89,7 +93,7 @@ def main() -> None:
 
     ckpt = args.ckpt or find_ckpt()
     print("checkpoint:", ckpt)
-    model = KaliaLM(ckpt=ckpt, device="cpu")
+    model = KaliaLM(ckpt=ckpt, device=args.device, tokenizer_path=args.tokenizer)
     results = lm_eval.simple_evaluate(
         model=model,
         tasks=[t.strip() for t in args.tasks.split(",") if t.strip()],
