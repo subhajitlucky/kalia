@@ -42,7 +42,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X38` | Counterfactual residual bottleneck; C-1/C-1b pass but C-2/C-3/C-5 fail; stable stream collapses to rank 1.5; no scale | yes | 31 files |
 | `X40` | Intervention pretraining; I-1 fails (+0.204/+0.169 val tax) and I-3 fails (+0.028/0.000 unseen over pairs); workspace alive but no composition gain; closed at 30M, no scale | yes | 26 files |
 | `X40 bench` | Clean 2x2 benchmark + gold-edit interface test; S-P at chance; number+place and rename+swap fail even with the edited prefix; the edit is not the missing piece; X40 stays closed | — | 8 files |
-| `V032 adapter` | Frozen-base output-adapter fine-tune of v0.3.1; val 2.7493/2.7495 vs 2.7580 (−0.0087/−0.0085), both seeds pass; frozen base; 2k regression guard pending; GitHub only, no HF | yes | 7 files |
+| `V032 adapter` | Frozen-base output-adapter fine-tune of v0.3.1; val 2.7493/2.7495 vs 2.7580 (−0.0087/−0.0085), both seeds pass; frozen base; 2k guard passes but is neutral; val-only internal candidate, GitHub only, no HF | yes | 12 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -269,10 +269,10 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/v032-adapter/README.md`
 - `docs/results/v032-adapter/adapter_seed1401.pt`
 - `docs/results/v032-adapter/adapter_seed1402.pt`
+- `docs/results/v032-adapter/v032-bench.log`
 - `docs/results/v032-adapter/v032.log`
-- `docs/results/v032-adapter/v032_summary.json`
-- `docs/results/v032-adapter/v032_train_log.csv`
-- `… 1 more`
+- `docs/results/v032-adapter/v032_base_2k.json`
+- `… 6 more`
 
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
@@ -291,4 +291,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-36 runs tracked, 267 files archived, 3 with no evidence.
+36 runs tracked, 272 files archived, 3 with no evidence.

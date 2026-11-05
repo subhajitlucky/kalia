@@ -1133,3 +1133,13 @@ the base, train only a zero-init output adapter (`512 → 1024 → 512`,
 
 **Artifacts.** `docs/results/v032-adapter/` (summary, logs, adapter state
 dicts, kernel log). Pre-registration hash `4ead53b6…`; ledger 34 entries.
+
+**Update 2026-11-05 — V-5 passed; the 2k is neutral.** The paired 2k guard ran
+base v0.3.1 and both adapters in one CPU kernel. The fresh base reproduced the
+published 2k numbers exactly. No task regressed beyond 2σ: ARC +0.45/+0.60 pp,
+PIQA −0.22/−0.11 pp, HellaSwag +0.05/−0.35 pp, LAMBADA acc −0.85/−0.85 pp,
+LAMBADA ppl +4.8/+6.3 (σ ~31), WinoGrande −0.08/+0.08 pp.
+
+**Decision.** V032 is a **val-only internal candidate**: val −0.0087/−0.0085,
+2k neutral. It is not a public release, not a benchmark improvement, and not a
+new mechanism. Public model remains v0.3.1; no HF push.

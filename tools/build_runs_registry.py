@@ -98,7 +98,7 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-01-X40-intervention-pretraining.md", ["docs/results/x40/**/*"]),
     ("X40 bench", "Clean 2x2 benchmark + gold-edit interface test; S-P at chance; number+place and rename+swap fail even with the edited prefix; the edit is not the missing piece; X40 stays closed",
      None, ["docs/results/x40-bench/**/*"]),
-    ("V032 adapter", "Frozen-base output-adapter fine-tune of v0.3.1; val 2.7493/2.7495 vs 2.7580 (−0.0087/−0.0085), both seeds pass; frozen base; 2k regression guard pending; GitHub only, no HF",
+    ("V032 adapter", "Frozen-base output-adapter fine-tune of v0.3.1; val 2.7493/2.7495 vs 2.7580 (−0.0087/−0.0085), both seeds pass; frozen base; 2k guard passes but is neutral; val-only internal candidate, GitHub only, no HF",
      "2026-11-04-V032-output-adapter.md", ["docs/results/v032-adapter/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),

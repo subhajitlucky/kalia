@@ -1,0 +1,210 @@
+{
+  "V5": true,
+  "advance_v5": true,
+  "base_repo": "kalia-lm/kalia-v031",
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "comparisons": {
+    "1401": {
+      "arc_easy": {
+        "adapter_acc": 0.4845,
+        "base_acc": 0.48,
+        "delta": 0.004500000000000004,
+        "regression": false,
+        "sigma": 0.0158052136141431
+      },
+      "hellaswag": {
+        "adapter_acc": 0.324,
+        "base_acc": 0.3235,
+        "delta": 0.0005000000000000004,
+        "regression": false,
+        "sigma": 0.014800182353567452
+      },
+      "lambada_openai": {
+        "adapter_acc": 0.2615,
+        "adapter_ppl": 127.71546518767023,
+        "base_acc": 0.27,
+        "base_ppl": 122.88354952002013,
+        "delta": -0.008500000000000008,
+        "ppl_delta": 4.831915667650108,
+        "ppl_regression": false,
+        "ppl_sigma": 15.46665844755367,
+        "regression": false,
+        "sigma": 0.013971631194642934
+      },
+      "piqa": {
+        "adapter_acc": 0.6175190424374319,
+        "base_acc": 0.6196953210010882,
+        "delta": -0.0021762785636562088,
+        "regression": false,
+        "sigma": 0.01602703052857835
+      },
+      "winogrande": {
+        "adapter_acc": 0.5217048145224941,
+        "base_acc": 0.5224940805051302,
+        "delta": -0.0007892659826361781,
+        "regression": false,
+        "sigma": 0.01985378856824205
+      }
+    },
+    "1402": {
+      "arc_easy": {
+        "adapter_acc": 0.486,
+        "base_acc": 0.48,
+        "delta": 0.006000000000000005,
+        "regression": false,
+        "sigma": 0.01580591387603793
+      },
+      "hellaswag": {
+        "adapter_acc": 0.32,
+        "base_acc": 0.3235,
+        "delta": -0.003500000000000003,
+        "regression": false,
+        "sigma": 0.014776096965056785
+      },
+      "lambada_openai": {
+        "adapter_acc": 0.2615,
+        "adapter_ppl": 129.13735944229882,
+        "base_acc": 0.27,
+        "base_ppl": 122.88354952002013,
+        "delta": -0.008500000000000008,
+        "ppl_delta": 6.253809922278691,
+        "ppl_regression": false,
+        "ppl_sigma": 15.528576395804787,
+        "regression": false,
+        "sigma": 0.013971631194642934
+      },
+      "piqa": {
+        "adapter_acc": 0.6186071817192601,
+        "base_acc": 0.6196953210010882,
+        "delta": -0.0010881392818280489,
+        "regression": false,
+        "sigma": 0.01602266641919386
+      },
+      "winogrande": {
+        "adapter_acc": 0.5232833464877664,
+        "base_acc": 0.5224940805051302,
+        "delta": 0.0007892659826361781,
+        "regression": false,
+        "sigma": 0.019852375835601576
+      }
+    }
+  },
+  "experiment": "v032-bench",
+  "kernel_id": "subhajitlucky/kalia-v032-bench",
+  "kernel_revision": "d5be718d890b4abb3f6d83fbff5feba3837310a6",
+  "limit": 2000,
+  "published_base_2k": {
+    "arc_easy": {
+      "acc": 0.48,
+      "se": 0.011174185930778483
+    },
+    "hellaswag": {
+      "acc": 0.3235,
+      "se": 0.010463202870400323
+    },
+    "lambada_openai": {
+      "acc": 0.27,
+      "ppl": 122.88354952002013,
+      "ppl_se": 10.672943965144498,
+      "se": 0.009929718004547002
+    },
+    "piqa": {
+      "acc": 0.6196953210010882,
+      "se": 0.011326620892570301
+    },
+    "winogrande": {
+      "acc": 0.5224940805051302,
+      "se": 0.014038257824059859
+    }
+  },
+  "runs": {
+    "1401": {
+      "adapter": "/kaggle/input/notebooks/subhajitlucky/kalia-v032-adapter/adapter_seed1401.pt",
+      "bytes": 235654113,
+      "ckpt": "/kaggle/working/v032_seed1401.pt",
+      "metrics": {
+        "arc_easy": {
+          "acc": 0.4845,
+          "se": 0.01117776123260318
+        },
+        "hellaswag": {
+          "acc": 0.324,
+          "se": 0.010467415315716475
+        },
+        "lambada_openai": {
+          "acc": 0.2615,
+          "ppl": 127.71546518767023,
+          "ppl_se": 11.194006907723836,
+          "se": 0.009828895084865574
+        },
+        "piqa": {
+          "acc": 0.6175190424374319,
+          "se": 0.011339019654272245
+        },
+        "winogrande": {
+          "acc": 0.5217048145224941,
+          "se": 0.014039239216484667
+        }
+      }
+    },
+    "1402": {
+      "adapter": "/kaggle/input/notebooks/subhajitlucky/kalia-v032-adapter/adapter_seed1402.pt",
+      "bytes": 235654113,
+      "ckpt": "/kaggle/working/v032_seed1402.pt",
+      "metrics": {
+        "arc_easy": {
+          "acc": 0.486,
+          "se": 0.011178751372184666
+        },
+        "hellaswag": {
+          "acc": 0.32,
+          "se": 0.010433332507574307
+        },
+        "lambada_openai": {
+          "acc": 0.2615,
+          "ppl": 129.13735944229882,
+          "ppl_se": 11.279403884835016,
+          "se": 0.009828895084865574
+        },
+        "piqa": {
+          "acc": 0.6186071817192601,
+          "se": 0.01133285040652847
+        },
+        "winogrande": {
+          "acc": 0.5232833464877664,
+          "se": 0.0140372413095736
+        }
+      }
+    },
+    "base": {
+      "adapter": null,
+      "bytes": 231458643,
+      "ckpt": "/kaggle/working/base_v031.pt",
+      "metrics": {
+        "arc_easy": {
+          "acc": 0.48,
+          "se": 0.011174185930778483
+        },
+        "hellaswag": {
+          "acc": 0.3235,
+          "se": 0.010463202870400323
+        },
+        "lambada_openai": {
+          "acc": 0.27,
+          "ppl": 122.88354952002013,
+          "ppl_se": 10.672943965144498,
+          "se": 0.009929718004547002
+        },
+        "piqa": {
+          "acc": 0.6196953210010882,
+          "se": 0.011326620892570301
+        },
+        "winogrande": {
+          "acc": 0.5224940805051302,
+          "se": 0.014038257824059859
+        }
+      }
+    }
+  },
+  "tasks": "arc_easy,piqa,hellaswag,lambada_openai,winogrande"
+}
