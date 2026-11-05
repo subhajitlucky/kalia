@@ -1,0 +1,174 @@
+{
+  "base_params": 57856256,
+  "base_repo": "kalia-lm/kalia-v031",
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "bench_seed": 2026,
+  "bench_sha256": "aad1b32187a8697b896f6be8408b979abd389466bd9fd42256b2f547e87dd45b",
+  "experiment": "X41-baseline",
+  "runs": {
+    "gold": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.5125,
+          "chance": 0.25,
+          "correct": 205,
+          "n": 400,
+          "n_way": 4
+        },
+        "S-S": {
+          "accuracy": 0.7025,
+          "chance": 0.5,
+          "correct": 281,
+          "n": 400,
+          "n_way": 2
+        },
+        "U-P": {
+          "accuracy": 0.7825,
+          "chance": 0.25,
+          "correct": 313,
+          "n": 400,
+          "n_way": 4
+        },
+        "U-S": {
+          "accuracy": 0.8775,
+          "chance": 0.5,
+          "correct": 351,
+          "n": 400,
+          "n_way": 2
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.8853503184713376,
+          "correct": 139,
+          "n": 157
+        },
+        "number": {
+          "accuracy": 0.9888888888888889,
+          "correct": 89,
+          "n": 90
+        },
+        "number+place": {
+          "accuracy": 0.6935483870967742,
+          "correct": 86,
+          "n": 124
+        },
+        "place": {
+          "accuracy": 0.8130081300813008,
+          "correct": 100,
+          "n": 123
+        },
+        "rename": {
+          "accuracy": 0.9074074074074074,
+          "correct": 196,
+          "n": 216
+        },
+        "rename+negate": {
+          "accuracy": 0.8215962441314554,
+          "correct": 175,
+          "n": 213
+        },
+        "rename+swap": {
+          "accuracy": 0.5612244897959183,
+          "correct": 165,
+          "n": 294
+        },
+        "swap": {
+          "accuracy": 0.5046728971962616,
+          "correct": 108,
+          "n": 214
+        },
+        "swap+negate": {
+          "accuracy": 0.5443786982248521,
+          "correct": 92,
+          "n": 169
+        }
+      },
+      "n": 1600,
+      "overall": 0.71875,
+      "prompt_mode": "edited_prefix"
+    },
+    "normal": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.17,
+          "chance": 0.25,
+          "correct": 68,
+          "n": 400,
+          "n_way": 4
+        },
+        "S-S": {
+          "accuracy": 0.45,
+          "chance": 0.5,
+          "correct": 180,
+          "n": 400,
+          "n_way": 2
+        },
+        "U-P": {
+          "accuracy": 0.0925,
+          "chance": 0.25,
+          "correct": 37,
+          "n": 400,
+          "n_way": 4
+        },
+        "U-S": {
+          "accuracy": 0.315,
+          "chance": 0.5,
+          "correct": 126,
+          "n": 400,
+          "n_way": 2
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.46496815286624205,
+          "correct": 73,
+          "n": 157
+        },
+        "number": {
+          "accuracy": 0.6,
+          "correct": 54,
+          "n": 90
+        },
+        "number+place": {
+          "accuracy": 0.0,
+          "correct": 0,
+          "n": 124
+        },
+        "place": {
+          "accuracy": 0.18699186991869918,
+          "correct": 23,
+          "n": 123
+        },
+        "rename": {
+          "accuracy": 0.28703703703703703,
+          "correct": 62,
+          "n": 216
+        },
+        "rename+negate": {
+          "accuracy": 0.14553990610328638,
+          "correct": 31,
+          "n": 213
+        },
+        "rename+swap": {
+          "accuracy": 0.1870748299319728,
+          "correct": 55,
+          "n": 294
+        },
+        "swap": {
+          "accuracy": 0.4392523364485981,
+          "correct": 94,
+          "n": 214
+        },
+        "swap+negate": {
+          "accuracy": 0.11242603550295859,
+          "correct": 19,
+          "n": 169
+        }
+      },
+      "n": 1600,
+      "overall": 0.256875,
+      "prompt_mode": "instruction_prefix"
+    }
+  }
+}

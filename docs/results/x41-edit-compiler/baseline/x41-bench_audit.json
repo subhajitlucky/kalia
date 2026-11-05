@@ -1,0 +1,123 @@
+{
+  "cells": {
+    "S-P": {
+      "chance": 0.25,
+      "counts": {
+        "number+place": 44,
+        "rename+negate": 133,
+        "rename+swap": 134,
+        "swap+negate": 89
+      },
+      "n": 400,
+      "n_way": 4
+    },
+    "S-S": {
+      "chance": 0.5,
+      "counts": {
+        "negate": 100,
+        "number": 33,
+        "place": 66,
+        "rename": 101,
+        "swap": 100
+      },
+      "n": 400,
+      "n_way": 2
+    },
+    "U-P": {
+      "chance": 0.25,
+      "counts": {
+        "number+place": 80,
+        "rename+negate": 80,
+        "rename+swap": 160,
+        "swap+negate": 80
+      },
+      "n": 400,
+      "n_way": 4
+    },
+    "U-S": {
+      "chance": 0.5,
+      "counts": {
+        "negate": 57,
+        "number": 57,
+        "place": 57,
+        "rename": 115,
+        "swap": 114
+      },
+      "n": 400,
+      "n_way": 2
+    }
+  },
+  "examples": {
+    "S-P": {
+      "candidates": [
+        "Bella kept the book.",
+        "Eli kept the book.",
+        "Mateo kept the book.",
+        "Tara kept the book."
+      ],
+      "correct": "Eli kept the book.",
+      "instruction": "Intervention: rename Bella to Eli and Tara to Mateo; swap Eli and Mateo.",
+      "prefix": "Bella gave Tara the shiny book."
+    },
+    "S-S": {
+      "candidates": [
+        "Willa kept the apple.",
+        "Luna kept the apple."
+      ],
+      "correct": "Willa kept the apple.",
+      "instruction": "Intervention: rename Eli to Umar and Luna to Willa.",
+      "prefix": "Eli gave Luna the old apple."
+    },
+    "U-P": {
+      "candidates": [
+        "Luna told Pablo the secret.",
+        "Nadia told Pablo the secret.",
+        "Umar told Mateo the secret.",
+        "Sven told Mateo the secret."
+      ],
+      "correct": "Nadia told Pablo the secret.",
+      "instruction": "Intervention: rename Sven to Nadia, Umar to Luna, and Mateo to Pablo; swap Nadia and Luna.",
+      "prefix": "Sven told Umar a secret. Umar promised to keep it."
+    },
+    "U-S": {
+      "candidates": [
+        "Dina told Luna the secret.",
+        "Quinn told Fiona the secret."
+      ],
+      "correct": "Quinn told Fiona the secret.",
+      "instruction": "Intervention: rename Ivan to Willa, Dina to Quinn, and Luna to Fiona.",
+      "prefix": "Ivan told Dina a secret. Dina promised to keep it."
+    }
+  },
+  "lengths": {
+    "edited_prefix_tokens": 20,
+    "prompt_tokens": 43,
+    "suffix_tokens": 10
+  },
+  "n": 1600,
+  "n_per_cell": 400,
+  "names": [
+    "Bella",
+    "Caleb",
+    "Dina",
+    "Eli",
+    "Fiona",
+    "Gabe",
+    "Hana",
+    "Ivan",
+    "Jade",
+    "Kofi",
+    "Luna",
+    "Mateo",
+    "Nadia",
+    "Pablo",
+    "Quinn",
+    "Rosa",
+    "Sven",
+    "Tara",
+    "Umar",
+    "Willa"
+  ],
+  "seed": 2026,
+  "sha256": "aad1b32187a8697b896f6be8408b979abd389466bd9fd42256b2f547e87dd45b"
+}

@@ -1,0 +1,87 @@
+{
+  "bench": "/kaggle/working/x41-bench/bench.jsonl",
+  "bench_sha256": "aad1b32187a8697b896f6be8408b979abd389466bd9fd42256b2f547e87dd45b",
+  "by_cell": {
+    "S-P": {
+      "accuracy": 0.5125,
+      "chance": 0.25,
+      "correct": 205,
+      "n": 400,
+      "n_way": 4
+    },
+    "S-S": {
+      "accuracy": 0.7025,
+      "chance": 0.5,
+      "correct": 281,
+      "n": 400,
+      "n_way": 2
+    },
+    "U-P": {
+      "accuracy": 0.7825,
+      "chance": 0.25,
+      "correct": 313,
+      "n": 400,
+      "n_way": 4
+    },
+    "U-S": {
+      "accuracy": 0.8775,
+      "chance": 0.5,
+      "correct": 351,
+      "n": 400,
+      "n_way": 2
+    }
+  },
+  "by_operation": {
+    "negate": {
+      "accuracy": 0.8853503184713376,
+      "correct": 139,
+      "n": 157
+    },
+    "number": {
+      "accuracy": 0.9888888888888889,
+      "correct": 89,
+      "n": 90
+    },
+    "number+place": {
+      "accuracy": 0.6935483870967742,
+      "correct": 86,
+      "n": 124
+    },
+    "place": {
+      "accuracy": 0.8130081300813008,
+      "correct": 100,
+      "n": 123
+    },
+    "rename": {
+      "accuracy": 0.9074074074074074,
+      "correct": 196,
+      "n": 216
+    },
+    "rename+negate": {
+      "accuracy": 0.8215962441314554,
+      "correct": 175,
+      "n": 213
+    },
+    "rename+swap": {
+      "accuracy": 0.5612244897959183,
+      "correct": 165,
+      "n": 294
+    },
+    "swap": {
+      "accuracy": 0.5046728971962616,
+      "correct": 108,
+      "n": 214
+    },
+    "swap+negate": {
+      "accuracy": 0.5443786982248521,
+      "correct": 92,
+      "n": 169
+    }
+  },
+  "ckpt": "/kaggle/working/base_v031.pt",
+  "n": 1600,
+  "overall": 0.71875,
+  "pairs": 0.6475,
+  "prompt_mode": "edited_prefix",
+  "singles": 0.79
+}
