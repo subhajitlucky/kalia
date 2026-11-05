@@ -1352,3 +1352,32 @@ mathematical components and PyTorch are tools, not borrowed models.
 **Versioning.** Stay v0.x until the user explicitly declares v1 (D78).
 
 **Artifacts.** `docs/research/2026-11-05-owned-stack-roadmap.md`.
+
+## D80 — K-Tok v0: own tokenizer candidate (2026-11-05)
+
+**Context.** The model still borrowed GPT-2's 50,257-token BPE. At 58M, the
+tied embedding is 25.73M parameters — nearly half the model.
+
+**Result.** Four byte-level BPE tokenizers trained on 50M decoded corpus
+tokens; 2M held-out tokens.
+
+| tokenizer | vocab | English B/tok | code B/tok | numbers B/tok | tied emb | vs GPT-2 |
+|---|---:|---:|---:|---:|---:|---:|
+| GPT-2 | 50,257 | 4.319 | 2.230 | **2.478** | 25.73M | — |
+| **K-Tok 32k** | 32,000 | **4.380** | **3.162** | 2.152 | **16.38M** | **+9.35M** |
+| K-Tok 50k | 50,000 | 4.459 | 3.262 | 2.320 | 25.60M | +0.13M |
+| K-Tok 64k | 64,000 | 4.493 | 3.320 | 2.411 | 32.77M | −7.04M |
+| K-Tok 32k digits | 32,000 | 4.297 | 3.114 | 1.049 | 16.38M | +9.35M |
+
+- **32k beats GPT-2 on English/code compression** and frees 9.35M parameters.
+- **GPT-2 wins on numbers**; digit-atomic tokenization is much worse for
+  compression (1.049 B/tok). Not the general-text candidate.
+- 50k/64k are not worth the embedding cost.
+- Round-trip is **lossless** for all four; the original `false` flags were a
+  `skip_special_tokens=True` measurement bug. Verified in `ktok_verify.json`.
+
+**Decision.** K-Tok 32k is the first owned-tokenizer candidate. Next: a
+matched tokenizer A/B — GPT-2 BPE vs K-Tok 32k — at 30M (2 seeds), then the
+winning recipe at 58M. No model change now; v0.3.1 remains public.
+
+**Artifacts.** `docs/results/ktok-v0/`.

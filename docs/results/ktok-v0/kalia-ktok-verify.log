@@ -1,0 +1,11 @@
+ktok_32k {"heldout": {"bytes": 200676, "tokens": 47619, "bytes_per_token": 4.214200214200214, "roundtrip": true}, "special": {"bytes": 59, "tokens": 11, "bytes_per_token": 5.363636363636363, "roundtrip": true}}
+ktok_32k_digits {"heldout": {"bytes": 200676, "tokens": 47607, "bytes_per_token": 4.215262461402735, "roundtrip": true}, "special": {"bytes": 59, "tokens": 11, "bytes_per_token": 5.363636363636363, "roundtrip": true}}
+ktok_50k {"heldout": {"bytes": 200676, "tokens": 47381, "bytes_per_token": 4.235368607669741, "roundtrip": true}, "special": {"bytes": 59, "tokens": 10, "bytes_per_token": 5.9, "roundtrip": true}}
+ktok_64k {"heldout": {"bytes": 200676, "tokens": 47263, "bytes_per_token": 4.2459429151767765, "roundtrip": true}, "special": {"bytes": 59, "tokens": 10, "bytes_per_token": 5.9, "roundtrip": true}}
+wrote /kaggle/working/ktok_verify.json
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 281693 bytes to __results__.html

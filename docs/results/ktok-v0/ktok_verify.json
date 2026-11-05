@@ -1,0 +1,62 @@
+{
+  "experiment": "K-Tok-v0-roundtrip",
+  "root": "/kaggle/input/notebooks/subhajitlucky/kalia-k-tok-v0/ktok",
+  "samples": {
+    "ktok_32k": {
+      "heldout": {
+        "bytes": 200676,
+        "bytes_per_token": 4.214200214200214,
+        "roundtrip": true,
+        "tokens": 47619
+      },
+      "special": {
+        "bytes": 59,
+        "bytes_per_token": 5.363636363636363,
+        "roundtrip": true,
+        "tokens": 11
+      }
+    },
+    "ktok_32k_digits": {
+      "heldout": {
+        "bytes": 200676,
+        "bytes_per_token": 4.215262461402735,
+        "roundtrip": true,
+        "tokens": 47607
+      },
+      "special": {
+        "bytes": 59,
+        "bytes_per_token": 5.363636363636363,
+        "roundtrip": true,
+        "tokens": 11
+      }
+    },
+    "ktok_50k": {
+      "heldout": {
+        "bytes": 200676,
+        "bytes_per_token": 4.235368607669741,
+        "roundtrip": true,
+        "tokens": 47381
+      },
+      "special": {
+        "bytes": 59,
+        "bytes_per_token": 5.9,
+        "roundtrip": true,
+        "tokens": 10
+      }
+    },
+    "ktok_64k": {
+      "heldout": {
+        "bytes": 200676,
+        "bytes_per_token": 4.2459429151767765,
+        "roundtrip": true,
+        "tokens": 47263
+      },
+      "special": {
+        "bytes": 59,
+        "bytes_per_token": 5.9,
+        "roundtrip": true,
+        "tokens": 10
+      }
+    }
+  }
+}

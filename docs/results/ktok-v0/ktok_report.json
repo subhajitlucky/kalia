@@ -1,0 +1,213 @@
+{
+  "experiment": "K-Tok-v0",
+  "hashes": {
+    "ktok_32k": "0b909069ec48d67678b7bf015bf8c58818de9f94ce59d54705b2372f1cdb9a5b",
+    "ktok_32k_digits": "909eb511aa8cfaba52b8f2f13d8f7d590a399cb564218272c2951b210cd0e3c8",
+    "ktok_50k": "4bd0bcceeeb0b304becd485c4fb247f1d09535ed5052e1ce8c447e2dd23b22a8",
+    "ktok_64k": "056a21de04895ffd8ef0ab3735896b25136ce1e0236c1421cd6eda90f3717700"
+  },
+  "param_budget": {
+    "gpt2": {
+      "savings_vs_gpt2": 0,
+      "tied_embedding_params": 25731584,
+      "vocab_size": 50257
+    },
+    "ktok_32k": {
+      "savings_vs_gpt2": 9347584,
+      "tied_embedding_params": 16384000,
+      "vocab_size": 32000
+    },
+    "ktok_32k_digits": {
+      "savings_vs_gpt2": 9347584,
+      "tied_embedding_params": 16384000,
+      "vocab_size": 32000
+    },
+    "ktok_50k": {
+      "savings_vs_gpt2": 131584,
+      "tied_embedding_params": 25600000,
+      "vocab_size": 50000
+    },
+    "ktok_64k": {
+      "savings_vs_gpt2": -7036416,
+      "tied_embedding_params": 32768000,
+      "vocab_size": 64000
+    }
+  },
+  "tokenizers": {
+    "gpt2": {
+      "samples": {
+        "code": {
+          "bytes": 58767,
+          "bytes_per_token": 2.2302466793168882,
+          "label": "code",
+          "roundtrip": true,
+          "tokens": 26350,
+          "tokens_per_word": 4.115258472590973,
+          "uniform_bpb": 6.999064551558017
+        },
+        "heldout_english": {
+          "bytes": 2006236,
+          "bytes_per_token": 4.319316224595246,
+          "label": "heldout_english",
+          "roundtrip": true,
+          "tokens": 464480,
+          "tokens_per_word": 1.332136414348114,
+          "uniform_bpb": 3.6139147176934374
+        },
+        "numbers": {
+          "bytes": 170517,
+          "bytes_per_token": 2.4784447674418604,
+          "label": "numbers",
+          "roundtrip": true,
+          "tokens": 68800,
+          "tokens_per_word": 1.72,
+          "uniform_bpb": 6.298159506918681
+        }
+      },
+      "vocab_size": 50257
+    },
+    "ktok_32k": {
+      "bytes_per_token": {},
+      "roundtrip": {},
+      "samples": {
+        "code": {
+          "bytes": 58767,
+          "bytes_per_token": 3.1620661824051655,
+          "label": "code",
+          "roundtrip": true,
+          "tokens": 18585,
+          "tokens_per_word": 2.9025456817116977,
+          "uniform_bpb": 4.732913045254052
+        },
+        "heldout_english": {
+          "bytes": 2006236,
+          "bytes_per_token": 4.37974899087696,
+          "label": "heldout_english",
+          "roundtrip": false,
+          "tokens": 458071,
+          "tokens_per_word": 1.3137552950759022,
+          "uniform_bpb": 3.4170415509737873
+        },
+        "numbers": {
+          "bytes": 170517,
+          "bytes_per_token": 2.1523130325023665,
+          "label": "numbers",
+          "roundtrip": true,
+          "tokens": 79225,
+          "tokens_per_word": 1.980625,
+          "uniform_bpb": 6.95334928454262
+        }
+      },
+      "uniform_bpb": {},
+      "vocab_size": 32000
+    },
+    "ktok_32k_digits": {
+      "samples": {
+        "code": {
+          "bytes": 58767,
+          "bytes_per_token": 3.1144734750119243,
+          "label": "code",
+          "roundtrip": true,
+          "tokens": 18869,
+          "tokens_per_word": 2.9468998906762454,
+          "uniform_bpb": 4.805237355442492
+        },
+        "heldout_english": {
+          "bytes": 2006236,
+          "bytes_per_token": 4.296652603173923,
+          "label": "heldout_english",
+          "roundtrip": false,
+          "tokens": 466930,
+          "tokens_per_word": 1.339163055355591,
+          "uniform_bpb": 3.483126439779402
+        },
+        "numbers": {
+          "bytes": 170517,
+          "bytes_per_token": 1.0492256194736551,
+          "label": "numbers",
+          "roundtrip": true,
+          "tokens": 162517,
+          "tokens_per_word": 4.062925,
+          "uniform_bpb": 14.263647405187918
+        }
+      },
+      "vocab_size": 32000
+    },
+    "ktok_50k": {
+      "bytes_per_token": {},
+      "roundtrip": {},
+      "samples": {
+        "code": {
+          "bytes": 58767,
+          "bytes_per_token": 3.2624770998723145,
+          "label": "code",
+          "roundtrip": true,
+          "tokens": 18013,
+          "tokens_per_word": 2.8132125566140873,
+          "uniform_bpb": 4.78459771412579
+        },
+        "heldout_english": {
+          "bytes": 2006236,
+          "bytes_per_token": 4.459263441230665,
+          "label": "heldout_english",
+          "roundtrip": false,
+          "tokens": 449903,
+          "tokens_per_word": 1.2903293343619953,
+          "uniform_bpb": 3.5004974880176336
+        },
+        "numbers": {
+          "bytes": 170517,
+          "bytes_per_token": 2.3201485835578413,
+          "label": "numbers",
+          "roundtrip": true,
+          "tokens": 73494,
+          "tokens_per_word": 1.83735,
+          "uniform_bpb": 6.727862424440139
+        }
+      },
+      "uniform_bpb": {},
+      "vocab_size": 50000
+    },
+    "ktok_64k": {
+      "bytes_per_token": {},
+      "roundtrip": {},
+      "samples": {
+        "code": {
+          "bytes": 58767,
+          "bytes_per_token": 3.320169491525424,
+          "label": "code",
+          "roundtrip": true,
+          "tokens": 17700,
+          "tokens_per_word": 2.764329220677807,
+          "uniform_bpb": 4.808725676630063
+        },
+        "heldout_english": {
+          "bytes": 2006236,
+          "bytes_per_token": 4.493461058638816,
+          "label": "heldout_english",
+          "roundtrip": false,
+          "tokens": 446479,
+          "tokens_per_word": 1.2805092450519542,
+          "uniform_bpb": 3.5531150879715265
+        },
+        "numbers": {
+          "bytes": 170517,
+          "bytes_per_token": 2.4110543953169405,
+          "label": "numbers",
+          "roundtrip": true,
+          "tokens": 70723,
+          "tokens_per_word": 1.768075,
+          "uniform_bpb": 6.62190961583981
+        }
+      },
+      "uniform_bpb": {},
+      "vocab_size": 64000
+    }
+  },
+  "train_bin": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+  "train_bytes": 223055758,
+  "train_tokens": 50000000,
+  "val_bin": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+  "val_bytes": 8946764,
+  "val_tokens": 2000000
+}
