@@ -157,6 +157,24 @@ def build_train(arm: str, singles_per_op: int = 1000, pairs_per_type: int = 1000
             allowed_pairs=(),
             seed=seed,
         )
+    if arm == "C":
+        # X43: all four test pair types, but only on the extra templates.
+        # The benchmark templates never receive pair supervision.
+        base = build_records(
+            templates, NAMES_TRAIN,
+            singles_per_op=singles_per_op,
+            pairs_per_type=pairs_per_type,
+            allowed_pairs=ALLOWED_PAIRS,
+            seed=seed,
+        )
+        extra = build_records(
+            EXTRA_TEMPLATES, NAMES_TRAIN,
+            singles_per_op=0,
+            pairs_per_type=pairs_per_type,
+            allowed_pairs=TEST_PAIRS,
+            seed=seed + 1,
+        )
+        return _dedup(base + extra)
     raise ValueError(f"unknown arm {arm!r}")
 
 
@@ -171,6 +189,22 @@ def build_dev(arm: str, singles_per_op: int = 120, pairs_per_type: int = 120,
             allowed_pairs=ALLOWED_PAIRS,
             seed=seed,
         )
+    elif arm == "C":
+        base = build_records(
+            templates, NAMES_EVAL,
+            singles_per_op=singles_per_op,
+            pairs_per_type=pairs_per_type,
+            allowed_pairs=ALLOWED_PAIRS,
+            seed=seed,
+        )
+        extra = build_records(
+            EXTRA_TEMPLATES, NAMES_EVAL,
+            singles_per_op=0,
+            pairs_per_type=pairs_per_type,
+            allowed_pairs=TEST_PAIRS,
+            seed=seed + 1,
+        )
+        out = _dedup(base + extra)
     else:
         out = build_records(
             templates, NAMES_EVAL,
