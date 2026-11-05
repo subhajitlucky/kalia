@@ -76,6 +76,14 @@
       "n": 169
     }
   },
+  "compiler": {
+    "changed_from_factual": 1.0,
+    "exact_match": 0.4,
+    "fallback_rate": 0.0,
+    "fallback_to_factual": 0,
+    "n": 1600,
+    "nonempty": 1.0
+  },
   "n": 1600,
   "overall": 0.643125,
   "prompt_mode": "edited_prefix",

@@ -1,0 +1,350 @@
+{
+  "bars": {
+    "T-1_number_place": true,
+    "T-2_rename_swap": false,
+    "T-3_SP": true,
+    "T-4_UP": true,
+    "T-5_no_labels": true,
+    "T-6_deterministic": true
+  },
+  "best_single_test": {
+    "B_1401": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.42342342342342343,
+          "n": 222
+        },
+        "S-S": {
+          "accuracy": 0.6745283018867925,
+          "n": 212
+        },
+        "U-P": {
+          "accuracy": 0.5824742268041238,
+          "n": 194
+        },
+        "U-S": {
+          "accuracy": 0.845771144278607,
+          "n": 201
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.8625,
+          "n": 80
+        },
+        "number": {
+          "accuracy": 0.9811320754716981,
+          "n": 53
+        },
+        "number+place": {
+          "accuracy": 0.6142857142857143,
+          "n": 70
+        },
+        "place": {
+          "accuracy": 0.8305084745762712,
+          "n": 59
+        },
+        "rename": {
+          "accuracy": 0.9029126213592233,
+          "n": 103
+        },
+        "rename+negate": {
+          "accuracy": 0.5137614678899083,
+          "n": 109
+        },
+        "rename+swap": {
+          "accuracy": 0.35374149659863946,
+          "n": 147
+        },
+        "swap": {
+          "accuracy": 0.423728813559322,
+          "n": 118
+        },
+        "swap+negate": {
+          "accuracy": 0.6222222222222222,
+          "n": 90
+        }
+      },
+      "n": 829,
+      "overall": 0.6272617611580217
+    },
+    "B_1402": {
+      "by_cell": {
+        "S-P": {
+          "accuracy": 0.4099099099099099,
+          "n": 222
+        },
+        "S-S": {
+          "accuracy": 0.6745283018867925,
+          "n": 212
+        },
+        "U-P": {
+          "accuracy": 0.6597938144329897,
+          "n": 194
+        },
+        "U-S": {
+          "accuracy": 0.8159203980099502,
+          "n": 201
+        }
+      },
+      "by_operation": {
+        "negate": {
+          "accuracy": 0.8625,
+          "n": 80
+        },
+        "number": {
+          "accuracy": 0.9811320754716981,
+          "n": 53
+        },
+        "number+place": {
+          "accuracy": 0.6142857142857143,
+          "n": 70
+        },
+        "place": {
+          "accuracy": 0.8305084745762712,
+          "n": 59
+        },
+        "rename": {
+          "accuracy": 0.9029126213592233,
+          "n": 103
+        },
+        "rename+negate": {
+          "accuracy": 0.5321100917431193,
+          "n": 109
+        },
+        "rename+swap": {
+          "accuracy": 0.4897959183673469,
+          "n": 147
+        },
+        "swap": {
+          "accuracy": 0.3728813559322034,
+          "n": 118
+        },
+        "swap+negate": {
+          "accuracy": 0.5111111111111111,
+          "n": 90
+        }
+      },
+      "n": 829,
+      "overall": 0.6344993968636912
+    }
+  },
+  "chosen_rule": "MinEntropy",
+  "dev_table": {
+    "Agreement": {
+      "S-P": 0.42134831460674155,
+      "overall": 0.6575875486381323,
+      "rename+swap": 0.40816326530612246
+    },
+    "Margin": {
+      "S-P": 0.4157303370786517,
+      "overall": 0.6614785992217899,
+      "rename+swap": 0.41496598639455784
+    },
+    "MaxProb": {
+      "S-P": 0.42134831460674155,
+      "overall": 0.6575875486381323,
+      "rename+swap": 0.40816326530612246
+    },
+    "MaxProbNoNoop": {
+      "S-P": 0.42134831460674155,
+      "overall": 0.6575875486381323,
+      "rename+swap": 0.40816326530612246
+    },
+    "MinEntropy": {
+      "S-P": 0.42134831460674155,
+      "overall": 0.6459143968871596,
+      "rename+swap": 0.4217687074829932
+    },
+    "Oracle": {
+      "S-P": 0.43258426966292135,
+      "overall": 0.6874189364461738,
+      "rename+swap": 0.48299319727891155
+    }
+  },
+  "experiment": "X42-reader-ensemble",
+  "full": {
+    "by_cell": {
+      "S-P": {
+        "accuracy": 0.4175,
+        "n": 400
+      },
+      "S-S": {
+        "accuracy": 0.7025,
+        "n": 400
+      },
+      "U-P": {
+        "accuracy": 0.59,
+        "n": 400
+      },
+      "U-S": {
+        "accuracy": 0.835,
+        "n": 400
+      }
+    },
+    "by_operation": {
+      "negate": {
+        "accuracy": 0.8853503184713376,
+        "n": 157
+      },
+      "number": {
+        "accuracy": 0.9888888888888889,
+        "n": 90
+      },
+      "number+place": {
+        "accuracy": 0.6935483870967742,
+        "n": 124
+      },
+      "place": {
+        "accuracy": 0.8130081300813008,
+        "n": 123
+      },
+      "rename": {
+        "accuracy": 0.9027777777777778,
+        "n": 216
+      },
+      "rename+negate": {
+        "accuracy": 0.49295774647887325,
+        "n": 213
+      },
+      "rename+swap": {
+        "accuracy": 0.42517006802721086,
+        "n": 294
+      },
+      "swap": {
+        "accuracy": 0.42990654205607476,
+        "n": 214
+      },
+      "swap+negate": {
+        "accuracy": 0.514792899408284,
+        "n": 169
+      }
+    },
+    "n": 1600,
+    "overall": 0.63625
+  },
+  "oracle_test": {
+    "by_cell": {
+      "S-P": {
+        "accuracy": 0.42792792792792794,
+        "n": 222
+      },
+      "S-S": {
+        "accuracy": 0.6745283018867925,
+        "n": 212
+      },
+      "U-P": {
+        "accuracy": 0.7164948453608248,
+        "n": 194
+      },
+      "U-S": {
+        "accuracy": 0.8557213930348259,
+        "n": 201
+      }
+    },
+    "by_operation": {
+      "negate": {
+        "accuracy": 0.8625,
+        "n": 80
+      },
+      "number": {
+        "accuracy": 0.9811320754716981,
+        "n": 53
+      },
+      "number+place": {
+        "accuracy": 0.6142857142857143,
+        "n": 70
+      },
+      "place": {
+        "accuracy": 0.8305084745762712,
+        "n": 59
+      },
+      "rename": {
+        "accuracy": 0.912621359223301,
+        "n": 103
+      },
+      "rename+negate": {
+        "accuracy": 0.5688073394495413,
+        "n": 109
+      },
+      "rename+swap": {
+        "accuracy": 0.4897959183673469,
+        "n": 147
+      },
+      "swap": {
+        "accuracy": 0.4322033898305085,
+        "n": 118
+      },
+      "swap+negate": {
+        "accuracy": 0.6333333333333333,
+        "n": 90
+      }
+    },
+    "n": 829,
+    "overall": 0.6622436670687576
+  },
+  "seeds": [
+    "B_1401",
+    "B_1402"
+  ],
+  "test": {
+    "by_cell": {
+      "S-P": {
+        "accuracy": 0.4144144144144144,
+        "n": 222
+      },
+      "S-S": {
+        "accuracy": 0.6745283018867925,
+        "n": 212
+      },
+      "U-P": {
+        "accuracy": 0.6185567010309279,
+        "n": 194
+      },
+      "U-S": {
+        "accuracy": 0.8208955223880597,
+        "n": 201
+      }
+    },
+    "by_operation": {
+      "negate": {
+        "accuracy": 0.8625,
+        "n": 80
+      },
+      "number": {
+        "accuracy": 0.9811320754716981,
+        "n": 53
+      },
+      "number+place": {
+        "accuracy": 0.6142857142857143,
+        "n": 70
+      },
+      "place": {
+        "accuracy": 0.8305084745762712,
+        "n": 59
+      },
+      "rename": {
+        "accuracy": 0.9029126213592233,
+        "n": 103
+      },
+      "rename+negate": {
+        "accuracy": 0.5321100917431193,
+        "n": 109
+      },
+      "rename+swap": {
+        "accuracy": 0.42857142857142855,
+        "n": 147
+      },
+      "swap": {
+        "accuracy": 0.3813559322033898,
+        "n": 118
+      },
+      "swap+negate": {
+        "accuracy": 0.5333333333333333,
+        "n": 90
+      }
+    },
+    "n": 829,
+    "overall": 0.6272617611580217
+  }
+}

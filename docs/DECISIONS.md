@@ -1142,3 +1142,75 @@ LAMBADA ppl +4.8/+6.3 (σ ~31), WinoGrande −0.08/+0.08 pp.
 **Decision.** V032 is a **val-only internal candidate**: val −0.0087/−0.0085,
 2k neutral. It is not a public release, not a benchmark improvement, and not a
 new mechanism. The public model remains v0.3.1.
+
+## D72 — X41 edit compiler: partial advancement (2026-11-05)
+
+**Context.** The full 2×2 baseline on v0.3.1 (58M) showed the reader is
+competent in the edited world: normal S-P **0.170** vs gold-edit **0.5125**;
+`number+place` **0.000 → 0.694**; `rename+swap` **0.187 → 0.561**. The
+bottleneck is edit application, not continuation. X41 trained a rank-16 LoRA
+edit compiler (1,413,120 params, base frozen) to write the post-intervention
+prefix, then let the frozen reader score candidates.
+
+**Result (Arm B, held-out pair types).**
+
+| seed | singles EM | compiler EM | S-P | `number+place` | `rename+swap` | U-P |
+|---|---:|---:|---:|---:|---:|---:|
+| 1401 | 0.9966 | 0.4263 | **0.4275** | **0.6935** | **0.3537** | 0.5675 |
+| 1402 | 0.9920 | 0.4000 | **0.4100** | **0.6935** | **0.4830** | 0.6350 |
+
+Arm A (singles only, seed 1401): S-P 0.4075, `number+place` 0.6935,
+`rename+swap` 0.3844, U-P 0.6325.
+
+- **C-1 PASS** (singles ≥0.90), **C-2 PASS** (`number+place` ≥0.40 both),
+  **C-4 PASS** (S-P ≥0.40 both), **C-5 PASS** (U-P ≥0.30 both),
+  **C-6 PASS** (base frozen).
+- **C-3 FAIL**: `rename+swap` 0.3537 on seed 1401, below the 0.45 bar;
+  seed 1402 passes at 0.4830.
+
+**Decision.**
+1. **X41 is a partial advancement, not a full registered pass.** The strict
+   rule requires C-2 and C-3 on both seeds; C-3 misses on one. Do not
+   cherry-pick seed 1402.
+2. **The clean positive result is `number+place`:** 0.000 → **0.6935** on both
+   seeds, exactly the gold-edit ceiling. S-P and U-P also improve materially.
+3. **`rename+swap` is the remaining failure**, with a real seed spread.
+4. The public base model remains **v0.3.1**; the adapters are experimental
+   artifacts, not a release.
+5. X42 tests a reader-guided ensemble; X43 tests template-held-out pair
+   training. Both are separate registrations.
+
+**Artifacts.** `docs/results/x41-edit-compiler/` (baseline, adapters, logs,
+generated prefixes, end-to-end rows). Pre-registration hash `d3d5dc53…`.
+
+## D73 — X42 reader-guided ensemble: null (2026-11-05)
+
+**Context.** X41's two Arm B seeds disagree on `rename+swap` (0.354/0.483).
+X42 used the frozen reader's candidate distribution to select between their
+edits, with a rule chosen on a deterministic dev half and evaluated once on the
+held-out test half.
+
+**Result.** Chosen rule: MinEntropy. Test half (n=829): S-P **0.4144**,
+`number+place` **0.6143**, `rename+swap` **0.4286** (bar 0.45), U-P 0.6186.
+Best single seed on the same half: B_1402 `rename+swap` 0.4898; oracle
+selection also 0.4898.
+
+**Decision.** **Null.** The reader cannot repair the compiler's
+`rename+swap` distribution; the oracle is capped by the better single seed.
+No selector tuning after the test. X43 tests data coverage.
+
+**Artifacts.** `docs/results/x42-reader-ensemble/`. Pre-registration hash
+`0746ac10…`.
+
+## D74 — X43 template-held-out pair training (2026-11-05)
+
+**Context.** X41's compiler never applied `rename` then `swap`. X43 teaches
+all four test pair types on the three extra templates (`carry_place`,
+`give_place`, `count_place`), never on the benchmark templates, then tests on
+the benchmark. This is a template-transfer test, not the stricter
+held-out-operation-combination test of X41.
+
+**Status.** Registered and running on Kaggle GPU (`kalia-x43-thpt`), two
+seeds, same rank-16 LoRA. Bars D-1…D-6: singles EM ≥0.90, `number+place`
+≥0.40, `rename+swap` ≥0.45, S-P ≥0.45, U-P ≥0.35, base frozen. Cost cap
+2 GPU-h. Result pending; no tuning after the result.
