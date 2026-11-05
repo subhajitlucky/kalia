@@ -1,0 +1,18 @@
+{
+  "id": "subhajitlucky/kalia-ktok-v0",
+  "title": "KALIA K-Tok v0",
+  "code_file": "kalia_ktok_v0_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-prep-v2b"
+  ],
+  "model_sources": []
+}
