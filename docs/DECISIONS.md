@@ -1315,3 +1315,20 @@ broad-template compiler** on GitHub. The public base remains **v0.3.1**; the
 standard five-task suite is unchanged. No HF base-model release: the standard
 +10% gate is not met. If the user means the composition metric, this is a
 capability checkpoint candidate, not a new base model.
+
+## D78 — Versioning: stay on v0.x until the user declares v1 (2026-11-05)
+
+**Rule.** No v1/v2 labels are assigned by the project. The line stays **v0.x**
+until the user explicitly says a checkpoint is KALIA v1.
+
+**Working scheme.**
+
+- **v0.3.1** — current public base.
+- **v0.4.x** — edit-compiler capability packs (v0.4.0 X43, v0.4.1 X46).
+- **v0.5.x** — K-Tok tokenizer experiments.
+- **v0.6.x** — K-Attn attention experiments.
+- **v0.7.x** — combined from-scratch base (K-Tok + winning K-Attn).
+- **v1.0** — only by explicit user declaration.
+
+Model-size scaling is a separate decision from version numbering. The next
+base experiments remain 58M until the evidence says capacity-limited.
