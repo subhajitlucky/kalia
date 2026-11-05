@@ -1,0 +1,17 @@
+{
+  "id": "subhajitlucky/kalia-x44-eval",
+  "title": "KALIA X44 fresh eval",
+  "code_file": "kalia_x44_eval_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-code-dev",
+    "subhajitlucky/kalia-x43-adapters"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
