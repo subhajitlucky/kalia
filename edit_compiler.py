@@ -364,15 +364,35 @@ def score_bench(base, bench_path: Path, out_path: Path, rows_path: Path,
 
 def score_generated(base, records: list[dict], generated: list[str],
                     tmp_path: Path, out_path: Path, rows_path: Path,
-                    device, batch_size: int = 16) -> dict:
+                    device, batch_size: int = 16, enc=None,
+                    max_prefix_tokens: int = 64) -> dict:
+    """Score candidates conditioned on generated prefixes.
+
+    A compiler output that is empty or longer than the reader's fixed prompt
+    window is a compiler failure, not a reader failure: fall back to the
+    factual prefix and count it. This keeps the end-to-end number honest and
+    avoids a hard crash on a runaway generation.
+    """
+    fallback = 0
     with open(tmp_path, "w") as fh:
         for r, g in zip(records, generated):
+            use = g.strip()
+            too_long = (
+                enc is not None and bool(use)
+                and len(enc.encode_ordinary(use)) > max_prefix_tokens
+            )
+            if not use or too_long:
+                use = r["prefix"]
+                fallback += 1
             r2 = dict(r)
-            r2["edited_prefix"] = g if g.strip() else r["prefix"]
+            r2["edited_prefix"] = use
             fh.write(json.dumps(r2, sort_keys=True) + "\n")
     payload = score_bench(base, tmp_path, out_path, rows_path,
                           "edited_prefix", device, batch_size)
     payload["compiler"] = exact_match(records, generated)
+    payload["compiler"]["fallback_to_factual"] = fallback
+    payload["compiler"]["fallback_rate"] = fallback / max(1, len(records))
+    out_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     return payload
 
 
