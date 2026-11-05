@@ -46,6 +46,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X41 edit compiler` | LoRA edit compiler + frozen v0.3.1 reader; full 2x2 baseline normal S-P 0.170 vs gold 0.513; compiler number+place 0.000->0.694 both seeds, S-P 0.428/0.410, U-P 0.568/0.635; rename+swap 0.354/0.483, so C-3 fails on one seed; partial advancement | yes | 26 files |
 | `X42 reader ensemble` | Reader-guided selection between the two X41 compiler edits; dev-selected MinEntropy; held-out test rename+swap 0.4286 vs 0.45 bar; oracle capped at best single seed 0.4898; null | yes | 3 files |
 | `X43 THPT` | Template-held-out pair training; all four pair types taught on three extra templates only; S-P 0.480/0.493, number+place 0.694/0.694, rename+swap 0.592/0.646, U-P 0.860/0.873; D-1..D-6 pass; 0.97 GPU-h; capability release v0.4.0 | yes | 16 files |
+| `X44/X45 fresh` | Fresh names/templates; F-P 0.085 normal -> 0.523/0.493, number+place 0.455 both, rename+swap 0.406/0.416 (F-3 fail), 3-op 0.283/0.365 (F-6 fail); partial OOD generalization; X43 release remains scoped | yes | 12 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -300,6 +301,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x43-thpt/end2end_C_1401_rows.jsonl`
 - `… 10 more`
 
+**X44/X45 fresh**
+- `docs/results/x44-fresh/README.md`
+- `docs/results/x44-fresh/baseline_gold.json`
+- `docs/results/x44-fresh/baseline_normal.json`
+- `docs/results/x44-fresh/bench_audit.json`
+- `docs/results/x44-fresh/end2end_C_1401.json`
+- `docs/results/x44-fresh/end2end_C_1401_rows.jsonl`
+- `… 6 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -317,4 +327,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-39 runs tracked, 317 files archived, 3 with no evidence.
+40 runs tracked, 329 files archived, 3 with no evidence.

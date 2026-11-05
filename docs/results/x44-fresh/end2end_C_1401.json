@@ -1,0 +1,105 @@
+{
+  "by_cell": {
+    "F-P": {
+      "accuracy": 0.5225,
+      "chance": 0.25,
+      "correct": 209,
+      "n": 400,
+      "n_way": 4
+    },
+    "F-S": {
+      "accuracy": 0.7275,
+      "chance": 0.5,
+      "correct": 291,
+      "n": 400,
+      "n_way": 2
+    },
+    "F-T": {
+      "accuracy": 0.2825,
+      "chance": 0.125,
+      "correct": 113,
+      "n": 400,
+      "n_way": 8
+    }
+  },
+  "by_operation": {
+    "negate": {
+      "accuracy": 0.88,
+      "correct": 88,
+      "n": 100
+    },
+    "number": {
+      "accuracy": 1.0,
+      "correct": 33,
+      "n": 33
+    },
+    "number+place": {
+      "accuracy": 0.45454545454545453,
+      "correct": 15,
+      "n": 33
+    },
+    "place": {
+      "accuracy": 0.42424242424242425,
+      "correct": 28,
+      "n": 66
+    },
+    "rename": {
+      "accuracy": 0.900990099009901,
+      "correct": 91,
+      "n": 101
+    },
+    "rename+negate": {
+      "accuracy": 0.83,
+      "correct": 83,
+      "n": 100
+    },
+    "rename+place": {
+      "accuracy": 0.5757575757575758,
+      "correct": 19,
+      "n": 33
+    },
+    "rename+swap": {
+      "accuracy": 0.40594059405940597,
+      "correct": 41,
+      "n": 101
+    },
+    "rename+swap+negate": {
+      "accuracy": 0.2733333333333333,
+      "correct": 82,
+      "n": 300
+    },
+    "rename+swap+place": {
+      "accuracy": 0.31,
+      "correct": 31,
+      "n": 100
+    },
+    "swap": {
+      "accuracy": 0.51,
+      "correct": 51,
+      "n": 100
+    },
+    "swap+negate": {
+      "accuracy": 0.32,
+      "correct": 32,
+      "n": 100
+    },
+    "swap+place": {
+      "accuracy": 0.5757575757575758,
+      "correct": 19,
+      "n": 33
+    }
+  },
+  "compiler": {
+    "changed_from_factual": 0.9916666666666667,
+    "exact_match": 0.185,
+    "fallback_rate": 0.0,
+    "fallback_to_factual": 0,
+    "n": 1200,
+    "nonempty": 1.0
+  },
+  "n": 1200,
+  "overall": 0.5108333333333334,
+  "prompt_mode": "edited_prefix",
+  "seen": 0.7275,
+  "unseen": 0.4025
+}

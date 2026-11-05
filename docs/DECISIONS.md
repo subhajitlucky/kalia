@@ -1236,3 +1236,53 @@ two adapters as the **v0.4.0-x43-edit-compiler** capability pack. The public
 base model remains **v0.3.1**; the standard five-task benchmark is unchanged.
 The release note is `docs/releases/v040-x43-edit-compiler.md`. No tuning after
 the result.
+
+## D75 — X44/X45 fresh benchmark: boundary result (2026-11-05)
+
+**Context.** X43 passed its registered 2×2 bars, but that benchmark had been
+used across X41–X43. X44 evaluated the same adapters on new names and new
+sentence templates; X45 tested zero-shot three-operation composition.
+
+**Result (0.24 GPU-h).**
+
+| cell | normal | gold | C_1401 | C_1402 |
+|---|---:|---:|---:|---:|
+| F-S | 0.3875 | 0.7125 | 0.7275 | 0.6950 |
+| F-P | **0.0850** | 0.5725 | **0.5225** | **0.4925** |
+| F-T | **0.0350** | 0.3925 | **0.2825** | **0.3650** |
+
+- **F-1 PASS** (fresh pair ≥0.40), **F-2 PASS** (`number+place` 0.4545 both),
+  **F-4/F-5 PASS**.
+- **F-3 FAIL**: fresh `rename+swap` **0.4059/0.4158**, below 0.45.
+- **F-6 FAIL**: fresh 3-op **0.2825/0.3650**; one seed below 0.30.
+- Compiler exact match on fresh templates drops to **0.1850/0.1242**.
+
+**Decision.** X44 is a **partial generalization**: pair composition and
+`number+place` transfer to fresh templates, but `rename+swap` is the boundary
+and 3-op depth is not seed-stable. The X43 release remains scoped to its
+registered benchmark. No v0.4.1/v0.5.0 broad claim. A robust OOD compiler
+(X46) would need broader template diversity; X44 stays as the held-out test.
+
+**Artifacts.** `docs/results/x44-fresh/`. Pre-registration hash `45b516f2…`.
+
+## D76 — HF release gate: +10% vs v0.3.1 (2026-11-05)
+
+**User rule.** A new model is released on Hugging Face once it surpasses the
+v0.3.1 benchmark by 10%.
+
+**Definition used here.** Standard five-task zero-shot average at 2,000
+samples, **relative +10%** vs v0.3.1 (mean ≈ 0.4431 → ≥0.4874), with no task
+regressing beyond 2σ. This is the honest base-model metric.
+
+**Current state.** The standard five-task suite is unchanged; the edit
+compiler is a separate adapter and does not move it. The composition benchmark
+is far above +10% (S-P 0.170 → 0.480/0.493; `number+place` 0.000 → 0.694;
+`rename+swap` 0.187 → 0.592/0.646), but that is a capability adapter, not a
+new base model.
+
+**Decision.** No HF base-model release now. A +10% standard gain needs a new
+pretraining run, not the remaining ~10 GPU-hours. Reserve the quota for a
+pre-registered base run in the next window. If the user means the composition
+metric, prepare a **merged capability checkpoint** separately and label it as
+a capability release, not a new base model. Do not claim a standard-benchmark
+gain that was not measured.

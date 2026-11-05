@@ -1,0 +1,37 @@
+code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev
+adapters: ['/kaggle/input/datasets/subhajitlucky/kalia-x43-adapters/lora_armC_seed1401.pt', '/kaggle/input/datasets/subhajitlucky/kalia-x43-adapters/lora_armC_seed1402.pt']
+device: Tesla T4
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+base sha256: bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468
+fresh bench: b69bcd6102e134a88a853b27c5783002df16cfc60e20d07f54f9f20e0a7d897a n 1200
+cells: {'F-S': 400, 'F-P': 400, 'F-T': 400}
+baseline normal: {'F-S': 0.3875, 'F-P': 0.085, 'F-T': 0.035}
+baseline gold: {'F-S': 0.7125, 'F-P': 0.5725, 'F-T': 0.3925}
+
+=== adapter 1401: /kaggle/input/datasets/subhajitlucky/kalia-x43-adapters/lora_armC_seed1401.pt ===
+adapter 1401: compiler_em 0.1850 fallback 0.0000
+  cells: {'F-S': 0.7275, 'F-P': 0.5225, 'F-T': 0.2825}
+  ops: {'negate': 0.88, 'number': 1.0, 'number+place': 0.4545, 'place': 0.4242, 'rename': 0.901, 'rename+negate': 0.83, 'rename+place': 0.5758, 'rename+swap': 0.4059, 'rename+swap+negate': 0.2733, 'rename+swap+place': 0.31, 'swap': 0.51, 'swap+negate': 0.32, 'swap+place': 0.5758}
+
+=== adapter 1402: /kaggle/input/datasets/subhajitlucky/kalia-x43-adapters/lora_armC_seed1402.pt ===
+adapter 1402: compiler_em 0.1242 fallback 0.0008
+  cells: {'F-S': 0.695, 'F-P': 0.4925, 'F-T': 0.365}
+  ops: {'negate': 0.83, 'number': 1.0, 'number+place': 0.4545, 'place': 0.4394, 'rename': 0.9307, 'rename+negate': 0.76, 'rename+place': 0.7273, 'rename+swap': 0.4158, 'rename+swap+negate': 0.3533, 'rename+swap+place': 0.4, 'swap': 0.39, 'swap+negate': 0.22, 'swap+place': 0.5455}
+
+X44/X45 VERDICT
+  F-1_fresh_pair: True
+  F-2_number_place: True
+  F-3_rename_swap: False
+  F-4_fallback: True
+  F-5_base_frozen: True
+  F-6_triple: False
+  C_1401: F-S=0.7275 F-P=0.5225 F-T=0.2825 number+place=0.4545 rename+swap=0.4059 compiler_em=0.1850 fallback_rate=0.0000
+  C_1402: F-S=0.6950 F-P=0.4925 F-T=0.3650 number+place=0.4545 rename+swap=0.4158 compiler_em=0.1242 fallback_rate=0.0008
+  elapsed_hours: 0.24
+  summary: /kaggle/working/x44/x44_summary.json
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 317645 bytes to __results__.html

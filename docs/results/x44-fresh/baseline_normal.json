@@ -1,0 +1,97 @@
+{
+  "by_cell": {
+    "F-P": {
+      "accuracy": 0.085,
+      "chance": 0.25,
+      "correct": 34,
+      "n": 400,
+      "n_way": 4
+    },
+    "F-S": {
+      "accuracy": 0.3875,
+      "chance": 0.5,
+      "correct": 155,
+      "n": 400,
+      "n_way": 2
+    },
+    "F-T": {
+      "accuracy": 0.035,
+      "chance": 0.125,
+      "correct": 14,
+      "n": 400,
+      "n_way": 8
+    }
+  },
+  "by_operation": {
+    "negate": {
+      "accuracy": 0.6,
+      "correct": 60,
+      "n": 100
+    },
+    "number": {
+      "accuracy": 0.7878787878787878,
+      "correct": 26,
+      "n": 33
+    },
+    "number+place": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "n": 33
+    },
+    "place": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "n": 66
+    },
+    "rename": {
+      "accuracy": 0.2376237623762376,
+      "correct": 24,
+      "n": 101
+    },
+    "rename+negate": {
+      "accuracy": 0.05,
+      "correct": 5,
+      "n": 100
+    },
+    "rename+place": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "n": 33
+    },
+    "rename+swap": {
+      "accuracy": 0.12871287128712872,
+      "correct": 13,
+      "n": 101
+    },
+    "rename+swap+negate": {
+      "accuracy": 0.04666666666666667,
+      "correct": 14,
+      "n": 300
+    },
+    "rename+swap+place": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "n": 100
+    },
+    "swap": {
+      "accuracy": 0.45,
+      "correct": 45,
+      "n": 100
+    },
+    "swap+negate": {
+      "accuracy": 0.16,
+      "correct": 16,
+      "n": 100
+    },
+    "swap+place": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "n": 33
+    }
+  },
+  "n": 1200,
+  "overall": 0.16916666666666666,
+  "prompt_mode": "instruction_prefix",
+  "seen": 0.3875,
+  "unseen": 0.06
+}
