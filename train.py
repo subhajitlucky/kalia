@@ -508,7 +508,14 @@ def main(argv=None) -> None:
         if ckpt_path.exists():
             ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
             model.load_state_dict(ckpt["model"])
-            optimizer.load_state_dict(ckpt["optimizer"])
+            if "optimizer" in ckpt:
+                optimizer.load_state_dict(ckpt["optimizer"])
+            else:
+                # The public HF checkpoints are weights-only. A continued run
+                # from those weights must start a fresh optimizer rather than
+                # fail; this is the same optimizer the run would build at step 0.
+                print("resume: checkpoint has no optimizer state; "
+                      "starting a fresh optimizer")
             start_step, tokens_seen = ckpt["step"], ckpt["tokens"]
             # Schedule origin, for continual updates.
             #
