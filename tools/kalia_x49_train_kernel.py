@@ -19,6 +19,7 @@ MIXTURE = "control"
 SEED = 1501
 MAX_MINUTES = 0  # 0 = full run
 MAX_STEPS = None  # None = config max_steps
+CONFIG = "configs/x49-cont.yaml"
 
 BASE_REPO = "kalia-lm/kalia-v031"
 BASE_SHA = "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468"
@@ -79,7 +80,18 @@ print("base sha:", base_sha, flush=True)
 
 out_dir = Path(f"/kaggle/working/x49/{MIXTURE}_{SEED}")
 out_dir.mkdir(parents=True, exist_ok=True)
-cmd = [sys.executable, "train.py", "--config", "configs/x49-cont.yaml",
+config_path = Path(CONFIG)
+if MAX_STEPS is not None:
+    import yaml
+    cfg = yaml.safe_load(config_path.read_text())
+    cfg["train"]["max_steps"] = int(MAX_STEPS)
+    cfg["train"]["update_budget"] = int(MAX_STEPS)
+    cfg["train"]["warmup_steps"] = min(5, max(1, int(MAX_STEPS) // 5))
+    cfg["train"]["eval_interval"] = int(MAX_STEPS)
+    cfg["train"]["eval_steps"] = 20
+    config_path = Path("/kaggle/working/x49_smoke.yaml")
+    config_path.write_text(yaml.safe_dump(cfg))
+cmd = [sys.executable, "train.py", "--config", str(config_path),
        "--data-dir", str(data_dir), "--out-dir", str(out_dir),
        "--resume-from", str(base_ckpt), "--seed", str(SEED)]
 if MAX_STEPS is not None:
