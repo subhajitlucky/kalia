@@ -177,7 +177,7 @@ result = {
     "n": len(gen_np),
     "grid": str(out_dir / "grid.png"),
 }
-out_dir / "eval.json".write_text(
+(out_dir / "eval.json").write_text(
     json.dumps(result, indent=2, sort_keys=True) + "\n"
 )
 print(json.dumps(result, indent=2, sort_keys=True), flush=True)
