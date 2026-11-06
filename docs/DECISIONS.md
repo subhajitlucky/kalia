@@ -1400,3 +1400,17 @@ tokens, 0.8% fewer. Both arms see the same text. First 30M arm (GPT-2, seed
 1338) running in the current GPU window; the remaining three arms run in the
 30-hour window. Evaluation is a separate CPU kernel. Pre-registration hash
 `0c7a054c…`; bars H-1…H-5.
+
+## D83 — X48 GPT-2 arm: training and 9-task baseline (2026-11-06)
+
+**Training.** 30M parameters (6 layers, 384 embd, 6 heads, context 512),
+4,770 steps, 312M GPT-2 tokens. Final val loss **3.2021** nats/token at step
+4750; checkpoint sha `ac9f1a94…`; 359MB including optimizer.
+
+**9-task eval (2k where available).** SciQ 0.5810, PIQA 0.5686, WinoGrande
+0.5217, BoolQ 0.4690, ARC-Easy 0.3920, HellaSwag 0.3010, ARC-Challenge
+0.1741, OpenBookQA 0.1560, LAMBADA 0.1275. **Mean 0.3657.**
+
+This is the GPT-2 BPE baseline for X48. The K-Tok 32k arm is still training;
+its eval uses the K-Tok tokenizer. The 30M screen is a tokenizer A/B, not a
+release; the 58M base remains v0.3.1.

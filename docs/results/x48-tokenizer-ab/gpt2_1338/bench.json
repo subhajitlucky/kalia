@@ -1,0 +1,30 @@
+{
+  "arc_challenge": {
+    "acc,none": 0.17406143344709898
+  },
+  "arc_easy": {
+    "acc,none": 0.392
+  },
+  "boolq": {
+    "acc,none": 0.469
+  },
+  "hellaswag": {
+    "acc,none": 0.301
+  },
+  "lambada_openai": {
+    "acc,none": 0.1275
+  },
+  "mean_acc": 0.36564655808052904,
+  "openbookqa": {
+    "acc,none": 0.156
+  },
+  "piqa": {
+    "acc,none": 0.5685527747551686
+  },
+  "sciq": {
+    "acc,none": 0.581
+  },
+  "winogrande": {
+    "acc,none": 0.5217048145224941
+  }
+}
