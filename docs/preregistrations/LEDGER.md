@@ -46,3 +46,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-05 | X44-fresh-depth | `docs/preregistrations/2026-11-05-X44-fresh-depth.md` | `45b516f220700e85cdd62cefd87565d54c26cd3612120730ca11d0885ca25b30` |
 | 2026-11-05 | X46-broad-compiler | `docs/preregistrations/2026-11-05-X46-broad-compiler.md` | `ff6393be93fbfb90172e1575fb285cad4223379de5748b0334fcbd70ce7ed4e5` |
 | 2026-11-05 | X48-tokenizer-ab | `docs/preregistrations/2026-11-05-X48-tokenizer-ab.md` | `0c7a054c1ed5eca903a53fb34ba27903d038e091eaeb23a2c61326d6bfb1e385` |
+| 2026-11-06 | X49-data-mix | `docs/preregistrations/2026-11-06-X49-data-mix.md` | `3e86a1a33b5fe4f59f9a5017b6460b70f82fb9f8cd3a03746719ca03686d426e` |
