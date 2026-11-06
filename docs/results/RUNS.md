@@ -49,6 +49,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X44/X45 fresh` | Fresh names/templates; F-P 0.085 normal -> 0.523/0.493, number+place 0.455 both, rename+swap 0.406/0.416 (F-3 fail), 3-op 0.283/0.365 (F-6 fail); partial OOD generalization; X43 release remains scoped | yes | 12 files |
 | `X46 broad` | Broad-template compiler; 17 templates, 1/2/3-op, X44 fresh held out; F-P 0.683/0.685, rename+swap 0.723/0.663, 3-op 0.615/0.558, compiler EM 0.355/0.378; G-1..G-6 pass; 0.96 GPU-h; v0.4.1 capability release | yes | 16 files |
 | `K-Tok v0` | Own byte-level BPE tokenizers 32k/50k/64k + digit-aware 32k on 50M corpus tokens; K-Tok 32k English 4.380 vs GPT-2 4.319 B/tok, code 3.162 vs 2.230, numbers 2.152 vs 2.478; frees 9.35M tied-embedding params; all lossless; 32k candidate for A/B | — | 9 files |
+| `X48 tokenizer A/B` | GPT-2 BPE vs K-Tok 32k at 30M, same 312M-token text, 4770 steps, seed 1338; GPT-2 mean 0.3657 vs K-Tok 0.3629 (−0.28 pp); LAMBADA +3.85 but OpenBookQA −2.80/ARC-C −1.45; val bpB 4.5% worse; H-1/H-3 fail; GPT-2 BPE stays, K-Tok parked | yes | 11 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -330,6 +331,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/ktok-v0/ktok_50k.json`
 - `… 3 more`
 
+**X48 tokenizer A/B**
+- `docs/results/x48-tokenizer-ab/README.md`
+- `docs/results/x48-tokenizer-ab/data_manifest.json`
+- `docs/results/x48-tokenizer-ab/gpt2_1338/README.md`
+- `docs/results/x48-tokenizer-ab/gpt2_1338/bench.json`
+- `docs/results/x48-tokenizer-ab/gpt2_1338/eval.log`
+- `docs/results/x48-tokenizer-ab/gpt2_1338/train.log`
+- `… 5 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -347,4 +357,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-42 runs tracked, 354 files archived, 3 with no evidence.
+43 runs tracked, 365 files archived, 3 with no evidence.

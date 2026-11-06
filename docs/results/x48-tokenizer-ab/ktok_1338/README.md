@@ -19,3 +19,22 @@ about 4.5%. The benchmark suite is the deciding metric.
 ## Artifacts
 
 - `train.log` — full training log.
+
+## 9-task eval
+
+| task | acc |
+|---|---:|
+| SciQ | 0.5800 |
+| PIQA | 0.5653 |
+| WinoGrande | 0.5241 |
+| BoolQ | 0.4595 |
+| ARC-Easy | 0.3840 |
+| HellaSwag | 0.2995 |
+| LAMBADA | 0.1660 |
+| ARC-Challenge | 0.1596 |
+| OpenBookQA | 0.1280 |
+| **mean** | **0.3629** |
+
+Compared with the GPT-2 arm (0.3657), K-Tok is **−0.28 pp** on the average.
+LAMBADA is a real win (+3.85 pp), but OpenBookQA (−2.80) and ARC-Challenge
+(−1.45) lose more. H-1 and H-3 fail.

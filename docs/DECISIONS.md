@@ -1429,3 +1429,23 @@ val bpB. The 9-task suite is the deciding metric.
 **Status.** K-Tok-tokenizer 9-task eval running on CPU. The first matched pair
 (GPT-2 vs K-Tok, seed 1338) will decide whether the tokenizer line continues
 to 58M or is parked.
+
+## D85 — X48 tokenizer A/B: GPT-2 BPE wins; K-Tok parked (2026-11-06)
+
+**Result (30M, seed 1338, 9-task 2k).** GPT-2 mean **0.3657**; K-Tok 32k
+mean **0.3629**, Δ **−0.28 pp**. LAMBADA improves +3.85 pp (~3.4σ), but
+OpenBookQA −2.80 and ARC-Challenge −1.45 lose more. Val bpB is ~4.5% worse
+for K-Tok over the same text. K-Tok is smaller (275MB vs 359MB checkpoint)
+and faster (39k vs 26k tok/s), but not a benchmark win.
+
+- **H-1 FAIL**, **H-2 PASS**, **H-3 FAIL**, **H-4/H-5 PASS**.
+- The screen stopped after seed 1338: the first matched pair is already below
+  the +1.0 pp bar and val bpB is worse; a second seed cannot rescue the claim.
+
+**Decision.** Keep GPT-2 BPE. Park K-Tok 32k. Do not spend a 58M run on this
+tokenizer. The owned-tokenizer goal remains open for a different design later.
+The next 30-hour window goes to the reasoning-heavy data experiment on
+OpenBookQA, ARC-Challenge, LAMBADA, HellaSwag.
+
+**Artifacts.** `docs/results/x48-tokenizer-ab/`. Pre-registration hash
+`0c7a054c…`.

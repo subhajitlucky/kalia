@@ -112,6 +112,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-05-X46-broad-compiler.md", ["docs/results/x46-broad/**/*"]),
     ("K-Tok v0", "Own byte-level BPE tokenizers 32k/50k/64k + digit-aware 32k on 50M corpus tokens; K-Tok 32k English 4.380 vs GPT-2 4.319 B/tok, code 3.162 vs 2.230, numbers 2.152 vs 2.478; frees 9.35M tied-embedding params; all lossless; 32k candidate for A/B",
      None, ["docs/results/ktok-v0/**/*"]),
+    ("X48 tokenizer A/B", "GPT-2 BPE vs K-Tok 32k at 30M, same 312M-token text, 4770 steps, seed 1338; GPT-2 mean 0.3657 vs K-Tok 0.3629 (−0.28 pp); LAMBADA +3.85 but OpenBookQA −2.80/ARC-C −1.45; val bpB 4.5% worse; H-1/H-3 fail; GPT-2 BPE stays, K-Tok parked",
+     "2026-11-05-X48-tokenizer-ab.md", ["docs/results/x48-tokenizer-ab/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",
