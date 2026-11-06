@@ -1414,3 +1414,18 @@ tokens, 0.8% fewer. Both arms see the same text. First 30M arm (GPT-2, seed
 This is the GPT-2 BPE baseline for X48. The K-Tok 32k arm is still training;
 its eval uses the K-Tok tokenizer. The 30M screen is a tokenizer A/B, not a
 release; the 58M base remains v0.3.1.
+
+## D84 — X48 K-Tok arm trained (2026-11-06)
+
+**Training.** 30M parameters, 4,770 steps, 309.3M K-Tok tokens (same text as
+the GPT-2 arm). Final val loss **3.3706** nats/token; checkpoint sha
+`07a12913…`; 275MB including optimizer. Throughput ~39k tok/s vs ~26k for the
+GPT-2 arm; the K-Tok model is smaller (32k tied embedding).
+
+**Val caveat.** Per-token loss is not comparable across tokenizers. Over the
+same text: GPT-2 ~32.02M total nats, K-Tok ~33.45M; GPT-2 is ~4.5% better on
+val bpB. The 9-task suite is the deciding metric.
+
+**Status.** K-Tok-tokenizer 9-task eval running on CPU. The first matched pair
+(GPT-2 vs K-Tok, seed 1338) will decide whether the tokenizer line continues
+to 58M or is parked.
