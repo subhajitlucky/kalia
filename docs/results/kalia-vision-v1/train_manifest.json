@@ -1,0 +1,10 @@
+{
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "ckpt_bytes": 15013553,
+  "ckpt_sha256": "ba2947e878d3ec515fbb5b8cc4daf54d5730a2fe474654ff59682dc3886073dd",
+  "data_dir": "/kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-data/vision-v1-data",
+  "elapsed_minutes": 45.53237441778183,
+  "experiment": "KALIA-Vision-v0",
+  "step": 25000,
+  "unet_params": 3748035
+}

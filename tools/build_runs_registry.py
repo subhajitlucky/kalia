@@ -116,6 +116,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-05-X48-tokenizer-ab.md", ["docs/results/x48-tokenizer-ab/**/*"]),
     ("KALIA-Vision v0", "Frozen KALIA text encoder + 3.75M conditional DDPM from scratch on 50k synthetic 32x32 shapes; 20k steps/40 min; held-out shape 0.947, color 0.968, position 0.852; W-1..W-5 pass; v0.5.0-vision capability release",
      "2026-11-06-kalia-vision-v0.md", ["docs/results/kalia-vision-v0/**/*"]),
+    ("KALIA-Vision v1", "Two-object 32x32 scenes; frozen KALIA text encoder + 3.75M conditional DDPM from scratch; 25k steps/45.5 min; left shape 0.991/color 0.980, right shape 0.993/color 0.976, exact scene 0.948; V1-1..V1-6 pass; v0.5.1-vision-two",
+     "2026-11-06-kalia-vision-v1.md", ["docs/results/kalia-vision-v1/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

@@ -1504,3 +1504,20 @@ text-to-image model; the release note says so. Next: KALIA-Audio v0
 
 **Artifacts.** `docs/results/kalia-vision-v0/`. Pre-registration hash
 `0c04af74…`.
+
+## D90 — KALIA-Vision v1 two-object scenes passes (2026-11-06)
+
+**Result.** Frozen KALIA v0.3.1 text encoder + 3.75M conditional DDPM from
+scratch on 50k synthetic two-object 32×32 scenes. 25,000 steps, 45.5 minutes.
+On 5,000 held-out captions:
+
+- left shape **0.9910**, left color **0.9804**
+- right shape **0.9932**, right color **0.9756**
+- exact two-object scene **0.9482**
+- real-test classifier sanity: exact 0.9994
+- V1-1…V1-6 pass.
+
+**Decision.** Release **v0.5.1-vision-two** capability update. Public base
+remains v0.3.1. Caveat unchanged: synthetic 32×32 toy domain, not general
+text-to-image. Next: KALIA-Audio v0 (from-scratch speech-command encoder feeding
+KALIA, then TTS).

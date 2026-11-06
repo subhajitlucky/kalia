@@ -1,0 +1,21 @@
+{
+  "V1-1_left_shape": true,
+  "V1-2_left_color": true,
+  "V1-3_right_shape": true,
+  "V1-4_right_color": true,
+  "V1-5_exact": true,
+  "ckpt_step": 25000,
+  "exact_scene": 0.9482,
+  "experiment": "KALIA-Vision-v1-eval",
+  "grid": "/kaggle/working/vision-v1/grid.png",
+  "left_color": 0.9804,
+  "left_shape": 0.991,
+  "n": 5000,
+  "real_exact": 0.9994,
+  "real_left_color": 1.0,
+  "real_left_shape": 0.9996,
+  "real_right_color": 1.0,
+  "real_right_shape": 0.9998,
+  "right_color": 0.9756,
+  "right_shape": 0.9932
+}

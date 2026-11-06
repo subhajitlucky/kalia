@@ -1,0 +1,35 @@
+ckpt: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-train/vision/ckpt.pt emb: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-train/vision/text_emb.npz
+checkpoint step: 25000
+sampled (5000, 32, 32, 3)
+classifier epoch 0 loss 2.1022
+classifier epoch 1 loss 0.3145
+classifier epoch 2 loss 0.0773
+classifier epoch 3 loss 0.0340
+classifier epoch 4 loss 0.0200
+{
+  "V1-1_left_shape": true,
+  "V1-2_left_color": true,
+  "V1-3_right_shape": true,
+  "V1-4_right_color": true,
+  "V1-5_exact": true,
+  "ckpt_step": 25000,
+  "exact_scene": 0.9482,
+  "experiment": "KALIA-Vision-v1-eval",
+  "grid": "/kaggle/working/vision-v1/grid.png",
+  "left_color": 0.9804,
+  "left_shape": 0.991,
+  "n": 5000,
+  "real_exact": 0.9994,
+  "real_left_color": 1.0,
+  "real_left_shape": 0.9996,
+  "real_right_color": 1.0,
+  "real_right_shape": 0.9998,
+  "right_color": 0.9756,
+  "right_shape": 0.9932
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 317851 bytes to __results__.html
