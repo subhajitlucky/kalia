@@ -41,6 +41,24 @@ if TOKENIZER:
     tok_arg = ["--tokenizer", str(tok_hits[0])]
     print("tokenizer:", tok_hits[0], flush=True)
 
+try:
+    import lm_eval  # noqa: F401
+except Exception:
+    print("installing lm-eval", flush=True)
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "lm-eval"],
+                   check=True)
+try:
+    import tiktoken  # noqa: F401
+except Exception:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "tiktoken"],
+                   check=True)
+if TOKENIZER:
+    try:
+        import tokenizers  # noqa: F401
+    except Exception:
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "tokenizers"],
+                       check=True)
+
 out = Path(f"/kaggle/working/x48_eval/{ARM}.json")
 out.parent.mkdir(parents=True, exist_ok=True)
 cmd = [sys.executable, "eval_bench.py", "--ckpt", str(ckpt),
