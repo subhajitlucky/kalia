@@ -44,7 +44,7 @@ def synth(command: str, rng: random.Random) -> np.ndarray:
     out = np.zeros(N, dtype=np.float32)
     # consonant burst
     burst_len = int(0.04 * SR)
-    burst = rng.uniform(-1, 1, burst_len).astype(np.float32)
+    burst = np.random.default_rng(rng.randrange(1 << 30)).uniform(-1, 1, burst_len).astype(np.float32)
     burst *= np.hanning(burst_len).astype(np.float32)
     out[:burst_len] += 0.25 * burst
     pos = int(0.06 * SR)
@@ -66,7 +66,7 @@ def synth(command: str, rng: random.Random) -> np.ndarray:
         env = np.hanning(length).astype(np.float32)
         out[pos:pos + length] += (0.6 * wave * env).astype(np.float32)
         pos += length
-    out += rng.uniform(-0.01, 0.01, N).astype(np.float32)
+    out += np.random.default_rng(rng.randrange(1 << 30)).uniform(-0.01, 0.01, N).astype(np.float32)
     out += np.random.default_rng(rng.randrange(1 << 30)).normal(
         0, 0.005, N
     ).astype(np.float32)
