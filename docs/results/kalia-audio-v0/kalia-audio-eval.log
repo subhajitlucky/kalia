@@ -1,0 +1,43 @@
+{
+  "all_classes_predicted": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "per_class": {
+    "0": {
+      "acc": 1.0,
+      "n": 172
+    },
+    "1": {
+      "acc": 1.0,
+      "n": 179
+    },
+    "2": {
+      "acc": 0.6976743936538696,
+      "n": 172
+    },
+    "3": {
+      "acc": 1.0,
+      "n": 163
+    },
+    "4": {
+      "acc": 1.0,
+      "n": 160
+    },
+    "5": {
+      "acc": 0.7662337422370911,
+      "n": 154
+    }
+  },
+  "test_acc": 0.9120000004768372
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 286375 bytes to __results__.html

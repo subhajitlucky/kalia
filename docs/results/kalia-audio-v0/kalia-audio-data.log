@@ -1,0 +1,57 @@
+train 5000
+val 1000
+test 1000
+{"train": 5000, "val": 1000, "test": 1000}
+{
+  "splits": {
+    "test": {
+      "counts": {
+        "down": 163,
+        "go": 154,
+        "left": 172,
+        "right": 179,
+        "stop": 160,
+        "up": 172
+      },
+      "duration": 0.6,
+      "max": 0.8999999761581421,
+      "mean_abs": 0.13806846737861633,
+      "min": -0.8999999761581421,
+      "n": 1000,
+      "shape": [
+        1000,
+        9600
+      ],
+      "sr": 16000,
+      "wav_sha256": "c6bb85c912a640870f156e028551db018390512840a7f94d9403aabe2c9d7ecc"
+    },
+    "train": {
+      "counts": {
+        "down": 847,
+        "go": 830,
+        "left": 837,
+        "right": 834,
+        "stop": 833,
+        "up": 819
+      },
+      "duration": 0.6,
+      "max": 0.8999999761581421,
+      "mean_abs": 0.13721710443496704,
+      "min": -0.8999999761581421,
+      "n": 5000,
+      "shape": [
+        5000,
+        9600
+      ],
+      "sr": 16000,
+      "wav_sha256": "9103e77698336ecbb00bf96b797840a6536cc51240d0cd856eb78e059861e4d7"
+    },
+    "val": {
+      "counts": {
+  
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 276987 bytes to __results__.html

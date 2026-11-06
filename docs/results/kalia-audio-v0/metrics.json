@@ -1,0 +1,11 @@
+{
+  "A-1": true,
+  "A-2": true,
+  "ckpt_bytes": 557597,
+  "ckpt_sha256": "a6ea705134175fb122db383338046770f7909fd954f8a92682692e52c3167b0c",
+  "elapsed_minutes": 0.38123765389124553,
+  "experiment": "KALIA-Audio-v0",
+  "params": 136326,
+  "test_acc": 0.912,
+  "val_acc": 0.916
+}

@@ -52,6 +52,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X48 tokenizer A/B` | GPT-2 BPE vs K-Tok 32k at 30M, same 312M-token text, 4770 steps, seed 1338; GPT-2 mean 0.3657 vs K-Tok 0.3629 (−0.28 pp); LAMBADA +3.85 but OpenBookQA −2.80/ARC-C −1.45; val bpB 4.5% worse; H-1/H-3 fail; GPT-2 BPE stays, K-Tok parked | yes | 11 files |
 | `KALIA-Vision v0` | Frozen KALIA text encoder + 3.75M conditional DDPM from scratch on 50k synthetic 32x32 shapes; 20k steps/40 min; held-out shape 0.947, color 0.968, position 0.852; W-1..W-5 pass; v0.5.0-vision capability release | yes | 9 files |
 | `KALIA-Vision v1` | Two-object 32x32 scenes; frozen KALIA text encoder + 3.75M conditional DDPM from scratch; 25k steps/45.5 min; left shape 0.991/color 0.980, right shape 0.993/color 0.976, exact scene 0.948; V1-1..V1-6 pass; v0.5.1-vision-two | yes | 8 files |
+| `KALIA-Audio v0` | From-scratch 136k 1D CNN on six synthetic formant commands; 15 epochs/0.38 min; test 0.912, val 0.916; all six commands present; A-1..A-3 pass; v0.6.0-audio-commands | yes | 7 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -360,6 +361,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/kalia-vision-v1/kalia-vision-v1-eval.log`
 - `… 2 more`
 
+**KALIA-Audio v0**
+- `docs/results/kalia-audio-v0/README.md`
+- `docs/results/kalia-audio-v0/audio_eval.json`
+- `docs/results/kalia-audio-v0/audit.json`
+- `docs/results/kalia-audio-v0/kalia-audio-data.log`
+- `docs/results/kalia-audio-v0/kalia-audio-eval.log`
+- `docs/results/kalia-audio-v0/kalia-audio-train.log`
+- `… 1 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -377,4 +387,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-45 runs tracked, 382 files archived, 3 with no evidence.
+46 runs tracked, 389 files archived, 3 with no evidence.

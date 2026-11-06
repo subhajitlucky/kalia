@@ -118,6 +118,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-06-kalia-vision-v0.md", ["docs/results/kalia-vision-v0/**/*"]),
     ("KALIA-Vision v1", "Two-object 32x32 scenes; frozen KALIA text encoder + 3.75M conditional DDPM from scratch; 25k steps/45.5 min; left shape 0.991/color 0.980, right shape 0.993/color 0.976, exact scene 0.948; V1-1..V1-6 pass; v0.5.1-vision-two",
      "2026-11-06-kalia-vision-v1.md", ["docs/results/kalia-vision-v1/**/*"]),
+    ("KALIA-Audio v0", "From-scratch 136k 1D CNN on six synthetic formant commands; 15 epochs/0.38 min; test 0.912, val 0.916; all six commands present; A-1..A-3 pass; v0.6.0-audio-commands",
+     "2026-11-06-kalia-audio-v0.md", ["docs/results/kalia-audio-v0/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

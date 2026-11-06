@@ -1521,3 +1521,13 @@ On 5,000 held-out captions:
 remains v0.3.1. Caveat unchanged: synthetic 32×32 toy domain, not general
 text-to-image. Next: KALIA-Audio v0 (from-scratch speech-command encoder feeding
 KALIA, then TTS).
+
+## D91 — KALIA-Audio v0 passes (2026-11-06)
+
+**Result.** From-scratch 136k-parameter 1D CNN on six synthetic formant
+commands. 15 epochs, 0.38 minutes. Held-out test **0.912**, val 0.916; all six
+commands present; class 5 weakest at 0.766.
+
+**Decision.** Release **v0.6.0-audio-commands** capability pack. Public base
+remains v0.3.1. Caveat: synthetic formant tones, not real speech. Next: real
+speech commands, then KALIA response generation and TTS.
