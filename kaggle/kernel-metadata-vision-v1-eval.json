@@ -1,0 +1,17 @@
+{
+  "id": "subhajitlucky/kalia-vision-v1-eval",
+  "title": "KALIA vision v1 eval",
+  "code_file": "kalia_vision_v1_eval_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": [
+    "subhajitlucky/kalia-vision-v1-train",
+    "subhajitlucky/kalia-vision-v1-data"
+  ],
+  "model_sources": []
+}
