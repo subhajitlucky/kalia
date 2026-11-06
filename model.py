@@ -1354,6 +1354,20 @@ class GPT(nn.Module):
         return logits, loss
 
     @torch.no_grad()
+    def encode(self, idx: torch.Tensor, attn_mask: torch.Tensor | None = None) -> torch.Tensor:
+        """Return the final hidden states for a token batch (no loss head).
+
+        Used by the vision module to freeze KALIA as a text encoder.
+        """
+        if self.event is not None or self.crb is not None:
+            raise ValueError("encode() is for the standard text trunk")
+        x = self.tok_emb(idx)
+        for _ in range(self.cfg.n_loops):
+            for block in self.blocks:
+                x = block(x, attn_mask)
+        return self.norm_f(x)
+
+    @torch.no_grad()
     def generate(
         self,
         idx: torch.Tensor,
