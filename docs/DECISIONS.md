@@ -1460,3 +1460,15 @@ control 60/20/15/5 FineWeb-Edu/TinyStories/Cosmopedia/code; treatment
 **Status.** 50-step smoke test running to validate the v0.3.1 resume and
 re-warm pipeline. The two full 58M arms run in the 30-hour window; K-1…K-4
 pre-registered (hash `3e86a1a3…`).
+
+## D87 — X49 smoke passes; runtime amended to 1,500 steps (2026-11-06)
+
+**Smoke.** 50 steps on the control mixture from v0.3.1; val 2.8085; throughput
+**13.6k tokens/s**; checkpoint saved. The resume/re-warm pipeline works.
+
+**Runtime.** The registered 2,000-step arm is 524M tokens ≈ 10.7h, over
+Kaggle's 9-hour session limit. Amendment 1 sets both arms to **1,500 steps**
+(393M tokens), warmup 150, one session each; bars K-1…K-4 unchanged.
+
+**Status.** Full control/treatment arms run in the 30-hour window. No
+result-driven tuning.
