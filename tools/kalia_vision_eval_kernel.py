@@ -76,6 +76,8 @@ train_caps = [json.loads(line)["caption"] for line in
 train_labels = np.array([parse_caption(c) for c in train_caps], dtype=np.int64)
 
 # --- sample ---------------------------------------------------------------
+out_dir = Path("/kaggle/working/vision")
+out_dir.mkdir(parents=True, exist_ok=True)
 diff = Diffusion(1000, device)
 gen = []
 with torch.no_grad():
@@ -84,14 +86,14 @@ with torch.no_grad():
         gen.append(diff.sample(model, emb, steps=100).cpu())
 generated = torch.cat(gen, dim=0)
 gen_np = ((generated.permute(0, 2, 3, 1).numpy() + 1.0) * 127.5).clip(0, 255).astype(np.uint8)
-np.save("/kaggle/working/vision/generated_test.npy", gen_np)
+np.save(out_dir / "generated_test.npy", gen_np)
 grid = gen_np[:64]
 canvas = np.zeros((8 * 32, 8 * 32, 3), dtype=np.uint8)
 for i in range(64):
     r, c = divmod(i, 8)
     canvas[r * 32:(r + 1) * 32, c * 32:(c + 1) * 32] = grid[i]
 Image.fromarray(canvas).resize((512, 512), Image.NEAREST).save(
-    "/kaggle/working/vision/grid.png"
+    str(out_dir / "grid.png")
 )
 print("sampled", gen_np.shape, flush=True)
 
@@ -173,9 +175,9 @@ result = {
     "W-2_color": fake[1] >= 0.80,
     "W-3_position": fake[2] >= 0.70,
     "n": len(gen_np),
-    "grid": "/kaggle/working/vision/grid.png",
+    "grid": str(out_dir / "grid.png"),
 }
-Path("/kaggle/working/vision/eval.json").write_text(
+out_dir / "eval.json".write_text(
     json.dumps(result, indent=2, sort_keys=True) + "\n"
 )
 print(json.dumps(result, indent=2, sort_keys=True), flush=True)
