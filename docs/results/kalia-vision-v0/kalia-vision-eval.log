@@ -1,0 +1,32 @@
+ckpt: /kaggle/input/notebooks/subhajitlucky/kalia-vision-train/vision/ckpt.pt emb: /kaggle/input/notebooks/subhajitlucky/kalia-vision-train/vision/text_emb.npz
+checkpoint step: 20000
+sampled (5000, 32, 32, 3)
+/kaggle/src/script.py:145: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  total += float(loss) * len(idx)
+classifier epoch 0 loss 1.6189
+classifier epoch 1 loss 0.4489
+classifier epoch 2 loss 0.2229
+classifier epoch 3 loss 0.1200
+classifier epoch 4 loss 0.1002
+{
+  "W-1_shape": true,
+  "W-2_color": true,
+  "W-3_position": true,
+  "ckpt_step": 20000,
+  "experiment": "KALIA-Vision-v0-eval",
+  "generated_color": 0.9684,
+  "generated_position": 0.8524,
+  "generated_shape": 0.9472,
+  "grid": "/kaggle/working/vision/grid.png",
+  "n": 5000,
+  "real_test_color": 1.0,
+  "real_test_position": 0.9574,
+  "real_test_shape": 1.0
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 315692 bytes to __results__.html

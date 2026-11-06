@@ -1482,3 +1482,25 @@ vision weights.
 **Status.** 500-step conditional-DDPM smoke running. Full 20k-step model in the
 30-hour window; bars W-1…W-3 registered (shape ≥0.80, color ≥0.80, position
 ≥0.70). The public base remains v0.3.1; this is a capability module.
+
+## D89 — KALIA-Vision v0 passes all bars (2026-11-06)
+
+**Result.** Frozen KALIA v0.3.1 text encoder + 3.75M-parameter conditional
+DDPM trained from scratch on 50k synthetic 32×32 shapes. 20,000 steps,
+40.0 minutes. On 5,000 held-out captions:
+
+- **W-1 shape 0.9472** (bar 0.80)
+- **W-2 color 0.9684** (bar 0.80)
+- **W-3 position 0.8524** (bar 0.70)
+- **W-4 pass**: no pretrained vision weights; KALIA frozen.
+- **W-5 pass**: sample grid saved.
+
+Real-test classifier sanity: shape 1.000, color 1.000, position 0.957.
+
+**Decision.** Release **v0.5.0-vision** as a capability module. The public
+base remains v0.3.1. This is a synthetic 32×32 toy domain, not a general
+text-to-image model; the release note says so. Next: KALIA-Audio v0
+(from-scratch speech-command encoder feeding KALIA, then TTS).
+
+**Artifacts.** `docs/results/kalia-vision-v0/`. Pre-registration hash
+`0c04af74…`.

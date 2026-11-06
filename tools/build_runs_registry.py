@@ -114,6 +114,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      None, ["docs/results/ktok-v0/**/*"]),
     ("X48 tokenizer A/B", "GPT-2 BPE vs K-Tok 32k at 30M, same 312M-token text, 4770 steps, seed 1338; GPT-2 mean 0.3657 vs K-Tok 0.3629 (−0.28 pp); LAMBADA +3.85 but OpenBookQA −2.80/ARC-C −1.45; val bpB 4.5% worse; H-1/H-3 fail; GPT-2 BPE stays, K-Tok parked",
      "2026-11-05-X48-tokenizer-ab.md", ["docs/results/x48-tokenizer-ab/**/*"]),
+    ("KALIA-Vision v0", "Frozen KALIA text encoder + 3.75M conditional DDPM from scratch on 50k synthetic 32x32 shapes; 20k steps/40 min; held-out shape 0.947, color 0.968, position 0.852; W-1..W-5 pass; v0.5.0-vision capability release",
+     "2026-11-06-kalia-vision-v0.md", ["docs/results/kalia-vision-v0/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

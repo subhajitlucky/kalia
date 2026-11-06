@@ -50,6 +50,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X46 broad` | Broad-template compiler; 17 templates, 1/2/3-op, X44 fresh held out; F-P 0.683/0.685, rename+swap 0.723/0.663, 3-op 0.615/0.558, compiler EM 0.355/0.378; G-1..G-6 pass; 0.96 GPU-h; v0.4.1 capability release | yes | 16 files |
 | `K-Tok v0` | Own byte-level BPE tokenizers 32k/50k/64k + digit-aware 32k on 50M corpus tokens; K-Tok 32k English 4.380 vs GPT-2 4.319 B/tok, code 3.162 vs 2.230, numbers 2.152 vs 2.478; frees 9.35M tied-embedding params; all lossless; 32k candidate for A/B | — | 9 files |
 | `X48 tokenizer A/B` | GPT-2 BPE vs K-Tok 32k at 30M, same 312M-token text, 4770 steps, seed 1338; GPT-2 mean 0.3657 vs K-Tok 0.3629 (−0.28 pp); LAMBADA +3.85 but OpenBookQA −2.80/ARC-C −1.45; val bpB 4.5% worse; H-1/H-3 fail; GPT-2 BPE stays, K-Tok parked | yes | 11 files |
+| `KALIA-Vision v0` | Frozen KALIA text encoder + 3.75M conditional DDPM from scratch on 50k synthetic 32x32 shapes; 20k steps/40 min; held-out shape 0.947, color 0.968, position 0.852; W-1..W-5 pass; v0.5.0-vision capability release | yes | 9 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -340,6 +341,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x48-tokenizer-ab/gpt2_1338/train.log`
 - `… 5 more`
 
+**KALIA-Vision v0**
+- `docs/results/kalia-vision-v0/README.md`
+- `docs/results/kalia-vision-v0/ckpt.pt`
+- `docs/results/kalia-vision-v0/data.log`
+- `docs/results/kalia-vision-v0/eval.json`
+- `docs/results/kalia-vision-v0/generated_test.npy`
+- `docs/results/kalia-vision-v0/grid.png`
+- `… 3 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -357,4 +367,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-43 runs tracked, 365 files archived, 3 with no evidence.
+44 runs tracked, 374 files archived, 3 with no evidence.

@@ -1,0 +1,15 @@
+{
+  "W-1_shape": true,
+  "W-2_color": true,
+  "W-3_position": true,
+  "ckpt_step": 20000,
+  "experiment": "KALIA-Vision-v0-eval",
+  "generated_color": 0.9684,
+  "generated_position": 0.8524,
+  "generated_shape": 0.9472,
+  "grid": "/kaggle/working/vision/grid.png",
+  "n": 5000,
+  "real_test_color": 1.0,
+  "real_test_position": 0.9574,
+  "real_test_shape": 1.0
+}
