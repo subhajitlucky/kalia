@@ -19,7 +19,7 @@ from pathlib import Path
 
 import numpy as np
 
-URL = "https://download.tensorflow.org/data/speech_commands_v0.02.tar.gz"
+URL = "https://storage.googleapis.com/download.tensorflow.org/data/speech_commands_v0.02.tar.gz"
 COMMANDS = ("yes", "no", "up", "down", "left", "right",
             "on", "off", "stop", "go", "zero", "one")
 SR = 16000
