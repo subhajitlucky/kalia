@@ -1,0 +1,29 @@
+{
+  "control": {
+    "ratios": {
+      "code": 5,
+      "cosmopedia": 15,
+      "fineweb_edu": 60,
+      "tinystories": 20
+    },
+    "train_bytes": 1048000000,
+    "train_sha256": "dfa712d9b77032bf8809046eb6b2835e604d8edbe23d88a9c2e558b8d648065b",
+    "val_bytes": 20000000,
+    "val_sha256": "69051188e1c03db36b02832b8a68b9aa24cbf83659d061c4b951abb9ddd3ff8e"
+  },
+  "experiment": "X49-data",
+  "train_tokens": 524000000,
+  "treatment": {
+    "ratios": {
+      "code": 10,
+      "cosmopedia": 40,
+      "fineweb_edu": 45,
+      "tinystories": 5
+    },
+    "train_bytes": 1048000000,
+    "train_sha256": "6cb98123df02a3a48d10d0bf376602de1bc21aa9c9be4f7aa132a34bb1f8ee96",
+    "val_bytes": 20000000,
+    "val_sha256": "c82cf229f4c405054128d70c05fdb834028aec0f93de25f42db7027684875976"
+  },
+  "val_tokens": 10000000
+}

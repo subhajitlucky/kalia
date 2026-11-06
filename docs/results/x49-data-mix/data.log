@@ -1,0 +1,144 @@
+sources: {'tinystories.bin': '/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/tinystories.bin', 'smollm_fineweb_edu.bin': '/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/smollm_fineweb_edu.bin', 'cosmopedia.bin': '/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/cosmopedia.bin', 'stack_smol.bin': '/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/stack_smol.bin'}
+
+=== control ===
+{
+  "val_tokens": 10000000,
+  "train_tokens": 524000000,
+  "shards": {
+    "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/tinystories.bin": {
+      "ratio": 20.0,
+      "used_tokens": 106800000
+    },
+    "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/smollm_fineweb_edu.bin": {
+      "ratio": 60.0,
+      "used_tokens": 320400000
+    },
+    "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/cosmopedia.bin": {
+      "ratio": 15.0,
+      "used_tokens": 80100000
+    },
+    "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/stack_smol.bin": {
+      "ratio": 5.0,
+      "used_tokens": 26700000
+    }
+  },
+  "train.bin": {
+    "bytes": 1048000000,
+    "sha256": "dfa712d9b77032bf8809046eb6b2835e604d8edbe23d88a9c2e558b8d648065b"
+  },
+  "val.bin": {
+    "bytes": 20000000,
+    "sha256": "69051188e1c03db36b02832b8a68b9aa24cbf83659d061c4b951abb9ddd3ff8e"
+  }
+}
+
+=== treatment ===
+{
+  "val_tokens": 10000000,
+  "train_tokens": 524000000,
+  "shards": {
+    "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/tinystories.bin": {
+      "ratio": 5.0,
+      "used_tokens": 26700000
+    },
+    "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/smollm_fineweb_edu.bin": {
+      "ratio": 45.0,
+      "used_tokens": 240300000
+    },
+    "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/cosmopedia.bin": {
+      "ratio": 40.0,
+      "used_tokens": 213600000
+    },
+    "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/stack_smol.bin": {
+      "ratio": 10.0,
+      "used_tokens": 53400000
+    }
+  },
+  "train.bin": {
+    "bytes": 1048000000,
+    "sha256": "6cb98123df02a3a48d10d0bf376602de1bc21aa9c9be4f7aa132a34bb1f8ee96"
+  },
+  "val.bin": {
+    "bytes": 20000000,
+    "sha256": "c82cf229f4c405054128d70c05fdb834028aec0f93de25f42db7027684875976"
+  }
+}
+{
+  "experiment": "X49-data",
+  "mixtures": {
+    "control": {
+      "shards": {
+        "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/cosmopedia.bin": {
+          "ratio": 15.0,
+          "used_tokens": 80100000
+        },
+        "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/smollm_fineweb_edu.bin": {
+          "ratio": 60.0,
+          "used_tokens": 320400000
+        },
+        "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/stack_smol.bin": {
+          "ratio": 5.0,
+          "used_tokens": 26700000
+        },
+        "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/tinystories.bin": {
+          "ratio": 20.0,
+          "used_tokens": 106800000
+        }
+      },
+      "train.bin": {
+        "bytes": 1048000000,
+        "sha256": "dfa712d9b77032bf8809046eb6b2835e604d8edbe23d88a9c2e558b8d648065b"
+      },
+      "train_tokens": 524000000,
+      "val.bin": {
+        "bytes": 20000000,
+        "sha256": "69051188e1c03db36b02832b8a68b9aa24cbf83659d061c4b951abb9ddd3ff8e"
+      },
+      "val_tokens": 10000000
+    },
+    "treatment": {
+      "shards": {
+        "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/cosmopedia.bin": {
+          "ratio": 40.0,
+          "used_tokens": 213600000
+        },
+        "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/smollm_fineweb_edu.bin": {
+          "ratio": 45.0,
+          "used_tokens": 240300000
+        },
+        "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/stack_smol.bin": {
+          "ratio": 10.0,
+          "used_tokens": 53400000
+        },
+        "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/tinystories.bin": {
+          "ratio": 5.0,
+          "used_tokens": 26700000
+        }
+      },
+      "train.bin": {
+        "bytes": 1048000000,
+        "sha256": "6cb98123df02a3a48d10d0bf376602de1bc21aa9c9be4f7aa132a34bb1f8ee96"
+      },
+      "train_tokens": 524000000,
+      "val.bin": {
+        "bytes": 20000000,
+        "sha256": "c82cf229f4c405054128d70c05fdb834028aec0f93de25f42db7027684875976"
+      },
+      "val_tokens": 10000000
+    }
+  },
+  "sources": {
+    "cosmopedia.bin": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/cosmopedia.bin",
+    "smollm_fineweb_edu.bin": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/smollm_fineweb_edu.bin",
+    "stack_smol.bin": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/stack_smol.bin",
+    "tinystories.bin": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2/data/tinystories.bin"
+  },
+  "train_tokens": 524000000,
+  "val_tokens": 10000000
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 286684 bytes to __results__.html

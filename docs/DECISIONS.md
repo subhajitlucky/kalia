@@ -1449,3 +1449,14 @@ OpenBookQA, ARC-Challenge, LAMBADA, HellaSwag.
 
 **Artifacts.** `docs/results/x48-tokenizer-ab/`. Pre-registration hash
 `0c7a054c…`.
+
+## D86 — X49 reasoning-heavy data ready (2026-11-06)
+
+**Data.** Two 524M-token mixtures from the same source shards:
+control 60/20/15/5 FineWeb-Edu/TinyStories/Cosmopedia/code; treatment
+45/5/40/10. Both 1.048GB, 10M val tokens; train shas `dfa712d9…` and
+`6cb98123…`. CPU only.
+
+**Status.** 50-step smoke test running to validate the v0.3.1 resume and
+re-warm pipeline. The two full 58M arms run in the 30-hour window; K-1…K-4
+pre-registered (hash `3e86a1a3…`).
