@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-audio-eval",
+  "title": "KALIA audio eval",
+  "code_file": "kalia_audio_eval_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-audio-train","subhajitlucky/kalia-audio-data"],
+  "model_sources": []
+}
