@@ -49,3 +49,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-06 | X49-data-mix | `docs/preregistrations/2026-11-06-X49-data-mix.md` | `3e86a1a33b5fe4f59f9a5017b6460b70f82fb9f8cd3a03746719ca03686d426e` |
 | 2026-11-06 | X49-amendment-1 | `docs/preregistrations/2026-11-06-X49-amendment-1.md` | `2d64f2e326e125383653cf86b28c151cdd4a14e3fc8fe23f82555119be0bbf3a` |
 | 2026-11-06 | KALIA-Vision-v0 | `docs/preregistrations/2026-11-06-kalia-vision-v0.md` | `0c04af749981abec15cf8cf9ea699208bf4cabe221e4352326ddbafe39a1d301` |
+| 2026-11-06 | KALIA-Vision-v1 | `docs/preregistrations/2026-11-06-kalia-vision-v1.md` | `c87bd71099c5731dfcc81c7b72aef29772cca90903c50b20ee8a5d1e17cf7503` |
