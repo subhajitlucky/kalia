@@ -1,0 +1,14 @@
+{
+  "experiment": "KALIA-Audio-v1.1-logSTFT",
+  "commands": ["yes","no","up","down","left","right","on","off","stop","go","zero","one"],
+  "train_n": 10800,
+  "val_n": 1200,
+  "test_n": 4891,
+  "params": 391884,
+  "val_acc": 0.8516666666666667,
+  "test_acc": 0.856062154978532,
+  "R-1": true,
+  "R-2": true,
+  "ckpt_sha256": "e5fd5c33811e869a6d9c2b1fc8c5dcb1d4d25805bf050b457d21a8b779ed4b2b",
+  "elapsed_minutes": 5.732414746284485
+}

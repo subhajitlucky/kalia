@@ -1531,3 +1531,14 @@ commands present; class 5 weakest at 0.766.
 **Decision.** Release **v0.6.0-audio-commands** capability pack. Public base
 remains v0.3.1. Caveat: synthetic formant tones, not real speech. Next: real
 speech commands, then KALIA response generation and TTS.
+
+## D92 — KALIA-Audio v1.1 real speech passes (2026-11-07)
+
+**Result.** Log-magnitude STFT + 2D CNN on 12 real Speech Commands words,
+10,800 train / 4,891 official test. 391,884 params, 30 epochs, 5.7 minutes.
+Test **0.8561**, val **0.8517**; R-1…R-3 pass. v1 raw-waveform baseline was
+0.655.
+
+**Decision.** Release **v0.6.1-audio-speech** capability update. Public base
+remains v0.3.1. Caveat: 12 words, not open-vocabulary speech. Next: 35-word
+vocabulary, KALIA response generation, TTS.

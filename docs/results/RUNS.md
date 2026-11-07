@@ -53,6 +53,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `KALIA-Vision v0` | Frozen KALIA text encoder + 3.75M conditional DDPM from scratch on 50k synthetic 32x32 shapes; 20k steps/40 min; held-out shape 0.947, color 0.968, position 0.852; W-1..W-5 pass; v0.5.0-vision capability release | yes | 9 files |
 | `KALIA-Vision v1` | Two-object 32x32 scenes; frozen KALIA text encoder + 3.75M conditional DDPM from scratch; 25k steps/45.5 min; left shape 0.991/color 0.980, right shape 0.993/color 0.976, exact scene 0.948; V1-1..V1-6 pass; v0.5.1-vision-two | yes | 8 files |
 | `KALIA-Audio v0` | From-scratch 136k 1D CNN on six synthetic formant commands; 15 epochs/0.38 min; test 0.912, val 0.916; all six commands present; A-1..A-3 pass; v0.6.0-audio-commands | yes | 7 files |
+| `KALIA-Audio v1.1` | Real Speech Commands 12 words; log-STFT 201x101 + 2D CNN from scratch; 10.8k train/4.9k official test; 391,884 params; 30 epochs/5.7 min; test 0.856, val 0.852; v1 raw-waveform 0.655; R-1..R-3 pass; v0.6.1-audio-speech | yes | 3 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -370,6 +371,11 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/kalia-audio-v0/kalia-audio-train.log`
 - `… 1 more`
 
+**KALIA-Audio v1.1**
+- `docs/results/kalia-audio-v1.1/README.md`
+- `docs/results/kalia-audio-v1.1/metrics.json`
+- `docs/results/kalia-audio-v1.1/train.log`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -387,4 +393,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-46 runs tracked, 389 files archived, 3 with no evidence.
+47 runs tracked, 392 files archived, 3 with no evidence.
