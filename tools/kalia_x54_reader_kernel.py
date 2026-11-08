@@ -44,11 +44,67 @@ if not work.exists():
 os.chdir(work)
 sys.path.insert(0, str(work))
 
-from vision_captioner import (caption_images, make_model, normalize)
-from vision_diffusion import Diffusion, UNet
-from vision_reader import reader_token_loss, sample_with_grad
+from vision_captioner import (EOS_ID, MAX_TEXT, NEWLINE_ID, PROMPT,
+                              build_batch, make_model, normalize)
+from vision_diffusion import Diffusion, UNet, IMAGE_SIZE, IN_CHANNELS
 from edit_compiler import load_lora, lora_state_dict
 from synthetic_vision import COLORS, SHAPES
+
+
+# The two mechanisms below are kept in this kernel because the shared code
+# dataset is at its write limit; they are byte-for-byte the same algorithms as
+# vision_reader.py and vision_captioner.caption_images. No external code.
+@torch.no_grad()
+def caption_images(base, encoder, images, enc, device, max_new=MAX_TEXT):
+    base.eval(); encoder.eval()
+    b = images.shape[0]
+    prefix = encoder(images.to(device))
+    prompt = enc.encode_ordinary(PROMPT)
+    idx = torch.tensor([prompt] * b, dtype=torch.long, device=device)
+    out = [[] for _ in range(b)]
+    done = torch.zeros(b, dtype=torch.bool, device=device)
+    for _ in range(max_new):
+        logits, _ = base(idx, prefix_embeds=prefix)
+        nxt = logits[:, -1].argmax(dim=-1)
+        for i in range(b):
+            if not bool(done[i]):
+                tok = int(nxt[i].item())
+                if tok in (NEWLINE_ID, EOS_ID):
+                    done[i] = True
+                else:
+                    out[i].append(tok)
+        idx = torch.cat([idx, nxt[:, None]], dim=1)
+        if bool(done.all()):
+            break
+    return [normalize(enc.decode(tokens)) for tokens in out]
+
+
+def sample_with_grad(diff, model, text_emb, steps=20, generator=None):
+    b = text_emb.shape[0]
+    x = torch.randn(b, IN_CHANNELS, IMAGE_SIZE, IMAGE_SIZE,
+                    device=text_emb.device, generator=generator)
+    ts = torch.linspace(diff.steps - 1, 0, steps,
+                        device=text_emb.device).long()
+    for i, t in enumerate(ts):
+        tt = t.expand(b)
+        eps = model(x, tt, text_emb)
+        a = diff.alpha_bar[t]
+        x0 = (x - (1.0 - a).sqrt() * eps) / a.sqrt()
+        x0 = x0.clamp(-1.0, 1.0)
+        if i + 1 < len(ts):
+            a_next = diff.alpha_bar[ts[i + 1]]
+            x = a_next.sqrt() * x0 + (1.0 - a_next).sqrt() * eps
+        else:
+            x = x0
+    return x.clamp(-1.0, 1.0)
+
+
+def reader_token_loss(base, encoder, images, captions, enc, device):
+    imgs_t, x, y, mask, attn = build_batch(images, captions, enc, device)
+    prefix = encoder(imgs_t)
+    _, loss = base(x, targets=y, loss_mask=mask, attn_mask=attn,
+                   prefix_embeds=prefix)
+    return loss
 
 data_hits = sorted(Path("/kaggle/input").rglob("train_images.npy"))
 data_hits = [p for p in data_hits if "vision-v1-data" in str(p)] or data_hits

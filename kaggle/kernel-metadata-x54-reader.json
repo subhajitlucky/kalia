@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x54-reader",
+  "title": "KALIA X54 reader guided diffusion",
+  "code_file": "kalia_x54_reader_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-vision-v1-train","subhajitlucky/kalia-vision-v2-split-train","subhajitlucky/kalia-vision-v1-data"],
+  "model_sources": []
+}
