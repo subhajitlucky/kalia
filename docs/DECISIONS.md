@@ -1610,6 +1610,11 @@ the generated distribution. The gap is at the captioner input distribution.
 diffusion-generated images with known source captions, then re-test held-out
 cycle. If it fails, the gap is a boundary at this scale.
 
+**Correction (D99).** The cycle was conditioned with a causal mean-pooled
+caption embedding, while v1 training used a bidirectional masked mean. With the
+training embedding the held-out loop is **0.930**; the 0.032 was an inference
+mismatch, not a compositional gap.
+
 ## D98 — X53 cycle-consistency fine-tune: null (2026-11-08)
 
 **Result.** 10k generated seen + 10k real replay, 2 epochs. Real held-out
@@ -1622,3 +1627,31 @@ generic distribution shift. Generated-seen adaptation does not transfer.
 
 **Decision.** No release, no tuning. The next direction is joint training or a
 captioner-consistency loss on the diffusion, not more replay.
+
+**Correction (D99).** X53 generated its images with the causal embedding, so
+the fine-tune adapted the captioner to out-of-distribution scenes. Its 0.005 is
+not evidence of a compositional gap. With the v1 training embedding the
+held-out loop is **0.930**.
+
+## D99 — X55 embedding fix closes the see→draw→see loop (2026-11-08)
+
+**Result.** A/B with the same v1 diffusion, v2.1 captioner, real images and
+held-out split; only the caption embedding changes. Bidirectional (v1 training)
+held-out loop exact **0.930**, attributes 0.967–0.993, source readback **0.930**,
+classifier **0.936**, real caption 0.992. Causal (old cycle) held-out loop
+**0.000**, source 0.004, classifier 0.000. Cosine between the embeddings
+**0.692**. Seen: 0.949 vs 0.042. E-1…E-7 pass.
+
+**Cause.** v1 training used a bidirectional masked mean
+(`encode(x, attn_mask=mask[:, None, None, :])`); the earlier cycle kernels used
+a causal mean (`encode(ids).mean(1)`). The causal condition is far outside the
+diffusion's training distribution.
+
+**Correction.** D97/D98's compositional-gap interpretation was wrong. The
+earlier 0.032 and 0.005 were measuring the inference-embedding mismatch, not a
+cross-modal compositional boundary. The v2.1 captioner's compositional split
+result (0.992) stands.
+
+**Decision.** Release **v0.5.4-vision-cycle** with the corrected embedding
+module. Public base remains v0.3.1; no Hugging Face base release, because the
+standard-benchmark +10% gate is not met. No tuning after this result.

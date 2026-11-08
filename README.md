@@ -19,13 +19,14 @@ releases is v0.1.2 on the *original* held-out set, which the rebuild replaced; t
 never compared (decision D43).
 
 **Current public base:** v0.3.1 — 57,856,256 parameters, held-out loss
-**2.7579**, **0.9016** bits-per-byte. **Capability releases (2026-11-05):**
-[v0.4.0 X43 edit compiler](docs/releases/v040-x43-edit-compiler.md) and
-[v0.4.1 X46 broad-template compiler](docs/releases/v041-x46-broad-compiler.md)
-— 1,413,120-parameter LoRA adapter packs on v0.3.1. On the fresh-template
-benchmark, F-P **0.085 → 0.683/0.685**, `rename+swap` **0.723/0.663**, and
-3-op depth **0.615/0.558**. The base model and the five-task zero-shot suite
-are unchanged.
+**2.7579**, **0.9016** bits-per-byte. **Capability releases:** the
+[v0.4.0/v0.4.1 edit compiler](docs/releases/v040-x43-edit-compiler.md) LoRA
+packs (1,413,120 parameters); the v0.5.x vision line — draw (v0.5.0/v0.5.1),
+see (v0.5.2), compose unseen combinations (v0.5.3), and the corrected
+see→draw→see loop ([v0.5.4](docs/releases/v054-vision-cycle.md), held-out
+**0.930** exact); and the v0.6.x audio line (v0.6.0 six-command ear, v0.6.1
+real 12-word speech, **0.856** test). The base model and the five-task
+zero-shot suite are unchanged.
 
 **The full record — method, results, strong points, weak points, and every failure — lives
 in the repository:** the first-release summary in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md),

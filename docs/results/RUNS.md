@@ -59,7 +59,9 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `KALIA-Vision v2` | From-scratch CNN encoder + 4 image tokens + frozen KALIA LoRA caption decoder on two-object scenes; 2.33M trainable; 8 epochs/24.4 min; held-out exact 1.000, blind 0.006, shuffled 0.002; V2-1..V2-5 pass; v0.5.2-vision-see | yes | 5 files |
 | `KALIA-Vision v2.1` | Compositional split: 29/144 two-object combinations held out; 39,853 train; held-out exact 0.992, seen 0.997, gap 0.005; attributes 0.992-1.000; blind 0.000/shuffled 0.003; 2.33M trainable/20.3 min; C-1..C-5 pass; v0.5.3-vision-compose | yes | 7 files |
 | `Vision cycle` | See->draw->see: captioner v2.1 -> v1 diffusion -> captioner v2.1 on 1,000 real images; cycle exact 0.032, attribute consistency 0.278-0.476; X-1/X-2 fail; classifier recognizes generated images at 0.948; boundary at captioner input distribution | yes | 2 files |
-| `X53 cycle fix` | Generate 10k seen images + 10k real replay; fine-tune captioner; real held-out exact 0.984 but held-out cycle exact 0.005; attrs 0.275-0.665; X-1/X-2 fail; gap is compositional, not generic distribution shift | yes | 2 files |
+| `X53 cycle fix` | Generate 10k seen images + 10k real replay; fine-tune captioner; real held-out exact 0.984 but held-out cycle exact 0.005; attrs 0.275-0.665; X-1/X-2 fail; later corrected by X55: the causal embedding was out of distribution | yes | 2 files |
+| `X54 reader-guided` | Reader-guided diffusion consistency; baseline with the v1 training embedding closed the loop at ~0.94; run stopped on a label-slice bug; superseded by X55; no reader fine-tune | yes | 2 files |
+| `X55 embedding fix` | A/B text-conditioning embedding: bidir (v1 training) held-out loop 0.930, source 0.930, classifier 0.936; causal control 0.000; earlier cycle null was an inference-embedding mismatch; v0.5.4-vision-cycle | yes | 7 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -420,6 +422,19 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x53-cycle-fix/README.md`
 - `docs/results/x53-cycle-fix/train.log`
 
+**X54 reader-guided**
+- `docs/results/x54-reader-guided/README.md`
+- `docs/results/x54-reader-guided/x54.log`
+
+**X55 embedding fix**
+- `docs/results/x55-embedding-fix/README.md`
+- `docs/results/x55-embedding-fix/bidir_held.npy`
+- `docs/results/x55-embedding-fix/bidir_seen.npy`
+- `docs/results/x55-embedding-fix/causal_held.npy`
+- `docs/results/x55-embedding-fix/causal_seen.npy`
+- `docs/results/x55-embedding-fix/metrics.json`
+- `… 1 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -437,4 +452,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-53 runs tracked, 418 files archived, 3 with no evidence.
+55 runs tracked, 427 files archived, 3 with no evidence.

@@ -1,0 +1,224 @@
+captioner: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v2-split-train/vision-v2-split/ckpt.pt diffusion: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-train/vision/ckpt.pt held: 29
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+models loaded
+held_test 1059 seen_test 3941
+precomputing embeddings
+embeddings torch.Size([5000, 512]) 5s cos mean 0.6915839910507202 std 0.01770464889705181 min 0.6472852230072021 max 0.735698938369751
+bidir eval
+bidir held {'n': 1000, 'mode': 'bidir', 'real_exact': 0.992, 'loop_exact': 0.93, 'loop_attrs': [0.993, 0.972, 0.992, 0.967], 'source_exact': 0.93, 'source_attrs': [0.995, 0.971, 0.984, 0.968], 'parse_fail': 0.0}
+bidir seen {'n': 1000, 'mode': 'bidir', 'real_exact': 0.997, 'loop_exact': 0.949, 'loop_attrs': [0.997, 0.979, 0.991, 0.978], 'source_exact': 0.955, 'source_attrs': [0.997, 0.982, 0.995, 0.974], 'parse_fail': 0.0}
+causal control
+causal held {'n': 500, 'mode': 'causal', 'real_exact': 0.998, 'loop_exact': 0.0, 'loop_attrs': [0.538, 0.406, 0.538, 0.24], 'source_exact': 0.004, 'source_attrs': [0.554, 0.454, 0.544, 0.246], 'parse_fail': 0.0}
+causal seen {'n': 500, 'mode': 'causal', 'real_exact': 0.996, 'loop_exact': 0.042, 'loop_attrs': [0.458, 0.502, 0.388, 0.28], 'source_exact': 0.062, 'source_attrs': [0.464, 0.484, 0.378, 0.28], 'parse_fail': 0.0}
+training quality classifier
+classifier epoch 0 loss 2.2034
+classifier epoch 1 loss 0.2740
+classifier epoch 2 loss 0.0634
+classifier epoch 3 loss 0.0293
+classifier epoch 4 loss 0.1476
+bidir classifier held ([0.993, 0.971, 0.989, 0.968], 0.936) seen ([0.992, 0.982, 0.997, 0.974], 0.954)
+causal classifier held ([0.546, 0.406, 0.548, 0.242], 0.0) seen ([0.454, 0.428, 0.414, 0.276], 0.048)
+{
+  "E-1": true,
+  "E-2": true,
+  "E-3": true,
+  "E-4": true,
+  "E-5": true,
+  "E-6": {
+    "bidir_loop_exact": 0.93,
+    "causal_loop_exact": 0.0,
+    "materially_lower": true
+  },
+  "E-7": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "bidir": {
+    "held": {
+      "loop_attrs": [
+        0.993,
+        0.972,
+        0.992,
+        0.967
+      ],
+      "loop_exact": 0.93,
+      "mode": "bidir",
+      "n": 1000,
+      "parse_fail": 0.0,
+      "real_exact": 0.992,
+      "source_attrs": [
+        0.995,
+        0.971,
+        0.984,
+        0.968
+      ],
+      "source_exact": 0.93
+    },
+    "held_classifier": [
+      [
+        0.993,
+        0.971,
+        0.989,
+        0.968
+      ],
+      0.936
+    ],
+    "seen": {
+      "loop_attrs": [
+        0.997,
+        0.979,
+        0.991,
+        0.978
+      ],
+      "loop_exact": 0.949,
+      "mode": "bidir",
+      "n": 1000,
+      "parse_fail": 0.0,
+      "real_exact": 0.997,
+      "source_attrs": [
+        0.997,
+        0.982,
+        0.995,
+        0.974
+      ],
+      "source_exact": 0.955
+    },
+    "seen_classifier": [
+      [
+        0.992,
+        0.982,
+        0.997,
+        0.974
+      ],
+      0.954
+    ]
+  },
+  "captioner_ckpt_sha256": "e16cb9cdacecd5362a6ba4f65f89010f4004f572d922b87148ed7f86ebda759f",
+  "causal": {
+    "held": {
+      "loop_attrs": [
+        0.538,
+        0.406,
+        0.538,
+        0.24
+      ],
+      "loop_exact": 0.0,
+      "mode": "causal",
+      "n": 500,
+      "parse_fail": 0.0,
+      "real_exact": 0.998,
+      "source_attrs": [
+        0.554,
+        0.454,
+        0.544,
+        0.246
+      ],
+      "source_exact": 0.004
+    },
+    "held_classifier": [
+      [
+        0.546,
+        0.406,
+        0.548,
+        0.242
+      ],
+      0.0
+    ],
+    "seen": {
+      "loop_attrs": [
+        0.458,
+        0.502,
+        0.388,
+        0.28
+      ],
+      "loop_exact": 0.042,
+      "mode": "causal",
+      "n": 500,
+      "parse_fail": 0.0,
+      "real_exact": 0.996,
+      "source_attrs": [
+        0.464,
+        0.484,
+        0.378,
+        0.28
+      ],
+      "source_exact": 0.062
+    },
+    "seen_classifier": [
+      [
+        0.454,
+        0.428,
+        0.414,
+        0.276
+      ],
+      0.048
+    ]
+  },
+  "cosine_bidir_causal": {
+    "max": 0.735698938369751,
+    "mean": 0.6915839910507202,
+    "min": 0.6472852230072021,
+    "std": 0.01770464889705181
+  },
+  "diffusion_ckpt_sha256": "ba2947e878d3ec515fbb5b8cc4daf54d5730a2fe474654ff59682dc3886073dd",
+  "experiment": "X55-embedding-fix",
+  "pixel_stats": {
+    "bidir_held": {
+      "mean": [
+        0.7220119833946228,
+        0.705195426940918,
+        0.6901286840438843
+      ],
+      "std": [
+        0.37882015109062195,
+        0.3726535737514496,
+        0.4164501428604126
+      ]
+    },
+    "causal_held": {
+      "mean": [
+        0.7962439656257629,
+        0.8266485929489136,
+        0.823628842830658
+      ],
+      "std": [
+        0.3858456313610077,
+        0.18028077483177185,
+        0.3251250684261322
+      ]
+    },
+    "real_held": {
+      "mean": [
+        0.7611583471298218,
+        0.7374765872955322,
+        0.7264114022254944
+      ],
+      "std": [
+        0.37081488966941833,
+        0.37494879961013794,
+        0.4182426333427429
+      ]
+    },
+    "real_seen": {
+      "mean": [
+        0.7667996287345886,
+        0.7575371265411377,
+        0.713299572467804
+      ],
+      "std": [
+        0.3646528422832489,
+        0.33222734928131104,
+        0.4369661509990692
+      ]
+    }
+  },
+  "split": {
+    "held_out": 29,
+    "held_test": 1059,
+    "seen_test": 3941
+  }
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 379166 bytes to __results__.html

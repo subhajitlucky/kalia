@@ -1,0 +1,31 @@
+data: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-data/vision-v1-data
+captioner: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v2-split-train/vision-v2-split/ckpt.pt diffusion: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-train/vision/ckpt.pt held: 29
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+models loaded
+seen_train 39853 seen_val 4015 held_test 1059 seen_test 3941
+precomputing text embeddings
+embeddings torch.Size([50000, 512]) torch.Size([5000, 512]) 21s
+baseline eval
+baseline held {'n': 500, 'real_exact': 1.022, 'loop_exact': 0.966, 'loop_attrs': [1.016, 0.998, 1.016, 1.002], 'source_exact': 0.972, 'source_attrs': [1.02, 1.008, 1.012, 0.996], 'parse_fail': 0.0}
+baseline seen {'n': 500, 'real_exact': 1.02, 'loop_exact': 0.966, 'loop_attrs': [1.022, 0.998, 1.016, 0.998], 'source_exact': 0.972, 'source_attrs': [1.022, 0.998, 1.02, 0.994], 'parse_fail': 0.0}
+training quality classifier
+classifier epoch 0 loss 2.2515
+classifier epoch 1 loss 0.3435
+classifier epoch 2 loss 0.0840
+classifier epoch 3 loss 0.1255
+classifier epoch 4 loss 0.0239
+Traceback (most recent call last):
+  File "/kaggle/src/script.py", line 380, in <module>
+    base_held_clf = clf_acc(clf, base_held["generated"], held_labels)
+  File "/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/kaggle/src/script.py", line 357, in clf_acc
+    per = [float((pred[:, i] == labels[:, i]).mean()) for i in range(4)]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: operands could not be broadcast together with shapes (512,) (500,) 
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 401614 bytes to __results__.html

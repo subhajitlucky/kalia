@@ -42,3 +42,13 @@ the gap is a boundary at this scale.
 - Pre-registration: `docs/preregistrations/2026-11-08-kalia-vision-cycle.md`
   (hash `5c0bc371…`).
 - Kernel: `subhajitlucky/kalia-vision-cycle`.
+
+## Correction (2026-11-08)
+
+The cycle above was conditioned with a **causal** mean-pooled caption
+embedding. The v1 diffusion was trained with a **bidirectional masked mean**.
+X55 re-ran the same cycle with the training embedding: held-out loop exact
+**0.930**, source readback **0.930**, classifier **0.936**; the causal control
+is **0.000**. The 0.032 above is an inference-embedding mismatch, not a
+compositional gap. See `docs/results/x55-embedding-fix/` and release
+v0.5.4-vision-cycle.

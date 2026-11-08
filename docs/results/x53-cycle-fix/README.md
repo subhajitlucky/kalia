@@ -33,3 +33,11 @@ captioner-consistency loss on the diffusion, not more generated-image replay.
 - Pre-registration: `docs/preregistrations/2026-11-08-X53-cycle-fix.md`
   (hash `a2793bed…`).
 - Kernel: `subhajitlucky/kalia-x53-cycle-fix`.
+
+## Correction (2026-11-08)
+
+X53 generated its fine-tuning and evaluation images with the **causal** caption
+embedding, which is out of distribution for the v1 diffusion. The 0.005 cycle
+exact is therefore not evidence of a compositional gap. X55 shows the loop
+closes at **0.930** with the v1 training embedding. See
+`docs/results/x55-embedding-fix/` and release v0.5.4-vision-cycle.
