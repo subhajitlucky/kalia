@@ -57,3 +57,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-08 | KALIA-Vision-v2 | `docs/preregistrations/2026-11-08-kalia-vision-v2.md` | `067c63b1b595a219275d806fa7bcbd5198ce434cc589ba713492a410dd7bda1b` |
 | 2026-11-08 | KALIA-Vision-v2.1 | `docs/preregistrations/2026-11-08-kalia-vision-v2.1-compose.md` | `5e5e4975f25b614b1193b08a72da16271c19a8c7e53a26e8b91aec72fba9475e` |
 | 2026-11-08 | KALIA-Vision-cycle | `docs/preregistrations/2026-11-08-kalia-vision-cycle.md` | `5c0bc371d586379e08c4e3f26a3a0ef59bf25c7a3fab4302050fe0abe368057d` |
+| 2026-11-08 | X53-cycle-fix | `docs/preregistrations/2026-11-08-X53-cycle-fix.md` | `a2793beda4164c3808a37d56307b011bc8b586512a9cd79ccf08686550fe17a4` |
