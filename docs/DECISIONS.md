@@ -1584,3 +1584,14 @@ images); blind 0.006; shuffled-image 0.002 (drop 0.998); all four attributes
 remains v0.3.1. Caveat: all 144 two-object combinations are in training; this
 is seen-combination captioning. Next: hold out combinations and test
 compositional generalization.
+
+## D96 — KALIA-Vision v2.1 compositional split passes (2026-11-08)
+
+**Result.** 29 of 144 two-object combinations held out (20%, seed 2026);
+39,853 train, 4,015 seen val. Held-out exact **0.9920**; seen exact **0.9970**;
+gap **0.0050**; held-out attributes 0.992–1.000; blind 0.000; shuffled 0.003.
+2.33M trainable; 20.3 minutes. C-1…C-5 pass.
+
+**Decision.** Release **v0.5.3-vision-compose** capability update. Public base
+remains v0.3.1. This is evidence of compositional binding on the synthetic
+grid, not open-world vision. Next: see→draw→see cycle consistency.

@@ -1,0 +1,19 @@
+{
+  "C-1": true,
+  "C-2": true,
+  "C-3": true,
+  "C-4": true,
+  "C-5": true,
+  "blind_exact": 0.0,
+  "experiment": "KALIA-Vision-v2.1-split-eval",
+  "generalization_gap": 0.0050000000000000044,
+  "held_exact": 0.992,
+  "left_color": 1.0,
+  "left_shape": 1.0,
+  "n_held": 1000,
+  "n_seen": 1000,
+  "right_color": 1.0,
+  "right_shape": 0.992,
+  "seen_exact": 0.997,
+  "shuffled_exact": 0.003
+}

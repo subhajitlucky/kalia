@@ -128,6 +128,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-08-X50-soup.md", ["docs/results/x50-soup/**/*"]),
     ("KALIA-Vision v2", "From-scratch CNN encoder + 4 image tokens + frozen KALIA LoRA caption decoder on two-object scenes; 2.33M trainable; 8 epochs/24.4 min; held-out exact 1.000, blind 0.006, shuffled 0.002; V2-1..V2-5 pass; v0.5.2-vision-see",
      "2026-11-08-kalia-vision-v2.md", ["docs/results/kalia-vision-v2/**/*"]),
+    ("KALIA-Vision v2.1", "Compositional split: 29/144 two-object combinations held out; 39,853 train; held-out exact 0.992, seen 0.997, gap 0.005; attributes 0.992-1.000; blind 0.000/shuffled 0.003; 2.33M trainable/20.3 min; C-1..C-5 pass; v0.5.3-vision-compose",
+     "2026-11-08-kalia-vision-v2.1-compose.md", ["docs/results/kalia-vision-v2.1/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

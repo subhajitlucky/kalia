@@ -1,0 +1,14 @@
+{
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "best_epoch": 0,
+  "best_val_em": 1.0,
+  "ckpt_bytes": 9343455,
+  "ckpt_sha256": "e16cb9cdacecd5362a6ba4f65f89010f4004f572d922b87148ed7f86ebda759f",
+  "elapsed_minutes": 20.335709428787233,
+  "experiment": "KALIA-Vision-v2.1-split",
+  "n_held_out": 29,
+  "test_n": 5000,
+  "train_n": 39853,
+  "trainable_params": 2328832,
+  "val_n": 4015
+}

@@ -56,6 +56,8 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `KALIA-Audio v1.1` | Real Speech Commands 12 words; log-STFT 201x101 + 2D CNN from scratch; 10.8k train/4.9k official test; 391,884 params; 30 epochs/5.7 min; test 0.856, val 0.852; v1 raw-waveform 0.655; R-1..R-3 pass; v0.6.1-audio-speech | yes | 3 files |
 | `X49 data mix` | Reasoning-heavy 58M continued pretraining; control 60/20/15/5 vs treatment 45/5/40/10; 1,500 steps each; control 0.4198 vs treatment 0.4280 (+0.82 pp); BoolQ +5.45/WinoGrande +1.89 but weak-task avg -0.10; K-1/K-3 fail; mixture parked | yes | 7 files |
 | `X50 soup` | 50/50 v0.3.1 + X49-treatment soup; mean 0.4284 vs 0.4258 (+0.26 pp); weak-task avg -0.13 pp; S-1/S-3 fail; no v0.3.2 | yes | 3 files |
+| `KALIA-Vision v2` | From-scratch CNN encoder + 4 image tokens + frozen KALIA LoRA caption decoder on two-object scenes; 2.33M trainable; 8 epochs/24.4 min; held-out exact 1.000, blind 0.006, shuffled 0.002; V2-1..V2-5 pass; v0.5.2-vision-see | yes | 5 files |
+| `KALIA-Vision v2.1` | Compositional split: 29/144 two-object combinations held out; 39,853 train; held-out exact 0.992, seen 0.997, gap 0.005; attributes 0.992-1.000; blind 0.000/shuffled 0.003; 2.33M trainable/20.3 min; C-1..C-5 pass; v0.5.3-vision-compose | yes | 6 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -392,6 +394,21 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x50-soup/eval.log`
 - `docs/results/x50-soup/eval_summary.json`
 
+**KALIA-Vision v2**
+- `docs/results/kalia-vision-v2/README.md`
+- `docs/results/kalia-vision-v2/eval.json`
+- `docs/results/kalia-vision-v2/kalia-vision-v2-eval.log`
+- `docs/results/kalia-vision-v2/kalia-vision-v2-train.log`
+- `docs/results/kalia-vision-v2/train_manifest.json`
+
+**KALIA-Vision v2.1**
+- `docs/results/kalia-vision-v2.1/README.md`
+- `docs/results/kalia-vision-v2.1/eval.json`
+- `docs/results/kalia-vision-v2.1/kalia-vision-v2-split-eval.log`
+- `docs/results/kalia-vision-v2.1/kalia-vision-v2-split-train.log`
+- `docs/results/kalia-vision-v2.1/split.json`
+- `docs/results/kalia-vision-v2.1/train_manifest.json`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -409,4 +426,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-49 runs tracked, 402 files archived, 3 with no evidence.
+51 runs tracked, 413 files archived, 3 with no evidence.

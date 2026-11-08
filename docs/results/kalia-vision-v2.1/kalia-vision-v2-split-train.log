@@ -1,0 +1,34 @@
+data: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-data/vision-v1-data
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+base: bbd8a0366abe0249
+sizes 50000 5000 5000
+held-out combos 29 train 39853 val 4015
+trainable params 2328832
+epoch 0 loss 0.0784 val_em 1.0000 153s
+epoch 1 loss 0.0005 val_em 1.0000 306s
+epoch 2 loss 0.0002 val_em 1.0000 458s
+epoch 3 loss 0.0003 val_em 1.0000 611s
+epoch 4 loss 0.0002 val_em 1.0000 763s
+epoch 5 loss 0.0000 val_em 1.0000 915s
+epoch 6 loss 0.0000 val_em 1.0000 1067s
+epoch 7 loss 0.0000 val_em 1.0000 1220s
+{
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "best_epoch": 0,
+  "best_val_em": 1.0,
+  "ckpt_bytes": 9343455,
+  "ckpt_sha256": "e16cb9cdacecd5362a6ba4f65f89010f4004f572d922b87148ed7f86ebda759f",
+  "elapsed_minutes": 20.335709428787233,
+  "experiment": "KALIA-Vision-v2.1-split",
+  "n_held_out": 29,
+  "test_n": 5000,
+  "train_n": 39853,
+  "trainable_params": 2328832,
+  "val_n": 4015
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 320667 bytes to __results__.html
