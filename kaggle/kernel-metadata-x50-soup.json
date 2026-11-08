@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x50-soup",
+  "title": "KALIA X50 soup",
+  "code_file": "kalia_x50_soup_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-x49-treatment"],
+  "model_sources": []
+}
