@@ -1655,3 +1655,24 @@ result (0.992) stands.
 **Decision.** Release **v0.5.4-vision-cycle** with the corrected embedding
 module. Public base remains v0.3.1; no Hugging Face base release, because the
 standard-benchmark +10% gate is not met. No tuning after this result.
+
+## D100 — X56 KALIA-Chat v0: null (2026-11-08)
+
+**Result.** Frozen v0.3.1 + rank-32 LoRA (2,826,240 trainable) on 100k
+synthetic instruction/dialogue records; 2 epochs, 40.5 minutes. Held-out test:
+format **0.998**, refusal **1.000** (keyword), 2-turn memory **0.717**,
+arithmetic **0.247**, word **0.067**, context QA **0.000**, instruction
+**0.350**, overall **0.340**. Frozen-base control **0.000**. C-1/C-5/C-6 pass;
+C-2/C-3/C-4/C-7 fail.
+
+**Interpretation.** The adapter learns the chat surface format, refusal
+keyword and 2-turn copying, but not character-level manipulation, context
+copying or held-out instruction composition. The context-QA failure is the
+clearest: the model answers from memorized associations instead of the supplied
+fact. The refusal check passes by keyword but the responses are degenerate; the
+metric is too lenient. The result is evidence of the 58M base + LoRA capacity
+boundary for this suite, confounded with the synthetic data/objective; X56
+cannot separate the two.
+
+**Decision.** No **v0.7.0-chat** release. The adapter and `chat.py` remain a
+research preview. Public base v0.3.1 unchanged. No tuning after the result.

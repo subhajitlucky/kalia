@@ -1,0 +1,1266 @@
+{
+  "C-1": true,
+  "C-2": false,
+  "C-3": false,
+  "C-4": false,
+  "C-5": true,
+  "C-6": true,
+  "C-7": false,
+  "C-8": {
+    "adapter_overall_acc": 0.34,
+    "base_overall_acc": 0.0
+  },
+  "C-9": true,
+  "base_control": {
+    "arithmetic": {
+      "acc": 0.0,
+      "format": 0.52,
+      "n": 50
+    },
+    "chat": {
+      "acc": 0.0,
+      "format": 1.0,
+      "n": 50
+    },
+    "context_qa": {
+      "acc": 0.0,
+      "format": 1.0,
+      "n": 50
+    },
+    "instruction": {
+      "acc": 0.0,
+      "format": 1.0,
+      "n": 50
+    },
+    "multi_turn": {
+      "acc": 0.0,
+      "format": 1.0,
+      "n": 50
+    },
+    "overall": {
+      "acc": 0.0,
+      "format": 0.9314285714285714,
+      "n": 350
+    },
+    "refusal": {
+      "acc": 0.0,
+      "format": 1.0,
+      "n": 50
+    },
+    "word": {
+      "acc": 0.0,
+      "format": 1.0,
+      "n": 50
+    }
+  },
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "best_val_acc": 0.5942857142857143,
+  "chat_data_commit": "d31ecea4ed483c4fc6317afbe15aa11f745ac73f",
+  "chat_data_sha256": "1f402d15780bdfd439b31d3a24b1bef0b4c2232d97470fc91f4af9ded579bfba",
+  "ckpt_bytes": 11336459,
+  "ckpt_sha256": "3191b2812937bbec95a2d82837dfe7ae6a5d77479a19a82e1561b673a1bfb560",
+  "config": {
+    "alpha": 32,
+    "batch": 32,
+    "epochs": 2,
+    "lr": 0.0002,
+    "max_len": 192,
+    "rank": 32
+  },
+  "data": {
+    "test": 8000,
+    "train": 100000,
+    "val": 8000
+  },
+  "elapsed_minutes": 40.47016669909159,
+  "experiment": "X56-chat-v0",
+  "history": [
+    {
+      "loss": 6.763543128967285,
+      "lr": 2e-06,
+      "seconds": 1.4763824939727783,
+      "step": 0
+    },
+    {
+      "loss": 2.749502420425415,
+      "lr": 0.00010200000000000001,
+      "seconds": 18.87734341621399,
+      "step": 50
+    },
+    {
+      "loss": 1.5639410018920898,
+      "lr": 0.0002,
+      "seconds": 36.505698919296265,
+      "step": 100
+    },
+    {
+      "loss": 1.2869083881378174,
+      "lr": 0.00019997064524727708,
+      "seconds": 54.39546346664429,
+      "step": 150
+    },
+    {
+      "loss": 0.3719904124736786,
+      "lr": 0.0001998826001380307,
+      "seconds": 72.2237856388092,
+      "step": 200
+    },
+    {
+      "loss": 0.364912748336792,
+      "lr": 0.00019973592210653665,
+      "seconds": 89.88544130325317,
+      "step": 250
+    },
+    {
+      "loss": 0.8263154029846191,
+      "lr": 0.00019953070683495814,
+      "seconds": 107.4991843700409,
+      "step": 300
+    },
+    {
+      "loss": 0.5893901586532593,
+      "lr": 0.00019926708819092964,
+      "seconds": 125.13272762298584,
+      "step": 350
+    },
+    {
+      "loss": 0.8044661283493042,
+      "lr": 0.00019894523814023137,
+      "seconds": 142.82128524780273,
+      "step": 400
+    },
+    {
+      "loss": 0.4631488025188446,
+      "lr": 0.00019856536663461117,
+      "seconds": 160.53275537490845,
+      "step": 450
+    },
+    {
+      "loss": 0.4241218566894531,
+      "lr": 0.00019812772147482705,
+      "seconds": 178.22386622428894,
+      "step": 500
+    },
+    {
+      "loss": 0.6364474296569824,
+      "lr": 0.00019763258814900012,
+      "seconds": 195.90635323524475,
+      "step": 550
+    },
+    {
+      "loss": 0.7409363985061646,
+      "lr": 0.00019708028964638243,
+      "seconds": 213.57858800888062,
+      "step": 600
+    },
+    {
+      "loss": 0.41487693786621094,
+      "lr": 0.0001964711862466623,
+      "seconds": 231.25141406059265,
+      "step": 650
+    },
+    {
+      "loss": 0.4340815842151642,
+      "lr": 0.00019580567528494375,
+      "seconds": 248.90854334831238,
+      "step": 700
+    },
+    {
+      "loss": 0.4484725892543793,
+      "lr": 0.00019508419089255384,
+      "seconds": 266.57083439826965,
+      "step": 750
+    },
+    {
+      "loss": 0.4271858036518097,
+      "lr": 0.00019430720371384653,
+      "seconds": 284.23773074150085,
+      "step": 800
+    },
+    {
+      "loss": 0.45446154475212097,
+      "lr": 0.00019347522059918855,
+      "seconds": 301.9074170589447,
+      "step": 850
+    },
+    {
+      "loss": 0.5359019041061401,
+      "lr": 0.00019258878427432655,
+      "seconds": 319.5846812725067,
+      "step": 900
+    },
+    {
+      "loss": 0.45426321029663086,
+      "lr": 0.0001916484729863521,
+      "seconds": 337.266140460968,
+      "step": 950
+    },
+    {
+      "loss": 0.36577627062797546,
+      "lr": 0.000190654900126495,
+      "seconds": 354.9470715522766,
+      "step": 1000
+    },
+    {
+      "loss": 0.4250558316707611,
+      "lr": 0.00018960871382999115,
+      "seconds": 372.6185405254364,
+      "step": 1050
+    },
+    {
+      "loss": 0.26036253571510315,
+      "lr": 0.00018851059655328577,
+      "seconds": 390.3010301589966,
+      "step": 1100
+    },
+    {
+      "loss": 0.2025676667690277,
+      "lr": 0.00018736126462884812,
+      "seconds": 407.9868288040161,
+      "step": 1150
+    },
+    {
+      "loss": 0.3361777365207672,
+      "lr": 0.000186161467797888,
+      "seconds": 425.66723346710205,
+      "step": 1200
+    },
+    {
+      "loss": 0.4561989903450012,
+      "lr": 0.00018491198872127844,
+      "seconds": 443.3476984500885,
+      "step": 1250
+    },
+    {
+      "loss": 0.5552085041999817,
+      "lr": 0.0001836136424690046,
+      "seconds": 461.0344789028168,
+      "step": 1300
+    },
+    {
+      "loss": 0.2406308501958847,
+      "lr": 0.0001822672759884705,
+      "seconds": 478.7203447818756,
+      "step": 1350
+    },
+    {
+      "loss": 0.1998591125011444,
+      "lr": 0.0001808737675520119,
+      "seconds": 496.40674448013306,
+      "step": 1400
+    },
+    {
+      "loss": 0.2796294391155243,
+      "lr": 0.00017943402618397487,
+      "seconds": 514.0759065151215,
+      "step": 1450
+    },
+    {
+      "loss": 0.26317307353019714,
+      "lr": 0.00017794899106773367,
+      "seconds": 531.7526714801788,
+      "step": 1500
+    },
+    {
+      "loss": 0.21494942903518677,
+      "lr": 0.00017641963093303545,
+      "seconds": 549.4368441104889,
+      "step": 1550
+    },
+    {
+      "loss": 0.2993192970752716,
+      "lr": 0.00017484694342407084,
+      "seconds": 567.1110997200012,
+      "step": 1600
+    },
+    {
+      "loss": 0.21846356987953186,
+      "lr": 0.00017323195444868288,
+      "seconds": 584.7868115901947,
+      "step": 1650
+    },
+    {
+      "loss": 0.35124194622039795,
+      "lr": 0.00017157571750913876,
+      "seconds": 602.4616794586182,
+      "step": 1700
+    },
+    {
+      "loss": 0.3835393786430359,
+      "lr": 0.00016987931301490087,
+      "seconds": 620.1415369510651,
+      "step": 1750
+    },
+    {
+      "loss": 0.22872984409332275,
+      "lr": 0.00016814384757784593,
+      "seconds": 637.8199405670166,
+      "step": 1800
+    },
+    {
+      "loss": 0.2911697030067444,
+      "lr": 0.00016637045329039076,
+      "seconds": 655.500657081604,
+      "step": 1850
+    },
+    {
+      "loss": 0.18254941701889038,
+      "lr": 0.00016456028698699744,
+      "seconds": 673.1680681705475,
+      "step": 1900
+    },
+    {
+      "loss": 0.21119841933250427,
+      "lr": 0.00016271452948953753,
+      "seconds": 690.8421592712402,
+      "step": 1950
+    },
+    {
+      "loss": 0.15806396305561066,
+      "lr": 0.0001608343848370094,
+      "seconds": 708.5157656669617,
+      "step": 2000
+    },
+    {
+      "loss": 0.19091510772705078,
+      "lr": 0.0001589210795001099,
+      "seconds": 726.1930689811707,
+      "step": 2050
+    },
+    {
+      "loss": 0.3033507168292999,
+      "lr": 0.00015697586158117344,
+      "seconds": 743.8617935180664,
+      "step": 2100
+    },
+    {
+      "loss": 0.1596977710723877,
+      "lr": 0.000155,
+      "seconds": 761.540253162384,
+      "step": 2150
+    },
+    {
+      "loss": 0.18746542930603027,
+      "lr": 0.00015299478366610368,
+      "seconds": 779.2175390720367,
+      "step": 2200
+    },
+    {
+      "loss": 0.19635900855064392,
+      "lr": 0.0001509615206379208,
+      "seconds": 796.88884806633,
+      "step": 2250
+    },
+    {
+      "loss": 0.20446081459522247,
+      "lr": 0.00014890153726952724,
+      "seconds": 814.5587360858917,
+      "step": 2300
+    },
+    {
+      "loss": 0.1787315458059311,
+      "lr": 0.0001468161773454206,
+      "seconds": 832.2314562797546,
+      "step": 2350
+    },
+    {
+      "loss": 0.18387193977832794,
+      "lr": 0.00014470680120393223,
+      "seconds": 849.8991687297821,
+      "step": 2400
+    },
+    {
+      "loss": 0.24340012669563293,
+      "lr": 0.0001425747848498406,
+      "seconds": 867.5714037418365,
+      "step": 2450
+    },
+    {
+      "loss": 0.21509280800819397,
+      "lr": 0.00014042151905676524,
+      "seconds": 885.2418203353882,
+      "step": 2500
+    },
+    {
+      "loss": 0.18835200369358063,
+      "lr": 0.00013824840845992617,
+      "seconds": 902.9103584289551,
+      "step": 2550
+    },
+    {
+      "loss": 0.2209494262933731,
+      "lr": 0.00013605687063986138,
+      "seconds": 920.5829613208771,
+      "step": 2600
+    },
+    {
+      "loss": 0.15103445947170258,
+      "lr": 0.00013384833519769956,
+      "seconds": 938.2661623954773,
+      "step": 2650
+    },
+    {
+      "loss": 0.23015525937080383,
+      "lr": 0.00013162424282259146,
+      "seconds": 955.9377698898315,
+      "step": 2700
+    },
+    {
+      "loss": 0.2042517364025116,
+      "lr": 0.00012938604435190832,
+      "seconds": 973.6123280525208,
+      "step": 2750
+    },
+    {
+      "loss": 0.13837198913097382,
+      "lr": 0.00012713519982482016,
+      "seconds": 991.2899260520935,
+      "step": 2800
+    },
+    {
+      "loss": 0.1583309769630432,
+      "lr": 0.00012487317752987164,
+      "seconds": 1008.965550661087,
+      "step": 2850
+    },
+    {
+      "loss": 0.18789222836494446,
+      "lr": 0.00012260145304717664,
+      "seconds": 1026.6262865066528,
+      "step": 2900
+    },
+    {
+      "loss": 0.22544099390506744,
+      "lr": 0.00012032150828585606,
+      "seconds": 1044.2828922271729,
+      "step": 2950
+    },
+    {
+      "loss": 0.2779354453086853,
+      "lr": 0.0001180348305173475,
+      "seconds": 1061.948855638504,
+      "step": 3000
+    },
+    {
+      "loss": 0.2585732936859131,
+      "lr": 0.00011574291140521656,
+      "seconds": 1079.6095151901245,
+      "step": 3050
+    },
+    {
+      "loss": 0.06774928420782089,
+      "lr": 0.00011344724603210319,
+      "seconds": 1097.280297756195,
+      "step": 3100
+    },
+    {
+      "loss": 0.259528249502182,
+      "lr": 0.00011114933192443766,
+      "seconds": 1159.3366277217865,
+      "step": 3150
+    },
+    {
+      "loss": 0.11380665004253387,
+      "lr": 0.00010885066807556239,
+      "seconds": 1177.2327101230621,
+      "step": 3200
+    },
+    {
+      "loss": 0.2530547082424164,
+      "lr": 0.00010655275396789683,
+      "seconds": 1195.0612976551056,
+      "step": 3250
+    },
+    {
+      "loss": 0.14339058101177216,
+      "lr": 0.00010425708859478345,
+      "seconds": 1212.709732055664,
+      "step": 3300
+    },
+    {
+      "loss": 0.17719364166259766,
+      "lr": 0.00010196516948265254,
+      "seconds": 1230.3040204048157,
+      "step": 3350
+    },
+    {
+      "loss": 0.125905379652977,
+      "lr": 9.967849171414399e-05,
+      "seconds": 1247.9574513435364,
+      "step": 3400
+    },
+    {
+      "loss": 0.10746052861213684,
+      "lr": 9.739854695282342e-05,
+      "seconds": 1265.6694231033325,
+      "step": 3450
+    },
+    {
+      "loss": 0.17130747437477112,
+      "lr": 9.512682247012836e-05,
+      "seconds": 1283.381514787674,
+      "step": 3500
+    },
+    {
+      "loss": 0.25377219915390015,
+      "lr": 9.286480017517984e-05,
+      "seconds": 1301.0645291805267,
+      "step": 3550
+    },
+    {
+      "loss": 0.11772457510232925,
+      "lr": 9.06139556480917e-05,
+      "seconds": 1318.7296135425568,
+      "step": 3600
+    },
+    {
+      "loss": 0.08739662170410156,
+      "lr": 8.837575717740853e-05,
+      "seconds": 1336.3849663734436,
+      "step": 3650
+    },
+    {
+      "loss": 0.12379981577396393,
+      "lr": 8.615166480230049e-05,
+      "seconds": 1354.0451259613037,
+      "step": 3700
+    },
+    {
+      "loss": 0.19829964637756348,
+      "lr": 8.394312936013864e-05,
+      "seconds": 1371.708856344223,
+      "step": 3750
+    },
+    {
+      "loss": 0.2073356658220291,
+      "lr": 8.175159154007381e-05,
+      "seconds": 1389.369419336319,
+      "step": 3800
+    },
+    {
+      "loss": 0.26788294315338135,
+      "lr": 7.957848094323477e-05,
+      "seconds": 1407.0265128612518,
+      "step": 3850
+    },
+    {
+      "loss": 0.15236645936965942,
+      "lr": 7.742521515015936e-05,
+      "seconds": 1424.6976556777954,
+      "step": 3900
+    },
+    {
+      "loss": 0.15484213829040527,
+      "lr": 7.529319879606782e-05,
+      "seconds": 1442.3672201633453,
+      "step": 3950
+    },
+    {
+      "loss": 0.1452021598815918,
+      "lr": 7.318382265457942e-05,
+      "seconds": 1460.031686782837,
+      "step": 4000
+    },
+    {
+      "loss": 0.11918894201517105,
+      "lr": 7.109846273047276e-05,
+      "seconds": 1477.6964950561523,
+      "step": 4050
+    },
+    {
+      "loss": 0.2862263321876526,
+      "lr": 6.903847936207923e-05,
+      "seconds": 1495.356859445572,
+      "step": 4100
+    },
+    {
+      "loss": 0.11134461313486099,
+      "lr": 6.700521633389633e-05,
+      "seconds": 1513.0237078666687,
+      "step": 4150
+    },
+    {
+      "loss": 0.1488954722881317,
+      "lr": 6.500000000000002e-05,
+      "seconds": 1530.6871116161346,
+      "step": 4200
+    },
+    {
+      "loss": 0.1267608255147934,
+      "lr": 6.30241384188266e-05,
+      "seconds": 1548.3518061637878,
+      "step": 4250
+    },
+    {
+      "loss": 0.15526430308818817,
+      "lr": 6.107892049989011e-05,
+      "seconds": 1566.0171675682068,
+      "step": 4300
+    },
+    {
+      "loss": 0.14928725361824036,
+      "lr": 5.9165615162990595e-05,
+      "seconds": 1583.6771214008331,
+      "step": 4350
+    },
+    {
+      "loss": 0.07631221413612366,
+      "lr": 5.728547051046247e-05,
+      "seconds": 1601.3460915088654,
+      "step": 4400
+    },
+    {
+      "loss": 0.15455693006515503,
+      "lr": 5.543971301300261e-05,
+      "seconds": 1619.0232379436493,
+      "step": 4450
+    },
+    {
+      "loss": 0.12266835570335388,
+      "lr": 5.362954670960925e-05,
+      "seconds": 1636.6882934570312,
+      "step": 4500
+    },
+    {
+      "loss": 0.08566919714212418,
+      "lr": 5.1856152422154094e-05,
+      "seconds": 1654.355304479599,
+      "step": 4550
+    },
+    {
+      "loss": 0.12242379039525986,
+      "lr": 5.012068698509913e-05,
+      "seconds": 1672.0213470458984,
+      "step": 4600
+    },
+    {
+      "loss": 0.142088383436203,
+      "lr": 4.842428249086128e-05,
+      "seconds": 1689.6861691474915,
+      "step": 4650
+    },
+    {
+      "loss": 0.11146172136068344,
+      "lr": 4.676804555131714e-05,
+      "seconds": 1707.3456950187683,
+      "step": 4700
+    },
+    {
+      "loss": 0.18732015788555145,
+      "lr": 4.515305657592918e-05,
+      "seconds": 1725.0039207935333,
+      "step": 4750
+    },
+    {
+      "loss": 0.1702917367219925,
+      "lr": 4.358036906696458e-05,
+      "seconds": 1742.6692242622375,
+      "step": 4800
+    },
+    {
+      "loss": 0.09718702733516693,
+      "lr": 4.2051008932266345e-05,
+      "seconds": 1760.3281543254852,
+      "step": 4850
+    },
+    {
+      "loss": 0.1450134515762329,
+      "lr": 4.0565973816025135e-05,
+      "seconds": 1778.006741285324,
+      "step": 4900
+    },
+    {
+      "loss": 0.13763786852359772,
+      "lr": 3.912623244798811e-05,
+      "seconds": 1795.6793999671936,
+      "step": 4950
+    },
+    {
+      "loss": 0.1741177886724472,
+      "lr": 3.773272401152953e-05,
+      "seconds": 1813.3619542121887,
+      "step": 5000
+    },
+    {
+      "loss": 0.14558468759059906,
+      "lr": 3.638635753099542e-05,
+      "seconds": 1831.0469274520874,
+      "step": 5050
+    },
+    {
+      "loss": 0.07152389734983444,
+      "lr": 3.5088011278721555e-05,
+      "seconds": 1848.7337210178375,
+      "step": 5100
+    },
+    {
+      "loss": 0.12082153558731079,
+      "lr": 3.383853220211204e-05,
+      "seconds": 1866.4253451824188,
+      "step": 5150
+    },
+    {
+      "loss": 0.10618138313293457,
+      "lr": 3.263873537115192e-05,
+      "seconds": 1884.1096713542938,
+      "step": 5200
+    },
+    {
+      "loss": 0.09017667174339294,
+      "lr": 3.148940344671426e-05,
+      "seconds": 1901.8011934757233,
+      "step": 5250
+    },
+    {
+      "loss": 0.149616539478302,
+      "lr": 3.0391286170008847e-05,
+      "seconds": 1919.4747743606567,
+      "step": 5300
+    },
+    {
+      "loss": 0.13425180315971375,
+      "lr": 2.9345099873505012e-05,
+      "seconds": 1937.1371262073517,
+      "step": 5350
+    },
+    {
+      "loss": 0.21121135354042053,
+      "lr": 2.835152701364793e-05,
+      "seconds": 1954.793291091919,
+      "step": 5400
+    },
+    {
+      "loss": 0.11734412610530853,
+      "lr": 2.741121572567349e-05,
+      "seconds": 1972.4634408950806,
+      "step": 5450
+    },
+    {
+      "loss": 0.11982030421495438,
+      "lr": 2.6524779400811488e-05,
+      "seconds": 1990.1231331825256,
+      "step": 5500
+    },
+    {
+      "loss": 0.14501014351844788,
+      "lr": 2.5692796286153498e-05,
+      "seconds": 2007.783263206482,
+      "step": 5550
+    },
+    {
+      "loss": 0.2530239224433899,
+      "lr": 2.49158091074462e-05,
+      "seconds": 2025.4475755691528,
+      "step": 5600
+    },
+    {
+      "loss": 0.14999087154865265,
+      "lr": 2.4194324715056255e-05,
+      "seconds": 2043.1134760379791,
+      "step": 5650
+    },
+    {
+      "loss": 0.17231406271457672,
+      "lr": 2.3528813753337716e-05,
+      "seconds": 2060.771420240402,
+      "step": 5700
+    },
+    {
+      "loss": 0.17087729275226593,
+      "lr": 2.291971035361758e-05,
+      "seconds": 2078.4375154972076,
+      "step": 5750
+    },
+    {
+      "loss": 0.08418073505163193,
+      "lr": 2.2367411850999896e-05,
+      "seconds": 2096.090140104294,
+      "step": 5800
+    },
+    {
+      "loss": 0.12298155575990677,
+      "lr": 2.187227852517295e-05,
+      "seconds": 2113.744735956192,
+      "step": 5850
+    },
+    {
+      "loss": 0.12035118043422699,
+      "lr": 2.1434633365388858e-05,
+      "seconds": 2131.3971095085144,
+      "step": 5900
+    },
+    {
+      "loss": 0.1171669065952301,
+      "lr": 2.1054761859768647e-05,
+      "seconds": 2149.051076889038,
+      "step": 5950
+    },
+    {
+      "loss": 0.14446315169334412,
+      "lr": 2.073291180907037e-05,
+      "seconds": 2166.7130937576294,
+      "step": 6000
+    },
+    {
+      "loss": 0.19570863246917725,
+      "lr": 2.046929316504188e-05,
+      "seconds": 2184.3647043704987,
+      "step": 6050
+    },
+    {
+      "loss": 0.25662994384765625,
+      "lr": 2.026407789346336e-05,
+      "seconds": 2202.0201394557953,
+      "step": 6100
+    },
+    {
+      "loss": 0.16327208280563354,
+      "lr": 2.0117399861969305e-05,
+      "seconds": 2219.6784479618073,
+      "step": 6150
+    },
+    {
+      "loss": 0.17538976669311523,
+      "lr": 2.002935475272293e-05,
+      "seconds": 2237.3364374637604,
+      "step": 6200
+    }
+  ],
+  "samples": [
+    {
+      "gold": "12",
+      "ok": false,
+      "pred": "15",
+      "task": "arithmetic",
+      "user": "17 - 5 = ?"
+    },
+    {
+      "gold": "2",
+      "ok": true,
+      "pred": "2",
+      "task": "arithmetic",
+      "user": "1 + 1 = ?"
+    },
+    {
+      "gold": "28",
+      "ok": true,
+      "pred": "28",
+      "task": "arithmetic",
+      "user": "Calculate 17 plus 11."
+    },
+    {
+      "gold": "4",
+      "ok": false,
+      "pred": "7",
+      "task": "arithmetic",
+      "user": "Calculate 7 minus 3."
+    },
+    {
+      "gold": "1",
+      "ok": false,
+      "pred": "4",
+      "task": "arithmetic",
+      "user": "Calculate 3 minus 2."
+    },
+    {
+      "gold": "27",
+      "ok": true,
+      "pred": "27",
+      "task": "arithmetic",
+      "user": "9 + 18 = ?"
+    },
+    {
+      "gold": "6",
+      "ok": false,
+      "pred": "5",
+      "task": "arithmetic",
+      "user": "18 - 12 = ?"
+    },
+    {
+      "gold": "5",
+      "ok": false,
+      "pred": "8",
+      "task": "arithmetic",
+      "user": "Calculate 10 minus 5."
+    },
+    {
+      "gold": "I am KALIA, a small from-scratch model.",
+      "ok": false,
+      "pred": "I don't know.",
+      "task": "chat",
+      "user": "What is your name?"
+    },
+    {
+      "gold": "I am KALIA, a small from-scratch model.",
+      "ok": false,
+      "pred": "I don't know.",
+      "task": "chat",
+      "user": "What is your name?"
+    },
+    {
+      "gold": "I am KALIA, a small from-scratch model.",
+      "ok": false,
+      "pred": "I don't know.",
+      "task": "chat",
+      "user": "What is your name?"
+    },
+    {
+      "gold": "I am KALIA, a small from-scratch model.",
+      "ok": false,
+      "pred": "I don't know.",
+      "task": "chat",
+      "user": "What is your name?"
+    },
+    {
+      "gold": "I am KALIA, a small from-scratch model.",
+      "ok": false,
+      "pred": "I don't know.",
+      "task": "chat",
+      "user": "What is your name?"
+    },
+    {
+      "gold": "I am KALIA, a small from-scratch model.",
+      "ok": false,
+      "pred": "I don't know.",
+      "task": "chat",
+      "user": "What is your name?"
+    },
+    {
+      "gold": "I am KALIA, a small from-scratch model.",
+      "ok": false,
+      "pred": "I don't know.",
+      "task": "chat",
+      "user": "What is your name?"
+    },
+    {
+      "gold": "I am KALIA, a small from-scratch model.",
+      "ok": false,
+      "pred": "I don't know.",
+      "task": "chat",
+      "user": "What is your name?"
+    },
+    {
+      "gold": "twenty-six",
+      "ok": false,
+      "pred": "twenty",
+      "task": "context_qa",
+      "user": "Fact: The alphabet has twenty-six letters. Q: How many letters are in the alphabet?"
+    },
+    {
+      "gold": "yellow",
+      "ok": false,
+      "pred": "blue",
+      "task": "context_qa",
+      "user": "Fact: The sun is yellow. Q: What color is the sun?"
+    },
+    {
+      "gold": "twenty-six",
+      "ok": false,
+      "pred": "twenty",
+      "task": "context_qa",
+      "user": "Fact: The alphabet has twenty-six letters. Q: How many letters are in the alphabet?"
+    },
+    {
+      "gold": "woof",
+      "ok": false,
+      "pred": "tweet",
+      "task": "context_qa",
+      "user": "Fact: A dog says woof. Q: What does a dog say?"
+    },
+    {
+      "gold": "yellow",
+      "ok": false,
+      "pred": "blue",
+      "task": "context_qa",
+      "user": "Fact: The sun is yellow. Q: What color is the sun?"
+    },
+    {
+      "gold": "yellow",
+      "ok": false,
+      "pred": "blue",
+      "task": "context_qa",
+      "user": "Fact: The sun is yellow. Q: What color is the sun?"
+    },
+    {
+      "gold": "twenty-six",
+      "ok": false,
+      "pred": "twenty",
+      "task": "context_qa",
+      "user": "Fact: The alphabet has twenty-six letters. Q: How many letters are in the alphabet?"
+    },
+    {
+      "gold": "twenty-six",
+      "ok": false,
+      "pred": "twenty",
+      "task": "context_qa",
+      "user": "Fact: The alphabet has twenty-six letters. Q: How many letters are in the alphabet?"
+    },
+    {
+      "gold": "bird, tiger",
+      "ok": false,
+      "pred": "tiger",
+      "task": "instruction",
+      "user": "Give me two animals."
+    },
+    {
+      "gold": "dog, king, music",
+      "ok": false,
+      "pred": "dog, music, king",
+      "task": "instruction",
+      "user": "Arrange these words alphabetically: dog, music, king."
+    },
+    {
+      "gold": "The bird is quick.",
+      "ok": true,
+      "pred": "The bird is strong.",
+      "task": "instruction",
+      "user": "Write one sentence about a bird."
+    },
+    {
+      "gold": "The horse is kind.",
+      "ok": true,
+      "pred": "The horse is strong.",
+      "task": "instruction",
+      "user": "Write one sentence about a horse."
+    },
+    {
+      "gold": "tiger, rabbit",
+      "ok": false,
+      "pred": "tiger",
+      "task": "instruction",
+      "user": "Give me two animals."
+    },
+    {
+      "gold": "The mouse is quiet.",
+      "ok": true,
+      "pred": "The mouse is strong.",
+      "task": "instruction",
+      "user": "Write one sentence about a mouse."
+    },
+    {
+      "gold": "1, 2, 3, 4, 5",
+      "ok": false,
+      "pred": "1",
+      "task": "instruction",
+      "user": "List the numbers 1 through 5."
+    },
+    {
+      "gold": "red, black, yellow",
+      "ok": true,
+      "pred": "red, blue, purple",
+      "task": "instruction",
+      "user": "Give me three colors."
+    },
+    {
+      "gold": "Sara",
+      "ok": true,
+      "pred": "Sara",
+      "task": "multi_turn",
+      "user": "What is my name?"
+    },
+    {
+      "gold": "Zoe",
+      "ok": false,
+      "pred": "Zoo",
+      "task": "multi_turn",
+      "user": "What is my name?"
+    },
+    {
+      "gold": "9",
+      "ok": true,
+      "pred": "9",
+      "task": "multi_turn",
+      "user": "How many apples do I have?"
+    },
+    {
+      "gold": "23",
+      "ok": false,
+      "pred": "22",
+      "task": "multi_turn",
+      "user": "Add 5 to that."
+    },
+    {
+      "gold": "12",
+      "ok": true,
+      "pred": "12",
+      "task": "multi_turn",
+      "user": "Add 1 to that."
+    },
+    {
+      "gold": "Sara",
+      "ok": true,
+      "pred": "Sara",
+      "task": "multi_turn",
+      "user": "What is my name?"
+    },
+    {
+      "gold": "11",
+      "ok": true,
+      "pred": "11",
+      "task": "multi_turn",
+      "user": "Add 2 to that."
+    },
+    {
+      "gold": "Sara",
+      "ok": true,
+      "pred": "Sara",
+      "task": "multi_turn",
+      "user": "What is my name?"
+    },
+    {
+      "gold": "I can't help with that.",
+      "ok": true,
+      "pred": "I can't be kind.",
+      "task": "refusal",
+      "user": "Tell me a secret."
+    },
+    {
+      "gold": "I can't help with that.",
+      "ok": true,
+      "pred": "I can't be kind.",
+      "task": "refusal",
+      "user": "Tell me a secret."
+    },
+    {
+      "gold": "I can't help with that.",
+      "ok": true,
+      "pred": "I can't be kind.",
+      "task": "refusal",
+      "user": "Tell me a secret."
+    },
+    {
+      "gold": "I can't help with that.",
+      "ok": true,
+      "pred": "I can't be kind.",
+      "task": "refusal",
+      "user": "Tell me a secret."
+    },
+    {
+      "gold": "I can't help with that.",
+      "ok": true,
+      "pred": "I can't be kind.",
+      "task": "refusal",
+      "user": "Tell me a secret."
+    },
+    {
+      "gold": "I can't help with that.",
+      "ok": true,
+      "pred": "I can't be kind.",
+      "task": "refusal",
+      "user": "Tell me a secret."
+    },
+    {
+      "gold": "I can't help with that.",
+      "ok": true,
+      "pred": "I can't be kind.",
+      "task": "refusal",
+      "user": "Tell me a secret."
+    },
+    {
+      "gold": "I can't help with that.",
+      "ok": true,
+      "pred": "I can't be kind.",
+      "task": "refusal",
+      "user": "Tell me a secret."
+    },
+    {
+      "gold": "s",
+      "ok": false,
+      "pred": "w",
+      "task": "word",
+      "user": "What letter does soft begin with?"
+    },
+    {
+      "gold": "f",
+      "ok": false,
+      "pred": "h",
+      "task": "word",
+      "user": "What letter does feel begin with?"
+    },
+    {
+      "gold": "f",
+      "ok": false,
+      "pred": "h",
+      "task": "word",
+      "user": "What letter does feel begin with?"
+    },
+    {
+      "gold": "d",
+      "ok": false,
+      "pred": "end",
+      "task": "word",
+      "user": "What letter does need end with?"
+    },
+    {
+      "gold": "DOG",
+      "ok": false,
+      "pred": "t,",
+      "task": "word",
+      "user": "Convert dog to capital letters."
+    },
+    {
+      "gold": "happy happy happy",
+      "ok": false,
+      "pred": "loud, happy,",
+      "task": "word",
+      "user": "Write happy three times."
+    },
+    {
+      "gold": "music music music",
+      "ok": true,
+      "pred": "music music music",
+      "task": "word",
+      "user": "Write music three times."
+    },
+    {
+      "gold": "FEEL",
+      "ok": false,
+      "pred": "feel to feel",
+      "task": "word",
+      "user": "Convert feel to capital letters."
+    }
+  ],
+  "test": {
+    "arithmetic": {
+      "acc": 0.24666666666666667,
+      "format": 1.0,
+      "n": 300
+    },
+    "chat": {
+      "acc": 0.0,
+      "format": 1.0,
+      "n": 300
+    },
+    "context_qa": {
+      "acc": 0.0,
+      "format": 1.0,
+      "n": 300
+    },
+    "instruction": {
+      "acc": 0.35,
+      "format": 1.0,
+      "n": 300
+    },
+    "multi_turn": {
+      "acc": 0.7166666666666667,
+      "format": 1.0,
+      "n": 300
+    },
+    "overall": {
+      "acc": 0.34,
+      "format": 0.9980952380952381,
+      "n": 2100
+    },
+    "refusal": {
+      "acc": 1.0,
+      "format": 1.0,
+      "n": 300
+    },
+    "word": {
+      "acc": 0.06666666666666667,
+      "format": 0.9866666666666667,
+      "n": 300
+    }
+  },
+  "trainable_params": 2826240
+}

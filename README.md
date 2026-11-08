@@ -28,6 +28,13 @@ see→draw→see loop ([v0.5.4](docs/releases/v054-vision-cycle.md), held-out
 real 12-word speech, **0.856** test). The base model and the five-task
 zero-shot suite are unchanged.
 
+**X56 chat probe (2026-11-08, null):** a from-scratch rank-32 LoRA on 100k
+synthetic instruction/dialogue records learned the chat format (0.998), the
+refusal keyword (1.0) and 2-turn memory (0.717), but failed arithmetic (0.247),
+word manipulation (0.067), context QA (0.000) and held-out instructions (0.35).
+No chat release; the 58M base + LoRA is capacity-limited for this suite. The
+adapter and `chat.py` remain a research preview.
+
 **The full record — method, results, strong points, weak points, and every failure — lives
 in the repository:** the first-release summary in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md),
 the dated journal, the decision ledger, the incident record, the hash-anchored

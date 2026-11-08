@@ -62,6 +62,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X53 cycle fix` | Generate 10k seen images + 10k real replay; fine-tune captioner; real held-out exact 0.984 but held-out cycle exact 0.005; attrs 0.275-0.665; X-1/X-2 fail; later corrected by X55: the causal embedding was out of distribution | yes | 2 files |
 | `X54 reader-guided` | Reader-guided diffusion consistency; baseline with the v1 training embedding closed the loop at ~0.94; run stopped on a label-slice bug; superseded by X55; no reader fine-tune | yes | 2 files |
 | `X55 embedding fix` | A/B text-conditioning embedding: bidir (v1 training) held-out loop 0.930, source 0.930, classifier 0.936; causal control 0.000; earlier cycle null was an inference-embedding mismatch; v0.5.4-vision-cycle | yes | 7 files |
+| `X56 chat v0` | Frozen v0.3.1 + rank-32 LoRA on 100k synthetic instruction/dialogue records; test format 0.998, refusal 1.0, multi-turn 0.717, arithmetic 0.247, word 0.067, context QA 0.000, instruction 0.35, overall 0.34; base control 0.000; C-2/C-3/C-4/C-7 fail; no chat release | yes | 5 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -435,6 +436,13 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x55-embedding-fix/metrics.json`
 - `… 1 more`
 
+**X56 chat v0**
+- `docs/results/x56-chat-v0/README.md`
+- `docs/results/x56-chat-v0/chat_lora.pt`
+- `docs/results/x56-chat-v0/metrics.json`
+- `docs/results/x56-chat-v0/predictions.jsonl`
+- `docs/results/x56-chat-v0/x56.log`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -452,4 +460,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-55 runs tracked, 427 files archived, 3 with no evidence.
+56 runs tracked, 432 files archived, 3 with no evidence.

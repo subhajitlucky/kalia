@@ -138,6 +138,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-08-X54-reader-guided-diffusion.md", ["docs/results/x54-reader-guided/**/*"]),
     ("X55 embedding fix", "A/B text-conditioning embedding: bidir (v1 training) held-out loop 0.930, source 0.930, classifier 0.936; causal control 0.000; earlier cycle null was an inference-embedding mismatch; v0.5.4-vision-cycle",
      "2026-11-08-X55-embedding-fix.md", ["docs/results/x55-embedding-fix/**/*"]),
+    ("X56 chat v0", "Frozen v0.3.1 + rank-32 LoRA on 100k synthetic instruction/dialogue records; test format 0.998, refusal 1.0, multi-turn 0.717, arithmetic 0.247, word 0.067, context QA 0.000, instruction 0.35, overall 0.34; base control 0.000; C-2/C-3/C-4/C-7 fail; no chat release",
+     "2026-11-08-X56-chat-v0.md", ["docs/results/x56-chat-v0/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",
