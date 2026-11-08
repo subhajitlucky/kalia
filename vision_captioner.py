@@ -14,7 +14,7 @@ from edit_compiler import apply_lora, load_lora, lora_state_dict
 
 PREFIX_TOKENS = 4
 PROMPT = "Describe: "
-MAX_TEXT = 32
+MAX_TEXT = 64
 PAD_ID = 50256
 NEWLINE_ID = 198
 EOS_ID = 50256

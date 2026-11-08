@@ -83,9 +83,11 @@ class UNet(nn.Module):
 
 
 class Diffusion:
-    def __init__(self, steps: int = 1000, device: torch.device | str = "cpu"):
+    def __init__(self, steps: int = 1000, device: torch.device | str = "cpu",
+                 image_size: int = IMAGE_SIZE):
         self.steps = steps
         self.device = torch.device(device)
+        self.image_size = image_size
         betas = torch.linspace(1e-4, 0.02, steps, device=self.device)
         self.betas = betas
         self.alphas = 1.0 - betas
@@ -110,7 +112,7 @@ class Diffusion:
                steps: int = 100, generator: torch.Generator | None = None) -> torch.Tensor:
         model.eval()
         b = text_emb.shape[0]
-        x = torch.randn(b, IN_CHANNELS, IMAGE_SIZE, IMAGE_SIZE,
+        x = torch.randn(b, IN_CHANNELS, self.image_size, self.image_size,
                         device=text_emb.device, generator=generator)
         ts = torch.linspace(self.steps - 1, 0, steps, device=text_emb.device).long()
         for i, t in enumerate(ts):
