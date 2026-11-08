@@ -59,3 +59,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-08 | KALIA-Vision-cycle | `docs/preregistrations/2026-11-08-kalia-vision-cycle.md` | `5c0bc371d586379e08c4e3f26a3a0ef59bf25c7a3fab4302050fe0abe368057d` |
 | 2026-11-08 | X53-cycle-fix | `docs/preregistrations/2026-11-08-X53-cycle-fix.md` | `a2793beda4164c3808a37d56307b011bc8b586512a9cd79ccf08686550fe17a4` |
 | 2026-11-08 | X54-reader-guided-diffusion | `docs/preregistrations/2026-11-08-X54-reader-guided-diffusion.md` | `412a8fcedee4a960bd94320f176d4a3bad08b320ae48f3bb3ebdb3e6511e9073` |
+| 2026-11-08 | X55-embedding-fix | `docs/preregistrations/2026-11-08-X55-embedding-fix.md` | `e5261fcfc6bf77c9121459bb5b9762450b861b64a6427c8a9c43ee8f7a39dde5` |
