@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x49-val",
+  "title": "KALIA X49 val",
+  "code_file": "kalia_x49_val_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-x49-control","subhajitlucky/kalia-x49-treatment","subhajitlucky/kalia-x49-data"],
+  "model_sources": []
+}
