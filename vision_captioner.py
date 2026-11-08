@@ -95,6 +95,33 @@ def caption_image(base, encoder, image: torch.Tensor, enc, device,
     return normalize(enc.decode(out))
 
 
+@torch.no_grad()
+def caption_images(base, encoder, images: torch.Tensor, enc, device,
+                   max_new: int = MAX_TEXT) -> list[str]:
+    """Greedy batched captioning; same decoder as ``caption_image``."""
+    base.eval(); encoder.eval()
+    b = images.shape[0]
+    prefix = encoder(images.to(device))
+    prompt = enc.encode_ordinary(PROMPT)
+    idx = torch.tensor([prompt] * b, dtype=torch.long, device=device)
+    out: list[list[int]] = [[] for _ in range(b)]
+    done = torch.zeros(b, dtype=torch.bool, device=device)
+    for _ in range(max_new):
+        logits, _ = base(idx, prefix_embeds=prefix)
+        nxt = logits[:, -1].argmax(dim=-1)
+        for i in range(b):
+            if not bool(done[i]):
+                tok = int(nxt[i].item())
+                if tok in (NEWLINE_ID, EOS_ID):
+                    done[i] = True
+                else:
+                    out[i].append(tok)
+        idx = torch.cat([idx, nxt[:, None]], dim=1)
+        if bool(done.all()):
+            break
+    return [normalize(enc.decode(tokens)) for tokens in out]
+
+
 def make_model(base_ckpt: Path, rank: int = 16, alpha: int = 16, device="cuda"):
     ckpt = torch.load(base_ckpt, map_location="cpu", weights_only=False)
     from model import GPT, GPTConfig
