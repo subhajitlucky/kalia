@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x55-embedding-fix",
+  "title": "KALIA X55 embedding fix",
+  "code_file": "kalia_x55_embedding_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-vision-v1-train","subhajitlucky/kalia-vision-v2-split-train","subhajitlucky/kalia-vision-v1-data"],
+  "model_sources": []
+}
