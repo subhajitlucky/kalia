@@ -1609,3 +1609,16 @@ the generated distribution. The gap is at the captioner input distribution.
 **Decision.** No release. Next: cycle-consistency fine-tune of the captioner on
 diffusion-generated images with known source captions, then re-test held-out
 cycle. If it fails, the gap is a boundary at this scale.
+
+## D98 — X53 cycle-consistency fine-tune: null (2026-11-08)
+
+**Result.** 10k generated seen + 10k real replay, 2 epochs. Real held-out
+caption exact **0.984**; held-out cycle exact **0.005**; cycle attributes
+0.275–0.665. X-1/X-2 fail; X-3/X-4 pass.
+
+**Interpretation.** The captioner still reads real held-out images, but not
+generated held-out combinations. The see→draw gap is compositional, not a
+generic distribution shift. Generated-seen adaptation does not transfer.
+
+**Decision.** No release, no tuning. The next direction is joint training or a
+captioner-consistency loss on the diffusion, not more replay.

@@ -1,0 +1,40 @@
+captioner: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v2-split-train/vision-v2-split/ckpt.pt diffusion: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-train/vision/ckpt.pt held 29
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+models loaded
+seen 39853 gen 10000 real 10000 test_held 1059
+generated 0
+generated 1280
+generated 2560
+generated 3840
+generated 5120
+generated 6400
+generated 7680
+generated 8960
+generated torch.Size([10000, 3, 32, 32])
+finetune torch.Size([20000, 3, 32, 32])
+epoch 0 loss 0.1489 real_val_em 1.0000 482s
+epoch 1 loss 0.1279 real_val_em 1.0000 584s
+saved /kaggle/working/vision-cycle-fix/ckpt.pt
+{
+  "X-1": false,
+  "X-2": false,
+  "X-3": true,
+  "X-4": true,
+  "best_real_val_em": 1.0,
+  "ckpt_sha256": "18ec3342ee3e5ca1f1eb4bf25a12a9772d886b32bf8aa6b67d049264729198dc",
+  "cycle_exact": 0.005,
+  "elapsed_minutes": 24.27772074143092,
+  "experiment": "X53-cycle-fix",
+  "left_color": 0.509,
+  "left_shape": 0.665,
+  "n": 1000,
+  "real_exact": 0.984,
+  "right_color": 0.275,
+  "right_shape": 0.387
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 333275 bytes to __results__.html

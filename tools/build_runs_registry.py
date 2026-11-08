@@ -132,6 +132,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-08-kalia-vision-v2.1-compose.md", ["docs/results/kalia-vision-v2.1/**/*"]),
     ("Vision cycle", "See->draw->see: captioner v2.1 -> v1 diffusion -> captioner v2.1 on 1,000 real images; cycle exact 0.032, attribute consistency 0.278-0.476; X-1/X-2 fail; classifier recognizes generated images at 0.948; boundary at captioner input distribution",
      "2026-11-08-kalia-vision-cycle.md", ["docs/results/kalia-vision-cycle/**/*"]),
+    ("X53 cycle fix", "Generate 10k seen images + 10k real replay; fine-tune captioner; real held-out exact 0.984 but held-out cycle exact 0.005; attrs 0.275-0.665; X-1/X-2 fail; gap is compositional, not generic distribution shift",
+     "2026-11-08-X53-cycle-fix.md", ["docs/results/x53-cycle-fix/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

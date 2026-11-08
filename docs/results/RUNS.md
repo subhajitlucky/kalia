@@ -57,7 +57,9 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X49 data mix` | Reasoning-heavy 58M continued pretraining; control 60/20/15/5 vs treatment 45/5/40/10; 1,500 steps each; control 0.4198 vs treatment 0.4280 (+0.82 pp); BoolQ +5.45/WinoGrande +1.89 but weak-task avg -0.10; K-1/K-3 fail; mixture parked | yes | 7 files |
 | `X50 soup` | 50/50 v0.3.1 + X49-treatment soup; mean 0.4284 vs 0.4258 (+0.26 pp); weak-task avg -0.13 pp; S-1/S-3 fail; no v0.3.2 | yes | 3 files |
 | `KALIA-Vision v2` | From-scratch CNN encoder + 4 image tokens + frozen KALIA LoRA caption decoder on two-object scenes; 2.33M trainable; 8 epochs/24.4 min; held-out exact 1.000, blind 0.006, shuffled 0.002; V2-1..V2-5 pass; v0.5.2-vision-see | yes | 5 files |
-| `KALIA-Vision v2.1` | Compositional split: 29/144 two-object combinations held out; 39,853 train; held-out exact 0.992, seen 0.997, gap 0.005; attributes 0.992-1.000; blind 0.000/shuffled 0.003; 2.33M trainable/20.3 min; C-1..C-5 pass; v0.5.3-vision-compose | yes | 6 files |
+| `KALIA-Vision v2.1` | Compositional split: 29/144 two-object combinations held out; 39,853 train; held-out exact 0.992, seen 0.997, gap 0.005; attributes 0.992-1.000; blind 0.000/shuffled 0.003; 2.33M trainable/20.3 min; C-1..C-5 pass; v0.5.3-vision-compose | yes | 7 files |
+| `Vision cycle` | See->draw->see: captioner v2.1 -> v1 diffusion -> captioner v2.1 on 1,000 real images; cycle exact 0.032, attribute consistency 0.278-0.476; X-1/X-2 fail; classifier recognizes generated images at 0.948; boundary at captioner input distribution | yes | 2 files |
+| `X53 cycle fix` | Generate 10k seen images + 10k real replay; fine-tune captioner; real held-out exact 0.984 but held-out cycle exact 0.005; attrs 0.275-0.665; X-1/X-2 fail; gap is compositional, not generic distribution shift | yes | 2 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -403,11 +405,20 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 **KALIA-Vision v2.1**
 - `docs/results/kalia-vision-v2.1/README.md`
+- `docs/results/kalia-vision-v2.1/ckpt.pt`
 - `docs/results/kalia-vision-v2.1/eval.json`
 - `docs/results/kalia-vision-v2.1/kalia-vision-v2-split-eval.log`
 - `docs/results/kalia-vision-v2.1/kalia-vision-v2-split-train.log`
 - `docs/results/kalia-vision-v2.1/split.json`
-- `docs/results/kalia-vision-v2.1/train_manifest.json`
+- `… 1 more`
+
+**Vision cycle**
+- `docs/results/kalia-vision-cycle/README.md`
+- `docs/results/kalia-vision-cycle/cycle.log`
+
+**X53 cycle fix**
+- `docs/results/x53-cycle-fix/README.md`
+- `docs/results/x53-cycle-fix/train.log`
 
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
@@ -426,4 +437,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-51 runs tracked, 413 files archived, 3 with no evidence.
+53 runs tracked, 418 files archived, 3 with no evidence.
