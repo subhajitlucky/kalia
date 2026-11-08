@@ -21,7 +21,7 @@ import torch
 TEST_N = 1000
 BASE_REPO = "kalia-lm/kalia-v031"
 BASE_SHA = "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468"
-CODE_COMMIT = "__CODE_COMMIT__"
+CODE_COMMIT = "703d682126c8246dd5f240efc00abf5b850a177d"
 
 hits = sorted(Path("/kaggle/input").rglob("vision_captioner.py"))
 preferred = [p for p in hits if "kalia-code-dev" in str(p)]
