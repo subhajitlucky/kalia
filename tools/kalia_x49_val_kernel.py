@@ -4,6 +4,10 @@ import json, os, sys
 from pathlib import Path
 import numpy as np
 import torch
+
+code_hits = sorted(Path("/kaggle/input").rglob("eval_reversibility.py"))
+assert code_hits, "code dataset not attached"
+sys.path.insert(0, str(code_hits[0].parent))
 from eval_reversibility import load_model
 
 hits = sorted(Path("/kaggle/input").rglob("ckpt.pt"))
