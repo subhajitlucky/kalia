@@ -53,3 +53,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-06 | KALIA-Audio-v0 | `docs/preregistrations/2026-11-06-kalia-audio-v0.md` | `f51e6f175797b9365f016e484d99678f232546d47969ca5304d2ad2c799785bd` |
 | 2026-11-06 | KALIA-Audio-v1 | `docs/preregistrations/2026-11-06-kalia-audio-v1-real-speech.md` | `b8a590c49e6a61fb85e877b5f5c0add462ed9268736dc39758b403101e0342f7` |
 | 2026-11-06 | KALIA-Audio-v1.1 | `docs/preregistrations/2026-11-06-kalia-audio-v1.1-mel.md` | `93b417eb2cd6c712430be3b78261ca87215d62ef22331eb129a984bbd7846ee4` |
+| 2026-11-08 | X50-soup | `docs/preregistrations/2026-11-08-X50-soup.md` | `5a1494e392eaa7867644d7f3e58a728b621cc2180483af7c957fb1d33462541d` |
