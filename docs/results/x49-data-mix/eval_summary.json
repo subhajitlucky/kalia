@@ -1,0 +1,22 @@
+{
+  "control": {
+    "arc_easy": 0.4845, "arc_challenge": 0.1997, "boolq": 0.5115,
+    "hellaswag": 0.3280, "lambada_openai": 0.2540, "openbookqa": 0.1560,
+    "piqa": 0.6153, "sciq": 0.7120, "winogrande": 0.5170,
+    "mean": 0.419774520619125
+  },
+  "treatment": {
+    "arc_easy": 0.4845, "arc_challenge": 0.1937, "boolq": 0.5660,
+    "hellaswag": 0.3265, "lambada_openai": 0.2595, "openbookqa": 0.1540,
+    "piqa": 0.6175, "sciq": 0.7140, "winogrande": 0.5359,
+    "mean": 0.4279574057192572
+  },
+  "delta_mean_pp": 0.8182885100132123,
+  "weak_control": 0.234425,
+  "weak_treatment": 0.233425,
+  "weak_delta_pp": -0.10,
+  "shared_val_control": 2.8024895000457763,
+  "shared_val_treatment": 2.800610456466675,
+  "shared_val_delta": -0.0018790435791014026,
+  "K-1": false, "K-2": true, "K-3": false, "K-4": true
+}

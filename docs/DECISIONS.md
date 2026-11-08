@@ -1542,3 +1542,23 @@ Test **0.8561**, val **0.8517**; R-1…R-3 pass. v1 raw-waveform baseline was
 **Decision.** Release **v0.6.1-audio-speech** capability update. Public base
 remains v0.3.1. Caveat: 12 words, not open-vocabulary speech. Next: 35-word
 vocabulary, KALIA response generation, TTS.
+
+## D93 — X49 data mixture: near-miss, parked (2026-11-08)
+
+**Result (9-task, 2k).** Control mean **0.4198**, treatment **0.4280**,
+Δ **+0.82 pp**. BoolQ **+5.45 pp** (3.45σ), WinoGrande **+1.89 pp**; the
+targeted weak-task average is **−0.10 pp**. Shared control val **2.80249 →
+2.80061** (−0.0019).
+
+- **K-1 FAIL** (+0.82 < +1.0).
+- **K-2 PASS** (no task beyond 2σ regression).
+- **K-3 FAIL** (weak-task average −0.10 < +1.5).
+- **K-4 PASS**.
+
+**Decision.** Park the 45/5/40/10 mixture. No seed-1502 replication, no ratio
+tuning. The treatment moved BoolQ/WinoGrande, not OpenBookQA/ARC-C/LAMBADA/
+HellaSwag. The public base remains v0.3.1.
+
+Next: **X50**, a 50/50 weight soup of v0.3.1 and the X49 treatment, evaluated
+on the same suite as a cheap chance to convert the near-miss. If it fails, the
+cross-modal binding discovery is the next window.
