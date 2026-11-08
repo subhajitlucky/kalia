@@ -1,0 +1,119 @@
+{
+  "V2-1": true,
+  "V2-2": true,
+  "V2-3": true,
+  "V2-4": true,
+  "V2-5": true,
+  "blind_exact": 0.006,
+  "exact": 1.0,
+  "experiment": "KALIA-Vision-v2-eval",
+  "left_color": 1.0,
+  "left_shape": 1.0,
+  "n": 1000,
+  "right_color": 1.0,
+  "right_shape": 1.0,
+  "samples": [
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a red square on the left and a blue circle on the right",
+      "pred": "a red square on the left and a blue circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a yellow circle on the left and a red circle on the right",
+      "pred": "a yellow circle on the left and a red circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a red circle on the left and a blue circle on the right",
+      "pred": "a red circle on the left and a blue circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a yellow square on the left and a yellow circle on the right",
+      "pred": "a yellow square on the left and a yellow circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a yellow circle on the left and a red circle on the right",
+      "pred": "a yellow circle on the left and a red circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a green square on the left and a blue triangle on the right",
+      "pred": "a green square on the left and a blue triangle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a red triangle on the left and a yellow triangle on the right",
+      "pred": "a red triangle on the left and a yellow triangle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a red circle on the left and a green circle on the right",
+      "pred": "a red circle on the left and a green circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a red square on the left and a red circle on the right",
+      "pred": "a red square on the left and a red circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a green circle on the left and a green triangle on the right",
+      "pred": "a green circle on the left and a green triangle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a green triangle on the left and a yellow square on the right",
+      "pred": "a green triangle on the left and a yellow square on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a red square on the left and a green circle on the right",
+      "pred": "a red square on the left and a green circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a red triangle on the left and a green triangle on the right",
+      "pred": "a red triangle on the left and a green triangle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a yellow circle on the left and a green circle on the right",
+      "pred": "a yellow circle on the left and a green circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a green square on the left and a blue triangle on the right",
+      "pred": "a green square on the left and a blue triangle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a yellow triangle on the left and a blue square on the right",
+      "pred": "a yellow triangle on the left and a blue square on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a yellow square on the left and a yellow circle on the right",
+      "pred": "a yellow square on the left and a yellow circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a blue circle on the left and a red triangle on the right",
+      "pred": "a blue circle on the left and a red triangle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a yellow circle on the left and a red circle on the right",
+      "pred": "a yellow circle on the left and a red circle on the right"
+    },
+    {
+      "blind": "a blue circle on the left and a blue triangle on the right",
+      "gold": "a yellow circle on the left and a blue triangle on the right",
+      "pred": "a yellow circle on the left and a blue triangle on the right"
+    }
+  ],
+  "shuffled_drop": 0.998,
+  "shuffled_exact": 0.002
+}

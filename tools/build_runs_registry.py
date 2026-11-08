@@ -126,6 +126,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-06-X49-data-mix.md", ["docs/results/x49-data-mix/**/*"]),
     ("X50 soup", "50/50 v0.3.1 + X49-treatment soup; mean 0.4284 vs 0.4258 (+0.26 pp); weak-task avg -0.13 pp; S-1/S-3 fail; no v0.3.2",
      "2026-11-08-X50-soup.md", ["docs/results/x50-soup/**/*"]),
+    ("KALIA-Vision v2", "From-scratch CNN encoder + 4 image tokens + frozen KALIA LoRA caption decoder on two-object scenes; 2.33M trainable; 8 epochs/24.4 min; held-out exact 1.000, blind 0.006, shuffled 0.002; V2-1..V2-5 pass; v0.5.2-vision-see",
+     "2026-11-08-kalia-vision-v2.md", ["docs/results/kalia-vision-v2/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

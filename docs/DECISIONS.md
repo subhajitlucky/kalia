@@ -1571,3 +1571,16 @@ passes; no task beyond 2σ regression.
 
 **Decision.** No v0.3.2, no soup tuning. Public base remains v0.3.1. Next:
 cross-modal binding discovery.
+
+## D95 — KALIA-Vision v2 image captioning passes (2026-11-08)
+
+**Result.** From-scratch CNN encoder + 4 continuous image tokens + frozen
+v0.3.1 LoRA caption decoder on synthetic two-object scenes. 2,328,832
+trainable params, 8 epochs, 24.4 minutes. Held-out exact **1.000** (1,000
+images); blind 0.006; shuffled-image 0.002 (drop 0.998); all four attributes
+1.000. V2-1…V2-5 pass.
+
+**Decision.** Release **v0.5.2-vision-see** capability update. Public base
+remains v0.3.1. Caveat: all 144 two-object combinations are in training; this
+is seen-combination captioning. Next: hold out combinations and test
+compositional generalization.
