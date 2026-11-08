@@ -1320,7 +1320,10 @@ class GPT(nn.Module):
         loss_mask: torch.Tensor | None = None,
         token_mask: torch.Tensor | None = None,
         return_events: bool = False,
+        prefix_embeds: torch.Tensor | None = None,
     ):
+        if prefix_embeds is not None and (self.event is not None or self.crb is not None):
+            raise ValueError("prefix_embeds is for the standard text trunk")
         if return_events and self.event is None:
             raise ValueError("return_events requires config.event_slots > 0")
         if self.event is not None:
@@ -1333,6 +1336,8 @@ class GPT(nn.Module):
             logits, loss = self._finish(logits, targets, loss_mask)
             return logits, loss
         x = self.tok_emb(idx)
+        if prefix_embeds is not None:
+            x = torch.cat([prefix_embeds, x], dim=1)
         for _ in range(self.cfg.n_loops):
             for block in self.blocks:
                 x = block(x, attn_mask)
@@ -1375,12 +1380,17 @@ class GPT(nn.Module):
         temperature: float = 0.8,
         top_k: int | None = 200,
         generator: torch.Generator | None = None,
+        prefix_embeds: torch.Tensor | None = None,
     ) -> torch.Tensor:
         was_training = self.training
         self.eval()
         for _ in range(max_new_tokens):
-            idx_cond = idx[:, -self.cfg.context_len :]
-            logits, _ = self(idx_cond)
+            if prefix_embeds is not None:
+                keep = max(1, self.cfg.context_len - prefix_embeds.size(1))
+                idx_cond = idx[:, -keep:]
+            else:
+                idx_cond = idx[:, -self.cfg.context_len :]
+            logits, _ = self(idx_cond, prefix_embeds=prefix_embeds)
             logits = logits[:, -1, :] / max(temperature, 1e-6)
             if top_k is not None:
                 top = torch.topk(logits, min(top_k, logits.size(-1))).values[:, [-1]]
