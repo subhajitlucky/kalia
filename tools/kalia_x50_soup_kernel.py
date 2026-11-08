@@ -16,6 +16,9 @@ except Exception:
                     "safetensors", "huggingface_hub"], check=True)
     from huggingface_hub import hf_hub_download
     from safetensors.torch import load_file
+code_hits = sorted(Path("/kaggle/input").rglob("model.py"))
+assert code_hits, "code dataset not attached"
+sys.path.insert(0, str(code_hits[0].parent))
 from model import GPT, GPTConfig
 
 base_dir = Path("/kaggle/working/base"); base_dir.mkdir(parents=True, exist_ok=True)
