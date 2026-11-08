@@ -1,0 +1,79 @@
+[
+  {
+    "step": 0,
+    "instruction": "start",
+    "target": "a green square on the left and a yellow triangle on the right",
+    "readback": "a green square on the left and a yellow triangle on the right",
+    "ok": true
+  },
+  {
+    "step": 1,
+    "instruction": "invert the colors",
+    "target": "a red square on the left and a blue triangle on the right",
+    "readback": "a red square on the left and a blue triangle on the right",
+    "ok": true
+  },
+  {
+    "step": 2,
+    "instruction": "change the left color to green",
+    "target": "a green square on the left and a blue triangle on the right",
+    "readback": "a green square on the left and a blue triangle on the right",
+    "ok": true
+  },
+  {
+    "step": 3,
+    "instruction": "change the left color to red",
+    "target": "a red square on the left and a blue triangle on the right",
+    "readback": "a red square on the left and a blue triangle on the right",
+    "ok": true
+  },
+  {
+    "step": 4,
+    "instruction": "change the left color to blue",
+    "target": "a blue square on the left and a blue triangle on the right",
+    "readback": "a blue square on the left and a blue triangle on the right",
+    "ok": true
+  },
+  {
+    "step": 5,
+    "instruction": "change the right shape to square",
+    "target": "a blue square on the left and a blue square on the right",
+    "readback": "a blue square on the left and a blue square on the right",
+    "ok": true
+  },
+  {
+    "step": 6,
+    "instruction": "change the right color to green",
+    "target": "a blue square on the left and a green square on the right",
+    "readback": "a blue square on the left and a green square on the right",
+    "ok": true
+  },
+  {
+    "step": 7,
+    "instruction": "make both objects yellow",
+    "target": "a yellow square on the left and a yellow square on the right",
+    "readback": "a yellow square on the left and a yellow square on the right",
+    "ok": true
+  },
+  {
+    "step": 8,
+    "instruction": "change the right color to blue",
+    "target": "a yellow square on the left and a blue square on the right",
+    "readback": "a yellow square on the left and a blue square on the right",
+    "ok": true
+  },
+  {
+    "step": 9,
+    "instruction": "swap the colors",
+    "target": "a blue square on the left and a yellow square on the right",
+    "readback": "a blue square on the left and a yellow square on the right",
+    "ok": true
+  },
+  {
+    "step": 10,
+    "instruction": "swap the left and right objects",
+    "target": "a yellow square on the left and a blue square on the right",
+    "readback": "a yellow square on the left and a blue square on the right",
+    "ok": true
+  }
+]

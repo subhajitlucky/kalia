@@ -1,0 +1,333 @@
+{
+  "I-1": true,
+  "I-2": true,
+  "I-3": true,
+  "I-4": true,
+  "I-5": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "dream": {
+    "chain": [
+      {
+        "instruction": "start",
+        "ok": true,
+        "readback": "a green square on the left and a yellow triangle on the right",
+        "step": 0,
+        "target": "a green square on the left and a yellow triangle on the right"
+      },
+      {
+        "instruction": "invert the colors",
+        "ok": true,
+        "readback": "a red square on the left and a blue triangle on the right",
+        "step": 1,
+        "target": "a red square on the left and a blue triangle on the right"
+      },
+      {
+        "instruction": "change the left color to green",
+        "ok": true,
+        "readback": "a green square on the left and a blue triangle on the right",
+        "step": 2,
+        "target": "a green square on the left and a blue triangle on the right"
+      },
+      {
+        "instruction": "change the left color to red",
+        "ok": true,
+        "readback": "a red square on the left and a blue triangle on the right",
+        "step": 3,
+        "target": "a red square on the left and a blue triangle on the right"
+      },
+      {
+        "instruction": "change the left color to blue",
+        "ok": true,
+        "readback": "a blue square on the left and a blue triangle on the right",
+        "step": 4,
+        "target": "a blue square on the left and a blue triangle on the right"
+      },
+      {
+        "instruction": "change the right shape to square",
+        "ok": true,
+        "readback": "a blue square on the left and a blue square on the right",
+        "step": 5,
+        "target": "a blue square on the left and a blue square on the right"
+      },
+      {
+        "instruction": "change the right color to green",
+        "ok": true,
+        "readback": "a blue square on the left and a green square on the right",
+        "step": 6,
+        "target": "a blue square on the left and a green square on the right"
+      },
+      {
+        "instruction": "make both objects yellow",
+        "ok": true,
+        "readback": "a yellow square on the left and a yellow square on the right",
+        "step": 7,
+        "target": "a yellow square on the left and a yellow square on the right"
+      },
+      {
+        "instruction": "change the right color to blue",
+        "ok": true,
+        "readback": "a yellow square on the left and a blue square on the right",
+        "step": 8,
+        "target": "a yellow square on the left and a blue square on the right"
+      },
+      {
+        "instruction": "swap the colors",
+        "ok": true,
+        "readback": "a blue square on the left and a yellow square on the right",
+        "step": 9,
+        "target": "a blue square on the left and a yellow square on the right"
+      },
+      {
+        "instruction": "swap the left and right objects",
+        "ok": true,
+        "readback": "a yellow square on the left and a blue square on the right",
+        "step": 10,
+        "target": "a yellow square on the left and a blue square on the right"
+      }
+    ],
+    "steps": 10,
+    "survival": 1.0
+  },
+  "edit": {
+    "examples": [
+      {
+        "instruction": "swap the left and right objects",
+        "ok": true,
+        "readback": "a yellow circle on the left and a blue triangle on the right",
+        "source": "a blue triangle on the left and a yellow circle on the right",
+        "target": "a yellow circle on the left and a blue triangle on the right"
+      },
+      {
+        "instruction": "swap the colors",
+        "ok": false,
+        "readback": "a yellow circle on the left and a blue circle on the right",
+        "source": "a blue triangle on the left and a yellow circle on the right",
+        "target": "a yellow triangle on the left and a blue circle on the right"
+      },
+      {
+        "instruction": "change the left color to red",
+        "ok": true,
+        "readback": "a red triangle on the left and a yellow circle on the right",
+        "source": "a blue triangle on the left and a yellow circle on the right",
+        "target": "a red triangle on the left and a yellow circle on the right"
+      },
+      {
+        "instruction": "change the right shape to triangle",
+        "ok": true,
+        "readback": "a blue triangle on the left and a yellow triangle on the right",
+        "source": "a blue triangle on the left and a yellow circle on the right",
+        "target": "a blue triangle on the left and a yellow triangle on the right"
+      },
+      {
+        "instruction": "swap the left and right objects",
+        "ok": true,
+        "readback": "a blue square on the left and a red square on the right",
+        "source": "a red square on the left and a blue square on the right",
+        "target": "a blue square on the left and a red square on the right"
+      },
+      {
+        "instruction": "swap the colors",
+        "ok": true,
+        "readback": "a blue square on the left and a red square on the right",
+        "source": "a red square on the left and a blue square on the right",
+        "target": "a blue square on the left and a red square on the right"
+      },
+      {
+        "instruction": "change the left color to yellow",
+        "ok": true,
+        "readback": "a yellow square on the left and a blue square on the right",
+        "source": "a red square on the left and a blue square on the right",
+        "target": "a yellow square on the left and a blue square on the right"
+      },
+      {
+        "instruction": "change the right shape to circle",
+        "ok": true,
+        "readback": "a red square on the left and a blue circle on the right",
+        "source": "a red square on the left and a blue square on the right",
+        "target": "a red square on the left and a blue circle on the right"
+      },
+      {
+        "instruction": "swap the left and right objects",
+        "ok": true,
+        "readback": "a yellow square on the left and a green square on the right",
+        "source": "a green square on the left and a yellow square on the right",
+        "target": "a yellow square on the left and a green square on the right"
+      },
+      {
+        "instruction": "swap the colors",
+        "ok": true,
+        "readback": "a yellow square on the left and a green square on the right",
+        "source": "a green square on the left and a yellow square on the right",
+        "target": "a yellow square on the left and a green square on the right"
+      },
+      {
+        "instruction": "change the left color to red",
+        "ok": true,
+        "readback": "a red square on the left and a yellow square on the right",
+        "source": "a green square on the left and a yellow square on the right",
+        "target": "a red square on the left and a yellow square on the right"
+      },
+      {
+        "instruction": "change the right shape to triangle",
+        "ok": true,
+        "readback": "a green square on the left and a yellow triangle on the right",
+        "source": "a green square on the left and a yellow square on the right",
+        "target": "a green square on the left and a yellow triangle on the right"
+      },
+      {
+        "instruction": "swap the left and right objects",
+        "ok": true,
+        "readback": "a blue triangle on the left and a blue circle on the right",
+        "source": "a blue circle on the left and a blue triangle on the right",
+        "target": "a blue triangle on the left and a blue circle on the right"
+      },
+      {
+        "instruction": "swap the colors",
+        "ok": true,
+        "readback": "a blue circle on the left and a blue triangle on the right",
+        "source": "a blue circle on the left and a blue triangle on the right",
+        "target": "a blue circle on the left and a blue triangle on the right"
+      },
+      {
+        "instruction": "change the left color to green",
+        "ok": true,
+        "readback": "a green circle on the left and a blue triangle on the right",
+        "source": "a blue circle on the left and a blue triangle on the right",
+        "target": "a green circle on the left and a blue triangle on the right"
+      },
+      {
+        "instruction": "change the right shape to square",
+        "ok": true,
+        "readback": "a blue circle on the left and a blue square on the right",
+        "source": "a blue circle on the left and a blue triangle on the right",
+        "target": "a blue circle on the left and a blue square on the right"
+      },
+      {
+        "instruction": "swap the left and right objects",
+        "ok": true,
+        "readback": "a red square on the left and a green circle on the right",
+        "source": "a green circle on the left and a red square on the right",
+        "target": "a red square on the left and a green circle on the right"
+      },
+      {
+        "instruction": "swap the colors",
+        "ok": true,
+        "readback": "a red circle on the left and a green square on the right",
+        "source": "a green circle on the left and a red square on the right",
+        "target": "a red circle on the left and a green square on the right"
+      },
+      {
+        "instruction": "change the left color to blue",
+        "ok": true,
+        "readback": "a blue circle on the left and a red square on the right",
+        "source": "a green circle on the left and a red square on the right",
+        "target": "a blue circle on the left and a red square on the right"
+      },
+      {
+        "instruction": "change the right shape to triangle",
+        "ok": true,
+        "readback": "a green circle on the left and a red triangle on the right",
+        "source": "a green circle on the left and a red square on the right",
+        "target": "a green circle on the left and a red triangle on the right"
+      },
+      {
+        "instruction": "swap the left and right objects",
+        "ok": true,
+        "readback": "a blue square on the left and a green circle on the right",
+        "source": "a green circle on the left and a blue square on the right",
+        "target": "a blue square on the left and a green circle on the right"
+      },
+      {
+        "instruction": "swap the colors",
+        "ok": true,
+        "readback": "a blue circle on the left and a green square on the right",
+        "source": "a green circle on the left and a blue square on the right",
+        "target": "a blue circle on the left and a green square on the right"
+      },
+      {
+        "instruction": "change the left color to red",
+        "ok": true,
+        "readback": "a red circle on the left and a blue square on the right",
+        "source": "a green circle on the left and a blue square on the right",
+        "target": "a red circle on the left and a blue square on the right"
+      },
+      {
+        "instruction": "change the right shape to circle",
+        "ok": true,
+        "readback": "a green circle on the left and a blue circle on the right",
+        "source": "a green circle on the left and a blue square on the right",
+        "target": "a green circle on the left and a blue circle on the right"
+      }
+    ],
+    "n": 24,
+    "real_caption_exact": 1.0,
+    "survival": 0.9583333333333334
+  },
+  "experiment": "X57-imagine",
+  "morph": {
+    "endpoint_exact": 0.9166666666666666,
+    "endpoints": [
+      {
+        "caption": "a red circle on the left and a blue square on the right",
+        "ok": true,
+        "readback": "a red circle on the left and a blue square on the right"
+      },
+      {
+        "caption": "a yellow triangle on the left and a green circle on the right",
+        "ok": true,
+        "readback": "a yellow triangle on the left and a green circle on the right"
+      },
+      {
+        "caption": "a green square on the left and a yellow triangle on the right",
+        "ok": true,
+        "readback": "a green square on the left and a yellow triangle on the right"
+      },
+      {
+        "caption": "a blue circle on the left and a red square on the right",
+        "ok": true,
+        "readback": "a blue circle on the left and a red square on the right"
+      },
+      {
+        "caption": "a blue triangle on the left and a red circle on the right",
+        "ok": false,
+        "readback": "a blue triangle on the left and a blue circle on the right"
+      },
+      {
+        "caption": "a green circle on the left and a yellow square on the right",
+        "ok": true,
+        "readback": "a green circle on the left and a yellow square on the right"
+      },
+      {
+        "caption": "a yellow square on the left and a green circle on the right",
+        "ok": true,
+        "readback": "a yellow square on the left and a green circle on the right"
+      },
+      {
+        "caption": "a red triangle on the left and a blue circle on the right",
+        "ok": true,
+        "readback": "a red triangle on the left and a blue circle on the right"
+      },
+      {
+        "caption": "a red square on the left and a green triangle on the right",
+        "ok": true,
+        "readback": "a red square on the left and a green triangle on the right"
+      },
+      {
+        "caption": "a blue triangle on the left and a yellow circle on the right",
+        "ok": true,
+        "readback": "a blue triangle on the left and a yellow circle on the right"
+      },
+      {
+        "caption": "a green triangle on the left and a blue square on the right",
+        "ok": true,
+        "readback": "a green triangle on the left and a blue square on the right"
+      },
+      {
+        "caption": "a yellow circle on the left and a red triangle on the right",
+        "ok": true,
+        "readback": "a yellow circle on the left and a red triangle on the right"
+      }
+    ],
+    "pairs": 6
+  }
+}

@@ -1676,3 +1676,14 @@ cannot separate the two.
 
 **Decision.** No **v0.7.0-chat** release. The adapter and `chat.py` remain a
 research preview. Public base v0.3.1 unchanged. No tuning after the result.
+
+## D101 — X57 KALIA-Imagine passes (2026-11-08)
+
+**Result.** From-scratch visual toy on frozen v0.3.1 + v1 diffusion + v2.1
+captioner. Morph endpoint exact **0.917** (11/12), edit survival **0.958**
+(23/24), dream edit survival **1.000** (10/10), real caption exact **1.000**.
+No training; I-1…I-5 pass.
+
+**Decision.** Release **v0.8.0-imagine** capability/demo pack. Public base
+remains v0.3.1. This is a visual imagination toy, not a chat model and not a
+standard-benchmark gain.

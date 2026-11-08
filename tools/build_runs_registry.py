@@ -140,6 +140,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-08-X55-embedding-fix.md", ["docs/results/x55-embedding-fix/**/*"]),
     ("X56 chat v0", "Frozen v0.3.1 + rank-32 LoRA on 100k synthetic instruction/dialogue records; test format 0.998, refusal 1.0, multi-turn 0.717, arithmetic 0.247, word 0.067, context QA 0.000, instruction 0.35, overall 0.34; base control 0.000; C-2/C-3/C-4/C-7 fail; no chat release",
      "2026-11-08-X56-chat-v0.md", ["docs/results/x56-chat-v0/**/*"]),
+    ("X57 Imagine", "Visual imagination toy: 16-frame caption-space morph, 10-step dream chain, 24 word-guided edits; frozen v0.3.1 + v1 diffusion + v2.1 captioner; morph endpoints 0.917, edit survival 0.958, dream survival 1.000; v0.8.0-imagine",
+     "2026-11-08-X57-imagine.md", ["docs/results/kalia-imagine/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

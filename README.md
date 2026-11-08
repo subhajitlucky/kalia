@@ -24,8 +24,11 @@ never compared (decision D43).
 packs (1,413,120 parameters); the v0.5.x vision line — draw (v0.5.0/v0.5.1),
 see (v0.5.2), compose unseen combinations (v0.5.3), and the corrected
 see→draw→see loop ([v0.5.4](docs/releases/v054-vision-cycle.md), held-out
-**0.930** exact); and the v0.6.x audio line (v0.6.0 six-command ear, v0.6.1
-real 12-word speech, **0.856** test). The base model and the five-task
+**0.930** exact); the v0.6.x audio line (v0.6.0 six-command ear, v0.6.1
+real 12-word speech, **0.856** test); and the
+[v0.8.0 visual imagination toy](docs/releases/v080-imagine.md) — morph, dream
+and word-guided scene edits (morph endpoints **0.917**, edit survival
+**0.958**, dream survival **1.000**). The base model and the five-task
 zero-shot suite are unchanged.
 
 **X56 chat probe (2026-11-08, null):** a from-scratch rank-32 LoRA on 100k

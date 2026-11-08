@@ -63,6 +63,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X54 reader-guided` | Reader-guided diffusion consistency; baseline with the v1 training embedding closed the loop at ~0.94; run stopped on a label-slice bug; superseded by X55; no reader fine-tune | yes | 2 files |
 | `X55 embedding fix` | A/B text-conditioning embedding: bidir (v1 training) held-out loop 0.930, source 0.930, classifier 0.936; causal control 0.000; earlier cycle null was an inference-embedding mismatch; v0.5.4-vision-cycle | yes | 7 files |
 | `X56 chat v0` | Frozen v0.3.1 + rank-32 LoRA on 100k synthetic instruction/dialogue records; test format 0.998, refusal 1.0, multi-turn 0.717, arithmetic 0.247, word 0.067, context QA 0.000, instruction 0.35, overall 0.34; base control 0.000; C-2/C-3/C-4/C-7 fail; no chat release | yes | 5 files |
+| `X57 Imagine` | Visual imagination toy: 16-frame caption-space morph, 10-step dream chain, 24 word-guided edits; frozen v0.3.1 + v1 diffusion + v2.1 captioner; morph endpoints 0.917, edit survival 0.958, dream survival 1.000; v0.8.0-imagine | yes | 8 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -443,6 +444,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x56-chat-v0/predictions.jsonl`
 - `docs/results/x56-chat-v0/x56.log`
 
+**X57 Imagine**
+- `docs/results/kalia-imagine/README.md`
+- `docs/results/kalia-imagine/dream.gif`
+- `docs/results/kalia-imagine/dream.json`
+- `docs/results/kalia-imagine/edit_grid.png`
+- `docs/results/kalia-imagine/metrics.json`
+- `docs/results/kalia-imagine/morph.gif`
+- `… 2 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -460,4 +470,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-56 runs tracked, 432 files archived, 3 with no evidence.
+57 runs tracked, 440 files archived, 3 with no evidence.
