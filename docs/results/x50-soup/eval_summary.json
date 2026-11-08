@@ -1,0 +1,12 @@
+{
+  "base": {"mean": 0.4258, "weak": 0.239725},
+  "soup": {
+    "arc_easy": 0.4900, "arc_challenge": 0.1997, "boolq": 0.5390,
+    "hellaswag": 0.3240, "lambada_openai": 0.2660, "openbookqa": 0.1640,
+    "piqa": 0.6213, "sciq": 0.7200, "winogrande": 0.5320,
+    "mean": 0.4284390561435852, "weak": 0.238425
+  },
+  "delta_mean_pp": 0.2639056143585152,
+  "weak_delta_pp": -0.13,
+  "S-1": false, "S-2": true, "S-3": false, "S-4": true
+}

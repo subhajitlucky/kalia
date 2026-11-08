@@ -54,6 +54,8 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `KALIA-Vision v1` | Two-object 32x32 scenes; frozen KALIA text encoder + 3.75M conditional DDPM from scratch; 25k steps/45.5 min; left shape 0.991/color 0.980, right shape 0.993/color 0.976, exact scene 0.948; V1-1..V1-6 pass; v0.5.1-vision-two | yes | 8 files |
 | `KALIA-Audio v0` | From-scratch 136k 1D CNN on six synthetic formant commands; 15 epochs/0.38 min; test 0.912, val 0.916; all six commands present; A-1..A-3 pass; v0.6.0-audio-commands | yes | 7 files |
 | `KALIA-Audio v1.1` | Real Speech Commands 12 words; log-STFT 201x101 + 2D CNN from scratch; 10.8k train/4.9k official test; 391,884 params; 30 epochs/5.7 min; test 0.856, val 0.852; v1 raw-waveform 0.655; R-1..R-3 pass; v0.6.1-audio-speech | yes | 3 files |
+| `X49 data mix` | Reasoning-heavy 58M continued pretraining; control 60/20/15/5 vs treatment 45/5/40/10; 1,500 steps each; control 0.4198 vs treatment 0.4280 (+0.82 pp); BoolQ +5.45/WinoGrande +1.89 but weak-task avg -0.10; K-1/K-3 fail; mixture parked | yes | 7 files |
+| `X50 soup` | 50/50 v0.3.1 + X49-treatment soup; mean 0.4284 vs 0.4258 (+0.26 pp); weak-task avg -0.13 pp; S-1/S-3 fail; no v0.3.2 | yes | 3 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -376,6 +378,20 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/kalia-audio-v1.1/metrics.json`
 - `docs/results/kalia-audio-v1.1/train.log`
 
+**X49 data mix**
+- `docs/results/x49-data-mix/README.md`
+- `docs/results/x49-data-mix/data.log`
+- `docs/results/x49-data-mix/data_manifest.json`
+- `docs/results/x49-data-mix/eval_control.log`
+- `docs/results/x49-data-mix/eval_summary.json`
+- `docs/results/x49-data-mix/eval_treatment.log`
+- `… 1 more`
+
+**X50 soup**
+- `docs/results/x50-soup/README.md`
+- `docs/results/x50-soup/eval.log`
+- `docs/results/x50-soup/eval_summary.json`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -393,4 +409,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-47 runs tracked, 392 files archived, 3 with no evidence.
+49 runs tracked, 402 files archived, 3 with no evidence.

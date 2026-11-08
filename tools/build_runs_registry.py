@@ -124,6 +124,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-06-kalia-audio-v1.1-mel.md", ["docs/results/kalia-audio-v1.1/**/*"]),
     ("X49 data mix", "Reasoning-heavy 58M continued pretraining; control 60/20/15/5 vs treatment 45/5/40/10; 1,500 steps each; control 0.4198 vs treatment 0.4280 (+0.82 pp); BoolQ +5.45/WinoGrande +1.89 but weak-task avg -0.10; K-1/K-3 fail; mixture parked",
      "2026-11-06-X49-data-mix.md", ["docs/results/x49-data-mix/**/*"]),
+    ("X50 soup", "50/50 v0.3.1 + X49-treatment soup; mean 0.4284 vs 0.4258 (+0.26 pp); weak-task avg -0.13 pp; S-1/S-3 fail; no v0.3.2",
+     "2026-11-08-X50-soup.md", ["docs/results/x50-soup/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

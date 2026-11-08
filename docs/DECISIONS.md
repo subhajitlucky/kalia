@@ -1562,3 +1562,12 @@ HellaSwag. The public base remains v0.3.1.
 Next: **X50**, a 50/50 weight soup of v0.3.1 and the X49 treatment, evaluated
 on the same suite as a cheap chance to convert the near-miss. If it fails, the
 cross-modal binding discovery is the next window.
+
+## D94 — X50 soup: null (2026-11-08)
+
+**Result.** 50/50 v0.3.1 + X49-treatment soup: mean **0.4284** vs v0.3.1
+**0.4258** (+0.26 pp); weak-task average **−0.13 pp**. S-1/S-3 fail; S-2
+passes; no task beyond 2σ regression.
+
+**Decision.** No v0.3.2, no soup tuning. Public base remains v0.3.1. Next:
+cross-modal binding discovery.
