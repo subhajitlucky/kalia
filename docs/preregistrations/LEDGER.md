@@ -60,3 +60,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-08 | X53-cycle-fix | `docs/preregistrations/2026-11-08-X53-cycle-fix.md` | `a2793beda4164c3808a37d56307b011bc8b586512a9cd79ccf08686550fe17a4` |
 | 2026-11-08 | X54-reader-guided-diffusion | `docs/preregistrations/2026-11-08-X54-reader-guided-diffusion.md` | `412a8fcedee4a960bd94320f176d4a3bad08b320ae48f3bb3ebdb3e6511e9073` |
 | 2026-11-08 | X55-embedding-fix | `docs/preregistrations/2026-11-08-X55-embedding-fix.md` | `e5261fcfc6bf77c9121459bb5b9762450b861b64a6427c8a9c43ee8f7a39dde5` |
+| 2026-11-08 | X56-chat-v0 | `docs/preregistrations/2026-11-08-X56-chat-v0.md` | `2eaa4be1af2fcafc64f08bae752c01f0765c80b12114f78887bb1b432a28f226` |
