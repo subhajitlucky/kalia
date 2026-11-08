@@ -165,7 +165,8 @@ def run_eval(images, caps, n):
     n = min(n, len(images))
     preds = []
     for start in range(0, n, 64):
-        preds += caption_images(model, encoder, to_tensor(images[start:start+64]), enc, device)
+        batch = to_tensor(images[start:min(start + 64, n)])
+        preds += caption_images(model, encoder, batch, enc, device)
     exact = sum(normalize(p) == normalize(c) for p, c in zip(preds, caps[:n])) / n
     labels = np.array([parse(c) for c in caps[:n]], dtype=np.int64)
     pred_lab = np.array([parse(p) for p in preds], dtype=np.int64)
