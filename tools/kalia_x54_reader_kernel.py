@@ -262,7 +262,7 @@ def eval_split(model, indices, max_n, collect=False):
     samples = []
     model.eval()
     for start in range(0, n, 64):
-        batch_idx = indices[start:start + 64]
+        batch_idx = indices[start:min(start + 64, n)]
         real = to_tensor(test_images[batch_idx]).to(device)
         src = [test_caps[i] for i in batch_idx]
         c1 = caption_images(base_cap, encoder, real, enc, device)
