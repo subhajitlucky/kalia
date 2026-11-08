@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-vision-v2-train",
+  "title": "KALIA vision v2 train",
+  "code_file": "kalia_vision_v2_train_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-vision-v1-data"],
+  "model_sources": []
+}
