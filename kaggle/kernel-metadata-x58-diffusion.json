@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x58-diffusion-64",
+  "title": "KALIA X58 diffusion 64",
+  "code_file": "kalia_x58_diffusion_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
