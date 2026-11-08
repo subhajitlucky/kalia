@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-vision-cycle",
+  "title": "KALIA vision cycle",
+  "code_file": "kalia_vision_cycle_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": ["subhajitlucky/kalia-vision-v2-split-train","subhajitlucky/kalia-vision-v1-train","subhajitlucky/kalia-vision-v1-data"],
+  "model_sources": []
+}
