@@ -130,6 +130,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-08-kalia-vision-v2.md", ["docs/results/kalia-vision-v2/**/*"]),
     ("KALIA-Vision v2.1", "Compositional split: 29/144 two-object combinations held out; 39,853 train; held-out exact 0.992, seen 0.997, gap 0.005; attributes 0.992-1.000; blind 0.000/shuffled 0.003; 2.33M trainable/20.3 min; C-1..C-5 pass; v0.5.3-vision-compose",
      "2026-11-08-kalia-vision-v2.1-compose.md", ["docs/results/kalia-vision-v2.1/**/*"]),
+    ("Vision cycle", "See->draw->see: captioner v2.1 -> v1 diffusion -> captioner v2.1 on 1,000 real images; cycle exact 0.032, attribute consistency 0.278-0.476; X-1/X-2 fail; classifier recognizes generated images at 0.948; boundary at captioner input distribution",
+     "2026-11-08-kalia-vision-cycle.md", ["docs/results/kalia-vision-cycle/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

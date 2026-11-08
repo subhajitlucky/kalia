@@ -1595,3 +1595,17 @@ gap **0.0050**; held-out attributes 0.992–1.000; blind 0.000; shuffled 0.003.
 **Decision.** Release **v0.5.3-vision-compose** capability update. Public base
 remains v0.3.1. This is evidence of compositional binding on the synthetic
 grid, not open-world vision. Next: see→draw→see cycle consistency.
+
+## D97 — Vision see→draw→see cycle: null (2026-11-08)
+
+**Result.** 1,000 real images; captioner v2.1 → v1 diffusion → captioner v2.1.
+Cycle exact **0.032**; attribute consistency 0.278–0.476. X-1/X-2 fail;
+X-3/X-4 pass.
+
+**Interpretation.** The v1 classifier recognizes generated images at 0.948, so
+generation is not random; the captioner trained on real images does not read
+the generated distribution. The gap is at the captioner input distribution.
+
+**Decision.** No release. Next: cycle-consistency fine-tune of the captioner on
+diffusion-generated images with known source captions, then re-test held-out
+cycle. If it fails, the gap is a boundary at this scale.

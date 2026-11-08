@@ -1,0 +1,22 @@
+captioner: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v2-split-train/vision-v2-split/ckpt.pt diffusion: /kaggle/input/notebooks/subhajitlucky/kalia-vision-v1-train/vision/ckpt.pt
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+models loaded
+{
+  "X-1": false,
+  "X-2": false,
+  "X-3": true,
+  "X-4": true,
+  "cycle_exact": 0.032,
+  "experiment": "KALIA-Vision-cycle",
+  "left_color": 0.472,
+  "left_shape": 0.476,
+  "n": 1000,
+  "right_color": 0.278,
+  "right_shape": 0.404
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 306413 bytes to __results__.html
