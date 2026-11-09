@@ -1,0 +1,57 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+base: bbd8a0366abe0249 trainable: 5560832
+generating data
+data (50000, 64, 64, 3) 93s
+epoch 0 loss 0.2584 val_em 0.5150 289s
+epoch 1 loss 0.0326 val_em 0.9250 579s
+epoch 2 loss 0.0078 val_em 0.9750 868s
+epoch 3 loss 0.0047 val_em 0.9650 1157s
+epoch 4 loss 0.0033 val_em 0.9900 1446s
+epoch 5 loss 0.0023 val_em 0.9900 1736s
+epoch 6 loss 0.0023 val_em 1.0000 2024s
+epoch 7 loss 0.0017 val_em 0.9850 2315s
+held 0.995 [1.0, 0.997, 0.999, 1.0, 0.999, 1.0] seen 0.995 [1.0, 0.998, 0.999, 1.0, 0.999, 0.999]
+{
+  "VIT-1": true,
+  "VIT-2": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "best_epoch": 6,
+  "best_val_em": 1.0,
+  "blind_exact": 0.0,
+  "ckpt_bytes": 22283173,
+  "ckpt_sha256": "2a106e8b894d370bcb5c1e3a3264773627c6d8effa3fb433de62139e5cc4c8e2",
+  "code_commit": "689a17cc499d4870a1b2d5fa2ed19bae4736c5b6",
+  "elapsed_minutes": 42.053580856323244,
+  "experiment": "X63-vit-captioner",
+  "held_attrs": [
+    1.0,
+    0.997,
+    0.999,
+    1.0,
+    0.999,
+    1.0
+  ],
+  "held_combos": 2765,
+  "held_exact": 0.995,
+  "seen_attrs": [
+    1.0,
+    0.998,
+    0.999,
+    1.0,
+    0.999,
+    0.999
+  ],
+  "seen_combos": 11059,
+  "seen_exact": 0.995,
+  "shuffled_exact": 0.0,
+  "test_n": 5000,
+  "train_n": 50000,
+  "trainable_params": 5560832,
+  "val_n": 5000
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 324591 bytes to __results__.html

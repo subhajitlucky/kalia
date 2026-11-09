@@ -1,0 +1,38 @@
+{
+  "VIT-1": true,
+  "VIT-2": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "best_epoch": 6,
+  "best_val_em": 1.0,
+  "blind_exact": 0.0,
+  "ckpt_bytes": 22283173,
+  "ckpt_sha256": "2a106e8b894d370bcb5c1e3a3264773627c6d8effa3fb433de62139e5cc4c8e2",
+  "code_commit": "689a17cc499d4870a1b2d5fa2ed19bae4736c5b6",
+  "elapsed_minutes": 42.053580856323244,
+  "experiment": "X63-vit-captioner",
+  "held_attrs": [
+    1.0,
+    0.997,
+    0.999,
+    1.0,
+    0.999,
+    1.0
+  ],
+  "held_combos": 2765,
+  "held_exact": 0.995,
+  "seen_attrs": [
+    1.0,
+    0.998,
+    0.999,
+    1.0,
+    0.999,
+    0.999
+  ],
+  "seen_combos": 11059,
+  "seen_exact": 0.995,
+  "shuffled_exact": 0.0,
+  "test_n": 5000,
+  "train_n": 50000,
+  "trainable_params": 5560832,
+  "val_n": 5000
+}
