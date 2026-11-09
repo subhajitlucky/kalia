@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x59-diffusion-64-large",
+  "title": "KALIA X59 diffusion 64 large",
+  "code_file": "kalia_x59_large_diffusion_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
