@@ -1,0 +1,14 @@
+{
+  "id": "subhajitlucky/kalia-x60-selfverify",
+  "title": "KALIA X60 selfverify",
+  "code_file": "kalia_x60_selfverify_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["subhajitlucky/kalia-code-dev"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
