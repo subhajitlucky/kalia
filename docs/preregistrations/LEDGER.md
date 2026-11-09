@@ -64,3 +64,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-08 | X57-imagine | `docs/preregistrations/2026-11-08-X57-imagine.md` | `9b34c9beed2c33df8f2ab0d166f60731538a61a63135c3a5ba1e2309bf87fc4b` |
 | 2026-11-08 | X58-vision-64 | `docs/preregistrations/2026-11-08-X58-vision-64.md` | `f0df78d74ddafd04d6f10f2c7d3983699213c38d9ff12b2da40959b212097b53` |
 | 2026-11-09 | X59-vision-64-large | `docs/preregistrations/2026-11-09-X59-vision-64-large.md` | `080f7fb913a9fabdab2cc8662fe40b09c45c32b523ed8bd99396854035b88831` |
+| 2026-11-09 | X60-selfverify | `docs/preregistrations/2026-11-09-X60-selfverify.md` | `596cf0a8929003845f4968095def5dcaec49bd4a5619459be0e9ddcc4e642fb8` |
