@@ -68,6 +68,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X59 vision 64 large` | 64x64 three-object UNetLarge 8.7M (96/192/384 + 8x8 attention), 30k steps/200.5 min; generated exact 0.758 vs 0.80 bar (+6.3 pp over X58's 0.695); real 0.975; no v0.9.0 release; capacity trend but sub-threshold | yes | 6 files |
 | `X60 selfverify` | Self-verifying visual generation: N=8 candidates, frozen captioner CE selects, independent classifier judges; 64x64 3-object 0.781->0.953 (+17.2 pp, oracle 0.994), 32x32 0.943->0.991 (+4.8 pp, oracle 1.0); S-1..S-4 pass; v0.10.0-selfverify | yes | 5 files |
 | `X62 constraints` | Constraint-satisfying visual generation: 12 constraints, 64 candidates, frozen captioner verifies, independent classifier judges; mean success 0.993, classifier agreement 0.972; 11/12 constraints 1.000, exactly-two-red 0.917; CS-1..CS-4 pass; v0.11.0-constraints | yes | 5 files |
+| `X63 two readers` | CNN + ViT captioner ensemble: n=990 64x64 3-object; single CNN 0.9556, max ensemble 0.9545 (-0.10 pp), mean 0.9586 (+0.30 pp), oracle 0.9939; E-1/E-2 fail; second encoder does not close the verifier-judge gap; no v0.12.0 | yes | 4 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -488,6 +489,12 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/x62-constraints/samples.json`
 - `docs/results/x62-constraints/x62.log`
 
+**X63 two readers**
+- `docs/results/x63-two-readers/README.md`
+- `docs/results/x63-two-readers/metrics.json`
+- `docs/results/x63-two-readers/selected_64.png`
+- `docs/results/x63-two-readers/x63.log`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -505,4 +512,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-61 runs tracked, 466 files archived, 3 with no evidence.
+62 runs tracked, 470 files archived, 3 with no evidence.

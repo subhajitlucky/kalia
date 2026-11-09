@@ -150,6 +150,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-09-X60-selfverify.md", ["docs/results/x60-selfverify/**/*"]),
     ("X62 constraints", "Constraint-satisfying visual generation: 12 constraints, 64 candidates, frozen captioner verifies, independent classifier judges; mean success 0.993, classifier agreement 0.972; 11/12 constraints 1.000, exactly-two-red 0.917; CS-1..CS-4 pass; v0.11.0-constraints",
      "2026-11-09-X62-constraints.md", ["docs/results/x62-constraints/**/*"]),
+    ("X63 two readers", "CNN + ViT captioner ensemble: n=990 64x64 3-object; single CNN 0.9556, max ensemble 0.9545 (-0.10 pp), mean 0.9586 (+0.30 pp), oracle 0.9939; E-1/E-2 fail; second encoder does not close the verifier-judge gap; no v0.12.0",
+     "2026-11-09-X63-two-readers.md", ["docs/results/x63-two-readers/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

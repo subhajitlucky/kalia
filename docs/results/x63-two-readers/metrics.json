@@ -1,0 +1,17 @@
+{
+  "E-1": false,
+  "E-2": false,
+  "E-3": true,
+  "E-4": true,
+  "N": 8,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "code_commit": "8e1ee621f7c07569e494ad08d656e3e6180fa7a2",
+  "ensemble_max_exact": 0.9545454545454546,
+  "ensemble_mean_exact": 0.9585858585858585,
+  "experiment": "X63-two-readers",
+  "gain_max": -0.0010101010101010166,
+  "gain_mean": 0.003030303030302939,
+  "n": 990,
+  "oracle_exact": 0.9939393939393939,
+  "single_cnn_exact": 0.9555555555555556
+}

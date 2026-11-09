@@ -55,6 +55,11 @@ captioner.
 up from 0.695 at 3.75M. Capacity helps but does not clear the bar; no 64×64
 release, v0.8.0 stands.
 
+**X63 two-reader probe (2026-11-09, null):** a second ViT-style captioner
+(held-out **0.995**) ensembled with the CNN reader did not improve selection
+(0.9556 → **0.9545** max / **0.9586** mean; oracle 0.9939). The readers’ errors
+are correlated; the verifier–judge gap is a shared-bias boundary. No v0.12.0.
+
 **The full record — method, results, strong points, weak points, and every failure — lives
 in the repository:** the first-release summary in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md),
 the dated journal, the decision ledger, the incident record, the hash-anchored

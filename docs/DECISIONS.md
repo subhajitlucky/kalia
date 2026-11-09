@@ -1745,3 +1745,18 @@ diffusion + X58 captioner + X59 classifier. CS-1…CS-4 pass.
 v0.3.1. This is a capability advance, not a standard-benchmark gain. X61
 self-repair remains deferred: the captioner’s 0.994 verifier ceiling leaves
 only 0.6% captioner-detectable failures.
+
+## D106 — X63 two-reader ensemble: null (2026-11-09)
+
+**Result.** CNN + ViT captioner ensemble on 990 held-out 64×64 three-object
+targets, N=8. Single CNN selected **0.9556**; ensemble `max(CE)` **0.9545**
+(−0.10 pp); mean **0.9586** (+0.30 pp); oracle **0.9939**. The ViT reader is
+0.995 held-out on its own. E-1/E-2 fail; E-3/E-4 pass.
+
+**Interpretation.** The readers share the frozen KALIA decoder and training
+data; a different image encoder does not make them independent. Their errors
+are correlated, so the ensemble does not improve selection. The verifier–judge
+gap is a shared-bias boundary, not a missing encoder.
+
+**Decision.** No **v0.12.0-two-readers**. X60 self-verification and X62
+constraints stand. Public base v0.3.1.
