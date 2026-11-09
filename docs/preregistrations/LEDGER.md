@@ -66,3 +66,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-09 | X59-vision-64-large | `docs/preregistrations/2026-11-09-X59-vision-64-large.md` | `080f7fb913a9fabdab2cc8662fe40b09c45c32b523ed8bd99396854035b88831` |
 | 2026-11-09 | X60-selfverify | `docs/preregistrations/2026-11-09-X60-selfverify.md` | `596cf0a8929003845f4968095def5dcaec49bd4a5619459be0e9ddcc4e642fb8` |
 | 2026-11-09 | X62-constraints | `docs/preregistrations/2026-11-09-X62-constraints.md` | `e0b9da8c0c947f00fce99ba86d7f61675f3a5c36932e899049ec551bab849f50` |
+| 2026-11-09 | X63-two-readers | `docs/preregistrations/2026-11-09-X63-two-readers.md` | `b84138a0faa917c96b7d32ee8bf8cc006d790a15ec2f5238cbca9d49e185bf4d` |
