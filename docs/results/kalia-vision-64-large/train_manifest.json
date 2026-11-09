@@ -1,0 +1,31 @@
+{
+  "X59-1": false,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "batch": 64,
+  "ckpt_bytes": 34856973,
+  "ckpt_sha256": "f75189c61b37a165d4baa2b5663f827f8ca8de8ef2a8556e91439417da375e2d",
+  "classifier_params": 397086,
+  "code_commit": "21a3563b9c0645b663a02104f35ee567e0f62b07",
+  "elapsed_minutes": 200.47368531227113,
+  "experiment": "X59-vision-64-large-diffusion",
+  "generated_attrs": [
+    0.9706,
+    0.9636,
+    0.943,
+    0.9004,
+    0.965,
+    0.9568
+  ],
+  "generated_exact": 0.758,
+  "real_attrs": [
+    0.9958,
+    0.9948,
+    0.9904,
+    0.9906,
+    0.9984,
+    0.999
+  ],
+  "real_exact": 0.9754,
+  "steps": 30000,
+  "unet_params": 8708451
+}

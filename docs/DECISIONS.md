@@ -1701,3 +1701,17 @@ toy remains the released capability. Public base v0.3.1 unchanged. The clean
 next capacity test is a larger 64×64 diffusion (10–15M params) or a simpler
 2-object 64×64 grid; both are new pre-registered experiments. No tuning after
 this result.
+
+## D103 — X59 64×64 large diffusion: still short (2026-11-09)
+
+**Result.** UNetLarge 8,708,451 params (96/192/384 + 8×8 self-attention),
+30k steps, batch 64, 200.5 min. Real classifier 0.975; generated exact **0.758**
+vs the 0.80 bar. X58 3.75M was 0.695, so capacity gives **+6.3 pp** but does not
+clear the bar. Center color remains weakest (0.900). X59-2/X59-3 not run;
+X59-4 pass.
+
+**Decision.** No **v0.9.0-vision-64** release. **v0.8.0-imagine** (32×32)
+remains the released toy. The 64×64 three-object task is beyond the 8.7M
+diffusion at this schedule; a 15–20M model might clear 0.80 but the remaining
+quota is 6.3h and the trend is sub-threshold. No tuning. A cheaper 64×64 toy
+would use a two-object grid as a new pre-registered experiment.

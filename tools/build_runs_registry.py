@@ -144,6 +144,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-08-X57-imagine.md", ["docs/results/kalia-imagine/**/*"]),
     ("X58 vision 64", "64x64 three-object vision: captioner held-out 0.997/seen 0.999, blind/shuffled 0.000; diffusion 3.75M U-Net, 30k steps/121 min, generated exact 0.695 vs 0.80 bar; V64-3 fails; no v0.9.0 release; diffusion capacity boundary",
      "2026-11-08-X58-vision-64.md", ["docs/results/kalia-vision-64/**/*"]),
+    ("X59 vision 64 large", "64x64 three-object UNetLarge 8.7M (96/192/384 + 8x8 attention), 30k steps/200.5 min; generated exact 0.758 vs 0.80 bar (+6.3 pp over X58's 0.695); real 0.975; no v0.9.0 release; capacity trend but sub-threshold",
+     "2026-11-09-X59-vision-64-large.md", ["docs/results/kalia-vision-64-large/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

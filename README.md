@@ -44,6 +44,11 @@ reached only **0.695** exact on generated scenes (bar 0.80). No 64×64 release;
 the 32×32 v0.8.0 toy stands. The bottleneck is diffusion capacity, not the
 captioner.
 
+**X59 64×64 capacity test (2026-11-09, still short):** the 8.7M U-Net
+(96/192/384 + 8×8 attention) reached **0.758** generated exact vs the 0.80 bar,
+up from 0.695 at 3.75M. Capacity helps but does not clear the bar; no 64×64
+release, v0.8.0 stands.
+
 **The full record — method, results, strong points, weak points, and every failure — lives
 in the repository:** the first-release summary in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md),
 the dated journal, the decision ledger, the incident record, the hash-anchored
