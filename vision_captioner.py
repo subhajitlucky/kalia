@@ -39,6 +39,63 @@ class ImageEncoder(nn.Module):
         return self.fc(h).view(-1, self.tokens, self.n_embd)
 
 
+class ViTBlock(nn.Module):
+    def __init__(self, dim: int, heads: int):
+        super().__init__()
+        self.norm1 = nn.LayerNorm(dim)
+        self.attn = nn.MultiheadAttention(dim, heads, batch_first=True)
+        self.norm2 = nn.LayerNorm(dim)
+        self.mlp = nn.Sequential(nn.Linear(dim, 4 * dim), nn.GELU(),
+                                 nn.Linear(4 * dim, dim))
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        h = self.norm1(x)
+        x = x + self.attn(h, h, h, need_weights=False)[0]
+        return x + self.mlp(self.norm2(x))
+
+
+class ViTCross(nn.Module):
+    def __init__(self, dim: int, heads: int):
+        super().__init__()
+        self.norm_q = nn.LayerNorm(dim)
+        self.norm_kv = nn.LayerNorm(dim)
+        self.attn = nn.MultiheadAttention(dim, heads, batch_first=True)
+        self.norm2 = nn.LayerNorm(dim)
+        self.mlp = nn.Sequential(nn.Linear(dim, 4 * dim), nn.GELU(),
+                                 nn.Linear(4 * dim, dim))
+
+    def forward(self, q: torch.Tensor, kv: torch.Tensor) -> torch.Tensor:
+        q = q + self.attn(self.norm_q(q), self.norm_kv(kv),
+                          self.norm_kv(kv), need_weights=False)[0]
+        return q + self.mlp(self.norm2(q))
+
+
+class ViTImageEncoder(nn.Module):
+    """A second, independent reader: patch transformer + 4 query tokens."""
+
+    def __init__(self, n_embd: int = 512, tokens: int = PREFIX_TOKENS,
+                 dim: int = 256, depth: int = 4, heads: int = 8,
+                 patch: int = 8):
+        super().__init__()
+        self.patch = nn.Conv2d(3, dim, kernel_size=patch, stride=patch)
+        self.pos = nn.Parameter(torch.randn(1, 64, dim) * 0.02)
+        self.blocks = nn.ModuleList([ViTBlock(dim, heads) for _ in range(depth)])
+        self.queries = nn.Parameter(torch.randn(1, tokens, dim) * 0.02)
+        self.cross = ViTCross(dim, heads)
+        self.proj = nn.Linear(dim, n_embd)
+        self.tokens = tokens
+        self.n_embd = n_embd
+
+    def forward(self, images: torch.Tensor) -> torch.Tensor:
+        b = images.shape[0]
+        x = self.patch(images).flatten(2).transpose(1, 2) + self.pos
+        for blk in self.blocks:
+            x = blk(x)
+        q = self.queries.expand(b, -1, -1)
+        q = self.cross(q, x)
+        return self.proj(q)
+
+
 def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
