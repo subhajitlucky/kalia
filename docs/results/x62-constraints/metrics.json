@@ -1,0 +1,99 @@
+{
+  "CS-1": true,
+  "CS-2": true,
+  "CS-3": true,
+  "CS-4": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "budget": 64,
+  "code_commit": "cd39d082ee3100943de679b19b29d0f3c717e156",
+  "experiment": "X62-constraints",
+  "mean_agreement": 0.9722222222222222,
+  "mean_success": 0.9930555555555555,
+  "results": [
+    {
+      "agreement": 0.9166666666666666,
+      "constraint": "exactly one red",
+      "mean_first": 2.3333333333333335,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 1.0,
+      "constraint": "no blue",
+      "mean_first": 1.0,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 0.9166666666666666,
+      "constraint": "all shapes the same",
+      "mean_first": 14.166666666666666,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 0.9166666666666666,
+      "constraint": "all colors the same",
+      "mean_first": 24.416666666666668,
+      "oracle": 0.8333333333333334,
+      "success": 1.0
+    },
+    {
+      "agreement": 1.0,
+      "constraint": "exactly two red",
+      "mean_first": 14.583333333333334,
+      "oracle": 1.0,
+      "success": 0.9166666666666666
+    },
+    {
+      "agreement": 0.9166666666666666,
+      "constraint": "left and right same color",
+      "mean_first": 3.6666666666666665,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 1.0,
+      "constraint": "center is a star",
+      "mean_first": 3.75,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 1.0,
+      "constraint": "at least two circles",
+      "mean_first": 5.416666666666667,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 1.0,
+      "constraint": "all colors different",
+      "mean_first": 0.8333333333333334,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 1.0,
+      "constraint": "left is red or blue",
+      "mean_first": 2.75,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 1.0,
+      "constraint": "center and right shapes differ",
+      "mean_first": 0.16666666666666666,
+      "oracle": 1.0,
+      "success": 1.0
+    },
+    {
+      "agreement": 1.0,
+      "constraint": "exactly two shapes the same",
+      "mean_first": 0.75,
+      "oracle": 1.0,
+      "success": 1.0
+    }
+  ],
+  "trials": 12
+}

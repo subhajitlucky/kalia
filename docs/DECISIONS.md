@@ -1732,3 +1732,16 @@ captioner selects at 0.953/0.991. The see→draw→see loop becomes
 v0.3.1. This is a capability advance, not a standard-benchmark gain. Next:
 X61 self-repair (use the captioner error to repair failures) and X62
 constraint satisfaction.
+
+## D105 — X62 constraint-satisfying visual generation passes (2026-11-09)
+
+**Result.** 12 constraints × 12 trials × 64 candidates. Mean success **0.993**
+(119/120); classifier agreement **0.972**; 11/12 constraints at 1.000;
+“exactly two red” 0.917. The rare “all colors the same” succeeds 12/12 with a
+mean first success at 24.4 candidates. No training; frozen v0.3.1 + X59 8.7M
+diffusion + X58 captioner + X59 classifier. CS-1…CS-4 pass.
+
+**Decision.** Release **v0.11.0-constraints** capability pack. Public base
+v0.3.1. This is a capability advance, not a standard-benchmark gain. X61
+self-repair remains deferred: the captioner’s 0.994 verifier ceiling leaves
+only 0.6% captioner-detectable failures.

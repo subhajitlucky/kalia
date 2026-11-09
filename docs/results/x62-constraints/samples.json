@@ -1,0 +1,62 @@
+[
+  {
+    "constraint": "exactly one red",
+    "readback": "a purple square on the left, a red triangle in the center, and a purple star on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "no blue",
+    "readback": "a yellow square on the left, a yellow circle in the center, and a orange star on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "all shapes the same",
+    "readback": "a blue circle on the left, a red circle in the center, and a purple circle on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "all colors the same",
+    "readback": "a red circle on the left, a red square in the center, and a red circle on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "exactly two red",
+    "readback": "a red star on the left, a green triangle in the center, and a red square on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "left and right same color",
+    "readback": "a yellow star on the left, a yellow square in the center, and a yellow triangle on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "center is a star",
+    "readback": "a purple square on the left, a blue star in the center, and a blue circle on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "at least two circles",
+    "readback": "a yellow circle on the left, a orange circle in the center, and a red square on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "all colors different",
+    "readback": "a yellow triangle on the left, a blue triangle in the center, and a green star on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "left is red or blue",
+    "readback": "a red star on the left, a green star in the center, and a red circle on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "center and right shapes differ",
+    "readback": "a orange circle on the left, a orange triangle in the center, and a orange circle on the right",
+    "classifier_ok": true
+  },
+  {
+    "constraint": "exactly two shapes the same",
+    "readback": "a blue triangle on the left, a orange circle in the center, and a green triangle on the right",
+    "classifier_ok": true
+  }
+]

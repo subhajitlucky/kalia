@@ -1,0 +1,36 @@
+ckpt64.pt 34856973
+cap64.pt 9343455
+clf64.pt 1597877
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+{"constraint": "exactly one red", "success": 1.0, "agreement": 0.9166666666666666, "oracle": 1.0, "mean_first": 2.3333333333333335}
+{"constraint": "no blue", "success": 1.0, "agreement": 1.0, "oracle": 1.0, "mean_first": 1.0}
+{"constraint": "all shapes the same", "success": 1.0, "agreement": 0.9166666666666666, "oracle": 1.0, "mean_first": 14.166666666666666}
+{"constraint": "all colors the same", "success": 1.0, "agreement": 0.9166666666666666, "oracle": 0.8333333333333334, "mean_first": 24.416666666666668}
+{"constraint": "exactly two red", "success": 0.9166666666666666, "agreement": 1.0, "oracle": 1.0, "mean_first": 14.583333333333334}
+{"constraint": "left and right same color", "success": 1.0, "agreement": 0.9166666666666666, "oracle": 1.0, "mean_first": 3.6666666666666665}
+{"constraint": "center is a star", "success": 1.0, "agreement": 1.0, "oracle": 1.0, "mean_first": 3.75}
+{"constraint": "at least two circles", "success": 1.0, "agreement": 1.0, "oracle": 1.0, "mean_first": 5.416666666666667}
+{"constraint": "all colors different", "success": 1.0, "agreement": 1.0, "oracle": 1.0, "mean_first": 0.8333333333333334}
+{"constraint": "left is red or blue", "success": 1.0, "agreement": 1.0, "oracle": 1.0, "mean_first": 2.75}
+{"constraint": "center and right shapes differ", "success": 1.0, "agreement": 1.0, "oracle": 1.0, "mean_first": 0.16666666666666666}
+{"constraint": "exactly two shapes the same", "success": 1.0, "agreement": 1.0, "oracle": 1.0, "mean_first": 0.75}
+mean success 0.9930555555555555 agreement 0.9722222222222222
+{
+  "CS-1": true,
+  "CS-2": true,
+  "CS-3": true,
+  "CS-4": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "budget": 64,
+  "code_commit": "cd39d082ee3100943de679b19b29d0f3c717e156",
+  "experiment": "X62-constraints",
+  "mean_agreement": 0.9722222222222222,
+  "mean_success": 0.9930555555555555,
+  "trials": 12
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 339396 bytes to __results__.html

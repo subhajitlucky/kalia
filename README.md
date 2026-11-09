@@ -31,7 +31,11 @@ and word-guided scene edits (morph endpoints **0.917**, edit survival
 **0.958**, dream survival **1.000**); and the
 [v0.10.0 self-verifying generation](docs/releases/v0100-selfverify.md) — 8
 candidates, the model's own captioner selects (64×64 **0.953**, 32×32
-**0.991**). The base model and the five-task zero-shot suite are unchanged.
+**0.991**); and the
+[v0.11.0 constraint-satisfying generation](docs/releases/v0110-constraints.md)
+— 12 compositional constraints, 64 candidates, **0.993** success, **0.972**
+classifier agreement. The base model and the five-task zero-shot suite are
+unchanged.
 
 **X56 chat probe (2026-11-08, null):** a from-scratch rank-32 LoRA on 100k
 synthetic instruction/dialogue records learned the chat format (0.998), the
