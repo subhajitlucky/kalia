@@ -1,0 +1,26 @@
+{
+  "32": {
+    "gain": 0.048,
+    "n": 1000,
+    "n1_exact": 0.943,
+    "oracle_exact": 1.0,
+    "selected_exact": 0.991,
+    "verifier_exact": 1.0
+  },
+  "64": {
+    "gain": 0.1717171717171717,
+    "n": 990,
+    "n1_exact": 0.7808080808080808,
+    "oracle_exact": 0.9939393939393939,
+    "selected_exact": 0.9525252525252526,
+    "verifier_exact": 0.9939393939393939
+  },
+  "N": 8,
+  "S-1": true,
+  "S-2": true,
+  "S-3": true,
+  "S-4": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "code_commit": "db072175d5109317e412c4472a76232a2857ddfe",
+  "experiment": "X60-selfverify"
+}

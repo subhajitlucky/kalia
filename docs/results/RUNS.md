@@ -65,7 +65,8 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X56 chat v0` | Frozen v0.3.1 + rank-32 LoRA on 100k synthetic instruction/dialogue records; test format 0.998, refusal 1.0, multi-turn 0.717, arithmetic 0.247, word 0.067, context QA 0.000, instruction 0.35, overall 0.34; base control 0.000; C-2/C-3/C-4/C-7 fail; no chat release | yes | 5 files |
 | `X57 Imagine` | Visual imagination toy: 16-frame caption-space morph, 10-step dream chain, 24 word-guided edits; frozen v0.3.1 + v1 diffusion + v2.1 captioner; morph endpoints 0.917, edit survival 0.958, dream survival 1.000; v0.8.0-imagine | yes | 8 files |
 | `X58 vision 64` | 64x64 three-object vision: captioner held-out 0.997/seen 0.999, blind/shuffled 0.000; diffusion 3.75M U-Net, 30k steps/121 min, generated exact 0.695 vs 0.80 bar; V64-3 fails; no v0.9.0 release; diffusion capacity boundary | yes | 10 files |
-| `X59 vision 64 large` | 64x64 three-object UNetLarge 8.7M (96/192/384 + 8x8 attention), 30k steps/200.5 min; generated exact 0.758 vs 0.80 bar (+6.3 pp over X58's 0.695); real 0.975; no v0.9.0 release; capacity trend but sub-threshold | yes | 5 files |
+| `X59 vision 64 large` | 64x64 three-object UNetLarge 8.7M (96/192/384 + 8x8 attention), 30k steps/200.5 min; generated exact 0.758 vs 0.80 bar (+6.3 pp over X58's 0.695); real 0.975; no v0.9.0 release; capacity trend but sub-threshold | yes | 6 files |
+| `X60 selfverify` | Self-verifying visual generation: N=8 candidates, frozen captioner CE selects, independent classifier judges; 64x64 3-object 0.781->0.953 (+17.2 pp, oracle 0.994), 32x32 0.943->0.991 (+4.8 pp, oracle 1.0); S-1..S-4 pass; v0.10.0-selfverify | yes | 5 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -467,9 +468,17 @@ uneven, and this is where the unevenness is visible instead of silent.
 **X59 vision 64 large**
 - `docs/results/kalia-vision-64-large/README.md`
 - `docs/results/kalia-vision-64-large/ckpt.pt`
+- `docs/results/kalia-vision-64-large/classifier.pt`
 - `docs/results/kalia-vision-64-large/grid.png`
 - `docs/results/kalia-vision-64-large/train_manifest.json`
 - `docs/results/kalia-vision-64-large/x59.log`
+
+**X60 selfverify**
+- `docs/results/x60-selfverify/README.md`
+- `docs/results/x60-selfverify/metrics.json`
+- `docs/results/x60-selfverify/selected_32.png`
+- `docs/results/x60-selfverify/selected_64.png`
+- `docs/results/x60-selfverify/x60.log`
 
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
@@ -488,4 +497,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-59 runs tracked, 455 files archived, 3 with no evidence.
+60 runs tracked, 461 files archived, 3 with no evidence.

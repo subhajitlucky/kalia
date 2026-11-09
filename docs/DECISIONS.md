@@ -1715,3 +1715,20 @@ remains the released toy. The 64×64 three-object task is beyond the 8.7M
 diffusion at this schedule; a 15–20M model might clear 0.80 but the remaining
 quota is 6.3h and the trend is sub-threshold. No tuning. A cheaper 64×64 toy
 would use a two-object grid as a new pre-registered experiment.
+
+## D104 — X60 self-verifying visual generation passes (2026-11-09)
+
+**Result.** N=8 candidates; the frozen captioner’s teacher-forced CE selects
+the best; an independent classifier judges. 64×64 three-object: N=1 **0.781**
+→ selected **0.953** (+17.2 pp), oracle 0.994, verifier 0.994. 32×32
+two-object: 0.943 → **0.991** (+4.8 pp), oracle/verifier 1.000. S-1…S-4 pass.
+
+**Interpretation.** At 58M, perception is a stronger critic than the language
+model: the text log-prob verifier failed best-of-N (0.547 vs 0.828), while the
+captioner selects at 0.953/0.991. The see→draw→see loop becomes
+**see→draw→judge→choose**.
+
+**Decision.** Release **v0.10.0-selfverify** capability pack. Public base
+v0.3.1. This is a capability advance, not a standard-benchmark gain. Next:
+X61 self-repair (use the captioner error to repair failures) and X62
+constraint satisfaction.
