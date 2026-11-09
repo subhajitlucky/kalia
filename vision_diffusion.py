@@ -82,6 +82,66 @@ class UNet(nn.Module):
         return self.out(u1)
 
 
+class SelfAttention2d(nn.Module):
+    """Global self-attention at the 8x8 bottleneck (64 tokens)."""
+
+    def __init__(self, dim: int, heads: int = 8):
+        super().__init__()
+        self.norm = nn.GroupNorm(8, dim)
+        self.qkv = nn.Conv2d(dim, dim * 3, 1)
+        self.proj = nn.Conv2d(dim, dim, 1)
+        self.heads = heads
+        self.scale = (dim // heads) ** -0.5
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        b, c, h, w = x.shape
+        q, k, v = self.qkv(self.norm(x)).chunk(3, dim=1)
+        hd = c // self.heads
+        q = q.view(b, self.heads, hd, h * w).transpose(-2, -1)
+        k = k.view(b, self.heads, hd, h * w)
+        v = v.view(b, self.heads, hd, h * w).transpose(-2, -1)
+        attn = torch.softmax(q @ k * self.scale, dim=-1)
+        out = (attn @ v).transpose(-2, -1).contiguous().view(b, c, h, w)
+        return x + self.proj(out)
+
+
+class UNetLarge(nn.Module):
+    """64x64 capacity arm: 96/192/384 channels + 8x8 self-attention."""
+
+    def __init__(self, cond_dim: int = COND_DIM, base: int = 96):
+        super().__init__()
+        self.time = nn.Sequential(
+            SinusoidalPosEmb(cond_dim),
+            nn.Linear(cond_dim, cond_dim),
+            nn.SiLU(),
+            nn.Linear(cond_dim, cond_dim),
+        )
+        self.text = nn.Linear(TEXT_DIM, cond_dim)
+        self.init = nn.Conv2d(IN_CHANNELS, base, 3, padding=1)
+        self.down1 = ConvBlock(base, base, cond_dim)
+        self.down2 = ConvBlock(base, 2 * base, cond_dim)
+        self.down3 = ConvBlock(2 * base, 4 * base, cond_dim)
+        self.mid = ConvBlock(4 * base, 4 * base, cond_dim)
+        self.attn = SelfAttention2d(4 * base, heads=8)
+        self.up3 = ConvBlock(4 * base + 4 * base, 2 * base, cond_dim)
+        self.up2 = ConvBlock(2 * base + 2 * base, base, cond_dim)
+        self.up1 = ConvBlock(base + base, base, cond_dim)
+        self.out = nn.Conv2d(base, IN_CHANNELS, 3, padding=1)
+
+    def forward(self, x: torch.Tensor, t: torch.Tensor,
+                text_emb: torch.Tensor) -> torch.Tensor:
+        cond = self.time(t) + self.text(text_emb)
+        h1 = self.down1(self.init(x), cond)
+        h2 = self.down2(F.max_pool2d(h1, 2), cond)
+        h3 = self.down3(F.max_pool2d(h2, 2), cond)
+        m = self.mid(F.max_pool2d(h3, 2), cond)
+        m = self.attn(m)
+        u3 = self.up3(torch.cat([F.interpolate(m, scale_factor=2, mode="nearest"), h3], 1), cond)
+        u2 = self.up2(torch.cat([F.interpolate(u3, scale_factor=2, mode="nearest"), h2], 1), cond)
+        u1 = self.up1(torch.cat([F.interpolate(u2, scale_factor=2, mode="nearest"), h1], 1), cond)
+        return self.out(u1)
+
+
 class Diffusion:
     def __init__(self, steps: int = 1000, device: torch.device | str = "cpu",
                  image_size: int = IMAGE_SIZE):
