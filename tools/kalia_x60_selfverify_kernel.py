@@ -29,7 +29,7 @@ B64 = 16
 B32 = 16
 BASE_REPO = "kalia-lm/kalia-v031"
 BASE_SHA = "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468"
-CODE_COMMIT = "6072ca2975fbe09b551ef3c2d5094c1739e7c6a8"
+CODE_COMMIT = "db072175d5109317e412c4472a76232a2857ddfe"
 
 hits = sorted(Path("/kaggle/input").rglob("vision_captioner.py"))
 preferred = [p for p in hits if "kalia-code-dev" in str(p)]
