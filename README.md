@@ -38,6 +38,12 @@ word manipulation (0.067), context QA (0.000) and held-out instructions (0.35).
 No chat release; the 58M base + LoRA is capacity-limited for this suite. The
 adapter and `chat.py` remain a research preview.
 
+**X58 64×64 vision probe (2026-11-09, mixed):** the three-object 64×64
+captioner passed held-out **0.997** / seen **0.999**, but the 3.75M diffusion
+reached only **0.695** exact on generated scenes (bar 0.80). No 64×64 release;
+the 32×32 v0.8.0 toy stands. The bottleneck is diffusion capacity, not the
+captioner.
+
 **The full record — method, results, strong points, weak points, and every failure — lives
 in the repository:** the first-release summary in [`docs/SYNTHESIS.md`](docs/SYNTHESIS.md),
 the dated journal, the decision ledger, the incident record, the hash-anchored

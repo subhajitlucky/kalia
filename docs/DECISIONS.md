@@ -1687,3 +1687,17 @@ No training; I-1…I-5 pass.
 **Decision.** Release **v0.8.0-imagine** capability/demo pack. Public base
 remains v0.3.1. This is a visual imagination toy, not a chat model and not a
 standard-benchmark gain.
+
+## D102 — X58 64×64 three-object vision: mixed (2026-11-09)
+
+**Result.** Captioner: held-out **0.997**, seen **0.999**, blind/shuffled
+0.000, 2.33M trainable, ~34 min. Diffusion: 3.75M U-Net, 30k steps, 121 min;
+real classifier 0.979; generated exact **0.695** vs the 0.80 bar. Training
+loss 0.001–0.01, so the diffusion is capacity-limited, not undertrained.
+V64-1/V64-2 pass; V64-3 fails; V64-4/V64-5 not run.
+
+**Decision.** No **v0.9.0-vision-64** release. The 32×32 **v0.8.0-imagine**
+toy remains the released capability. Public base v0.3.1 unchanged. The clean
+next capacity test is a larger 64×64 diffusion (10–15M params) or a simpler
+2-object 64×64 grid; both are new pre-registered experiments. No tuning after
+this result.

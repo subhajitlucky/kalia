@@ -142,6 +142,8 @@ RUNS: list[tuple[str, str, str | None, list[str]]] = [
      "2026-11-08-X56-chat-v0.md", ["docs/results/x56-chat-v0/**/*"]),
     ("X57 Imagine", "Visual imagination toy: 16-frame caption-space morph, 10-step dream chain, 24 word-guided edits; frozen v0.3.1 + v1 diffusion + v2.1 captioner; morph endpoints 0.917, edit survival 0.958, dream survival 1.000; v0.8.0-imagine",
      "2026-11-08-X57-imagine.md", ["docs/results/kalia-imagine/**/*"]),
+    ("X58 vision 64", "64x64 three-object vision: captioner held-out 0.997/seen 0.999, blind/shuffled 0.000; diffusion 3.75M U-Net, 30k steps/121 min, generated exact 0.695 vs 0.80 bar; V64-3 fails; no v0.9.0 release; diffusion capacity boundary",
+     "2026-11-08-X58-vision-64.md", ["docs/results/kalia-vision-64/**/*"]),
     ("retrieval probe", "Copy utilisation, BM25 top-3, and the log-prob selector",
      None, ["docs/results/retrieval-probe.json"]),
     ("entity decode", "Entity-consistent decoding vs greedy",

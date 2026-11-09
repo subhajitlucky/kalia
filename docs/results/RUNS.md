@@ -64,6 +64,7 @@ uneven, and this is where the unevenness is visible instead of silent.
 | `X55 embedding fix` | A/B text-conditioning embedding: bidir (v1 training) held-out loop 0.930, source 0.930, classifier 0.936; causal control 0.000; earlier cycle null was an inference-embedding mismatch; v0.5.4-vision-cycle | yes | 7 files |
 | `X56 chat v0` | Frozen v0.3.1 + rank-32 LoRA on 100k synthetic instruction/dialogue records; test format 0.998, refusal 1.0, multi-turn 0.717, arithmetic 0.247, word 0.067, context QA 0.000, instruction 0.35, overall 0.34; base control 0.000; C-2/C-3/C-4/C-7 fail; no chat release | yes | 5 files |
 | `X57 Imagine` | Visual imagination toy: 16-frame caption-space morph, 10-step dream chain, 24 word-guided edits; frozen v0.3.1 + v1 diffusion + v2.1 captioner; morph endpoints 0.917, edit survival 0.958, dream survival 1.000; v0.8.0-imagine | yes | 8 files |
+| `X58 vision 64` | 64x64 three-object vision: captioner held-out 0.997/seen 0.999, blind/shuffled 0.000; diffusion 3.75M U-Net, 30k steps/121 min, generated exact 0.695 vs 0.80 bar; V64-3 fails; no v0.9.0 release; diffusion capacity boundary | yes | 10 files |
 | `retrieval probe` | Copy utilisation, BM25 top-3, and the log-prob selector | — | 1 file |
 | `entity decode` | Entity-consistent decoding vs greedy | — | 1 file |
 | `entity holdout` | Does the entity rule survive a half it never selected on? No; coverage survives | — | 4 files |
@@ -453,6 +454,15 @@ uneven, and this is where the unevenness is visible instead of silent.
 - `docs/results/kalia-imagine/morph.gif`
 - `… 2 more`
 
+**X58 vision 64**
+- `docs/results/kalia-vision-64/README.md`
+- `docs/results/kalia-vision-64/ckpt.pt`
+- `docs/results/kalia-vision-64/ckpt_captioner.pt`
+- `docs/results/kalia-vision-64/classifier.pt`
+- `docs/results/kalia-vision-64/grid.png`
+- `docs/results/kalia-vision-64/grid_eval.png`
+- `… 4 more`
+
 **retrieval probe**
 - `docs/results/retrieval-probe.json`
 
@@ -470,4 +480,4 @@ uneven, and this is where the unevenness is visible instead of silent.
 
 ---
 
-57 runs tracked, 440 files archived, 3 with no evidence.
+58 runs tracked, 450 files archived, 3 with no evidence.

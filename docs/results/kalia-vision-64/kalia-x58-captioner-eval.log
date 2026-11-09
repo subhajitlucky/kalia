@@ -1,0 +1,40 @@
+ckpt 0efcda0a9b12d20b
+generating test data
+held 0.997 [1.0, 1.0, 0.998, 1.0, 0.999, 1.0] seen 0.999 [1.0, 1.0, 1.0, 1.0, 1.0, 0.999]
+{
+  "V64-1": true,
+  "V64-2": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "blind_exact": 0.0,
+  "ckpt_bytes": 9343455,
+  "ckpt_sha256": "0efcda0a9b12d20bac7031306e212ecb9cc3bdb1092e6f35eec1fa2c970b4a57",
+  "code_commit": "703d682126c8246dd5f240efc00abf5b850a177d",
+  "experiment": "X58-vision-64-captioner-eval",
+  "held_attrs": [
+    1.0,
+    1.0,
+    0.998,
+    1.0,
+    0.999,
+    1.0
+  ],
+  "held_combos": 2765,
+  "held_exact": 0.997,
+  "seen_attrs": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.999
+  ],
+  "seen_combos": 11059,
+  "seen_exact": 0.999,
+  "shuffled_exact": 0.0
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 312832 bytes to __results__.html

@@ -1,0 +1,31 @@
+{
+  "V64-3": false,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "batch": 64,
+  "ckpt_bytes": 15013681,
+  "ckpt_sha256": "7bb66f500f234d972a4cfca34572af30b5ee13d796546653750628c793831cb5",
+  "classifier_params": 397086,
+  "code_commit": "216e21db9c477431fe191239ac51e9a65c572285",
+  "elapsed_minutes": 121.02011230786641,
+  "experiment": "X58-vision-64-diffusion",
+  "generated_attrs": [
+    0.9506,
+    0.9278,
+    0.9248,
+    0.8778,
+    0.9548,
+    0.937
+  ],
+  "generated_exact": 0.695,
+  "real_attrs": [
+    0.9954,
+    0.9976,
+    0.9912,
+    0.9944,
+    0.9974,
+    0.9988
+  ],
+  "real_exact": 0.979,
+  "steps": 30000,
+  "unet_params": 3748035
+}

@@ -1,0 +1,133 @@
+{
+  "V64-1": true,
+  "V64-2": true,
+  "base_sha256": "bbd8a0366abe02492d507cda94a65fc627a65fcd5640687efe99b3b38ab8e468",
+  "blind_exact": 0.0,
+  "ckpt_bytes": 9343455,
+  "ckpt_sha256": "0efcda0a9b12d20bac7031306e212ecb9cc3bdb1092e6f35eec1fa2c970b4a57",
+  "code_commit": "703d682126c8246dd5f240efc00abf5b850a177d",
+  "experiment": "X58-vision-64-captioner-eval",
+  "held_attrs": [
+    1.0,
+    1.0,
+    0.998,
+    1.0,
+    0.999,
+    1.0
+  ],
+  "held_combos": 2765,
+  "held_exact": 0.997,
+  "samples": [
+    {
+      "gold": "a green square on the left, a green triangle in the center, and a blue square on the right",
+      "ok": true,
+      "pred": "a green square on the left, a green triangle in the center, and a blue square on the right"
+    },
+    {
+      "gold": "a yellow triangle on the left, a purple circle in the center, and a green star on the right",
+      "ok": true,
+      "pred": "a yellow triangle on the left, a purple circle in the center, and a green star on the right"
+    },
+    {
+      "gold": "a orange square on the left, a orange triangle in the center, and a yellow star on the right",
+      "ok": true,
+      "pred": "a orange square on the left, a orange triangle in the center, and a yellow star on the right"
+    },
+    {
+      "gold": "a blue star on the left, a yellow star in the center, and a red circle on the right",
+      "ok": true,
+      "pred": "a blue star on the left, a yellow star in the center, and a red circle on the right"
+    },
+    {
+      "gold": "a green square on the left, a purple square in the center, and a purple circle on the right",
+      "ok": true,
+      "pred": "a green square on the left, a purple square in the center, and a purple circle on the right"
+    },
+    {
+      "gold": "a green star on the left, a orange triangle in the center, and a blue square on the right",
+      "ok": true,
+      "pred": "a green star on the left, a orange triangle in the center, and a blue square on the right"
+    },
+    {
+      "gold": "a green triangle on the left, a red circle in the center, and a yellow triangle on the right",
+      "ok": true,
+      "pred": "a green triangle on the left, a red circle in the center, and a yellow triangle on the right"
+    },
+    {
+      "gold": "a orange triangle on the left, a green square in the center, and a purple circle on the right",
+      "ok": true,
+      "pred": "a orange triangle on the left, a green square in the center, and a purple circle on the right"
+    },
+    {
+      "gold": "a red circle on the left, a green circle in the center, and a green star on the right",
+      "ok": true,
+      "pred": "a red circle on the left, a green circle in the center, and a green star on the right"
+    },
+    {
+      "gold": "a yellow square on the left, a red triangle in the center, and a orange triangle on the right",
+      "ok": true,
+      "pred": "a yellow square on the left, a red triangle in the center, and a orange triangle on the right"
+    },
+    {
+      "gold": "a purple triangle on the left, a red star in the center, and a blue circle on the right",
+      "ok": true,
+      "pred": "a purple triangle on the left, a red star in the center, and a blue circle on the right"
+    },
+    {
+      "gold": "a purple triangle on the left, a yellow triangle in the center, and a purple square on the right",
+      "ok": true,
+      "pred": "a purple triangle on the left, a yellow triangle in the center, and a purple square on the right"
+    },
+    {
+      "gold": "a red circle on the left, a blue circle in the center, and a red star on the right",
+      "ok": true,
+      "pred": "a red circle on the left, a blue circle in the center, and a red star on the right"
+    },
+    {
+      "gold": "a blue square on the left, a red triangle in the center, and a orange triangle on the right",
+      "ok": true,
+      "pred": "a blue square on the left, a red triangle in the center, and a orange triangle on the right"
+    },
+    {
+      "gold": "a green square on the left, a green square in the center, and a blue circle on the right",
+      "ok": true,
+      "pred": "a green square on the left, a green square in the center, and a blue circle on the right"
+    },
+    {
+      "gold": "a red square on the left, a purple star in the center, and a yellow circle on the right",
+      "ok": true,
+      "pred": "a red square on the left, a purple star in the center, and a yellow circle on the right"
+    },
+    {
+      "gold": "a red square on the left, a blue triangle in the center, and a red circle on the right",
+      "ok": true,
+      "pred": "a red square on the left, a blue triangle in the center, and a red circle on the right"
+    },
+    {
+      "gold": "a purple star on the left, a orange star in the center, and a blue star on the right",
+      "ok": true,
+      "pred": "a purple star on the left, a orange star in the center, and a blue star on the right"
+    },
+    {
+      "gold": "a orange circle on the left, a blue square in the center, and a blue star on the right",
+      "ok": true,
+      "pred": "a orange circle on the left, a blue square in the center, and a blue star on the right"
+    },
+    {
+      "gold": "a orange triangle on the left, a purple star in the center, and a orange circle on the right",
+      "ok": true,
+      "pred": "a orange triangle on the left, a purple star in the center, and a orange circle on the right"
+    }
+  ],
+  "seen_attrs": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.999
+  ],
+  "seen_combos": 11059,
+  "seen_exact": 0.999,
+  "shuffled_exact": 0.0
+}
