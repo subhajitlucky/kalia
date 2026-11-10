@@ -22,7 +22,7 @@ from pathlib import Path
 import torch
 
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
-CODE_COMMIT = "PLACEHOLDER"
+CODE_COMMIT = "c914b3c99ec324f9c9cbd0d2290238e5b8dfcf83"
 HF_REPO = "kalia-lm/kalia-v150-run"
 MAX_MINUTES = 450
 INIT_GATE = 2.7579 + 0.15
