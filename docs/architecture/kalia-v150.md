@@ -282,7 +282,7 @@ cross-document leakage can inflate training loss quality.
 These overlap: FineWeb, FineWeb-Edu, DCLM, Dolma, RedPajama and the Pile all
 draw from Common Crawl. After deduplication, the usable **unique high-quality
 pool is roughly 5–8T tokens**, not the raw multi-tens-of-trillions sum. That is
-still **5–8× the 1T run** and **1.5–2× a 4T run**.
+still **5–8× the 1T run** and **roughly 1.2–2× a 4T run**.
 
 For the planned 1T mix:
 
