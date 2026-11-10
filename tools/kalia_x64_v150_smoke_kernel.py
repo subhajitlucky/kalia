@@ -21,8 +21,8 @@ from pathlib import Path
 import torch
 
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
-CODE_COMMIT = "3a7aff74932bcf7d5c9c4e3cea43806144b843eb"
-MAX_MINUTES = 150
+CODE_COMMIT = "7c0becbbab32b103791c28024e40ea7824995f56"
+MAX_MINUTES = 30
 INIT_GATE = 2.7579 + 0.15
 
 hits = sorted(glob.glob("/kaggle/input/**/train.py", recursive=True))
@@ -56,6 +56,14 @@ val_bin = os.path.join(data_dir, "val.bin")
 assert os.path.exists(val_bin), f"val.bin missing next to {train_bin}"
 print("data:", data_dir, flush=True)
 
+base_hits = sorted(glob.glob("/kaggle/input/**/model.safetensors", recursive=True))
+preferred_base = [p for p in base_hits if "/kalia-v031-ckpt/" in p]
+base_hits = preferred_base or base_hits
+assert base_hits, "attach subhajitlucky/kalia-v031-ckpt (model.safetensors + config.json)"
+base_dir = os.path.dirname(base_hits[0])
+assert os.path.exists(os.path.join(base_dir, "config.json")), base_dir
+print("base checkpoint:", base_dir, flush=True)
+
 
 def sha256_file(path):
     h = hashlib.sha256()
@@ -75,7 +83,7 @@ def val_loss_from_md(path):
 # --- expand v0.3.1 10 -> 38 layers ------------------------------------------
 init_ckpt = "/kaggle/working/kalia-v150-init.pt"
 subprocess.run([sys.executable, "tools/depth_expand.py",
-                "--base-repo", "kalia-lm/kalia-v031",
+                "--base-dir", base_dir,
                 "--out", init_ckpt, "--layers", "38"], check=True)
 
 from model import GPT, GPTConfig  # noqa: E402
@@ -126,6 +134,7 @@ manifest = {
     "final_val": final_val,
     "steps": int(ckpt.get("step", -1)),
     "tokens": int(ckpt.get("tokens", -1)),
+    "base_dir": base_dir,
     "init_ckpt": {"path": init_ckpt, "bytes": os.path.getsize(init_ckpt),
                   "sha256": sha256_file(init_ckpt)},
     "train_bin": {"path": train_bin, "bytes": os.path.getsize(train_bin),
