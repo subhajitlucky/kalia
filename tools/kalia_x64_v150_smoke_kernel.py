@@ -21,7 +21,7 @@ from pathlib import Path
 import torch
 
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
-CODE_COMMIT = "748942910bdea8f43568d391a51b3f3fb2928329"
+CODE_COMMIT = "3a7aff74932bcf7d5c9c4e3cea43806144b843eb"
 MAX_MINUTES = 150
 INIT_GATE = 2.7579 + 0.15
 
