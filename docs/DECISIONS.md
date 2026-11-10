@@ -1760,3 +1760,24 @@ gap is a shared-bias boundary, not a missing encoder.
 
 **Decision.** No **v0.12.0-two-readers**. X60 self-verification and X62
 constraints stand. Public base v0.3.1.
+
+## D107 — v150 architecture: 576×34 GQA from scratch (2026-11-10)
+
+**Decision.** The 150M is a random-initialized **149,316,224-parameter dense
+decoder**: 34 layers × 576, GQA 9 query / 3 KV (head_dim 64), SwiGLU 1536,
+50,257 vocab (tied), 8k context, QK-Norm, logit soft-cap 30, Muon. It is **not**
+a depth-expanded v0.3.1. Data: 1T tokens, multi-stage, English-first, no
+teacher-generated text. Full spec: `docs/architecture/kalia-v150.md`.
+
+**Why.** 30×576 GQA 9/3 is the validated 100–200M shape (SmolLM2-135M,
+MobileLLM-125M); 34 layers is the same family at 149M. 512×38 is the 58M
+model scaled, with MHA and 1k context. 640×24 is a phone-shape arm, not the
+evidence-backed baseline. MoE/MLA/hybrid are arms, not the baseline.
+
+**Correction.** MTP, head-wise Muon, QK-Clip and RLVR are **arms**, not the
+baseline. Our 135M RLVR probe was negative (GSM8K 1.82 → 1.59). The baseline
+is the proven dense recipe; the frontier ideas must win a 20B-token ablation.
+
+**Status.** Design only; no checkpoint. Public base remains v0.3.1. Gates:
+9-task mean ≥ 0.468, capability regression, provenance. No release before all
+three pass.
