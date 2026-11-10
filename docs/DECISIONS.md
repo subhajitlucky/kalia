@@ -1781,3 +1781,26 @@ is the proven dense recipe; the frontier ideas must win a 20B-token ablation.
 **Status.** Design only; no checkpoint. Public base remains v0.3.1. Gates:
 9-task mean ≥ 0.468, capability regression, provenance. No release before all
 three pass.
+
+## D108 — Kaggle free-tier v150: depth-expand 512×38, 10B tokens (2026-11-10)
+
+**Measured budget.** Kaggle gives 2×T4, 30 GPU-h/week. The 58M v0.3.1
+measured **13.6k tokens/s**; a 147.8M model scales to ~**5.3k tokens/s**.
+At 70% utilization that is ~0.4B tokens/week, ~1.75B/month, ~21B/year.
+**10B tokens ≈ 6 months; 1T ≈ 48 years.**
+
+**Decision.** For the free tier, the best model per GPU-hour is the zero-init
+depth-expand of v0.3.1 **10 → 38 layers** (147,803,904 params), continued on
+**10B tokens** (8B new + 2B replay), 1k context, GPT-2 BPE. It starts at the
+v0.3.1 function and preserves the 4×512 multimodal interface. It is our own
+model growth — no external weights, no distillation — but it is **not
+from-scratch**.
+
+**From-scratch alternative.** 512×38 random init, 1k context, MHA 8/8, 10B
+tokens: same ~6 months, weaker at equal tokens. **576×34 GQA/8k remains the
+target for donated compute** (D107); it is not a free-tier plan because 10B
+tokens is only 67 tokens/param and 1T is ~48 years.
+
+**Gates.** 9-task mean ≥ 0.468, capability regression, provenance. Public base
+stays v0.3.1 until then. Plan:
+`docs/plans/2026-11-10-kaggle-v150.md`.
