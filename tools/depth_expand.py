@@ -32,6 +32,8 @@ def main() -> None:
     parser.add_argument("--base-repo", default="kalia-lm/kalia-v031")
     parser.add_argument("--out", type=Path, default=Path("out/kalia-v150-init.pt"))
     parser.add_argument("--layers", type=int, default=38)
+    parser.add_argument("--method", choices=["zero_init", "interpolate"],
+                        default="zero_init")
     args = parser.parse_args()
 
     from huggingface_hub import hf_hub_download
@@ -61,15 +63,35 @@ def main() -> None:
     }
     block_keys = [k[len("blocks.0."):] for k in old_sd
                   if k.startswith("blocks.0.")]
-    for i in range(new_n):
-        pos = i * (old_n - 1) / (new_n - 1)
-        lo = int(pos)
-        hi = min(lo + 1, old_n - 1)
-        alpha = pos - lo
-        for suffix in block_keys:
-            a = old_sd[f"blocks.{lo}.{suffix}"]
-            b = old_sd[f"blocks.{hi}.{suffix}"]
-            new_sd[f"blocks.{i}.{suffix}"] = (1.0 - alpha) * a + alpha * b
+    if args.method == "interpolate":
+        for i in range(new_n):
+            pos = i * (old_n - 1) / (new_n - 1)
+            lo = int(pos)
+            hi = min(lo + 1, old_n - 1)
+            alpha = pos - lo
+            for suffix in block_keys:
+                a = old_sd[f"blocks.{lo}.{suffix}"]
+                b = old_sd[f"blocks.{hi}.{suffix}"]
+                new_sd[f"blocks.{i}.{suffix}"] = (1.0 - alpha) * a + alpha * b
+    else:
+        old_positions = [round(i * (new_n - 1) / (old_n - 1))
+                         for i in range(old_n)]
+        assert old_positions[0] == 0 and old_positions[-1] == new_n - 1
+        assert len(set(old_positions)) == old_n, old_positions
+        old_set = set(old_positions)
+        for i in range(new_n):
+            if i in old_set:
+                j = old_positions.index(i)
+                for suffix in block_keys:
+                    new_sd[f"blocks.{i}.{suffix}"] = old_sd[f"blocks.{j}.{suffix}"].clone()
+            else:
+                j = max(k for k, p in enumerate(old_positions) if p < i)
+                for suffix in block_keys:
+                    new_sd[f"blocks.{i}.{suffix}"] = old_sd[f"blocks.{j}.{suffix}"].clone()
+                new_sd[f"blocks.{i}.attn.proj.weight"] = torch.zeros_like(
+                    new_sd[f"blocks.{i}.attn.proj.weight"])
+                new_sd[f"blocks.{i}.mlp.down.weight"] = torch.zeros_like(
+                    new_sd[f"blocks.{i}.mlp.down.weight"])
 
     new_cfg = dict(cfg)
     new_cfg["n_layer"] = new_n
@@ -84,7 +106,7 @@ def main() -> None:
         "depth_expand": {
             "old_layers": old_n,
             "new_layers": new_n,
-            "method": "linear_interpolation",
+            "method": args.method,
             "base_repo": args.base_repo,
         },
     }, out)

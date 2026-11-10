@@ -67,7 +67,7 @@ def sha256_file(path):
 
 def val_loss_from_md(path):
     text = Path(path).read_text()
-    m = re.search(r"Val loss:\s*\*\*([0-9.]+)\*\*", text)
+    m = re.search(r"Val loss:\s*([0-9.]+)", text)
     assert m, text
     return float(m.group(1))
 
