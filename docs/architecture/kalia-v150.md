@@ -264,6 +264,52 @@ Pack documents with EOS and a document-level attention mask so a token cannot
 attend across document boundaries. This matters for code and math, where
 cross-document leakage can inflate training loss quality.
 
+### 6.5 How much is actually available on Hugging Face
+
+| dataset | tokens | license | role |
+|---|---:|---|---|
+| FineWeb-Edu | **1.3T** | ODC-BY | primary web |
+| DCLM-Baseline | **3.8T** | CC-BY-4.0 | primary web |
+| FineWeb | 18.5T | ODC-BY | fallback / scale |
+| FineWeb-2 | 3.34T | ODC-BY | multilingual arm |
+| Dolma | 3T | ODC-BY | mix / fallback |
+| RedPajama-v2 | 30T | check per source | fallback / scale; text hosted by Together, HF repo has metadata/subsets |
+| The Stack v2 (filtered) | **~0.9T** | per-file permissive | code |
+| OpenWebMath | 14.7B | ODC-BY | math |
+| FineMath | 34B (3+) / 54B | ODC-BY | math |
+| The Pile | 300B | other | not for public release |
+
+These overlap: FineWeb, FineWeb-Edu, DCLM, Dolma, RedPajama and the Pile all
+draw from Common Crawl. After deduplication, the usable **unique high-quality
+pool is roughly 5–8T tokens**, not the raw multi-tens-of-trillions sum. That is
+still **5–8× the 1T run** and **1.5–2× a 4T run**.
+
+For the planned 1T mix:
+
+- 620B FineWeb-Edu = 48% of that dataset;
+- 150B DCLM = 4% of that dataset;
+- 150B code = 17% of the filtered Stack v2;
+- 60B math = OpenWebMath 14.7B + FineMath 34B + ~11B procedural;
+- 20B reference = Wikipedia + public-domain books + CC-BY textbooks.
+
+The 1T run uses less than half of FineWeb-Edu and a small fraction of DCLM, so
+**2T–4T is a compute/budget decision, not a data-availability decision.** The
+reference shard is the tightest: if public-domain books fall short, shift 1% to
+web and use a 63/15/15/6/1 mix.
+
+Storage and download:
+
+- 1T tokens as uint16 = **2TB** tokenized;
+- 1.2T raw tokens ≈ **4.8TB** text at 4 bytes/token;
+- FineWeb-Edu full is **6.2TB** on HF; DCLM-Baseline is **7.2TB**;
+- working space with raw shards, tokenized bins and checkpoints: **10–15TB**;
+- at 1 Gbps, 6TB is ~13 hours; at 100 MB/s, ~17 hours;
+- tokenization + dedup + decontamination: roughly **1–3 days on 32–64 cores**,
+  depending on the pipeline.
+
+So the answer is: **Hugging Face can supply 1T tokens easily, 2T comfortably,
+and 4T with careful dedup and mixing. The real limit is GPU compute, not data.**
+
 ## 7. Compute plan
 
 1T tokens at 6ND is **0.896 ZFLOPs**. Real throughput depends on hardware and
