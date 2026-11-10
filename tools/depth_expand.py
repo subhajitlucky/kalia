@@ -9,6 +9,10 @@ fails here rather than after a training run.
 Usage:
     python tools/depth_expand.py --base-repo kalia-lm/kalia-v031 \
         --out out/kalia-v150-init.pt --layers 38
+
+    # GPU sessions should use a pre-staged local copy, not the HF Hub:
+    python tools/depth_expand.py --base-dir /kaggle/input/kalia-v031-ckpt \
+        --out out/kalia-v150-init.pt --layers 38
 """
 
 from __future__ import annotations
@@ -30,22 +34,31 @@ from model import GPT, GPTConfig
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base-repo", default="kalia-lm/kalia-v031")
+    parser.add_argument("--base-dir", type=Path, default=None,
+                        help="Local directory containing model.safetensors and "
+                             "config.json. Skips the HF download.")
     parser.add_argument("--out", type=Path, default=Path("out/kalia-v150-init.pt"))
     parser.add_argument("--layers", type=int, default=38)
     parser.add_argument("--method", choices=["zero_init", "interpolate"],
                         default="zero_init")
     args = parser.parse_args()
 
-    from huggingface_hub import hf_hub_download
     from safetensors.torch import load_file
 
     out = args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    hf_dir = out.parent / "hf"
-    sf = hf_hub_download(args.base_repo, "model.safetensors",
-                         local_dir=str(hf_dir))
-    cf = hf_hub_download(args.base_repo, "config.json",
-                         local_dir=str(hf_dir))
+    if args.base_dir is not None:
+        sf = args.base_dir / "model.safetensors"
+        cf = args.base_dir / "config.json"
+        assert sf.exists(), f"missing {sf}"
+        assert cf.exists(), f"missing {cf}"
+    else:
+        from huggingface_hub import hf_hub_download
+        hf_dir = out.parent / "hf"
+        sf = hf_hub_download(args.base_repo, "model.safetensors",
+                             local_dir=str(hf_dir))
+        cf = hf_hub_download(args.base_repo, "config.json",
+                             local_dir=str(hf_dir))
     raw = json.loads(Path(cf).read_text())
     cfg = {k: v for k, v in raw.items() if k in GPTConfig.__dataclass_fields__}
     old = GPT(GPTConfig(**cfg))
@@ -108,6 +121,7 @@ def main() -> None:
             "new_layers": new_n,
             "method": args.method,
             "base_repo": args.base_repo,
+            "base_dir": str(args.base_dir) if args.base_dir else None,
         },
     }, out)
     print(json.dumps({
