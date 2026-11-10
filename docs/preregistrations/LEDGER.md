@@ -68,3 +68,4 @@ results by recomputing the hash of the registered file at that commit.
 | 2026-11-09 | X62-constraints | `docs/preregistrations/2026-11-09-X62-constraints.md` | `e0b9da8c0c947f00fce99ba86d7f61675f3a5c36932e899049ec551bab849f50` |
 | 2026-11-09 | X63-two-readers | `docs/preregistrations/2026-11-09-X63-two-readers.md` | `b84138a0faa917c96b7d32ee8bf8cc006d790a15ec2f5238cbca9d49e185bf4d` |
 | 2026-11-09 | X64-v150 | `docs/preregistrations/2026-11-09-X64-v150.md` | `b5d923e8767467718607c5b48c4e54b669dfb9e77d451f1eb5e9f17eeff1fcda` |
+| 2026-11-10 | X64-amendment-1 | `docs/preregistrations/2026-11-10-X64-amendment-1.md` | `735d5fed7682e34faf4b10936cef4d9b5800c459d35fcd97eeb40c3cc406668f` |
