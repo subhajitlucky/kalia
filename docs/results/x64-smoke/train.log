@@ -1,0 +1,66 @@
+code: /kaggle/input/datasets/subhajitlucky/kalia-code-dev
+fetched X64 config/expander
+data: /kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data
+base checkpoint: /kaggle/input/datasets/subhajitlucky/kalia-v031-ckpt
+{
+  "bytes": 694250053,
+  "new_layers": 38,
+  "old_layers": 10,
+  "out": "/kaggle/working/kalia-v150-init.pt",
+  "params": 147803904
+}
+expanded params: 147803904
+val loss 2.7731 | bpB 0.9066 | tokens 163,840
+init val 2.7731 gate 2.9078999999999997
+running: /usr/bin/python3 -m torch.distributed.run --nproc_per_node 2 train.py --config configs/kalia-v150-smoke.yaml --data-dir /kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data --out-dir /kaggle/working/out --resume-from /kaggle/working/kalia-v150-init.pt --seed 1502 --max-minutes 30
+
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+KALIA params: 147,803,904 | device: cuda:0 | world: 2
+doc_mask: off
+lr schedule: cosine to step 300
+resume: staged local checkpoint /kaggle/working/kalia-v150-init.pt -> /kaggle/working/out/ckpt.pt
+resume: checkpoint has no optimizer state; starting a fresh optimizer
+resume: checkpoint has no optimizer state; starting a fresh optimizer
+  LR schedule: re-warm from step 0 of the update budget
+step 10/300 | loss 2.7182 | lr 1.00e-04 | 6,531 tok/s
+checkpoint saved at step 14
+step 20/300 | loss 2.6717 | lr 2.00e-04 | 6,913 tok/s
+time budget reached; stopping cleanly
+final checkpoint saved at step 22
+val loss 2.7737 | bpB 0.9068 | tokens 163,840
+{
+  "base_dir": "/kaggle/input/datasets/subhajitlucky/kalia-v031-ckpt",
+  "code_commit": "7c0becbbab32b103791c28024e40ea7824995f56",
+  "experiment": "X64-v150-smoke",
+  "final_val": 2.7737,
+  "gpus": 2,
+  "init_ckpt": {
+    "bytes": 694250053,
+    "path": "/kaggle/working/kalia-v150-init.pt",
+    "sha256": "3e879d0b12ea97d0695e2b2ec8b4574880c8735cd943a0cbd2dc729e2c23e492"
+  },
+  "init_gate": 2.9078999999999997,
+  "init_val": 2.7731,
+  "max_minutes": 30,
+  "params": 147803904,
+  "steps": 22,
+  "tokens": 11534336,
+  "train_bin": {
+    "bytes": 4800000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/train.bin",
+    "sha256": "313fc7bac2a4225085ff3e59fe787a970c6a6cf83dc70aeb6dab754843a82027"
+  },
+  "val_bin": {
+    "bytes": 20000000,
+    "path": "/kaggle/input/notebooks/subhajitlucky/kalia-prep-v2b/data/val.bin",
+    "sha256": "625f8e5fdeae0f37b519fd6b898fd0c482ee6e7643899e0b4fe44eec64f464bc"
+  }
+}
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 302581 bytes to __results__.html

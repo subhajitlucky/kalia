@@ -1804,3 +1804,18 @@ tokens is only 67 tokens/param and 1T is ~48 years.
 **Gates.** 9-task mean ≥ 0.468, capability regression, provenance. Public base
 stays v0.3.1 until then. Plan:
 `docs/plans/2026-11-10-kaggle-v150.md`.
+
+## D109 — X64 v150 smoke passes: 6.7k tok/s, init val 2.7731 (2026-11-10)
+
+**Result.** The zero-init 10 → 38 depth-expand built **147,803,904 params**
+and passed the init gate: **2.7731** vs 2.9079 (v0.3.1 2.7579 + 0.15). The
+previous linear-interpolation init was 8.3523. On 2×T4 the expanded model ran
+at **6,531–6,913 tok/s**; 22 steps / 11.5M tokens in the 30-minute smoke.
+
+**Implication.** At 6.7k tok/s, the registered 2.4B-token run is ~99.5h and
+the full 4,770-step run is ~103.6h. The 150M depth-expand fits the 120-hour
+Kaggle budget; no pivot to the 58M is needed on throughput grounds.
+
+**Decision.** Commit to the 4-week X64 full run after the Nov 14 quota
+refresh. Public base remains v0.3.1 until the 9-task gate and capability
+regression pass. Result record: `docs/results/x64-smoke/README.md`.
