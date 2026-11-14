@@ -118,8 +118,12 @@ def val_loss_from_md(path):
 
 init_ckpt = "/kaggle/working/kalia-v150-init.pt"
 if has_ckpt:
-    resume_arg = HF_REPO
-    print("resuming from HF checkpoint", HF_REPO, flush=True)
+    from huggingface_hub import hf_hub_download
+    resume_arg = hf_hub_download(
+        HF_REPO, "checkpoints/ckpt.pt", token=HF_TOKEN,
+        local_dir="/kaggle/working/resume",
+    )
+    print("resuming from local copy of HF checkpoint", resume_arg, flush=True)
 else:
     subprocess.run([sys.executable, "tools/depth_expand.py",
                     "--base-dir", base_dir,
@@ -163,8 +167,7 @@ base_cmd = ["train.py",
             "--out-dir", "/kaggle/working/out",
             "--resume-from", resume_arg,
             "--seed", "1501",
-            "--max-minutes", str(MAX_MINUTES),
-            "--hub-repo", HF_REPO]
+            "--max-minutes", str(MAX_MINUTES)]
 if torch.cuda.device_count() >= 2:
     cmd = [sys.executable, "-m", "torch.distributed.run",
            "--nproc_per_node", str(torch.cuda.device_count())] + base_cmd
@@ -172,6 +175,19 @@ else:
     cmd = [sys.executable] + base_cmd
 print("running:", " ".join(cmd), flush=True)
 subprocess.run(cmd, check=True)
+
+# Push after the DDP job has exited. Pushing from inside the training loop
+# blocks rank 0 while rank 1 waits at the next collective, which caused a
+# 600-second NCCL timeout in the first full-run attempt.
+for local, remote in (
+    ("/kaggle/working/out/ckpt.pt", "checkpoints/ckpt.pt"),
+    ("/kaggle/working/out/ckpt_ema.pt", "checkpoints/ckpt_ema.pt"),
+    ("/kaggle/working/out/train_log.csv", "logs/train_log.csv"),
+    ("/kaggle/working/out/val_log.csv", "logs/val_log.csv"),
+):
+    if os.path.exists(local):
+        print("uploading", remote, flush=True)
+        api.upload_file(path_or_fileobj=local, path_in_repo=remote, repo_id=HF_REPO)
 
 session_md = "/kaggle/working/session_val.md"
 subprocess.run([sys.executable, "eval_val.py",
