@@ -157,17 +157,19 @@ else:
     print("uploaded run_started.json", flush=True)
     resume_arg = init_ckpt
 
-cmd = [sys.executable, "train.py",
-       "--config", "configs/kalia-v150-session.yaml",
-       "--data-dir", data_dir,
-       "--out-dir", "/kaggle/working/out",
-       "--resume-from", resume_arg,
-       "--seed", "1501",
-       "--max-minutes", str(MAX_MINUTES),
-       "--hub-repo", HF_REPO]
+base_cmd = ["train.py",
+            "--config", "configs/kalia-v150-session.yaml",
+            "--data-dir", data_dir,
+            "--out-dir", "/kaggle/working/out",
+            "--resume-from", resume_arg,
+            "--seed", "1501",
+            "--max-minutes", str(MAX_MINUTES),
+            "--hub-repo", HF_REPO]
 if torch.cuda.device_count() >= 2:
     cmd = [sys.executable, "-m", "torch.distributed.run",
-           "--nproc_per_node", str(torch.cuda.device_count())] + cmd
+           "--nproc_per_node", str(torch.cuda.device_count())] + base_cmd
+else:
+    cmd = [sys.executable] + base_cmd
 print("running:", " ".join(cmd), flush=True)
 subprocess.run(cmd, check=True)
 
