@@ -7,7 +7,7 @@ throughput 6.5–6.9k tok/s on 2×T4. Public base remains v0.3.1.
 
 | session | date | steps | tokens | session val | tok/s | notes |
 |---:|---|---:|---:|---:|---:|---|
-| 1 | 2026-11-14 | running | | | ~7.1–7.6k | expand + init gate; started 07:28 UTC |
+| 1 | 2026-11-14 | 458 | 240,123,904 | 2.7629 | ~8.9k | init 2.7731 → 2.7629; 7.5h; checkpoint uploaded |
 | 2 | 2026-11-15 | | | | | |
 | 3 | 2026-11-16 | | | | | |
 | 4 | 2026-11-17 | | | | | |
