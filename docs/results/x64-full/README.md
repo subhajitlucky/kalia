@@ -7,7 +7,7 @@ throughput 6.5–6.9k tok/s on 2×T4. Public base remains v0.3.1.
 
 | session | date | steps | tokens | session val | tok/s | notes |
 |---:|---|---:|---:|---:|---:|---|
-| 1 | 2026-11-14 | | | | | expand + init gate |
+| 1 | 2026-11-14 | running | | | ~7.1–7.6k | expand + init gate; started 07:28 UTC |
 | 2 | 2026-11-15 | | | | | |
 | 3 | 2026-11-16 | | | | | |
 | 4 | 2026-11-17 | | | | | |
@@ -32,6 +32,24 @@ throughput 6.5–6.9k tok/s on 2×T4. Public base remains v0.3.1.
 | S-2 9-task mean | ≥ 0.468 | |
 | S-3 capability regression | all bars | |
 | S-4 provenance | own weights, no distillation | |
+
+## Execution notes (2026-11-14)
+
+- **HF Secrets unavailable.** `UserSecretsClient` returned a connection error.
+  Fallback: a private Kaggle dataset `subhajitlucky/kalia-hf-token` containing
+  `token.txt`. The kernel reads it only if the secret is unavailable.
+- **First full attempt failed** because the kernel passed
+  `[python, train.py, ...]` to `torch.distributed.run`; torchrun tried to
+  execute the Python ELF as a script. Fixed by passing `train.py` as the
+  entrypoint.
+- **Second full attempt failed** with a 600-second NCCL timeout at step 24:
+  rank 0 was uploading a multi-GB checkpoint to HF while rank 1 waited at the
+  next collective. Fixed by training without `--hub-repo` and uploading the
+  final checkpoint from the kernel **after torchrun exits**.
+- Session 1 started at **07:28 UTC**; init val **2.7731**; training running.
+
+**Security:** the `kalia-hf-token` Kaggle dataset contains the HF write token.
+Delete the dataset and rotate the token after the 120h run.
 
 ## Artifacts
 
