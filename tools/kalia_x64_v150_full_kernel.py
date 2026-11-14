@@ -71,6 +71,12 @@ if not HF_TOKEN:
         HF_TOKEN = UserSecretsClient().get_secret("HF_TOKEN")
     except Exception as exc:
         print("HF secret unavailable:", exc, flush=True)
+if not HF_TOKEN:
+    token_hits = sorted(glob.glob("/kaggle/input/**/token.txt", recursive=True))
+    preferred_token = [p for p in token_hits if "/kalia-hf-token/" in p]
+    if preferred_token:
+        HF_TOKEN = Path(preferred_token[0]).read_text().strip()
+        print("HF token loaded from private Kaggle dataset", flush=True)
 assert HF_TOKEN, (
     "add HF_TOKEN to Kaggle Secrets (Add-ons -> Secrets) and attach it to "
     "this kernel; without it checkpoints do not survive sessions"

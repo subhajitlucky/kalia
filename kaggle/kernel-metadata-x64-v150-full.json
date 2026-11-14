@@ -9,7 +9,8 @@
   "enable_internet": true,
   "dataset_sources": [
     "subhajitlucky/kalia-code-dev",
-    "subhajitlucky/kalia-v031-ckpt"
+    "subhajitlucky/kalia-v031-ckpt",
+    "subhajitlucky/kalia-hf-token"
   ],
   "competition_sources": [],
   "kernel_sources": [
