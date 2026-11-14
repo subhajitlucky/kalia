@@ -65,7 +65,16 @@ assert os.path.exists(os.path.join(base_dir, "config.json")), base_dir
 print("base checkpoint:", base_dir, flush=True)
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
-assert HF_TOKEN, "add HF_TOKEN to Kaggle Secrets; without it checkpoints do not survive sessions"
+if not HF_TOKEN:
+    try:
+        from kaggle_secrets import UserSecretsClient
+        HF_TOKEN = UserSecretsClient().get_secret("HF_TOKEN")
+    except Exception as exc:
+        print("HF secret unavailable:", exc, flush=True)
+assert HF_TOKEN, (
+    "add HF_TOKEN to Kaggle Secrets (Add-ons -> Secrets) and attach it to "
+    "this kernel; without it checkpoints do not survive sessions"
+)
 
 from huggingface_hub import HfApi, list_repo_files  # noqa: E402
 
