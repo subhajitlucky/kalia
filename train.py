@@ -663,7 +663,13 @@ def main(argv=None) -> None:
         )
     val_path = args.data_dir / "val.bin"
     val_ds = TokenDataset(val_path, model_cfg.context_len) if val_path.exists() else None
-    generator = torch.Generator().manual_seed(train_cfg["seed"] + rank)
+    # Multi-session runs must not replay the same windows. Seeding only with
+    # (seed, rank) restarts the random stream at the same point every session,
+    # so a 4-session run sees the same first ~240M tokens four times. Offset by
+    # the absolute step so each resumed session draws a new stream.
+    generator = torch.Generator().manual_seed(
+        train_cfg["seed"] + rank + start_step
+    )
 
     bytes_per_token = None
     if train_cfg.get("eval_bpb") and val_ds is not None and is_master:
