@@ -10,7 +10,7 @@ throughput 6.5–6.9k tok/s on 2×T4. Public base remains v0.3.1.
 | 1 | 2026-11-14 | 458 | 240,123,904 | 2.7629 | ~8.9k | init 2.7731 → 2.7629; 7.5h; checkpoint uploaded |
 | 2 | 2026-11-15 | 899 | 471,334,912 | 2.7583 | ~8.7k | resumed from HF; +441 steps; checkpoint uploaded |
 | 3 | 2026-11-15 | 1,340 | 702,545,920 | 2.7578 | ~8.5k | resumed; +441 steps; step-1000 val 2.7553 |
-| 4 | 2026-11-17 | | | | | |
+| 4 | 2026-11-15 | 1,661 | 870,842,368 | 2.7676 | ~8.5k | data replay bug; val regressed; reverted to session 3 |
 | 5 | 2026-11-21 | | | | | |
 | 6 | 2026-11-22 | | | | | |
 | 7 | 2026-11-23 | | | | | |
@@ -47,6 +47,15 @@ throughput 6.5–6.9k tok/s on 2×T4. Public base remains v0.3.1.
   next collective. Fixed by training without `--hub-repo` and uploading the
   final checkpoint from the kernel **after torchrun exits**.
 - Session 1 started at **07:28 UTC**; init val **2.7731**; training running.
+
+**Data-order bug (session 4).** The data generator was seeded with only
+`(seed, rank)`. Every resumed session therefore restarted the same random
+stream and replayed the same windows. Session 4's val regression
+(2.7578 → 2.7676) is a data-repetition artifact, not a capacity result.
+`train.py` now offsets the generator seed by the absolute `start_step`.
+Session 5 resumes from the **session-3 checkpoint** (`f7a681d`) so the
+replayed session-4 weights are not used. The session-4 checkpoint remains in
+HF history but is not the resume point.
 
 **Security:** the `kalia-hf-token` Kaggle dataset contains the HF write token.
 Delete the dataset and rotate the token after the 120h run.
