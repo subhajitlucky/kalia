@@ -22,9 +22,12 @@ from pathlib import Path
 import torch
 
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
-CODE_COMMIT = "c914b3c99ec324f9c9cbd0d2290238e5b8dfcf83"
+CODE_COMMIT = "9ca0f1a11722807834db49030b7904144cc52075"
 HF_REPO = "kalia-lm/kalia-v150-run"
-MAX_MINUTES = 330
+# Session 4 replayed data because of the old generator seed. Resume from the
+# session-3 checkpoint for session 5; set to None after session 5.
+RESUME_REVISION = "f7a681d118ab"
+MAX_MINUTES = 450
 INIT_GATE = 2.7579 + 0.15
 
 hits = sorted(glob.glob("/kaggle/input/**/train.py", recursive=True))
@@ -41,7 +44,8 @@ for req in ("train.py", "model.py", "optim.py", "data.py", "eval_val.py"):
 print("code:", code_root, flush=True)
 
 RAW = f"https://raw.githubusercontent.com/subhajitlucky/kalia/{CODE_COMMIT}"
-for name in ("configs/kalia-v150-session.yaml", "tools/depth_expand.py"):
+for name in ("configs/kalia-v150-session.yaml", "tools/depth_expand.py",
+             "train.py"):
     Path(name).parent.mkdir(parents=True, exist_ok=True)
     urllib.request.urlretrieve(f"{RAW}/{name}", name)
 print("fetched X64 full config/expander", flush=True)
@@ -121,6 +125,7 @@ if has_ckpt:
     from huggingface_hub import hf_hub_download
     resume_arg = hf_hub_download(
         HF_REPO, "checkpoints/ckpt.pt", token=HF_TOKEN,
+        revision=RESUME_REVISION,
         local_dir="/kaggle/working/resume",
     )
     print("resuming from local copy of HF checkpoint", resume_arg, flush=True)
@@ -200,6 +205,7 @@ manifest = {
     "experiment": "X64-v150-full",
     "code_commit": CODE_COMMIT,
     "hf_repo": HF_REPO,
+    "resume_revision": RESUME_REVISION,
     "resumed_from_hf": bool(has_ckpt),
     "gpus": torch.cuda.device_count(),
     "max_minutes": MAX_MINUTES,
