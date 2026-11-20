@@ -177,6 +177,8 @@ class Verifier(nn.Module):
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--allow-cpu", action="store_true",
+                    help="Allow a Kaggle CPU pilot; never used for the TPU run.")
     ap.add_argument("--train-n", type=int, default=200_000)
     ap.add_argument("--val-n", type=int, default=20_000)
     ap.add_argument("--epochs", type=int, default=2)
@@ -193,7 +195,9 @@ def main() -> None:
 
     print("jax", jax.__version__, "devices", jax.devices(), flush=True)
     if not any(getattr(d, "platform", "") == "tpu" for d in jax.devices()):
-        raise SystemExit("no TPU device; refusing to train this pilot on CPU")
+        if not args.allow_cpu:
+            raise SystemExit("no TPU device; refusing to train this pilot on CPU")
+        print("WARNING: no TPU; running the Kaggle CPU pilot", flush=True)
     t0 = time.time()
     x_tr, m_tr, y_tr = make_examples(args.train_n, args.seed)
     x_va, m_va, y_va = make_examples(args.val_n, args.seed + 1)
