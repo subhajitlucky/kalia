@@ -238,10 +238,11 @@ def main() -> None:
     t0 = time.time()
     for epoch in range(args.epochs):
         order = rng.permutation(args.train_n)
-        for _ in range(steps_per_epoch):
-            idx = order[step % args.train_n : step % args.train_n + args.batch_size]
+        for batch_i in range(steps_per_epoch):
+            start = batch_i * args.batch_size
+            idx = order[start : start + args.batch_size]
             if len(idx) < args.batch_size:
-                idx = order[: args.batch_size]
+                continue
             xb = jnp.asarray(x_tr[idx])
             mb = jnp.asarray(m_tr[idx])
             yb = jnp.asarray(y_tr[idx])
