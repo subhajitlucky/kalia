@@ -1,0 +1,19 @@
+{
+  "id": "subhajitlucky/kalia-tpu-math-verifier",
+  "title": "KALIA TPU math verifier",
+  "code_file": "kalia_tpu_math_verifier_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_tpu": true,
+  "machine_shape": "TpuV5E8",
+  "docker_image_pinning_type": "latest",
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-hf-token"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
