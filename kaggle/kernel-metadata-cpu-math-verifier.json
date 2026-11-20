@@ -1,5 +1,5 @@
 {
-  "id": "subhajitlucky/kalia-cpu-math-verifier",
+  "id": "subhajitlucky/kalia-cpu-math-verifier-pilot",
   "title": "KALIA CPU math verifier pilot",
   "code_file": "kalia_cpu_math_verifier_kernel.py",
   "language": "python",

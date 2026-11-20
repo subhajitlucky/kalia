@@ -12,8 +12,8 @@ script = next(Path("/kaggle/input").glob("**/kalia_tpu_math_verifier_kernel.py")
 sys.argv = [
     str(script),
     "--allow-cpu",
-    "--train-n", "50000",
-    "--val-n", "5000",
+    "--train-n", "20000",
+    "--val-n", "2000",
     "--epochs", "2",
     "--batch-size", "128",
 ]
