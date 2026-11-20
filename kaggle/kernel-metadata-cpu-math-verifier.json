@@ -1,0 +1,19 @@
+{
+  "id": "subhajitlucky/kalia-cpu-math-verifier",
+  "title": "KALIA CPU math verifier pilot",
+  "code_file": "kalia_cpu_math_verifier_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "machine_shape": "",
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-tpu-code",
+    "subhajitlucky/kalia-hf-token"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
