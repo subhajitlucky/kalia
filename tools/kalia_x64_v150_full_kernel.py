@@ -26,7 +26,7 @@ CODE_COMMIT = "9ca0f1a11722807834db49030b7904144cc52075"
 HF_REPO = "kalia-lm/kalia-v150-run"
 # Session 4 replayed data because of the old generator seed. Resume from the
 # session-3 checkpoint for session 5; set to None after session 5.
-RESUME_REVISION = "f7a681d118ab"
+RESUME_REVISION = None
 MAX_MINUTES = 450
 INIT_GATE = 2.7579 + 0.15
 
