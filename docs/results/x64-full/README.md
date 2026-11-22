@@ -12,7 +12,7 @@ throughput 6.5–6.9k tok/s on 2×T4. Public base remains v0.3.1.
 | 3 | 2026-11-15 | 1,340 | 702,545,920 | 2.7578 | ~8.5k | resumed; +441 steps; step-1000 val 2.7553 |
 | 4 | 2026-11-15 | 1,661 | 870,842,368 | 2.7676 | ~8.5k | data replay bug; val regressed; reverted to session 3 |
 | 5 | 2026-11-21 | 1,788 | 937,426,944 | 2.7185 | ~8.8k | resumed session 3; fixed sampler; −0.039 nats |
-| 6 | 2026-11-22 | | | | | |
+| 6 | 2026-11-22 | 2,221 | 1,164,443,648 | 2.6982 | ~8.4k | crossed S-1 (≤2.70); resumed session 5 |
 | 7 | 2026-11-23 | | | | | |
 | 8 | 2026-11-24 | | | | | |
 | 9 | 2026-11-28 | | | | | |
