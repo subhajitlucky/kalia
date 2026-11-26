@@ -1,0 +1,20 @@
+{
+  "id": "subhajitlucky/kalia-tpu-math-verifier-nb4",
+  "title": "KALIA TPU math verifier nb4",
+  "code_file": "kalia_tpu_math_verifier_nb.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_tpu": true,
+  "machine_shape": "TpuV5E8",
+  "docker_image_pinning_type": "latest",
+  "enable_internet": true,
+  "dataset_sources": [
+    "subhajitlucky/kalia-tpu-code",
+    "subhajitlucky/kalia-hf-token"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
