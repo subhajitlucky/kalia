@@ -64,6 +64,6 @@ Delete the dataset and rotate the token after the 120h run.
 ## Artifacts
 
 - Config: `configs/kalia-v150-session.yaml`
-- Kernel: `subhajitlucky/kalia-x64-v150-full`
+- Kernel: `subhajitlucky/kalia-x64-v150-full3` (fresh T4 queue entry)
 - HF checkpoints: `kalia-lm/kalia-v150-run`
 - Runbook: `docs/plans/2026-11-14-x64-full-run.md`
